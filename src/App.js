@@ -1,21 +1,74 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
+// style
+import "./style/custom.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+
 // components
-import RouteBar from "./layout/RouteBar";
+import NavBar from "./components/NavBar";
+import PrivateRoute from "./Router/PrivateRoute";
 
 // screens
-import Dashboard from "./layout/Dashboard";
-import TargetProfile from "./layout/Profile";
+import Dashboard from "./pages/Dashboard";
+import TargetProfile from "./pages/TargetProfile";
+import OperationProfile from "./pages/OperationProfile";
+import Operations from "./pages/Operations";
+import Targets from "./pages/Targets";
+import Login from "./pages/Login";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <RouteBar />
+        <NavBar />
         <Routes>
-          <Route exact path="/" element={<Dashboard />} />
-          <Route exact path="/profile" element={<TargetProfile />} />
+          <Route
+            exact
+            path="/"
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
+          <Route exact path="/login" element={<Login />} />
+          <Route
+            exact
+            path="/target_profile/:id"
+            element={
+              <PrivateRoute>
+                <TargetProfile />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            exact
+            path="/operations"
+            element={
+              <PrivateRoute>
+                <Operations />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            exact
+            path="/targets"
+            element={
+              <PrivateRoute>
+                <Targets />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            exact
+            path="/operation_profile/:id"
+            element={
+              <PrivateRoute>
+                <OperationProfile />
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </div>

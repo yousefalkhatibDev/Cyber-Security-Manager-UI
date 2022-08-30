@@ -1,271 +1,475 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
 
 body {
-  background-color: #141d2b;
   margin: 0px;
-  color: white;
+  color: black;
   font-family: "Poppins", sans-serif;
+  font-weight: bold;
 }
-
-/* side-bar */
-.logo {
-  font-size: 100px;
-}
-.side-bar {
-  background-color: #111927;
-  display: flex;
-  width: 150px;
-  height: 100vh;
-  justify-content: center;
-  transition: 850ms;
-  float: left;
-}
-.nav-text {
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  padding: 0px;
-  list-style: none;
-  width: 30px;
-}
-.nav-text a {
-  text-decoration: none;
-  color: rgb(126, 126, 126);
-  font-size: 18px;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  border-radius: 4px;
-}
-.nav-text a:hover {
-  color: #1dbca5;
-}
-.side-bar-items {
-  width: 100%;
-}
-.side-bar-toggle {
-  background-color: #13121d;
-  width: 100%;
-  height: 80px;
-  display: flex;
-  justify-content: start;
-  align-items: center;
-}
-/* side-bar-end */
-
 
 /* top-bar */
-.top-bar {
+
+.NavBar {
   background-color: #1d2635;
-  padding: 10px;
-  transition: 850ms;
-  -webkit-box-shadow: -2px 11px 13px -7px rgba(0,0,0,0.63); 
-  box-shadow: -2px 11px 13px -7px rgba(0,0,0,0.63);
+  padding: 5px;
+  margin-bottom: 20px;
+  -webkit-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
+  box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
 }
+
 /* end-top-bar */
 
+/* nav menu */
 
-/* user-card */
 .user-card {
   color: white;
   width: 210px;
-  height: 68px;
   border-radius: 10px;
   display: inline-block;
 }
+
 .user-img-top-bar {
-  width: 40px;
-  height: 40px;
+  width: 55px;
+  height: 55px;
   border-radius: 50%;
   margin-left: 10px;
-  margin-top: 10px;
   float: left;
 }
+
 .user-name {
   color: white;
   font-size: 12px;
-  font-family: "Poppins", sans-serif;
   padding: 1px;
 }
+
 .user-name p {
   margin-left: 35%;
 }
-/* user-card-end */
 
-
-.date {
-  color: white;
-  font-size: 12px;
-  padding: 1px;
-  display: inline-block;
-  margin-left: 30%;
-}
-.small-menu-inside-main {
+.nav-menu {
   list-style: none;
   display: inline-block;
-  margin-left: 30%;
+  padding: 10px;
 }
-.small-menu-inside-main li {
-  display: inline-block;
-  margin-left: 10px;
-}
-.small-menu-inside-main a {
+
+.nav-menu .option {
   text-decoration: none;
   color: white;
-  font-size: 20px;
+  font-size: 15px;
+  padding: 20px;
+  color: rgb(170, 170, 170);
 }
 
+.nav-menu .option:hover {
+  color: rgb(212, 212, 212);
+}
 
+/* user-card-end */
 
 /* dashboard */
 .dashboard {
-  margin: auto;
-  width: 80%;
-  padding: 15px;
-}
-.constainer {
-  padding: 5px;
-  border: #1a2332 1px solid;
-  background-color: #2626336b;
-  width: 40%;
-  height: 240px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-}
-.summary {
-  background-color: #31313b98;
-  border-radius: 10px;
-  font-size: 15px;
-}
-.title {
-  background-color: rgb(44, 63, 75);
-  padding: 10px 20px;
-  width: 25%;
-  border-bottom-right-radius: 20px;
-  -webkit-box-shadow: 0px 0px 3px 3px rgb(39, 55, 66);
-  box-shadow: 0px 0px 2px 2px rgb(39, 55, 66);
-}
-.count {
-  padding: 1px;
+  /* margin: auto;
+  height: auto;
+  width: 90%;
+  padding: 15px; */
   margin-left: 20px;
-  margin-top: 10px;
-  padding-bottom: 11px;
-}
-.count span {
-  float: right;
-  margin-right: 10px;
 }
 /* end-dashboard */
 
+.ConstRadius {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border: none;
+}
 
-/* target-card */
-.target-card-container {
-  padding: 4px;
-  border: #262633 1px solid;
-  background-color: #2626336b;
-  width: 18%;
-  height: 238px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-}
-.target-card {
-  text-align: center;
-  padding-top: 5px;
-  height: 233px;
-}
-.target-img {
-  width: 100px;
-  height: 100px;
-  border-radius: 15%;
-  -webkit-box-shadow: 0px 0px 3px 3px rgb(39, 55, 66);
-  box-shadow: 0px 0px 2px 2px rgb(39, 55, 66);
-}
-.btn_profile {
-  text-decoration: none;
-  color: white;
-  border: gray 1px solid;
-  background-color: #2626336b;
-  padding: 5px 20px;
-  border-radius: 5px;
-}
-.btn_profile:hover {
-  border-color: rgb(43, 64, 78);
-  -webkit-box-shadow: 0px 0px 3px 3px rgb(43, 64, 78);
-  box-shadow: 0px 0px 2px 2px rgb(43, 64, 78);
-}
-/* end-target-card */
-
-
-/* profile */
-.profile {
+/* operations */
+.Operations {
   margin: auto;
+  height: auto;
   width: 90%;
-  margin-right: 70px;
 }
-.profile-img {
-  width: 100px;
-  height: 100px;
-  margin-left: 10px;
-  border-radius: 50%;
-  -webkit-box-shadow: 0px 0px 3px 3px rgb(39, 55, 66);
-  box-shadow: 0px 0px 2px 2px rgb(39, 55, 66);
-}
-.profile-slider .profile-slider-btn{
-  display:inline-block;
-  width: 200px;
-  padding: 20px;
-  text-align: center;
-}
-.profile-slider .profile-slider-btn:hover {
-  background-color: rgba(126, 126, 126, 0.164);
-  border-bottom: 3px solid rgb(1, 214, 1);
-}
-/* profile-end */
 
+.SearchContainer {
+  display: flex;
+  margin-left: 20px;
+}
 
-/* note */
-.note-card-container {
-  width: 20%;
-  height: 210px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  padding: 5px;
-  display: inline-block;
-  margin: 10px;
+.SearchContainer button,
+input,
+select {
+  border: 1px #e0e0e0 solid;
+  padding: 13px;
+  border-radius: 1px;
+  font-size: 15px;
 }
-.note-card {
-  text-align: center;
-  height: 280px;
-  padding: 15px;
+
+.SearchContainer button {
+  color: black;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
 }
-.note-title {
-  background-color: rgb(44, 63, 75);
-  padding: 10px;
-  width: 95%;
-  border-bottom-right-radius: 20px;
-  -webkit-box-shadow: 0px 0px 3px 3px rgb(39, 55, 66);
-  box-shadow: 0px 0px 2px 2px rgb(39, 55, 66);
+
+.SearchContainer select {
+  background-color: white;
+  width: 15rem;
 }
-.note-content {
-  height: 55%;
-  text-align: left;
+
+.SearchContainer input:focus {
+  outline: none;
 }
-.btn-note {
-  text-decoration: none;
-  color: white;
-  border: gray 1px solid;
-  background-color: #2626336b;
-  padding: 10px 30px;
+
+.SearchContainer .Search {
+  width: 30rem;
+  border: 1px #e0e0e0 solid;
+}
+
+.SearchContainer .NewObject {
+  margin-left: 20px;
   border-radius: 5px;
-}
-.btn-note:hover {
-  border-color: rgb(43, 64, 78);
-  -webkit-box-shadow: 0px 0px 3px 3px rgb(43, 64, 78);
-  box-shadow: 0px 0px 2px 2px rgb(43, 64, 78);
+  width: 9.5rem;
+  background-color: #324ab2;
+  color: white;
 }
 
-.profile-info p {
-  margin-bottom: 25px;
+.SearchContainer .NewObject:hover {
+  cursor: pointer;
 }
-/* note-end */
+
+.OperationCardContainer {
+  border: #e0e0e0 1px solid;
+  float: left;
+  width: 27.4%;
+  height: auto;
+  margin-bottom: 15px;
+  margin-left: 20px;
+  border-radius: 5px;
+  -webkit-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
+  box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
+}
+
+.OperationCardContainer .OperationImg {
+  width: 100%;
+  height: 250px;
+}
+
+.OperationCardContainer .OperationImg img {
+  width: 100%;
+  height: 250px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.OperationDescription {
+  padding: 5px;
+}
+
+.OperationCardContainer .OperationCardContainerButton {
+  width: 100%;
+  background-color: #324ab2;
+  border: none;
+  color: white;
+  padding: 10px;
+  font-size: 15px;
+  border-bottom-left-radius: 5px;
+  border--right-radius: 5px;
+}
+
+.OperationCardContainer .OperationCardContainerButton:hover {
+  cursor: pointer;
+}
+/* end-operations */
+
+/* targets */
+.Targets {
+  margin: auto;
+  height: auto;
+  width: 90%;
+}
+
+.TargetCardContainer {
+  border: #e0e0e0 1px solid;
+  float: left;
+  width: 27.4%;
+  height: auto;
+  margin-bottom: 15px;
+  margin-left: 20px;
+  border-radius: 5px;
+  -webkit-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
+  box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
+}
+
+.TargetCardContainer .TargetImg {
+  width: 100%;
+  height: 250px;
+}
+
+.TargetCardContainer .TargetImg img {
+  width: 100%;
+  height: 250px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.TargetDescription {
+  padding: 5px;
+}
+
+.TargetCardContainer .TargetCardContainerButton {
+  width: 100%;
+  background-color: #324ab2;
+  color: white;
+  border: none;
+  padding: 10px;
+  font-size: 15px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.TargetCardContainer .TargetCardContainerButton:hover {
+  cursor: pointer;
+}
+/* end-targets */
+
+/* TargetProfile */
+.TargetProfile {
+  margin: auto;
+  height: auto;
+  width: 90%;
+}
+
+.TargetProfile img {
+  width: 200px;
+  height: 200px;
+  border: 1px rgb(172, 172, 172) solid;
+  border-radius: 1px;
+}
+
+.TargetProfile .TargetProfileInfo {
+  width: "100%";
+}
+
+.TargetProfile .TargetProfileHeader {
+  display: flex;
+}
+
+.TargetProfile .TargetProfileInfo ul {
+  list-style: none;
+}
+
+.TargetProfileSlider {
+  width: 100%;
+}
+
+.TargetProfileSlider .profile-slider-btn {
+  display: inline-block;
+  margin-left: 10px;
+  width: 200px;
+  padding: 15px;
+  text-align: center;
+  font-size: 15px;
+}
+
+.TargetProfile .SearchContainer {
+  margin: 20px;
+}
+
+.TargetProfile .SearchContainer .NewObject {
+  width: 8.5rem;
+}
+
+/* TargetProfile-end */
+
+/* NoteCard */
+
+.NoteCardContainer {
+  width: 20%;
+  text-align: center;
+  height: auto;
+  border-radius: 5px;
+  display: inline-block;
+  margin: 10px 10px;
+  border: #e0e0e0 1px solid;
+  -webkit-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
+  box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
+}
+
+.NoteCardContainer hr {
+  width: 100%;
+  color: rgba(43, 42, 42, 0.514);
+}
+
+.NoteTitle {
+  border: none;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  color: black;
+  padding: 10px;
+  margin: 0;
+  text-align: center;
+}
+
+.NoteContent {
+  text-align: left;
+  padding: 20px;
+  font-size: 13px;
+}
+
+.BtnNote {
+  width: 100%;
+  cursor: pointer;
+  color: white;
+  border: none;
+  background-color: #324ab2;
+  padding: 10px 30px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.TargetProfile .RelationSlide {
+  height: auto;
+  padding-top: 20px;
+}
+
+/* NoteCard-end */
+
+.OperationProfile {
+  margin: auto;
+  height: auto;
+  width: 90%;
+}
+
+.PostsSlide {
+  height: auto;
+}
+
+.OperationProfile img {
+  width: 200px;
+  height: 200px;
+  border: 1px rgb(172, 172, 172) solid;
+  border-radius: 1px;
+}
+
+.OperationProfile .OperationProfileInfo {
+  width: "100%";
+}
+
+.OperationProfile .OperationProfileHeader {
+  display: flex;
+}
+
+.OperationProfile .OperationProfileInfo ul {
+  list-style: none;
+}
+
+.OperationProfileSlider {
+  width: 100%;
+}
+
+.OperationProfileSlider .profile-slider-btn {
+  display: inline-block;
+  margin-left: 10px;
+  width: 200px;
+  padding: 15px;
+  text-align: center;
+  font-size: 15px;
+}
+
+.OperationProfile .SearchContainer {
+  margin: 20px;
+}
+
+.OperationProfile .SearchContainer .NewObject {
+  width: 8.5rem;
+}
+
+.OperationProfile .TargetsSlide {
+  height: auto;
+  padding-top: 20px;
+}
+
+.OperationProfile .Post {
+  padding: 5px;
+  margin: 10px;
+  border-radius: 5px;
+  border: 2px rgb(179, 179, 179) solid;
+  border-left: 5px solid #324ab2;
+  -webkit-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
+  box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
+}
+
+.OperationProfile .Post .Postauthor {
+  margin: 5px;
+}
+
+.OperationProfile .Post .PostContent {
+  color: rgb(88, 88, 88);
+  margin: 5px;
+}
+
+.OperationProfile .Post hr {
+  width: 100%;
+  color: rgba(43, 42, 42, 0.514);
+}
+
+.OperationProfile .Post .PostComments {
+  color: rgb(88, 88, 88);
+  margin: 5px;
+  font-size: 13px;
+}
+
+.TaskCardContainer {
+  width: 20%;
+  text-align: center;
+  height: auto;
+  border-radius: 5px;
+  display: inline-block;
+  margin: 10px 10px;
+  border: #e0e0e0 1px solid;
+  -webkit-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
+  box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
+}
+
+.TaskCardContainer hr {
+  width: 100%;
+  color: rgba(43, 42, 42, 0.514);
+}
+
+.TaskTitle {
+  border: none;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  color: black;
+  padding: 10px;
+  margin: 0;
+  text-align: center;
+}
+
+.TaskContent {
+  text-align: left;
+  padding: 10px;
+  font-size: 13px;
+}
+
+.BtnTask {
+  width: 100%;
+  cursor: pointer;
+  color: white;
+  border: none;
+  background-color: #324ab2;
+  padding: 10px 30px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.TaskAgent {
+  text-align: left;
+  color: rgb(88, 88, 88);
+  padding: 0px 10px;
+  font-size: 13px;
+}
