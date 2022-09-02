@@ -13,8 +13,8 @@ class Targets extends React.Component {
   }
 
   async GetTargets() {
-    const id = window.sessionStorage.getItem("ID");
-    const data = { UserID: id };
+    const id = window.sessionStorage.getItem("token");
+    const data = { Token: id };
 
     await API.post("/get_targets_by_user", data)
       .then((respone) => {

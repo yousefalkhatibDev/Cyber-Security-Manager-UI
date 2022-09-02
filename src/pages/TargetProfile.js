@@ -91,8 +91,8 @@ class TargetProfile extends React.Component {
   }
 
   async GetTargets() {
-    const id = window.sessionStorage.getItem("ID");
-    const data = { UserID: id };
+    const id = window.sessionStorage.getItem("token");
+    const data = { Token: id };
 
     await API.post("/get_targets_by_user", data)
       .then((respone) => {
@@ -145,7 +145,7 @@ class TargetProfile extends React.Component {
   async UploadRelation() {
     const data = {
       RelationType: this.state.NewRelation.type,
-      RelationUser: window.sessionStorage.getItem("ID"),
+      Token: window.sessionStorage.getItem("token"),
       RelationRelatedTarget: this.state.NewRelation.RelatedTarget,
       RelationDescription: this.state.NewRelation.description,
       RelationTarget: this.props.id,
@@ -192,7 +192,7 @@ class TargetProfile extends React.Component {
 
   async UploadNote() {
     const data = {
-      NoteUser: window.sessionStorage.getItem("ID"),
+      Token: window.sessionStorage.getItem("token"),
       NoteOperation: this.state.operation,
       NoteTarget: this.props.id,
       NoteType: this.state.NewNote.type,

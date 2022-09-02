@@ -1,11 +1,35 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import * as FiIcons from "react-icons/fi";
+import { FiLogOut } from "react-icons/fi";
 
-// styles
-import "./../style/custom.css";
+import API from "../helper/API";
 
 class TopBar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+
+    this.Logout = this.Logout.bind(this);
+  }
+
+  async Logout() {
+    const data = {
+      Token: window.sessionStorage.getItem("token"),
+    };
+
+    await API.post("/logout", data)
+      .then((respone) => {
+        const res = respone.data;
+        if (res.data) {
+          window.sessionStorage.removeItem("token");
+          window.location = "/login";
+        }
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  }
+
   render() {
     return (
       <>
@@ -32,13 +56,13 @@ class TopBar extends React.Component {
             </Link>
           </ul>
 
-          {/* <ul className="nav-menu" style={{ float: "right" }}>
+          <ul className="nav-menu" style={{ float: "right" }}>
             <li>
               <Link to="#">
-                <FiIcons.FiMail color="white" textDecoration="none" />
+                <FiLogOut color="white" size={"23"} textDecoration="none" onClick={this.Logout}/>
               </Link>
             </li>
-          </ul> */}
+          </ul>
         </nav>
       </>
     );

@@ -173,7 +173,7 @@ select {
   padding: 10px;
   font-size: 15px;
   border-bottom-left-radius: 5px;
-  border--right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
 .OperationCardContainer .OperationCardContainerButton:hover {
@@ -472,4 +472,141 @@ select {
   color: rgb(88, 88, 88);
   padding: 0px 10px;
   font-size: 13px;
+}
+
+/*Login page*/
+
+.Login *,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.ErrorMessage {
+  color: rgb(252, 77, 77);
+  text-align: center;
+}
+
+.Login h1 {
+  font-weight: 700;
+  color: #384047;
+  text-align: center;
+  line-height: 1.5em;
+  margin-bottom: 0.2em;
+  margin-top: 0.2em;
+}
+
+.Login a {
+  font-size: 0.98em;
+  color: #8a97a0;
+  text-decoration: none;
+}
+
+.Login a:hover {
+  color: green;
+}
+
+.ModalInput,
+.ModalInput:focus {
+  color: #384047;
+  background-color: #e8eeef;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) inset;
+  border: none;
+  border-radius: 4px;
+  padding: 0.7em;
+  margin-bottom: 1.2em;
+  width: 100%;
+}
+
+.Login {
+  display: flex;
+  -webkit-display: box;
+  -moz-display: box;
+  -ms-display: flexbox;
+  -webkit-display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  padding: 6%;
+  margin: 0;
+}
+
+.Login form {
+  background-color: #fff;
+  padding: 2em;
+  padding-bottom: 3em;
+  border-radius: 8px;
+  max-width: 400px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 10px 40px -14px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.Login form input {
+  color: #384047;
+  background-color: #e8eeef;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) inset;
+  border: none;
+  border-radius: 4px;
+  padding: 1em;
+  margin-bottom: 1.2em;
+  width: 100%;
+}
+
+.Login form input:focus {
+  outline: none;
+}
+
+.Login .LoginButton {
+  font-weight: 600;
+  text-align: center;
+  font-size: 19px;
+  color: #fff;
+  background-color: #324ab2;
+  width: 100%;
+  border: none;
+  border-radius: 4px;
+  padding: 0.8em;
+  margin-top: 1em;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 200ms ease-in-out;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.Login .LoginButton:hover {
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.3);
+  transform: translateY(-4px);
+}
+
+.Login .LoginButton span {
+  position: relative;
+  z-index: 1;
+}
+
+.Login .LoginButton .circle {
+  position: absolute;
+  z-index: 0;
+  background-color: #35a556;
+  border-radius: 50%;
+  transform: scale(0);
+  opacity: 5;
+  height: 50px;
+  width: 50px;
+}
+
+.Login .LoginButton .circle.animate {
+  animation: grow 0.5s linear;
+}
+
+@keyframes grow {
+  to {
+    transform: scale(2.5);
+    opacity: 0;
+  }
 }

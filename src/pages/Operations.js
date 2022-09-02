@@ -64,8 +64,8 @@ class Operations extends React.Component {
   }
 
   async GetOperations() {
-    const id = window.sessionStorage.getItem("ID");
-    const data = { UserID: id };
+    const id = window.sessionStorage.getItem("token");
+    const data = { Token: id };
 
     await API.post("/get_operations", data)
       .then((respone) => {
@@ -81,7 +81,7 @@ class Operations extends React.Component {
 
   async UploadOperation() {
     const data = {
-      OperationUser: window.sessionStorage.getItem("ID"),
+      Token: window.sessionStorage.getItem("token"),
       OperationName: this.state.OperationName,
       OperationPassword: this.state.OperationPassword,
       OperationDescription: this.state.OperationDescription,

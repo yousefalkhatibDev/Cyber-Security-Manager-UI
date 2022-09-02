@@ -1,5 +1,6 @@
 import React from "react";
 import API from "../helper/API";
+import ReactLoading from "react-loading";
 
 class Login extends React.Component {
   constructor(props) {
@@ -7,6 +8,8 @@ class Login extends React.Component {
     this.state = {
       email: "",
       password: "",
+      error: "",
+      loading: false,
     };
 
     this.Login = this.Login.bind(this);
@@ -32,12 +35,17 @@ class Login extends React.Component {
       Password: this.state.password,
     };
 
+    // this.setState({ loading: true });
+
     await API.post("/login", data)
       .then((respone) => {
         const res = respone.data;
         if (res.data) {
-          window.sessionStorage.setItem("ID", res.data);
+          // this.setState({ loading: false });
+          window.sessionStorage.setItem("token", res.data);
           window.location = "/";
+        } else {
+          this.setState({ error: "Invalid Email or Password" });
         }
       })
       .catch(function (error) {
@@ -47,11 +55,52 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div className="dashboard">
-        <h2>login</h2>
-        <input type="email" onChange={this.UpdateEmail} />
-        <input type="password" onChange={this.UpdatePassword} />
-        <button onClick={this.Login}>login</button>
+      <div className="Login">
+        {this.state.loading === true ? (
+          <ReactLoading
+            type={"bars"}
+            color={"#324ab2"}
+            height={100}
+            width={100}
+          />
+        ) : (
+          <form action="index.html" method="post">
+            <h1>
+              <span
+                style={{
+                  color: "#324ab2",
+                  fontWeight: "bold",
+                  fontSize: "2.5rem",
+                }}
+              >
+                CYBER
+              </span>
+              <span style={{ fontSize: "2.5rem" }}>JO</span>
+            </h1>
+            <p className="ErrorMessage">{this.state.error}</p>
+            <div>
+              <input
+                id="user-name"
+                name="user-name"
+                placeholder="Email"
+                type="text"
+                onChange={this.UpdateEmail}
+              />
+              <input
+                id="password"
+                name="password"
+                placeholder="Password"
+                type="password"
+                onChange={this.UpdatePassword}
+              />
+              <br />
+              <div className="LoginButton" onClick={this.Login}>
+                Log in
+              </div>
+              <br />
+            </div>
+          </form>
+        )}
       </div>
     );
   }

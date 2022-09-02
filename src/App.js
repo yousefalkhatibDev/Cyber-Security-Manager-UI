@@ -2,8 +2,8 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 // style
-import "./style/custom.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./style/custom.css";
 
 // components
 import NavBar from "./components/NavBar";

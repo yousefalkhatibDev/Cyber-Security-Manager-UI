@@ -95,7 +95,7 @@ class OperationProfile extends React.Component {
     const data = {
       MemeberAgent: this.state.NewMember.agent,
       MemeberOperation: this.props.id,
-      MemeberUser: window.sessionStorage.getItem("ID"),
+      Token: window.sessionStorage.getItem("token"),
     };
 
     await API.post("/add_member", data)
@@ -164,7 +164,7 @@ class OperationProfile extends React.Component {
 
   async UploadTask() {
     const data = {
-      TaskUser: window.sessionStorage.getItem("ID"),
+      Token: window.sessionStorage.getItem("token"),
       TaskAgent: this.state.NewTask.agent,
       TaskTitle: this.state.NewTask.title,
       TaskContent: this.state.NewTask.description,
@@ -386,7 +386,7 @@ class OperationProfile extends React.Component {
   async UploadTarget() {
     const data = {
       TargetOperation: this.props.id,
-      TargetUser: window.sessionStorage.getItem("ID"),
+      Token: window.sessionStorage.getItem("token"),
       TargetName: this.state.NewTarget.name,
       TargetType: this.state.NewTarget.type,
       TargetImage: "",
@@ -408,7 +408,7 @@ class OperationProfile extends React.Component {
 
   async UploadPost() {
     const data = {
-      PostUser: window.sessionStorage.getItem("ID"),
+      Token: window.sessionStorage.getItem("token"),
       PostTitle: this.state.NewPost.title,
       PostText: this.state.NewPost.text,
       PostImage: "",
