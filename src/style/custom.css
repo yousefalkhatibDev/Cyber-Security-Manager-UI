@@ -9,6 +9,27 @@ body {
 
 /* top-bar */
 
+p {
+  margin-block-start: 1em !important;
+  margin-block-end: 1em !important;
+  margin-inline-start: 0px !important;
+  margin-inline-end: 0px !important;
+}
+
+select,
+button {
+  line-height: initial !important;
+}
+
+ul {
+  margin-top: 1em !important;
+}
+
+input:focus-visible,
+select:focus-visible {
+  outline: none;
+}
+
 .NavBar {
   background-color: #1d2635;
   padding: 5px;
@@ -44,7 +65,7 @@ body {
 }
 
 .user-name p {
-  margin-left: 35%;
+  margin-left: 35% !important;
 }
 
 .nav-menu {
@@ -75,6 +96,7 @@ body {
   padding: 15px; */
   margin-left: 20px;
 }
+
 /* end-dashboard */
 
 .ConstRadius {
@@ -92,6 +114,7 @@ body {
 
 .SearchContainer {
   display: flex;
+  flex-wrap: wrap;
   margin-left: 20px;
 }
 
@@ -102,6 +125,7 @@ select {
   padding: 13px;
   border-radius: 1px;
   font-size: 15px;
+  white-space: nowrap;
 }
 
 .SearchContainer button {
@@ -115,6 +139,11 @@ select {
   width: 15rem;
 }
 
+.targetsSearchContainer select {
+  background-color: white;
+  width: 26rem;
+}
+
 .SearchContainer input:focus {
   outline: none;
 }
@@ -125,7 +154,6 @@ select {
 }
 
 .SearchContainer .NewObject {
-  margin-left: 20px;
   border-radius: 5px;
   width: 9.5rem;
   background-color: #324ab2;
@@ -139,7 +167,7 @@ select {
 .OperationCardContainer {
   border: #e0e0e0 1px solid;
   float: left;
-  width: 27.4%;
+  width: 45%;
   height: auto;
   margin-bottom: 15px;
   margin-left: 20px;
@@ -147,6 +175,17 @@ select {
   -webkit-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
   box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
+}
+
+.OperationCard-name {
+  position: absolute;
+  bottom: -17px;
+  left: 0px;
+  background-color: #324ab2;
+  padding: 5px;
+  font-size: 20px;
+  border-top-right-radius: 3px;
+  color: white;
 }
 
 .OperationCardContainer .OperationImg {
@@ -157,6 +196,7 @@ select {
 .OperationCardContainer .OperationImg img {
   width: 100%;
   height: 250px;
+  object-fit: cover;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 }
@@ -179,6 +219,12 @@ select {
 .OperationCardContainer .OperationCardContainerButton:hover {
   cursor: pointer;
 }
+
+.SearchContainer div:nth-of-type(2) {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
 /* end-operations */
 
 /* targets */
@@ -191,7 +237,7 @@ select {
 .TargetCardContainer {
   border: #e0e0e0 1px solid;
   float: left;
-  width: 27.4%;
+  width: 45%;
   height: auto;
   margin-bottom: 15px;
   margin-left: 20px;
@@ -207,6 +253,7 @@ select {
 }
 
 .TargetCardContainer .TargetImg img {
+  object-fit: cover;
   width: 100%;
   height: 250px;
   border-top-left-radius: 5px;
@@ -231,6 +278,7 @@ select {
 .TargetCardContainer .TargetCardContainerButton:hover {
   cursor: pointer;
 }
+
 /* end-targets */
 
 /* TargetProfile */
@@ -261,12 +309,17 @@ select {
 
 .TargetProfileSlider {
   width: 100%;
+  margin-top: 20px;
+}
+
+.TargetProfileSlider .btns-container {
+  width: 90%;
 }
 
 .TargetProfileSlider .profile-slider-btn {
   display: inline-block;
   margin-left: 10px;
-  width: 200px;
+  width: 30%;
   padding: 15px;
   text-align: center;
   font-size: 15px;
@@ -367,12 +420,13 @@ select {
 
 .OperationProfileSlider {
   width: 100%;
+  margin-top: 20px;
 }
 
 .OperationProfileSlider .profile-slider-btn {
   display: inline-block;
   margin-left: 10px;
-  width: 200px;
+  width: 30%;
   padding: 15px;
   text-align: center;
   font-size: 15px;
@@ -527,8 +581,9 @@ select {
   flex-wrap: wrap;
   justify-content: center;
   align-content: center;
-  padding: 6%;
-  margin: 0;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .Login form {
@@ -602,6 +657,57 @@ select {
 
 .Login .LoginButton .circle.animate {
   animation: grow 0.5s linear;
+}
+
+@media screen and (max-width: 1212px) {
+  .SearchContainer div {
+    display: flex;
+    width: 100%;
+    margin: 5px 0px !important;
+  }
+
+  .SearchContainer div input,
+  .SearchContainer div select {
+    width: 80% !important;
+  }
+
+  .SearchContainer div:nth-of-type(2) {
+    margin-left: 0px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .OperationCard-name {
+    font-size: 2.5vw;
+  }
+
+  .SearchContainer button,
+  input,
+  select {
+    font-size: 0.8rem;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .OperationCardContainer {
+    width: 90%;
+  }
+
+  .OperationCard-name {
+    font-size: 20px;
+  }
+
+  .TargetCardContainer {
+    width: 90%;
+  }
+
+  .TargetProfileSlider .btns-container {
+    width: 100%;
+  }
+
+  .TargetProfileSlider .profile-slider-btn {
+    padding: 10px;
+  }
 }
 
 @keyframes grow {

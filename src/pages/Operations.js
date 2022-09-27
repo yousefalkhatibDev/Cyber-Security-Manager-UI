@@ -119,7 +119,7 @@ class Operations extends React.Component {
             />
           </div>
 
-          <div style={{ marginLeft: "20px" }}>
+          <div>
             <button disabled>Sort by</button>
             <select className="Sort">
               <option value="Name">Name</option>
