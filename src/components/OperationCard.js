@@ -84,18 +84,7 @@ class OperationCard extends React.Component {
         >
           <img src={this.state.image} alt="vector" />
 
-          <h2
-            style={{
-              position: "absolute",
-              bottom: "-17px",
-              left: "0px",
-              backgroundColor: "#324ab2",
-              padding: "5px",
-              fontSize: "20px",
-              borderTopRightRadius: "3px",
-              color: "white",
-            }}
-          >
+          <h2 className="OperationCard-name" >
             {this.props.name}
           </h2>
         </div>

@@ -72,7 +72,7 @@ class Targets extends React.Component {
       <div className="Targets">
         <h1 style={{ marginLeft: "20px" }}>Targets</h1>
 
-        <div className="SearchContainer">
+        <div className="SearchContainer targetsSearchContainer">
           <div>
             <button disabled>Search</button>
             <input

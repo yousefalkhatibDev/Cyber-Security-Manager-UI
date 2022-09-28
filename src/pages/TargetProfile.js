@@ -583,9 +583,9 @@ class TargetProfile extends React.Component {
         </div>
 
         <div className="TargetProfileSlider">
-          <div>
+          <div className="btns-container">
             <button
-              className="profile-slider-btn"
+              className="profile-slider-btn btn btn-secondary"
               onClick={() => {
                 this.switchSlider("Notes");
               }}
@@ -593,7 +593,7 @@ class TargetProfile extends React.Component {
               Notes
             </button>
             <button
-              className="profile-slider-btn"
+              className="profile-slider-btn  btn btn-secondary"
               onClick={() => {
                 this.switchSlider("Relations");
               }}
@@ -601,7 +601,7 @@ class TargetProfile extends React.Component {
               Relations
             </button>
             <button
-              className="profile-slider-btn"
+              className="profile-slider-btn  btn btn-secondary"
               onClick={() => {
                 this.switchSlider("RelatedBy");
               }}

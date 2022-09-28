@@ -796,7 +796,7 @@ class OperationProfile extends React.Component {
         <div className="OperationProfileSlider">
           <div>
             <button
-              className="profile-slider-btn"
+              className="profile-slider-btn  btn btn-secondary"
               onClick={() => {
                 this.SwitchSlider("Notes");
               }}
@@ -804,7 +804,7 @@ class OperationProfile extends React.Component {
               Posts
             </button>
             <button
-              className="profile-slider-btn"
+              className="profile-slider-btn  btn btn-secondary"
               onClick={() => {
                 this.SwitchSlider("Targets");
               }}
@@ -812,7 +812,7 @@ class OperationProfile extends React.Component {
               Targets
             </button>
             <button
-              className="profile-slider-btn"
+              className="profile-slider-btn  btn btn-secondary"
               onClick={() => {
                 this.SwitchSlider("Tasks");
               }}
