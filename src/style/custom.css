@@ -40,6 +40,7 @@ select:focus-visible {
   -webkit-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
   box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
+  height: 85px;
 }
 
 .nav-ham-container .ham {
@@ -717,7 +718,7 @@ select {
     right: 0;
     height: 200vh;
     width: 50%;
-    top: 74px;
+    top: 69px;
     background-color: #1d2635;
     z-index: 10;
     display: flex;
