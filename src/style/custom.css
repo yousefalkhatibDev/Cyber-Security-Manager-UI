@@ -5,6 +5,8 @@ body {
   color: black;
   font-family: "Poppins", sans-serif;
   font-weight: bold;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 /* top-bar */
@@ -33,10 +35,31 @@ select:focus-visible {
 .NavBar {
   background-color: #1d2635;
   padding: 5px;
+  height: 90px;
   margin-bottom: 20px;
   -webkit-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
   box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
+}
+
+.nav-ham-container .ham {
+  padding: 15px;
+  outline: 2px solid rgb(191, 191, 191);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.nav-ham-container .ham div {
+  width: 26px;
+  height: 3px;
+  background-color: rgb(202, 202, 202);
+  margin-bottom: 4px;
+}
+
+.nav-ham-container {
+  display: inline-block;
+  float: right;
+  display: none;
 }
 
 /* end-top-bar */
@@ -685,6 +708,45 @@ select {
   input,
   select {
     font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .nav-links {
+    position: absolute;
+    right: 0;
+    height: 200vh;
+    width: 50%;
+    top: 74px;
+    background-color: #1d2635;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform ease-in-out 0.3s;
+  }
+
+  .nav-ham-container {
+    display: block;
+    margin-right: 15px;
+    margin-left: -15px;
+  }
+
+  .navActive {
+    transform: translateX(0%);
+  }
+
+  .user-card {
+    padding: 15px;
+    width: 170px;
+  }
+
+  .user-img-top-bar {
+    margin-right: 10px;
+  }
+
+  .user-name {
+    font-size: 11px;
   }
 }
 
