@@ -1,15 +1,42 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
+import API from "../helper/API";
 
 class NoteCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      DisplayNote: 0,
+      DisplayNote: false,
+      DeleteModal: false,
     };
 
     this.DisplayNote = this.DisplayNote.bind(this);
+    this.DeleteNote = this.DeleteNote.bind(this);
+    this.DeleteModal = this.DeleteModal.bind(this);
+  }
+
+  DeleteModal() {
+    this.setState({ DeleteModal: !this.state.DeleteModal });
+  }
+
+  async DeleteNote() {
+    const data = {
+      NoteID: this.props.id,
+    };
+
+    await API.post("/remove_note", data)
+      .then((respone) => {
+        const res = respone.data;
+        if (res.data) {
+          this.props.GetNotes();
+          this.props.GetNotesCount();
+        }
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
   }
 
   DisplayNote() {
@@ -37,11 +64,47 @@ class NoteCard extends React.Component {
           </Modal.Header>
           <Modal.Body>
             <p>{this.props.text}</p>
+            <p>type: {this.props.type}</p>
             <p>{this.props.author}</p>
+            <p
+              className="PostComments"
+              style={{ cursor: "pointer" }}
+              onClick={() => {
+                this.DeleteModal();
+              }}
+            >
+              Delete
+            </p>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.DisplayNote}>
               Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal show={this.state.DeleteModal} onHide={this.DeleteModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Delete Note</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <p>Are you sure you want to delete this Note</p>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.DeleteModal}>
+              Close
+            </Button>
+            <Button
+              variant="primary"
+              onClick={() => {
+                this.DeleteNote();
+                this.DeleteModal();
+                this.DisplayNote();
+              }}
+            >
+              Delete
             </Button>
           </Modal.Footer>
         </Modal>

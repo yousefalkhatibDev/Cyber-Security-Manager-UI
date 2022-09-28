@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useParams } from "react-router-dom";
+import Moment from "moment";
 
 // components
 import TargetCard from "../components/TargetCard";
@@ -23,25 +24,40 @@ class OperationProfile extends React.Component {
     this.state = {
       id: "",
       name: "",
-      TargetsCount: 5,
-      PostsCount: 5,
-      MembersCount: 5,
+      image: "",
       state: "",
       description: "",
       CreateDate: "",
+      PostsFilter: "",
+      TargetsFilter: "",
+      TasksFilter: "",
+      FilterPosts: "",
+      FilterTargets: "",
+      FilterTasks: "",
+      SearchTasks: "",
+      SearchTargets: "",
+      SearchPosts: "",
+      TargetsCount: 0,
+      PostsCount: 0,
+      MembersCount: 0,
       posts: [],
       targets: [],
       tasks: [],
       members: [],
-      PostsTab: 1,
-      TargetsTab: 0,
-      TasksTab: 0,
+      PostsTab: true,
+      TargetsTab: false,
+      TasksTab: false,
       PostModal: false,
       TargetModal: false,
       TaskModal: false,
       MemberModal: false,
+      SettingsModal: false,
+      DeleteModal: false,
+      StateModal: false,
       NewTarget: {
         name: "",
+        Base64State: "",
+        FileName: "",
         type: "Target Type",
         description: "",
         location: "",
@@ -60,35 +76,349 @@ class OperationProfile extends React.Component {
       NewMember: {
         agent: "",
       },
+      NewInfo: {
+        name: "",
+        description: "",
+      },
     };
 
+    // Helping
     this.SwitchSlider = this.SwitchSlider.bind(this);
+    this.convertToBase64 = this.convertToBase64.bind(this);
+
+    // Modals
     this.PostModal = this.PostModal.bind(this);
     this.TargetModal = this.TargetModal.bind(this);
     this.TaskModal = this.TaskModal.bind(this);
+    this.SettingsModal = this.SettingsModal.bind(this);
+    this.MemberModal = this.MemberModal.bind(this);
+    this.DeleteModal = this.DeleteModal.bind(this);
+    this.StateModal = this.StateModal.bind(this);
+    this.InfoModal = this.InfoModal.bind(this);
+
+    // Fetching
     this.GetOperationInfo = this.GetOperationInfo.bind(this);
     this.GetPosts = this.GetPosts.bind(this);
     this.GetTargets = this.GetTargets.bind(this);
     this.GetMembers = this.GetMembers.bind(this);
     this.GetTasks = this.GetTasks.bind(this);
+    this.GetImage = this.GetImage.bind(this);
+    this.GetPostsCount = this.GetPostsCount.bind(this);
+    this.GetTargetsCount = this.GetTargetsCount.bind(this);
+    this.GetMembersCount = this.GetMembersCount.bind(this);
 
+    // Deleteing
+    this.DeleteOperation = this.DeleteOperation.bind(this);
+
+    // Uploading
     this.UploadTarget = this.UploadTarget.bind(this);
     this.UploadPost = this.UploadPost.bind(this);
+    this.UploadTask = this.UploadTask.bind(this);
+    this.UploadMemeber = this.UploadMemeber.bind(this);
+    this.UploadNewInfo = this.UploadNewInfo.bind(this);
+
+    // Updating
     this.UpdateTaskMember = this.UpdateTaskMember.bind(this);
     this.UpdateTargetName = this.UpdateTargetName.bind(this);
     this.UpdateTargetType = this.UpdateTargetType.bind(this);
     this.UpdateTargetDescription = this.UpdateTargetDescription.bind(this);
     this.UpdateTargetLocation = this.UpdateTargetLocation.bind(this);
-
     this.UpdatePostTitle = this.UpdatePostTitle.bind(this);
     this.UpdatePostText = this.UpdatePostText.bind(this);
     this.UpdateTaskTitle = this.UpdateTaskTitle.bind(this);
     this.UpdateTaskDescription = this.UpdateTaskDescription.bind(this);
     this.UpdateTaskState = this.UpdateTaskState.bind(this);
-    this.UploadTask = this.UploadTask.bind(this);
     this.UpdateMemberID = this.UpdateMemberID.bind(this);
-    this.MemberModal = this.MemberModal.bind(this);
-    this.UploadMemeber = this.UploadMemeber.bind(this);
+    this.UpdateBase64 = this.UpdateBase64.bind(this);
+    this.UpdateFileName = this.UpdateFileName.bind(this);
+    this.UpdateFilterPosts = this.UpdateFilterPosts.bind(this);
+    this.UpdateFilterTargets = this.UpdateFilterTargets.bind(this);
+    this.UpdateFilterTasks = this.UpdateFilterTasks.bind(this);
+    this.UpdatesearchTask = this.UpdatesearchTask.bind(this);
+    this.UpdateSearchTargets = this.UpdateSearchTargets.bind(this);
+    this.UpdateSearchPosts = this.UpdateSearchPosts.bind(this);
+    this.UpdateOperationState = this.UpdateOperationState.bind(this);
+    this.UpdateNewInfoName = this.UpdateNewInfoName.bind(this);
+    this.UpdateNewInfoDescription = this.UpdateNewInfoDescription.bind(this);
+  }
+
+  InfoModal() {
+    this.setState({ InfoModal: !this.state.InfoModal });
+  }
+
+  async UploadNewInfo() {
+    const data = {
+      OperationID: this.props.id,
+      OperationName: this.state.NewInfo.name,
+      OperationDescription: this.state.NewInfo.description,
+    };
+
+    await API.post("/update_operation_info", data)
+      .then((respone) => {
+        const res = respone.data;
+        if (res.data) {
+          this.GetOperationInfo();
+        }
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  }
+
+  UpdateNewInfoName(event) {
+    this.setState((prevState) => ({
+      NewInfo: {
+        ...prevState.NewInfo,
+        name: event.target.value,
+      },
+    }));
+  }
+
+  UpdateNewInfoDescription(event) {
+    this.setState((prevState) => ({
+      NewInfo: {
+        ...prevState.NewInfo,
+        description: event.target.value,
+      },
+    }));
+  }
+
+  async UpdateOperationState(event) {
+    const data = {
+      OperationID: this.props.id,
+      OperationState: event.target.value,
+    };
+
+    await API.post("/update_operation_state", data)
+      .then((respone) => {
+        const res = respone.data;
+        if (res.data) {
+          this.GetOperationInfo();
+        }
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  }
+
+  async DeleteOperation() {
+    const data = {
+      OperationID: this.props.id,
+    };
+
+    await API.post("/remove_operation", data)
+      .then((respone) => {
+        const res = respone.data;
+        if (res.data) {
+          window.location = "/operations";
+        }
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  }
+
+  DeleteModal() {
+    this.setState({ DeleteModal: !this.state.DeleteModal });
+  }
+
+  StateModal() {
+    this.setState({ StateModal: !this.state.StateModal });
+  }
+
+  async UpdateSearchPosts(event) {
+    await this.setState({ SearchPosts: event.target.value });
+    this.GetPosts();
+  }
+
+  async UpdateSearchTargets(event) {
+    await this.setState({ SearchTargets: event.target.value });
+    this.GetTargets();
+  }
+
+  async UpdatesearchTask(event) {
+    await this.setState({ SearchTasks: event.target.value });
+    this.GetTasks();
+  }
+
+  async UpdateFilterPosts(event) {
+    if (event.target.value === "all") {
+      await this.GetPosts();
+    }
+
+    if (event.target.value === "newest_to_older") {
+      await this.GetPosts();
+      await this.setState({ FilterPosts: event.target.value });
+      let filteredArray = this.state.posts.sort((a, b) => {
+        var c = new Date(a.p_create_date);
+        var d = new Date(b.p_create_date);
+        return c - d;
+      });
+      await this.setState({ posts: filteredArray });
+    }
+
+    if (event.target.value === "older_to_newest") {
+      await this.GetPosts();
+      await this.setState({ FilterPosts: event.target.value });
+      let filteredArray = this.state.posts.sort((a, b) => {
+        var c = new Date(a.p_create_date);
+        var d = new Date(b.p_create_date);
+        return d - c;
+      });
+      await this.setState({ posts: filteredArray });
+    }
+  }
+
+  async UpdateFilterTargets(event) {
+    if (event.target.value === "all") {
+      await this.GetTargets();
+    }
+
+    if (event.target.value === "date") {
+      await this.GetTargets();
+      await this.setState({ FilterTargets: event.target.value });
+      let filteredArray = this.state.targets.sort((a, b) => {
+        var c = new Date(a.t_create_date);
+        var d = new Date(b.t_create_date);
+        return c - d;
+      });
+      await this.setState({ targets: filteredArray });
+    }
+
+    if (event.target.value === "name") {
+      await this.GetTargets();
+      await this.setState({ FilterTargets: event.target.value });
+      let filteredArray = this.state.targets.sort((a, b) => {
+        return a.t_name.localeCompare(b.t_name);
+      });
+      await this.setState({ targets: filteredArray });
+    }
+  }
+
+  async UpdateFilterTasks(event) {
+    if (event.target.value === "all") {
+      await this.GetTasks();
+    }
+
+    if (event.target.value === "older_to_newest") {
+      await this.GetTasks();
+      await this.setState({ FilterTasks: event.target.value });
+      let filteredArray = this.state.tasks.sort((a, b) => {
+        var c = new Date(a.tk_create_date);
+        var d = new Date(b.tk_create_date);
+        return c - d;
+      });
+      await this.setState({ tasks: filteredArray });
+    }
+
+    if (event.target.value === "my_tasks") {
+      const data = {
+        TaskOperation: this.props.id,
+        Token: window.sessionStorage.getItem("token"),
+      };
+
+      await API.post("/get_tasks_by_agent", data)
+        .then((respone) => {
+          const res = respone.data;
+          if (res.data) {
+            this.setState({ tasks: res.data });
+          }
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+    }
+  }
+
+  UpdateFileName(FileName) {
+    this.setState((prevState) => ({
+      NewTarget: {
+        ...prevState.NewTarget,
+        FileName: FileName,
+      },
+    }));
+  }
+
+  UpdateBase64(base64) {
+    window.localStorage.setItem("base64", base64);
+  }
+
+  convertToBase64(event) {
+    //Read File
+    const selectedFile = document.getElementById("inputFile").files;
+
+    //Check File is not Empty
+    if (selectedFile.length > 0) {
+      // Select the very first file from list
+      const fileToLoad = selectedFile[0];
+
+      // FileReader function for read the file.
+      const fileReader = new FileReader();
+      var self = this;
+
+      // Onload of file read the file content
+      fileReader.onload = async function (fileLoadedEvent) {
+        let base64 = fileLoadedEvent.target.result;
+        let fileName = event.target.files[0].name;
+        self.UpdateBase64(base64);
+        self.UpdateFileName(fileName);
+      };
+      // // Convert data to base64
+      fileReader.readAsDataURL(fileToLoad);
+    }
+  }
+
+  async GetPostsCount() {
+    const data = { OperationID: this.props.id };
+    await API.post("/get_operation_posts_count", data).then(async (respone) => {
+      const res = respone.data;
+      if (res.data) {
+        this.setState({ PostsCount: res.data[0].PostsCount });
+      }
+    });
+  }
+
+  async GetTargetsCount() {
+    const data = { OperationID: this.props.id };
+    await API.post("/get_operation_targets_count", data).then(
+      async (respone) => {
+        const res = respone.data;
+        if (res.data) {
+          this.setState({ TargetsCount: res.data[0].TargetsCount });
+        }
+      }
+    );
+  }
+
+  async GetMembersCount() {
+    const data = { OperationID: this.props.id };
+    await API.post("/get_operation_members_count", data).then(
+      async (respone) => {
+        const res = respone.data;
+        if (res.data) {
+          this.setState({ MembersCount: res.data[0].MembersCount });
+        }
+      }
+    );
+  }
+
+  async GetImage() {
+    const data = { OperationID: this.props.id };
+    await API.post("/get_operation_image", data).then(async (respone) => {
+      const res = respone.data;
+      if (res.data === false) {
+        this.setState({
+          image:
+            "https://img.freepik.com/free-vector/neon-cyber-security-concept-with-padlock-circuit_23-2148536303.jpg?w=900&t=st=1660930843~exp=1660931443~hmac=efcef9e6d44df72e8f8d1f679f29b28823bd0313b2a61eefecbda97b8622878d",
+        });
+      } else {
+        this.setState({ image: `data:image/jpeg;base64,${res.data}` });
+      }
+    });
+  }
+
+  SettingsModal() {
+    this.setState({ SettingsModal: !this.state.SettingsModal });
   }
 
   async UploadMemeber() {
@@ -103,6 +433,7 @@ class OperationProfile extends React.Component {
         const res = respone.data;
         if (res.data) {
           this.GetMembers();
+          this.GetMembersCount();
         }
       })
       .catch(function (error) {
@@ -261,7 +592,6 @@ class OperationProfile extends React.Component {
     const data = {
       OperationID: this.props.id,
     };
-
     await API.post("/get_operation_info", data)
       .then((respone) => {
         const res = respone.data;
@@ -283,8 +613,8 @@ class OperationProfile extends React.Component {
   async GetPosts() {
     const data = {
       OperationID: this.props.id,
+      search: this.state.SearchPosts,
     };
-
     await API.post("/get_posts", data)
       .then((respone) => {
         const res = respone.data;
@@ -300,6 +630,7 @@ class OperationProfile extends React.Component {
   async GetTargets() {
     const data = {
       OperationID: this.props.id,
+      search: this.state.SearchTargets,
     };
 
     await API.post("/get_targets", data)
@@ -320,6 +651,7 @@ class OperationProfile extends React.Component {
     );
     const data = {
       OperationID: this.props.id,
+      search: this.state.SearchTasks,
     };
 
     await API.post("/get_tasks", data)
@@ -356,25 +688,25 @@ class OperationProfile extends React.Component {
     switch (slide) {
       case "Notes":
         this.setState({
-          PostsTab: 1,
-          TargetsTab: 0,
-          TasksTab: 0,
+          PostsTab: true,
+          TargetsTab: false,
+          TasksTab: false,
         });
         break;
 
       case "Targets":
         this.setState({
-          PostsTab: 0,
-          TargetsTab: 1,
-          TasksTab: 0,
+          PostsTab: false,
+          TargetsTab: true,
+          TasksTab: false,
         });
         break;
 
       case "Tasks":
         this.setState({
-          PostsTab: 0,
-          TargetsTab: 0,
-          TasksTab: 1,
+          PostsTab: false,
+          TargetsTab: false,
+          TasksTab: true,
         });
         break;
 
@@ -392,13 +724,15 @@ class OperationProfile extends React.Component {
       TargetImage: "",
       TargetDescription: this.state.NewTarget.description,
       TargetLocation: this.state.NewTarget.location,
+      Base64State: window.localStorage.getItem("base64"),
+      FileName: this.state.NewTarget.FileName,
     };
-
     await API.post("/add_target", data)
       .then((respone) => {
         const res = respone.data;
         if (res.data) {
           this.GetTargets();
+          this.GetTargetsCount();
         }
       })
       .catch(function (error) {
@@ -414,12 +748,12 @@ class OperationProfile extends React.Component {
       PostImage: "",
       PostOperation: this.props.id,
     };
-
     await API.post("/add_post", data)
       .then((respone) => {
         const res = respone.data;
         if (res.data) {
           this.GetPosts();
+          this.GetPostsCount();
         }
       })
       .catch(function (error) {
@@ -433,16 +767,17 @@ class OperationProfile extends React.Component {
     this.GetTargets();
     this.GetTasks();
     this.GetMembers();
+    this.GetImage();
+    this.GetPostsCount();
+    this.GetTargetsCount();
+    this.GetMembersCount();
   }
 
   render() {
     return (
       <div className="OperationProfile">
         <div className="OperationProfileHeader">
-          <img
-            src="https://img.freepik.com/free-vector/neon-cyber-security-concept-with-padlock-circuit_23-2148536303.jpg?w=900&t=st=1660930843~exp=1660931443~hmac=efcef9e6d44df72e8f8d1f679f29b28823bd0313b2a61eefecbda97b8622878d"
-            alt="user-card"
-          />
+          <img src={this.state.image} alt="user-card" />
           <div className="OperationProfileInfo">
             <ul>
               <li>Name: {this.state.name}</li>
@@ -450,7 +785,9 @@ class OperationProfile extends React.Component {
               <li>Targets Count: {this.state.TargetsCount}</li>
               <li>Posts Count: {this.state.PostsCount}</li>
               <li>State: {this.state.state}</li>
-              <li>Create Date: {this.state.CreateDate}</li>
+              <li>
+                Create Date: {Moment(this.state.CreateDate).format("MMM Do YY")}
+              </li>
               <li>Description: {this.state.description}</li>
             </ul>
           </div>
@@ -482,6 +819,14 @@ class OperationProfile extends React.Component {
             >
               Tasks
             </button>
+            <button
+              className="profile-slider-btn"
+              onClick={() => {
+                this.SettingsModal();
+              }}
+            >
+              Settings
+            </button>
           </div>
 
           <div
@@ -495,20 +840,19 @@ class OperationProfile extends React.Component {
                   placeholder="Search by title or description"
                   type="text"
                   className="Search"
+                  onChange={this.UpdateSearchPosts}
                 />
               </div>
               <div style={{ marginLeft: "20px" }}>
                 <button disabled>Sort by</button>
-                <select className="Sort">
-                  <option value="Name">Title</option>
-                  <option value="Date">Date</option>
+                <select className="Sort" onChange={this.UpdateFilterPosts}>
+                  <option value="all">All</option>
+                  <option value="newest_to_older">Newest to Older</option>
+                  <option value="older_to_newest">Older to Newest</option>
                 </select>
               </div>
               <button className="NewObject" onClick={this.PostModal}>
                 New Post
-              </button>
-              <button className="NewObject" onClick={this.MemberModal}>
-                New Members
               </button>
             </div>
 
@@ -520,6 +864,8 @@ class OperationProfile extends React.Component {
                   title={post.p_title}
                   text={post.p_text}
                   author={post.u_name}
+                  GetPosts={this.GetPosts}
+                  GetPostsCount={this.GetPostsCount}
                 />
               );
             })}
@@ -536,13 +882,15 @@ class OperationProfile extends React.Component {
                   placeholder="Search by title or description"
                   type="text"
                   className="Search"
+                  onChange={this.UpdateSearchTargets}
                 />
               </div>
               <div style={{ marginLeft: "20px" }}>
                 <button disabled>Sort by</button>
-                <select className="Sort">
-                  <option value="Name">Title</option>
-                  <option value="Date">Date</option>
+                <select className="Sort" onChange={this.UpdateFilterTargets}>
+                  <option value="all">All</option>
+                  <option value="name">Name</option>
+                  <option value="date">Date</option>
                 </select>
               </div>
               <button className="NewObject" onClick={this.TargetModal}>
@@ -575,13 +923,15 @@ class OperationProfile extends React.Component {
                   placeholder="Search by title or description"
                   type="text"
                   className="Search"
+                  onChange={this.UpdatesearchTask}
                 />
               </div>
               <div style={{ marginLeft: "20px" }}>
                 <button disabled>Sort by</button>
-                <select className="Sort">
-                  <option value="Name">Title</option>
-                  <option value="Date">Date</option>
+                <select className="Sort" onChange={this.UpdateFilterTasks}>
+                  <option value="all">All</option>
+                  <option value="older_to_newest">Older to Newest</option>
+                  <option value="my_tasks">My Tasks</option>
                 </select>
               </div>
               <button className="NewObject" onClick={this.TaskModal}>
@@ -592,10 +942,11 @@ class OperationProfile extends React.Component {
               return (
                 <TaskCard
                   key={i}
-                  id={task.t_id}
+                  id={task.tk_id}
                   title={task.tk_title}
-                  content={task.tk_content}
+                  text={task.tk_content}
                   agent={task.u_name}
+                  refresh={this.GetTasks}
                   CreateDate={task.tk_create_date}
                   UpdateDate={task.tk_update_date}
                 />
@@ -671,6 +1022,20 @@ class OperationProfile extends React.Component {
                 className="mb-3"
                 controlId="exampleForm.ControlInput1"
               >
+                <Form.Label>Target Image</Form.Label>
+                <Form.Control
+                  type="file"
+                  autoFocus
+                  onChange={this.convertToBase64}
+                  id="inputFile"
+                  name="inputFile"
+                  accept="application/pdf, application/vnd.ms-excel, image/*"
+                />
+              </Form.Group>
+              <Form.Group
+                className="mb-3"
+                controlId="exampleForm.ControlInput1"
+              >
                 <Form.Label>Location</Form.Label>
                 <Form.Control
                   type="text"
@@ -689,37 +1054,31 @@ class OperationProfile extends React.Component {
 
                   <Dropdown.Menu>
                     <Dropdown.Item
-                      href="#/action-1"
                       onClick={() => this.UpdateTargetType("server")}
                     >
                       Server
                     </Dropdown.Item>
                     <Dropdown.Item
-                      href="#/action-2"
                       onClick={() => this.UpdateTargetType("individual")}
                     >
                       Individual
                     </Dropdown.Item>
                     <Dropdown.Item
-                      href="#/action-3"
                       onClick={() => this.UpdateTargetType("organization")}
                     >
                       Organization
                     </Dropdown.Item>
                     <Dropdown.Item
-                      href="#/action-3"
                       onClick={() => this.UpdateTargetType("service")}
                     >
                       Service
                     </Dropdown.Item>
                     <Dropdown.Item
-                      href="#/action-3"
                       onClick={() => this.UpdateTargetType("website")}
                     >
                       Website
                     </Dropdown.Item>
                     <Dropdown.Item
-                      href="#/action-3"
                       onClick={() => this.UpdateTargetType("other")}
                     >
                       Other
@@ -788,7 +1147,6 @@ class OperationProfile extends React.Component {
                       return (
                         <Dropdown.Item
                           key={i}
-                          href="#/action-1"
                           onClick={() =>
                             this.UpdateTaskMember(member.u_id, member.u_name)
                           }
@@ -889,6 +1247,234 @@ class OperationProfile extends React.Component {
               }}
             >
               Add Member
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal show={this.state.TaskModal} onHide={this.TaskModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>New Task</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group
+                className="mb-3"
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label>Title</Form.Label>
+                <Form.Control
+                  type="text"
+                  autoFocus
+                  onChange={this.UpdateTaskTitle}
+                />
+              </Form.Group>
+              <Form.Group
+                className="mb-3"
+                controlId="exampleForm.ControlInput1"
+              >
+                <Dropdown>
+                  <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                    {this.state.NewTask.AgentName}
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu>
+                    {this.state.members.map((member, i) => {
+                      return (
+                        <Dropdown.Item
+                          key={i}
+                          onClick={() =>
+                            this.UpdateTaskMember(member.u_id, member.u_name)
+                          }
+                        >
+                          {member.u_name}
+                        </Dropdown.Item>
+                      );
+                    })}
+                  </Dropdown.Menu>
+                </Dropdown>
+                <Dropdown>
+                  <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                    {this.state.NewTask.state}
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu>
+                    <Dropdown.Item
+                      onClick={() => {
+                        this.UpdateTaskState("to do");
+                      }}
+                    >
+                      To Do
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() => {
+                        this.UpdateTaskState("in progress");
+                      }}
+                    >
+                      In Progress
+                    </Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={() => {
+                        this.UpdateTaskState("done");
+                      }}
+                    >
+                      Done
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Form.Group>
+              <Form.Group
+                className="mb-3"
+                controlId="exampleForm.ControlTextarea1"
+              >
+                <Form.Label>Description</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  onChange={this.UpdateTaskDescription}
+                />
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.TaskModal}>
+              Close
+            </Button>
+            <Button
+              variant="primary"
+              onClick={() => {
+                this.UploadTask();
+                this.TaskModal();
+              }}
+            >
+              Save Task
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal
+          show={this.state.SettingsModal}
+          size="lg"
+          onHide={this.SettingsModal}
+          aria-labelledby="example-modal-sizes-title-lg"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="example-modal-sizes-title-lg">
+              Large Modal
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <button className="NewObject" onClick={this.MemberModal}>
+              New Members
+            </button>
+            <button className="NewObject" onClick={this.StateModal}>
+              Switch State
+            </button>
+            <button className="NewObject" onClick={this.InfoModal}>
+              Update information
+            </button>
+            <button className="NewObject" onClick={this.DeleteModal}>
+              Delete Operation
+            </button>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.SettingsModal}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal show={this.state.DeleteModal} onHide={this.DeleteModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Delete Operation</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <p>Are you sure you want to delete this Comment</p>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.DeleteModal}>
+              Close
+            </Button>
+            <Button
+              variant="primary"
+              onClick={() => {
+                this.DeleteOperation();
+                this.DeleteModal();
+              }}
+            >
+              Delete
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal show={this.state.StateModal} onHide={this.StateModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>State</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group
+                className="mb-3"
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label>Switch State</Form.Label>
+                <select className="Sort" onChange={this.UpdateOperationState}>
+                  <option value="active">Active</option>
+                  <option value="inactive">Inactive</option>
+                </select>
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.StateModal}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal show={this.state.InfoModal} onHide={this.InfoModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>New Info</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group
+                className="mb-3"
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label>Operation Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  autoFocus
+                  onChange={this.UpdateNewInfoName}
+                />
+              </Form.Group>
+              <Form.Group
+                className="mb-3"
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label>Operation Description</Form.Label>
+                <Form.Control
+                  type="text"
+                  autoFocus
+                  onChange={this.UpdateNewInfoDescription}
+                />
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.InfoModal}>
+              Close
+            </Button>
+            <Button
+              variant="primary"
+              onClick={() => {
+                this.UploadNewInfo();
+                this.InfoModal();
+              }}
+            >
+              Save
             </Button>
           </Modal.Footer>
         </Modal>

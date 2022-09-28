@@ -4,9 +4,15 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Dropdown from "react-bootstrap/Dropdown";
 // import { IoIosArrowForward } from "react-icons/io";
-
 import OperationCard from "../components/OperationCard";
 import API from "../helper/API";
+
+// return (
+//   <div className="App">
+//     <img src={base64State} alt="i" />
+//     <a href={base64State} target={base64State}>read pdf</a>
+//   </div>
+// );
 
 class Operations extends React.Component {
   constructor(props) {
@@ -14,10 +20,14 @@ class Operations extends React.Component {
     this.state = {
       operations: [],
       modal: false,
+      search: "",
+      filter: "",
       OperationName: "",
       OperationPassword: "",
       OperationDescription: "",
       OperationState: "State",
+      Base64State: "",
+      FileName: "",
     };
 
     this.ModalShow = this.ModalShow.bind(this);
@@ -27,6 +37,84 @@ class Operations extends React.Component {
     this.UploadOperation = this.UploadOperation.bind(this);
     this.UpdateState = this.UpdateState.bind(this);
     this.GetOperations = this.GetOperations.bind(this);
+    this.UpdateSearch = this.UpdateSearch.bind(this);
+    this.UpdateFilter = this.UpdateFilter.bind(this);
+    this.UpdateBase64 = this.UpdateBase64.bind(this);
+    this.UpdateFileName = this.UpdateFileName.bind(this);
+    this.convertToBase64 = this.convertToBase64.bind(this);
+  }
+
+  UpdateFileName(FileName) {
+    this.setState({ FileName: FileName });
+  }
+
+  UpdateBase64(base64) {
+    window.localStorage.setItem("base64", base64);
+  }
+
+  convertToBase64(event) {
+    //Read File
+    const selectedFile = document.getElementById("inputFile").files;
+
+    //Check File is not Empty
+    if (selectedFile.length > 0) {
+      // Select the very first file from list
+      const fileToLoad = selectedFile[0];
+
+      // FileReader function for read the file.
+      const fileReader = new FileReader();
+      var self = this;
+
+      // Onload of file read the file content
+      fileReader.onload = async function (fileLoadedEvent) {
+        let base64 = fileLoadedEvent.target.result;
+        let fileName = event.target.files[0].name;
+        self.UpdateBase64(base64);
+        self.UpdateFileName(fileName);
+      };
+      // // Convert data to base64
+      fileReader.readAsDataURL(fileToLoad);
+    }
+  }
+
+  async UpdateFilter(event) {
+    if (event.target.value === "all") {
+      await this.GetOperations();
+    }
+
+    if (event.target.value === "active" || event.target.value === "inactive") {
+      await this.GetOperations();
+      await this.setState({ filter: event.target.value });
+      var filteredArray = this.state.operations.filter((operation) => {
+        return operation.o_state === event.target.value;
+      });
+      await this.setState({ operations: filteredArray });
+    }
+
+    if (event.target.value === "date") {
+      await this.GetOperations();
+      await this.setState({ filter: event.target.value });
+      filteredArray = this.state.operations.sort((a, b) => {
+        var c = new Date(a.o_create_date);
+        var d = new Date(b.o_create_date);
+        return c - d;
+      });
+      await this.setState({ operations: filteredArray });
+    }
+
+    if (event.target.value === "name") {
+      await this.GetOperations();
+      await this.setState({ filter: event.target.value });
+      filteredArray = this.state.operations.sort((a, b) => {
+        return a.o_name.localeCompare(b.o_name);
+      });
+      await this.setState({ operations: filteredArray });
+    }
+  }
+
+  async UpdateSearch(event) {
+    await this.setState({ search: event.target.value });
+    this.GetOperations();
   }
 
   ModalShow() {
@@ -64,8 +152,8 @@ class Operations extends React.Component {
   }
 
   async GetOperations() {
-    const id = window.sessionStorage.getItem("token");
-    const data = { Token: id };
+    const token = window.sessionStorage.getItem("token");
+    const data = { Token: token, search: this.state.search };
 
     await API.post("/get_operations", data)
       .then((respone) => {
@@ -86,7 +174,11 @@ class Operations extends React.Component {
       OperationPassword: this.state.OperationPassword,
       OperationDescription: this.state.OperationDescription,
       OperationState: this.state.OperationState,
+      OperationImage: window.localStorage.getItem("base64"),
+      FileName: this.state.FileName,
     };
+
+    window.localStorage.removeItem("base64");
 
     await API.post("/add_operation", data)
       .then((respone) => {
@@ -116,16 +208,18 @@ class Operations extends React.Component {
               placeholder="Search by name or description"
               type="text"
               className="Search"
+              onChange={this.UpdateSearch}
             />
           </div>
 
           <div style={{ marginLeft: "20px" }}>
             <button disabled>Sort by</button>
-            <select className="Sort">
-              <option value="Name">Name</option>
-              <option value="Date">Date</option>
-              <option value="Date">State</option>
-              <option value="Members Count">Members Count</option>
+            <select className="Sort" onChange={this.UpdateFilter}>
+              <option value="all">All</option>
+              <option value="name">Name</option>
+              <option value="date">Date</option>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
             </select>
           </div>
 
@@ -166,6 +260,20 @@ class Operations extends React.Component {
                   placeholder="e.g. Alpha, Bravo"
                   autoFocus
                   onChange={this.UpdateName}
+                />
+              </Form.Group>
+              <Form.Group
+                className="mb-3"
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label>Operation Image</Form.Label>
+                <Form.Control
+                  type="file"
+                  autoFocus
+                  onChange={this.convertToBase64}
+                  id="inputFile"
+                  name="inputFile"
+                  accept="application/pdf, application/vnd.ms-excel, image/*"
                 />
               </Form.Group>
               <Form.Group
