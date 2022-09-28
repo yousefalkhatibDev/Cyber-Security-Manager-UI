@@ -160,6 +160,7 @@ class Operations extends React.Component {
         const res = respone.data;
         if (res.data) {
           this.setState({ operations: res.data });
+          console.log(res.data)
         }
       })
       .catch(function (error) {
@@ -203,7 +204,7 @@ class Operations extends React.Component {
 
         <div className="SearchContainer">
           <div>
-            <button disabled>Search</button>
+            <button>Search</button>
             <input
               placeholder="Search by name or description"
               type="text"
