@@ -1,4 +1,4 @@
-import React, { mou } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { FiLogOut } from "react-icons/fi";
 
