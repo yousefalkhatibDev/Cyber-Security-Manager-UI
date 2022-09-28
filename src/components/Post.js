@@ -11,6 +11,7 @@ class Post extends React.Component {
     this.state = {
       comments: [],
       CommentModal: false,
+      DeleteModal: false,
       NewComment: {
         comment: "",
       },
@@ -20,6 +21,26 @@ class Post extends React.Component {
     this.CommentModal = this.CommentModal.bind(this);
     this.UploadComment = this.UploadComment.bind(this);
     this.UpdateComment = this.UpdateComment.bind(this);
+    this.DeleteModal = this.DeleteModal.bind(this);
+    this.DeletePost = this.DeletePost.bind(this);
+  }
+
+  async DeletePost() {
+    const data = {
+      PostID: this.props.id,
+    };
+
+    await API.post("/remove_post", data)
+      .then((respone) => {
+        const res = respone.data;
+        if (res.data) {
+          this.props.GetPosts();
+          this.props.GetPostsCount();
+        }
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
   }
 
   UpdateComment(event) {
@@ -29,6 +50,10 @@ class Post extends React.Component {
         comment: event.target.value,
       },
     }));
+  }
+
+  DeleteModal() {
+    this.setState({ DeleteModal: !this.state.DeleteModal });
   }
 
   async GetComments() {
@@ -92,6 +117,15 @@ class Post extends React.Component {
           >
             Reply
           </p>
+          <p
+            className="PostComments"
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              this.DeleteModal();
+            }}
+          >
+            Delete
+          </p>
           {this.state.comments.map((comment, i) => {
             return (
               <Comment
@@ -99,6 +133,7 @@ class Post extends React.Component {
                 id={comment.c_id}
                 text={comment.c_text}
                 user={comment.u_name}
+                refresh={this.GetComments}
               />
             );
           })}
@@ -135,6 +170,31 @@ class Post extends React.Component {
               }}
             >
               Add Comment
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal show={this.state.DeleteModal} onHide={this.DeleteModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Delete Post</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <p>Are you sure you want to delete this post</p>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.DeleteModal}>
+              Close
+            </Button>
+            <Button
+              variant="primary"
+              onClick={() => {
+                this.DeletePost();
+                this.DeleteModal();
+              }}
+            >
+              Delete
             </Button>
           </Modal.Footer>
         </Modal>

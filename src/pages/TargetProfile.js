@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useParams } from "react-router-dom";
+import Moment from "moment";
 
 // components
 import NoteCard from "../components/NoteCard";
@@ -21,9 +22,16 @@ class TargetProfile extends React.Component {
     super(props);
     this.state = {
       id: "",
+      image: "",
       name: "",
-      NotesCount: 5,
+      NotesCount: 0,
       type: "",
+      NotesFilter: "",
+      RelationsFilter: "",
+      RelatedByFilter: "",
+      SearchNotes: "",
+      SearchRelations: "",
+      SearchRelatedByTargets: "",
       description: "",
       CreateDate: "",
       UpdateDate: "",
@@ -37,6 +45,7 @@ class TargetProfile extends React.Component {
       RelatedByTab: 0,
       NotesModal: false,
       RelationsModal: false,
+      SettingsModal: false,
       NewNote: {
         title: "",
         text: "",
@@ -47,6 +56,11 @@ class TargetProfile extends React.Component {
         RelatedTarget: "",
         type: "",
         description: "",
+      },
+      NewInfo: {
+        name: "",
+        description: "",
+        location: "",
       },
     };
 
@@ -69,11 +83,216 @@ class TargetProfile extends React.Component {
     this.GetTargets = this.GetTargets.bind(this);
     this.UpdateRelationRelatedTargetName =
       this.UpdateRelationRelatedTargetName.bind(this);
+    this.SettingsModal = this.SettingsModal.bind(this);
+    this.GetImage = this.GetImage.bind(this);
+    this.GetNotesCount = this.GetNotesCount.bind(this);
+    this.UpdateSearchNotes = this.UpdateSearchNotes.bind(this);
+    this.UpdateSearchRelations = this.UpdateSearchRelations.bind(this);
+    this.UpdateSearchRelatedByTargets =
+      this.UpdateSearchRelatedByTargets.bind(this);
+    this.UpdateFilterNotes = this.UpdateFilterNotes.bind(this);
+    this.UpdateFilterRelations = this.UpdateFilterRelations.bind(this);
+    this.UpdateFilterRelatedByTargets =
+      this.UpdateFilterRelatedByTargets.bind(this);
+    this.InfoModal = this.InfoModal.bind(this);
+
+    this.UploadNewInfo = this.UploadNewInfo.bind(this);
+    this.UpdateNewInfoName = this.UpdateNewInfoName.bind(this);
+    this.UpdateNewInfoDescription = this.UpdateNewInfoDescription.bind(this);
+    this.UpdateNewInfoLocation = this.UpdateNewInfoLocation.bind(this);
+
+    this.DeleteTarget = this.DeleteTarget.bind(this);
+    this.DeleteModal = this.DeleteModal.bind(this);
+  }
+
+  InfoModal() {
+    this.setState({ InfoModal: !this.state.InfoModal });
+  }
+
+  async UploadNewInfo() {
+    const data = {
+      TargetID: this.props.id,
+      TargetName: this.state.NewInfo.name,
+      TargetDescription: this.state.NewInfo.description,
+      TargetLocation: this.state.NewInfo.location,
+    };
+
+    await API.post("/update_target_info", data)
+      .then((respone) => {
+        const res = respone.data;
+        if (res.data) {
+          this.GetTargetInfo();
+        }
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  }
+
+  UpdateNewInfoName(event) {
+    this.setState((prevState) => ({
+      NewInfo: {
+        ...prevState.NewInfo,
+        name: event.target.value,
+      },
+    }));
+  }
+
+  UpdateNewInfoDescription(event) {
+    this.setState((prevState) => ({
+      NewInfo: {
+        ...prevState.NewInfo,
+        description: event.target.value,
+      },
+    }));
+  }
+
+  UpdateNewInfoLocation(event) {
+    this.setState((prevState) => ({
+      NewInfo: {
+        ...prevState.NewInfo,
+        location: event.target.value,
+      },
+    }));
+  }
+
+  async DeleteTarget() {
+    const data = {
+      TargetID: this.props.id,
+    };
+
+    await API.post("/remove_target", data)
+      .then((respone) => {
+        const res = respone.data;
+        if (res.data) {
+          window.location = "/targets";
+        }
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  }
+
+  DeleteModal() {
+    this.setState({ DeleteModal: !this.state.DeleteModal });
+  }
+
+  async UpdateFilterNotes(event) {
+    if (event.target.value === "all") {
+      await this.GetNotes();
+    }
+
+    if (event.target.value === "title") {
+      await this.GetNotes();
+      await this.setState({ NotesFilter: event.target.value });
+      let filteredArray = this.state.notes.sort((a, b) => {
+        return a.n_title.localeCompare(b.n_title);
+      });
+      await this.setState({ notes: filteredArray });
+    }
+
+    if (event.target.value === "date") {
+      await this.GetNotes();
+      await this.setState({ NotesFilter: event.target.value });
+      let filteredArray = this.state.notes.sort((a, b) => {
+        var c = new Date(a.n_create_date);
+        var d = new Date(b.n_create_date);
+        return c - d;
+      });
+      await this.setState({ notes: filteredArray });
+    }
+  }
+
+  async UpdateFilterRelations(event) {
+    if (event.target.value === "all") {
+      await this.GetRelations();
+    }
+
+    if (event.target.value === "date") {
+      await this.GetRelations();
+      await this.setState({ RelationsFilter: event.target.value });
+      let filteredArray = this.state.relations.sort((a, b) => {
+        var c = new Date(a.t_create_date);
+        var d = new Date(b.t_create_date);
+        return c - d;
+      });
+      await this.setState({ relations: filteredArray });
+    }
+
+    if (event.target.value === "name") {
+      await this.GetRelations();
+      await this.setState({ RelationsFilter: event.target.value });
+      let filteredArray = this.state.relations.sort((a, b) => {
+        return a.t_name.localeCompare(b.t_name);
+      });
+      await this.setState({ relations: filteredArray });
+    }
+  }
+
+  async UpdateFilterRelatedByTargets(event) {
+    if (event.target.value === "all") {
+      await this.GetRelatedByTargets();
+    }
+
+    if (event.target.value === "date") {
+      await this.GetRelatedByTargets();
+      await this.setState({ RelatedByFilter: event.target.value });
+      let filteredArray = this.state.RelatedBY.sort((a, b) => {
+        var c = new Date(a.t_create_date);
+        var d = new Date(b.t_create_date);
+        return c - d;
+      });
+      await this.setState({ RelatedBY: filteredArray });
+    }
+
+    if (event.target.value === "name") {
+      await this.GetRelatedByTargets();
+      await this.setState({ RelatedByFilter: event.target.value });
+      let filteredArray = this.state.RelatedBY.sort((a, b) => {
+        return a.t_name.localeCompare(b.t_name);
+      });
+      await this.setState({ RelatedBY: filteredArray });
+    }
+  }
+
+  async UpdateSearchRelatedByTargets(event) {
+    await this.setState({ SearchRelatedByTargets: event.target.value });
+    this.GetRelatedByTargets();
+  }
+
+  async UpdateSearchNotes(event) {
+    await this.setState({ SearchNotes: event.target.value });
+    this.GetNotes();
+  }
+
+  async UpdateSearchRelations(event) {
+    await this.setState({ SearchRelations: event.target.value });
+    this.GetRelations();
+  }
+
+  async GetImage() {
+    const data = { TargetID: this.props.id };
+    await API.post("/get_target_image", data).then(async (respone) => {
+      const res = respone.data;
+      if (res.data === false) {
+        this.setState({
+          image:
+            "https://img.freepik.com/premium-vector/anonymous-hacker-concept-with-flat-design_23-2147895788.jpg?w=740",
+        });
+      } else {
+        this.setState({ image: `data:image/jpeg;base64,${res.data}` });
+      }
+    });
+  }
+
+  SettingsModal() {
+    this.setState({ SettingsModal: !this.state.SettingsModal });
   }
 
   async GetRelatedByTargets() {
     const data = {
       TargetID: this.props.id,
+      SearchRelatedByTargets: this.state.SearchRelatedByTargets,
     };
 
     await API.post("/get_related_by_targets", data)
@@ -205,6 +424,7 @@ class TargetProfile extends React.Component {
         const res = respone.data;
         if (res.data) {
           this.GetNotes();
+          this.GetNotesCount();
         }
       })
       .catch(function (error) {
@@ -215,6 +435,7 @@ class TargetProfile extends React.Component {
   async GetNotes() {
     const data = {
       TargetID: this.props.id,
+      SearchNotes: this.state.SearchNotes,
     };
 
     await API.post("/get_notes", data)
@@ -234,6 +455,7 @@ class TargetProfile extends React.Component {
   async GetRelations() {
     const data = {
       TargetID: this.props.id,
+      SearchRelations: this.state.SearchRelations,
     };
 
     await API.post("/get_relations", data)
@@ -319,38 +541,51 @@ class TargetProfile extends React.Component {
     }
   }
 
+  async GetNotesCount() {
+    const data = { TargetID: this.props.id };
+    await API.post("/get_target_notes_count", data).then(async (respone) => {
+      const res = respone.data;
+      if (res.data) {
+        this.setState({ NotesCount: res.data[0].NotesCount });
+      }
+    });
+  }
+
   componentDidMount() {
     this.GetTargetInfo();
     this.GetTargets();
     this.GetNotes();
+    this.GetNotesCount();
     this.GetRelations();
     this.GetRelatedByTargets();
+    this.GetImage();
   }
 
   render() {
     return (
       <div className="TargetProfile">
         <div className="TargetProfileHeader">
-          <img
-            src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80"
-            alt="user-card"
-          />
+          <img src={this.state.image} alt="user-card" />
           <div className="TargetProfileInfo">
             <ul>
               <li>Name: {this.state.name}</li>
-              <li>Notes Count: 5</li>
+              <li>Notes Count: {this.state.NotesCount}</li>
               <li>Type: {this.state.type}</li>
-              <li>Create Date: {this.state.CreateDate}</li>
-              <li>Last Update: {this.state.UpdateDate}</li>
+              <li>
+                Create Date: {Moment(this.state.CreateDate).format("MMM Do YY")}
+              </li>
+              <li>
+                Last Update: {Moment(this.state.UpdateDate).format("MMM Do YY")}
+              </li>
               <li>Description: {this.state.description}</li>
             </ul>
           </div>
         </div>
 
         <div className="TargetProfileSlider">
-          <div>
+          <div className="btns-container">
             <button
-              className="profile-slider-btn"
+              className="profile-slider-btn btn btn-secondary"
               onClick={() => {
                 this.switchSlider("Notes");
               }}
@@ -358,7 +593,7 @@ class TargetProfile extends React.Component {
               Notes
             </button>
             <button
-              className="profile-slider-btn"
+              className="profile-slider-btn  btn btn-secondary"
               onClick={() => {
                 this.switchSlider("Relations");
               }}
@@ -366,12 +601,20 @@ class TargetProfile extends React.Component {
               Relations
             </button>
             <button
-              className="profile-slider-btn"
+              className="profile-slider-btn  btn btn-secondary"
               onClick={() => {
                 this.switchSlider("RelatedBy");
               }}
             >
               Related By
+            </button>
+            <button
+              className="profile-slider-btn"
+              onClick={() => {
+                this.SettingsModal();
+              }}
+            >
+              Settings
             </button>
           </div>
 
@@ -386,13 +629,15 @@ class TargetProfile extends React.Component {
                   placeholder="Search by title or description"
                   type="text"
                   className="Search"
+                  onChange={this.UpdateSearchNotes}
                 />
               </div>
               <div style={{ marginLeft: "20px" }}>
                 <button disabled>Sort by</button>
-                <select className="Sort">
-                  <option value="Name">Title</option>
-                  <option value="Date">Date</option>
+                <select className="Sort" onChange={this.UpdateFilterNotes}>
+                  <option value="all">All</option>
+                  <option value="title">Title</option>
+                  <option value="date">Date</option>
                 </select>
               </div>
               <button className="NewObject" onClick={this.NotesModal}>
@@ -408,9 +653,12 @@ class TargetProfile extends React.Component {
                     id={note.n_id}
                     title={note.n_title}
                     text={note.n_text}
+                    type={note.n_type}
                     author={note.u_name}
                     CreateDate={note.n_create_date}
                     UpdateDate={note.n_update_date}
+                    GetNotes={this.GetNotes}
+                    GetNotesCount={this.GetNotesCount}
                   />
                 );
               })}
@@ -428,13 +676,15 @@ class TargetProfile extends React.Component {
                   placeholder="Search by title or description"
                   type="text"
                   className="Search"
+                  onChange={this.UpdateSearchRelations}
                 />
               </div>
               <div style={{ marginLeft: "20px" }}>
                 <button disabled>Sort by</button>
-                <select className="Sort">
-                  <option value="Name">Title</option>
-                  <option value="Date">Date</option>
+                <select className="Sort" onChange={this.UpdateFilterRelations}>
+                  <option value="all">All</option>
+                  <option value="name">Name</option>
+                  <option value="date">Date</option>
                 </select>
               </div>
               <button className="NewObject" onClick={this.RelationsModal}>
@@ -468,13 +718,18 @@ class TargetProfile extends React.Component {
                   placeholder="Search by title or description"
                   type="text"
                   className="Search"
+                  onChange={this.UpdateSearchRelatedByTargets}
                 />
               </div>
               <div style={{ marginLeft: "20px" }}>
                 <button disabled>Sort by</button>
-                <select className="Sort">
-                  <option value="Name">Title</option>
-                  <option value="Date">Date</option>
+                <select
+                  className="Sort"
+                  onChange={this.UpdateFilterRelatedByTargets}
+                >
+                  <option value="all">All</option>
+                  <option value="name">Name</option>
+                  <option value="date">Date</option>
                 </select>
               </div>
             </div>
@@ -581,7 +836,6 @@ class TargetProfile extends React.Component {
                     return (
                       <Dropdown.Item
                         key={i}
-                        href="#/action-1"
                         onClick={() => {
                           this.UpdateRelationRelatedTarget(target.t_id);
                           this.UpdateRelationRelatedTargetName(target.t_name);
@@ -619,6 +873,114 @@ class TargetProfile extends React.Component {
               }}
             >
               Save Relation
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal
+          size="lg"
+          show={this.state.SettingsModal}
+          onHide={this.SettingsModal}
+          aria-labelledby="example-modal-sizes-title-lg"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="example-modal-sizes-title-lg">
+              Large Modal
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <button className="NewObject" onClick={this.InfoModal}>
+              Update information
+            </button>
+            <button className="NewObject" onClick={this.DeleteModal}>
+              Delete Target
+            </button>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.SettingsModal}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal show={this.state.InfoModal} onHide={this.InfoModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>New Info</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group
+                className="mb-3"
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label>Target Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  autoFocus
+                  onChange={this.UpdateNewInfoName}
+                />
+              </Form.Group>
+              <Form.Group
+                className="mb-3"
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label>Target Description</Form.Label>
+                <Form.Control
+                  type="text"
+                  autoFocus
+                  onChange={this.UpdateNewInfoDescription}
+                />
+              </Form.Group>
+              <Form.Group
+                className="mb-3"
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label>Target Location</Form.Label>
+                <Form.Control
+                  type="text"
+                  autoFocus
+                  onChange={this.UpdateNewInfoLocation}
+                />
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.InfoModal}>
+              Close
+            </Button>
+            <Button
+              variant="primary"
+              onClick={() => {
+                this.UploadNewInfo();
+                this.InfoModal();
+              }}
+            >
+              Save
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
+        <Modal show={this.state.DeleteModal} onHide={this.DeleteModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Delete Operation</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <p>Are you sure you want to delete this Comment</p>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={this.DeleteModal}>
+              Close
+            </Button>
+            <Button
+              variant="primary"
+              onClick={() => {
+                this.DeleteTarget();
+                this.DeleteModal();
+              }}
+            >
+              Delete
             </Button>
           </Modal.Footer>
         </Modal>
