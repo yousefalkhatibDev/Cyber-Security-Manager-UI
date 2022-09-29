@@ -6,7 +6,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import { useParams } from "react-router-dom";
 import Moment from "moment";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGear, faNoteSticky, faPeopleArrows, faPerson } from "@fortawesome/free-solid-svg-icons";
+import { faGear, faBullseye, faAddressCard, faListCheck } from "@fortawesome/free-solid-svg-icons";
 
 // components
 import TargetCard from "../components/TargetCard";
@@ -780,9 +780,9 @@ class OperationProfile extends React.Component {
       <div className="OperationProfile">
         <ul class="OptionsContainer">
           <li><a onClick={() => { this.SettingsModal(); }}>Settings <FontAwesomeIcon icon={faGear} style={{ marginLeft: "5px" }} /></a>  </li>
-          <li><a onClick={() => { this.SwitchSlider("Targets"); }}>Targets <FontAwesomeIcon icon={faNoteSticky} style={{ marginLeft: "5px" }} /></a></li>
-          <li><a onClick={() => { this.SwitchSlider("Notes"); }}>Posts <FontAwesomeIcon icon={faPeopleArrows} style={{ marginLeft: "5px" }} /></a></li>
-          <li><a onClick={() => { this.SwitchSlider("Tasks"); }}>Tasks <FontAwesomeIcon icon={faPerson} style={{ marginLeft: "5px" }} /></a></li>
+          <li><a onClick={() => { this.SwitchSlider("Targets"); }}>Targets <FontAwesomeIcon icon={faBullseye} style={{ marginLeft: "5px" }} /></a></li>
+          <li><a onClick={() => { this.SwitchSlider("Notes"); }}>Posts <FontAwesomeIcon icon={faAddressCard} style={{ marginLeft: "5px" }} /></a></li>
+          <li><a onClick={() => { this.SwitchSlider("Tasks"); }}>Tasks <FontAwesomeIcon icon={faListCheck} style={{ marginLeft: "5px" }} /></a></li>
         </ul>
         <div class="OperationProfileContent">
           <div className="OperationProfileHeader">
