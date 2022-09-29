@@ -5,6 +5,8 @@ import Modal from "react-bootstrap/Modal";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useParams } from "react-router-dom";
 import Moment from "moment";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faGear, faNoteSticky, faPeopleArrows, faPerson } from "@fortawesome/free-solid-svg-icons";
 
 // components
 import NoteCard from "../components/NoteCard";
@@ -564,426 +566,401 @@ class TargetProfile extends React.Component {
   render() {
     return (
       <div className="TargetProfile">
-        <div className="TargetProfileHeader">
-          <img src={this.state.image} alt="user-card" />
-          <div className="TargetProfileInfo">
-            <ul>
-              <li>Name: {this.state.name}</li>
-              <li>Notes Count: {this.state.NotesCount}</li>
-              <li>Type: {this.state.type}</li>
-              <li>
-                Create Date: {Moment(this.state.CreateDate).format("MMM Do YY")}
-              </li>
-              <li>
-                Last Update: {Moment(this.state.UpdateDate).format("MMM Do YY")}
-              </li>
-              <li>Description: {this.state.description}</li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="TargetProfileSlider">
-          <div className="btns-container">
-            <button
-              className="profile-slider-btn btn btn-secondary"
-              onClick={() => {
-                this.switchSlider("Notes");
-              }}
-            >
-              Notes
-            </button>
-            <button
-              className="profile-slider-btn  btn btn-secondary"
-              onClick={() => {
-                this.switchSlider("Relations");
-              }}
-            >
-              Relations
-            </button>
-            <button
-              className="profile-slider-btn  btn btn-secondary"
-              onClick={() => {
-                this.switchSlider("RelatedBy");
-              }}
-            >
-              Related By
-            </button>
-            <button
-              className="profile-slider-btn"
-              onClick={() => {
-                this.SettingsModal();
-              }}
-            >
-              Settings
-            </button>
+        <ul class="OptionsContainer">
+          <li><a onClick={() => { this.SettingsModal(); }}>Settings <FontAwesomeIcon icon={faGear} style={{ marginLeft: "5px" }} /></a>  </li>
+          <li><a onClick={() => { this.switchSlider("Notes"); }}>Notes <FontAwesomeIcon icon={faNoteSticky} style={{ marginLeft: "5px" }} /></a></li>
+          <li><a onClick={() => { this.switchSlider("Relations"); }}>Relations <FontAwesomeIcon icon={faPeopleArrows} style={{ marginLeft: "5px" }} /></a></li>
+          <li><a onClick={() => { this.switchSlider("RelatedBy"); }}>Related By <FontAwesomeIcon icon={faPerson} style={{ marginLeft: "5px" }} /></a></li>
+        </ul>
+        <div className="TargetProfileContent">
+          <div className="TargetProfileHeader">
+            <img src={this.state.image} alt="user-card" />
+            <div className="TargetProfileInfo">
+              <ul>
+                <li style={{ fontSize: "23px" }}>{this.state.name}</li>
+                <li style={{ fontSize: "15px" }}>{this.state.description}</li>
+                <li style={{ marginTop: "10px" }}>Notes Count: {this.state.NotesCount}</li>
+                <li>Type: {this.state.type}</li>
+                <li>
+                  Create Date: {Moment(this.state.CreateDate).format("MMM Do YY")}
+                </li>
+                <li>
+                  Last Update: {Moment(this.state.UpdateDate).format("MMM Do YY")}
+                </li>
+              </ul>
+            </div>
           </div>
 
-          <div
-            className="NotesSlide"
-            style={{ display: this.state.NotesTab ? null : "none" }}
-          >
-            <div className="SearchContainer">
+          <div className="TargetProfileSlider">
+
+
+            <div
+              className="NotesSlide"
+              style={{ display: this.state.NotesTab ? null : "none" }}
+            >
+              <div className="SearchContainer">
+                <div>
+                  <button disabled>Search</button>
+                  <input
+                    placeholder="Search by title or description"
+                    type="text"
+                    className="Search"
+                    onChange={this.UpdateSearchNotes}
+                  />
+                </div>
+                <div style={{ marginLeft: "20px" }}>
+                  <button disabled>Sort by</button>
+                  <select className="Sort" onChange={this.UpdateFilterNotes}>
+                    <option value="all">All</option>
+                    <option value="title">Title</option>
+                    <option value="date">Date</option>
+                  </select>
+                </div>
+                <button className="NewObject" onClick={this.NotesModal}>
+                  New Note
+                </button>
+              </div>
+
               <div>
-                <button disabled>Search</button>
-                <input
-                  placeholder="Search by title or description"
-                  type="text"
-                  className="Search"
-                  onChange={this.UpdateSearchNotes}
-                />
+                {this.state.notes.map((note, i) => {
+                  return (
+                    <NoteCard
+                      key={i}
+                      id={note.n_id}
+                      title={note.n_title}
+                      text={note.n_text}
+                      type={note.n_type}
+                      author={note.u_name}
+                      CreateDate={note.n_create_date}
+                      UpdateDate={note.n_update_date}
+                      GetNotes={this.GetNotes}
+                      GetNotesCount={this.GetNotesCount}
+                    />
+                  );
+                })}
               </div>
-              <div style={{ marginLeft: "20px" }}>
-                <button disabled>Sort by</button>
-                <select className="Sort" onChange={this.UpdateFilterNotes}>
-                  <option value="all">All</option>
-                  <option value="title">Title</option>
-                  <option value="date">Date</option>
-                </select>
-              </div>
-              <button className="NewObject" onClick={this.NotesModal}>
-                New Note
-              </button>
             </div>
 
-            <div>
-              {this.state.notes.map((note, i) => {
+            <div
+              className="RelationSlide"
+              style={{ display: this.state.RelationsTab ? null : "none" }}
+            >
+              <div className="SearchContainer">
+                <div>
+                  <button disabled>Search</button>
+                  <input
+                    placeholder="Search by title or description"
+                    type="text"
+                    className="Search"
+                    onChange={this.UpdateSearchRelations}
+                  />
+                </div>
+                <div style={{ marginLeft: "20px" }}>
+                  <button disabled>Sort by</button>
+                  <select className="Sort" onChange={this.UpdateFilterRelations}>
+                    <option value="all">All</option>
+                    <option value="name">Name</option>
+                    <option value="date">Date</option>
+                  </select>
+                </div>
+                <button className="NewObject" onClick={this.RelationsModal}>
+                  New Relation
+                </button>
+              </div>
+              {this.state.relations.map((relation, i) => {
                 return (
-                  <NoteCard
+                  <TargetCard
                     key={i}
-                    id={note.n_id}
-                    title={note.n_title}
-                    text={note.n_text}
-                    type={note.n_type}
-                    author={note.u_name}
-                    CreateDate={note.n_create_date}
-                    UpdateDate={note.n_update_date}
-                    GetNotes={this.GetNotes}
-                    GetNotesCount={this.GetNotesCount}
+                    id={relation.t_id}
+                    name={relation.t_name}
+                    description={relation.t_description}
+                    type={relation.t_type}
+                    relation={relation.r_type}
+                    CreateDate={relation.t_create_date}
+                    UpdateDate={relation.t_update_date}
+                  />
+                );
+              })}
+            </div>
+
+            <div
+              className="RelatedBySlide"
+              style={{ display: this.state.RelatedByTab ? null : "none" }}
+            >
+              <div className="SearchContainer">
+                <div>
+                  <button disabled>Search</button>
+                  <input
+                    placeholder="Search by title or description"
+                    type="text"
+                    className="Search"
+                    onChange={this.UpdateSearchRelatedByTargets}
+                  />
+                </div>
+                <div style={{ marginLeft: "20px" }}>
+                  <button disabled>Sort by</button>
+                  <select
+                    className="Sort"
+                    onChange={this.UpdateFilterRelatedByTargets}
+                  >
+                    <option value="all">All</option>
+                    <option value="name">Name</option>
+                    <option value="date">Date</option>
+                  </select>
+                </div>
+              </div>
+              {this.state.RelatedBY.map((relation, i) => {
+                return (
+                  <TargetCard
+                    key={i}
+                    id={relation.t_id}
+                    name={relation.t_name}
+                    description={relation.t_description}
+                    type={relation.t_type}
+                    relation={relation.r_type}
+                    CreateDate={relation.t_create_date}
+                    UpdateDate={relation.t_update_date}
                   />
                 );
               })}
             </div>
           </div>
 
-          <div
-            className="RelationSlide"
-            style={{ display: this.state.RelationsTab ? null : "none" }}
-          >
-            <div className="SearchContainer">
-              <div>
-                <button disabled>Search</button>
-                <input
-                  placeholder="Search by title or description"
-                  type="text"
-                  className="Search"
-                  onChange={this.UpdateSearchRelations}
-                />
-              </div>
-              <div style={{ marginLeft: "20px" }}>
-                <button disabled>Sort by</button>
-                <select className="Sort" onChange={this.UpdateFilterRelations}>
-                  <option value="all">All</option>
-                  <option value="name">Name</option>
-                  <option value="date">Date</option>
-                </select>
-              </div>
-              <button className="NewObject" onClick={this.RelationsModal}>
-                New Relation
-              </button>
-            </div>
-            {this.state.relations.map((relation, i) => {
-              return (
-                <TargetCard
-                  key={i}
-                  id={relation.t_id}
-                  name={relation.t_name}
-                  description={relation.t_description}
-                  type={relation.t_type}
-                  relation={relation.r_type}
-                  CreateDate={relation.t_create_date}
-                  UpdateDate={relation.t_update_date}
-                />
-              );
-            })}
-          </div>
-
-          <div
-            className="RelatedBySlide"
-            style={{ display: this.state.RelatedByTab ? null : "none" }}
-          >
-            <div className="SearchContainer">
-              <div>
-                <button disabled>Search</button>
-                <input
-                  placeholder="Search by title or description"
-                  type="text"
-                  className="Search"
-                  onChange={this.UpdateSearchRelatedByTargets}
-                />
-              </div>
-              <div style={{ marginLeft: "20px" }}>
-                <button disabled>Sort by</button>
-                <select
-                  className="Sort"
-                  onChange={this.UpdateFilterRelatedByTargets}
+          <Modal show={this.state.NotesModal} onHide={this.NotesModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>New Note</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
                 >
-                  <option value="all">All</option>
-                  <option value="name">Name</option>
-                  <option value="date">Date</option>
-                </select>
-              </div>
-            </div>
-            {this.state.RelatedBY.map((relation, i) => {
-              return (
-                <TargetCard
-                  key={i}
-                  id={relation.t_id}
-                  name={relation.t_name}
-                  description={relation.t_description}
-                  type={relation.t_type}
-                  relation={relation.r_type}
-                  CreateDate={relation.t_create_date}
-                  UpdateDate={relation.t_update_date}
-                />
-              );
-            })}
-          </div>
+                  <Form.Label>Title</Form.Label>
+                  <Form.Control
+                    type="text"
+                    autoFocus
+                    onChange={this.UpdateNoteTitle}
+                  />
+                </Form.Group>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Type</Form.Label>
+                  <Form.Control
+                    type="text"
+                    autoFocus
+                    onChange={this.UpdateNoteType}
+                  />
+                </Form.Group>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlTextarea1"
+                >
+                  <Form.Label>Content</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    onChange={this.UpdateNoteText}
+                  />
+                </Form.Group>
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={this.NotesModal}>
+                Close
+              </Button>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  this.UploadNote();
+                  this.NotesModal();
+                }}
+              >
+                Save Note
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
+          <Modal show={this.state.RelationsModal} onHide={this.RelationsModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>New Relation</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Relation Type</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="e.g. Alpha, Bravo"
+                    autoFocus
+                    onChange={this.UpdateRelationType}
+                  />
+                </Form.Group>
+
+                <Dropdown>
+                  <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                    {this.state.NewRelation.RelatedTargetName}
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu>
+                    {this.state.targets.map((target, i) => {
+                      return (
+                        <Dropdown.Item
+                          key={i}
+                          onClick={() => {
+                            this.UpdateRelationRelatedTarget(target.t_id);
+                            this.UpdateRelationRelatedTargetName(target.t_name);
+                          }}
+                        >
+                          {target.t_name}
+                        </Dropdown.Item>
+                      );
+                    })}
+                  </Dropdown.Menu>
+                </Dropdown>
+
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlTextarea1"
+                >
+                  <Form.Label>Description</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    onChange={this.UpdateRelationDescription}
+                  />
+                </Form.Group>
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={this.RelationsModal}>
+                Close
+              </Button>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  this.UploadRelation();
+                  this.RelationsModal();
+                }}
+              >
+                Save Relation
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
+          <Modal
+            size="lg"
+            show={this.state.SettingsModal}
+            onHide={this.SettingsModal}
+            aria-labelledby="example-modal-sizes-title-lg"
+          >
+            <Modal.Header closeButton>
+              <Modal.Title id="example-modal-sizes-title-lg">
+                Large Modal
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <button className="NewObject btn btn-info" onClick={this.InfoModal} style={{ display: "block", margin: "10px" }}>
+                Update information
+              </button>
+              <button className="NewObject btn btn-danger" onClick={this.DeleteModal} style={{ display: "block", margin: "10px", marginTop: "20px" }}>
+                Delete Target
+              </button>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={this.SettingsModal}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
+          <Modal show={this.state.InfoModal} onHide={this.InfoModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>New Info</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Target Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    autoFocus
+                    onChange={this.UpdateNewInfoName}
+                  />
+                </Form.Group>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Target Description</Form.Label>
+                  <Form.Control
+                    type="text"
+                    autoFocus
+                    onChange={this.UpdateNewInfoDescription}
+                  />
+                </Form.Group>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Target Location</Form.Label>
+                  <Form.Control
+                    type="text"
+                    autoFocus
+                    onChange={this.UpdateNewInfoLocation}
+                  />
+                </Form.Group>
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={this.InfoModal}>
+                Close
+              </Button>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  this.UploadNewInfo();
+                  this.InfoModal();
+                }}
+              >
+                Save
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
+          <Modal show={this.state.DeleteModal} onHide={this.DeleteModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>Delete Operation</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form>
+                <p>Are you sure you want to delete this Comment</p>
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={this.DeleteModal}>
+                Close
+              </Button>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  this.DeleteTarget();
+                  this.DeleteModal();
+                }}
+              >
+                Delete
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </div>
-
-        <Modal show={this.state.NotesModal} onHide={this.NotesModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>New Note</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Title</Form.Label>
-                <Form.Control
-                  type="text"
-                  autoFocus
-                  onChange={this.UpdateNoteTitle}
-                />
-              </Form.Group>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Type</Form.Label>
-                <Form.Control
-                  type="text"
-                  autoFocus
-                  onChange={this.UpdateNoteType}
-                />
-              </Form.Group>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlTextarea1"
-              >
-                <Form.Label>Content</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={3}
-                  onChange={this.UpdateNoteText}
-                />
-              </Form.Group>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.NotesModal}>
-              Close
-            </Button>
-            <Button
-              variant="primary"
-              onClick={() => {
-                this.UploadNote();
-                this.NotesModal();
-              }}
-            >
-              Save Note
-            </Button>
-          </Modal.Footer>
-        </Modal>
-
-        <Modal show={this.state.RelationsModal} onHide={this.RelationsModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>New Relation</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Relation Type</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="e.g. Alpha, Bravo"
-                  autoFocus
-                  onChange={this.UpdateRelationType}
-                />
-              </Form.Group>
-
-              <Dropdown>
-                <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                  {this.state.NewRelation.RelatedTargetName}
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu>
-                  {this.state.targets.map((target, i) => {
-                    return (
-                      <Dropdown.Item
-                        key={i}
-                        onClick={() => {
-                          this.UpdateRelationRelatedTarget(target.t_id);
-                          this.UpdateRelationRelatedTargetName(target.t_name);
-                        }}
-                      >
-                        {target.t_name}
-                      </Dropdown.Item>
-                    );
-                  })}
-                </Dropdown.Menu>
-              </Dropdown>
-
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlTextarea1"
-              >
-                <Form.Label>Description</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={3}
-                  onChange={this.UpdateRelationDescription}
-                />
-              </Form.Group>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.RelationsModal}>
-              Close
-            </Button>
-            <Button
-              variant="primary"
-              onClick={() => {
-                this.UploadRelation();
-                this.RelationsModal();
-              }}
-            >
-              Save Relation
-            </Button>
-          </Modal.Footer>
-        </Modal>
-
-        <Modal
-          size="lg"
-          show={this.state.SettingsModal}
-          onHide={this.SettingsModal}
-          aria-labelledby="example-modal-sizes-title-lg"
-        >
-          <Modal.Header closeButton>
-            <Modal.Title id="example-modal-sizes-title-lg">
-              Large Modal
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <button className="NewObject" onClick={this.InfoModal}>
-              Update information
-            </button>
-            <button className="NewObject" onClick={this.DeleteModal}>
-              Delete Target
-            </button>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.SettingsModal}>
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal>
-
-        <Modal show={this.state.InfoModal} onHide={this.InfoModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>New Info</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Target Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  autoFocus
-                  onChange={this.UpdateNewInfoName}
-                />
-              </Form.Group>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Target Description</Form.Label>
-                <Form.Control
-                  type="text"
-                  autoFocus
-                  onChange={this.UpdateNewInfoDescription}
-                />
-              </Form.Group>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Target Location</Form.Label>
-                <Form.Control
-                  type="text"
-                  autoFocus
-                  onChange={this.UpdateNewInfoLocation}
-                />
-              </Form.Group>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.InfoModal}>
-              Close
-            </Button>
-            <Button
-              variant="primary"
-              onClick={() => {
-                this.UploadNewInfo();
-                this.InfoModal();
-              }}
-            >
-              Save
-            </Button>
-          </Modal.Footer>
-        </Modal>
-
-        <Modal show={this.state.DeleteModal} onHide={this.DeleteModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>Delete Operation</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form>
-              <p>Are you sure you want to delete this Comment</p>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.DeleteModal}>
-              Close
-            </Button>
-            <Button
-              variant="primary"
-              onClick={() => {
-                this.DeleteTarget();
-                this.DeleteModal();
-              }}
-            >
-              Delete
-            </Button>
-          </Modal.Footer>
-        </Modal>
       </div>
     );
   }

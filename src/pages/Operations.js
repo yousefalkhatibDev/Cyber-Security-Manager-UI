@@ -204,7 +204,7 @@ class Operations extends React.Component {
 
         <div className="SearchContainer">
           <div>
-            <button>Search</button>
+            <button disabled>Search</button>
             <input
               placeholder="Search by name or description"
               type="text"
