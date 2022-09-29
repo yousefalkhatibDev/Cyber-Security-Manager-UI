@@ -5,6 +5,8 @@ import Modal from "react-bootstrap/Modal";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useParams } from "react-router-dom";
 import Moment from "moment";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faGear, faNoteSticky, faPeopleArrows, faPerson } from "@fortawesome/free-solid-svg-icons";
 
 // components
 import TargetCard from "../components/TargetCard";
@@ -776,708 +778,682 @@ class OperationProfile extends React.Component {
   render() {
     return (
       <div className="OperationProfile">
-        <div className="OperationProfileHeader">
-          <img src={this.state.image} alt="user-card" />
-          <div className="OperationProfileInfo">
-            <ul>
-              <li>Name: {this.state.name}</li>
-              <li>Members Count: {this.state.MembersCount}</li>
-              <li>Targets Count: {this.state.TargetsCount}</li>
-              <li>Posts Count: {this.state.PostsCount}</li>
-              <li>State: {this.state.state}</li>
-              <li>
-                Create Date: {Moment(this.state.CreateDate).format("MMM Do YY")}
-              </li>
-              <li>Description: {this.state.description}</li>
-            </ul>
+        <ul class="OptionsContainer">
+          <li><a onClick={() => { this.SettingsModal(); }}>Settings <FontAwesomeIcon icon={faGear} style={{ marginLeft: "5px" }} /></a>  </li>
+          <li><a onClick={() => { this.SwitchSlider("Targets"); }}>Targets <FontAwesomeIcon icon={faNoteSticky} style={{ marginLeft: "5px" }} /></a></li>
+          <li><a onClick={() => { this.SwitchSlider("Notes"); }}>Posts <FontAwesomeIcon icon={faPeopleArrows} style={{ marginLeft: "5px" }} /></a></li>
+          <li><a onClick={() => { this.SwitchSlider("Tasks"); }}>Tasks <FontAwesomeIcon icon={faPerson} style={{ marginLeft: "5px" }} /></a></li>
+        </ul>
+        <div class="OperationProfileContent">
+          <div className="OperationProfileHeader">
+            <img src={this.state.image} alt="user-card" />
+            <div className="OperationProfileInfo">
+              <ul>
+                <li>Name: {this.state.name}</li>
+                <li>Members Count: {this.state.MembersCount}</li>
+                <li>Targets Count: {this.state.TargetsCount}</li>
+                <li>Posts Count: {this.state.PostsCount}</li>
+                <li>State: {this.state.state}</li>
+                <li>
+                  Create Date: {Moment(this.state.CreateDate).format("MMM Do YY")}
+                </li>
+                <li>Description: {this.state.description}</li>
+              </ul>
+            </div>
           </div>
+
+          <div className="OperationProfileSlider">
+
+            <div
+              className="PostsSlide"
+              style={{ display: this.state.PostsTab ? null : "none" }}
+            >
+              <div className="SearchContainer">
+                <div>
+                  <button disabled>Search</button>
+                  <input
+                    placeholder="Search by title or description"
+                    type="text"
+                    className="Search"
+                    onChange={this.UpdateSearchPosts}
+                  />
+                </div>
+                <div style={{ marginLeft: "20px" }}>
+                  <button disabled>Sort by</button>
+                  <select className="Sort" onChange={this.UpdateFilterPosts}>
+                    <option value="all">All</option>
+                    <option value="newest_to_older">Newest to Older</option>
+                    <option value="older_to_newest">Older to Newest</option>
+                  </select>
+                </div>
+                <button className="NewObject" onClick={this.PostModal}>
+                  New Post
+                </button>
+              </div>
+
+              {this.state.posts.map((post, i) => {
+                return (
+                  <Post
+                    key={i}
+                    id={post.p_id}
+                    title={post.p_title}
+                    text={post.p_text}
+                    author={post.u_name}
+                    GetPosts={this.GetPosts}
+                    GetPostsCount={this.GetPostsCount}
+                  />
+                );
+              })}
+            </div>
+
+            <div
+              className="TargetsSlide"
+              style={{ display: this.state.TargetsTab ? null : "none" }}
+            >
+              <div className="SearchContainer">
+                <div>
+                  <button disabled>Search</button>
+                  <input
+                    placeholder="Search by title or description"
+                    type="text"
+                    className="Search"
+                    onChange={this.UpdateSearchTargets}
+                  />
+                </div>
+                <div style={{ marginLeft: "20px" }}>
+                  <button disabled>Sort by</button>
+                  <select className="Sort" onChange={this.UpdateFilterTargets}>
+                    <option value="all">All</option>
+                    <option value="name">Name</option>
+                    <option value="date">Date</option>
+                  </select>
+                </div>
+                <button className="NewObject" onClick={this.TargetModal}>
+                  New Target
+                </button>
+              </div>
+              {this.state.targets.map((target, i) => {
+                return (
+                  <TargetCard
+                    key={i}
+                    id={target.t_id}
+                    name={target.t_name}
+                    description={target.t_description}
+                    type={target.t_type}
+                    CreateDate={target.t_create_date}
+                    UpdateDate={target.t_update_date}
+                  />
+                );
+              })}
+            </div>
+
+            <div
+              className="TasksSlide"
+              style={{ display: this.state.TasksTab ? null : "none" }}
+            >
+              <div className="SearchContainer">
+                <div>
+                  <button disabled>Search</button>
+                  <input
+                    placeholder="Search by title or description"
+                    type="text"
+                    className="Search"
+                    onChange={this.UpdatesearchTask}
+                  />
+                </div>
+                <div style={{ marginLeft: "20px" }}>
+                  <button disabled>Sort by</button>
+                  <select className="Sort" onChange={this.UpdateFilterTasks}>
+                    <option value="all">All</option>
+                    <option value="older_to_newest">Older to Newest</option>
+                    <option value="my_tasks">My Tasks</option>
+                  </select>
+                </div>
+                <button className="NewObject" onClick={this.TaskModal}>
+                  New Task
+                </button>
+              </div>
+              {this.state.tasks.map((task, i) => {
+                return (
+                  <TaskCard
+                    key={i}
+                    id={task.tk_id}
+                    title={task.tk_title}
+                    text={task.tk_content}
+                    agent={task.u_name}
+                    refresh={this.GetTasks}
+                    CreateDate={task.tk_create_date}
+                    UpdateDate={task.tk_update_date}
+                  />
+                );
+              })}
+            </div>
+          </div>
+
+          <Modal show={this.state.PostModal} onHide={this.PostModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>New Post</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Title</Form.Label>
+                  <Form.Control
+                    type="text"
+                    autoFocus
+                    onChange={this.UpdatePostTitle}
+                  />
+                </Form.Group>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlTextarea1"
+                >
+                  <Form.Label>Content</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    onChange={this.UpdatePostText}
+                  />
+                </Form.Group>
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={this.PostModal}>
+                Close
+              </Button>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  this.UploadPost();
+                  this.PostModal();
+                }}
+              >
+                Save Post
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
+          <Modal show={this.state.TargetModal} onHide={this.TargetModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>New Target</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    autoFocus
+                    onChange={this.UpdateTargetName}
+                  />
+                </Form.Group>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Target Image</Form.Label>
+                  <Form.Control
+                    type="file"
+                    autoFocus
+                    onChange={this.convertToBase64}
+                    id="inputFile"
+                    name="inputFile"
+                    accept="application/pdf, application/vnd.ms-excel, image/*"
+                  />
+                </Form.Group>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Location</Form.Label>
+                  <Form.Control
+                    type="text"
+                    autoFocus
+                    onChange={this.UpdateTargetLocation}
+                  />
+                </Form.Group>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Dropdown>
+                    <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                      {this.state.NewTarget.type}
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                      <Dropdown.Item
+                        onClick={() => this.UpdateTargetType("server")}
+                      >
+                        Server
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        onClick={() => this.UpdateTargetType("individual")}
+                      >
+                        Individual
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        onClick={() => this.UpdateTargetType("organization")}
+                      >
+                        Organization
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        onClick={() => this.UpdateTargetType("service")}
+                      >
+                        Service
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        onClick={() => this.UpdateTargetType("website")}
+                      >
+                        Website
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        onClick={() => this.UpdateTargetType("other")}
+                      >
+                        Other
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </Form.Group>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlTextarea1"
+                >
+                  <Form.Label>Description</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    placeholder="about the target"
+                    rows={3}
+                    onChange={this.UpdateTargetDescription}
+                  />
+                </Form.Group>
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={this.TargetModal}>
+                Close
+              </Button>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  this.UploadTarget();
+                  this.TargetModal();
+                }}
+              >
+                Save Target
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
+          <Modal show={this.state.TaskModal} onHide={this.TaskModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>New Task</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Title</Form.Label>
+                  <Form.Control
+                    type="text"
+                    autoFocus
+                    onChange={this.UpdateTaskTitle}
+                  />
+                </Form.Group>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Dropdown>
+                    <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                      {this.state.NewTask.AgentName}
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                      {this.state.members.map((member, i) => {
+                        return (
+                          <Dropdown.Item
+                            key={i}
+                            onClick={() =>
+                              this.UpdateTaskMember(member.u_id, member.u_name)
+                            }
+                          >
+                            {member.u_name}
+                          </Dropdown.Item>
+                        );
+                      })}
+                    </Dropdown.Menu>
+                  </Dropdown>
+                  <Dropdown>
+                    <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                      {this.state.NewTask.state}
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                      <Dropdown.Item
+                        onClick={() => {
+                          this.UpdateTaskState("to do");
+                        }}
+                      >
+                        To Do
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        onClick={() => {
+                          this.UpdateTaskState("in progress");
+                        }}
+                      >
+                        In Progress
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        onClick={() => {
+                          this.UpdateTaskState("done");
+                        }}
+                      >
+                        Done
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </Form.Group>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlTextarea1"
+                >
+                  <Form.Label>Description</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    onChange={this.UpdateTaskDescription}
+                  />
+                </Form.Group>
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={this.TaskModal}>
+                Close
+              </Button>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  this.UploadTask();
+                  this.TaskModal();
+                }}
+              >
+                Save Task
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
+          <Modal show={this.state.MemberModal} onHide={this.MemberModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>New Member</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>User ID</Form.Label>
+                  <Form.Control
+                    type="text"
+                    autoFocus
+                    onChange={this.UpdateMemberID}
+                  />
+                </Form.Group>
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={this.MemberModal}>
+                Close
+              </Button>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  this.UploadMemeber();
+                  this.MemberModal();
+                }}
+              >
+                Add Member
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
+          <Modal show={this.state.TaskModal} onHide={this.TaskModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>New Task</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Title</Form.Label>
+                  <Form.Control
+                    type="text"
+                    autoFocus
+                    onChange={this.UpdateTaskTitle}
+                  />
+                </Form.Group>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Dropdown>
+                    <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                      {this.state.NewTask.AgentName}
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                      {this.state.members.map((member, i) => {
+                        return (
+                          <Dropdown.Item
+                            key={i}
+                            onClick={() =>
+                              this.UpdateTaskMember(member.u_id, member.u_name)
+                            }
+                          >
+                            {member.u_name}
+                          </Dropdown.Item>
+                        );
+                      })}
+                    </Dropdown.Menu>
+                  </Dropdown>
+                  <Dropdown>
+                    <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                      {this.state.NewTask.state}
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                      <Dropdown.Item
+                        onClick={() => {
+                          this.UpdateTaskState("to do");
+                        }}
+                      >
+                        To Do
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        onClick={() => {
+                          this.UpdateTaskState("in progress");
+                        }}
+                      >
+                        In Progress
+                      </Dropdown.Item>
+                      <Dropdown.Item
+                        onClick={() => {
+                          this.UpdateTaskState("done");
+                        }}
+                      >
+                        Done
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </Form.Group>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlTextarea1"
+                >
+                  <Form.Label>Description</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    onChange={this.UpdateTaskDescription}
+                  />
+                </Form.Group>
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={this.TaskModal}>
+                Close
+              </Button>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  this.UploadTask();
+                  this.TaskModal();
+                }}
+              >
+                Save Task
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
+          <Modal
+            show={this.state.SettingsModal}
+            size="lg"
+            onHide={this.SettingsModal}
+            aria-labelledby="example-modal-sizes-title-lg"
+          >
+            <Modal.Header closeButton>
+              <Modal.Title id="example-modal-sizes-title-lg">
+                Large Modal
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <button className="NewObject" onClick={this.MemberModal}>
+                New Members
+              </button>
+              <button className="NewObject" onClick={this.StateModal}>
+                Switch State
+              </button>
+              <button className="NewObject" onClick={this.InfoModal}>
+                Update information
+              </button>
+              <button className="NewObject" onClick={this.DeleteModal}>
+                Delete Operation
+              </button>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={this.SettingsModal}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
+          <Modal show={this.state.DeleteModal} onHide={this.DeleteModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>Delete Operation</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form>
+                <p>Are you sure you want to delete this Comment</p>
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={this.DeleteModal}>
+                Close
+              </Button>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  this.DeleteOperation();
+                  this.DeleteModal();
+                }}
+              >
+                Delete
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
+          <Modal show={this.state.StateModal} onHide={this.StateModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>State</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Switch State</Form.Label>
+                  <select className="Sort" onChange={this.UpdateOperationState}>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                  </select>
+                </Form.Group>
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={this.StateModal}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
+          <Modal show={this.state.InfoModal} onHide={this.InfoModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>New Info</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Operation Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    autoFocus
+                    onChange={this.UpdateNewInfoName}
+                  />
+                </Form.Group>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Operation Description</Form.Label>
+                  <Form.Control
+                    type="text"
+                    autoFocus
+                    onChange={this.UpdateNewInfoDescription}
+                  />
+                </Form.Group>
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={this.InfoModal}>
+                Close
+              </Button>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  this.UploadNewInfo();
+                  this.InfoModal();
+                }}
+              >
+                Save
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </div>
-
-        <div className="OperationProfileSlider">
-          <div>
-            <button
-              className="profile-slider-btn  btn btn-secondary"
-              onClick={() => {
-                this.SwitchSlider("Notes");
-              }}
-            >
-              Posts
-            </button>
-            <button
-              className="profile-slider-btn  btn btn-secondary"
-              onClick={() => {
-                this.SwitchSlider("Targets");
-              }}
-            >
-              Targets
-            </button>
-            <button
-              className="profile-slider-btn  btn btn-secondary"
-              onClick={() => {
-                this.SwitchSlider("Tasks");
-              }}
-            >
-              Tasks
-            </button>
-            <button
-              className="profile-slider-btn"
-              onClick={() => {
-                this.SettingsModal();
-              }}
-            >
-              Settings
-            </button>
-          </div>
-
-          <div
-            className="PostsSlide"
-            style={{ display: this.state.PostsTab ? null : "none" }}
-          >
-            <div className="SearchContainer">
-              <div>
-                <button disabled>Search</button>
-                <input
-                  placeholder="Search by title or description"
-                  type="text"
-                  className="Search"
-                  onChange={this.UpdateSearchPosts}
-                />
-              </div>
-              <div style={{ marginLeft: "20px" }}>
-                <button disabled>Sort by</button>
-                <select className="Sort" onChange={this.UpdateFilterPosts}>
-                  <option value="all">All</option>
-                  <option value="newest_to_older">Newest to Older</option>
-                  <option value="older_to_newest">Older to Newest</option>
-                </select>
-              </div>
-              <button className="NewObject" onClick={this.PostModal}>
-                New Post
-              </button>
-            </div>
-
-            {this.state.posts.map((post, i) => {
-              return (
-                <Post
-                  key={i}
-                  id={post.p_id}
-                  title={post.p_title}
-                  text={post.p_text}
-                  author={post.u_name}
-                  GetPosts={this.GetPosts}
-                  GetPostsCount={this.GetPostsCount}
-                />
-              );
-            })}
-          </div>
-
-          <div
-            className="TargetsSlide"
-            style={{ display: this.state.TargetsTab ? null : "none" }}
-          >
-            <div className="SearchContainer">
-              <div>
-                <button disabled>Search</button>
-                <input
-                  placeholder="Search by title or description"
-                  type="text"
-                  className="Search"
-                  onChange={this.UpdateSearchTargets}
-                />
-              </div>
-              <div style={{ marginLeft: "20px" }}>
-                <button disabled>Sort by</button>
-                <select className="Sort" onChange={this.UpdateFilterTargets}>
-                  <option value="all">All</option>
-                  <option value="name">Name</option>
-                  <option value="date">Date</option>
-                </select>
-              </div>
-              <button className="NewObject" onClick={this.TargetModal}>
-                New Target
-              </button>
-            </div>
-            {this.state.targets.map((target, i) => {
-              return (
-                <TargetCard
-                  key={i}
-                  id={target.t_id}
-                  name={target.t_name}
-                  description={target.t_description}
-                  type={target.t_type}
-                  CreateDate={target.t_create_date}
-                  UpdateDate={target.t_update_date}
-                />
-              );
-            })}
-          </div>
-
-          <div
-            className="TasksSlide"
-            style={{ display: this.state.TasksTab ? null : "none" }}
-          >
-            <div className="SearchContainer">
-              <div>
-                <button disabled>Search</button>
-                <input
-                  placeholder="Search by title or description"
-                  type="text"
-                  className="Search"
-                  onChange={this.UpdatesearchTask}
-                />
-              </div>
-              <div style={{ marginLeft: "20px" }}>
-                <button disabled>Sort by</button>
-                <select className="Sort" onChange={this.UpdateFilterTasks}>
-                  <option value="all">All</option>
-                  <option value="older_to_newest">Older to Newest</option>
-                  <option value="my_tasks">My Tasks</option>
-                </select>
-              </div>
-              <button className="NewObject" onClick={this.TaskModal}>
-                New Task
-              </button>
-            </div>
-            {this.state.tasks.map((task, i) => {
-              return (
-                <TaskCard
-                  key={i}
-                  id={task.tk_id}
-                  title={task.tk_title}
-                  text={task.tk_content}
-                  agent={task.u_name}
-                  refresh={this.GetTasks}
-                  CreateDate={task.tk_create_date}
-                  UpdateDate={task.tk_update_date}
-                />
-              );
-            })}
-          </div>
-        </div>
-
-        <Modal show={this.state.PostModal} onHide={this.PostModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>New Post</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Title</Form.Label>
-                <Form.Control
-                  type="text"
-                  autoFocus
-                  onChange={this.UpdatePostTitle}
-                />
-              </Form.Group>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlTextarea1"
-              >
-                <Form.Label>Content</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={3}
-                  onChange={this.UpdatePostText}
-                />
-              </Form.Group>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.PostModal}>
-              Close
-            </Button>
-            <Button
-              variant="primary"
-              onClick={() => {
-                this.UploadPost();
-                this.PostModal();
-              }}
-            >
-              Save Post
-            </Button>
-          </Modal.Footer>
-        </Modal>
-
-        <Modal show={this.state.TargetModal} onHide={this.TargetModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>New Target</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  autoFocus
-                  onChange={this.UpdateTargetName}
-                />
-              </Form.Group>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Target Image</Form.Label>
-                <Form.Control
-                  type="file"
-                  autoFocus
-                  onChange={this.convertToBase64}
-                  id="inputFile"
-                  name="inputFile"
-                  accept="application/pdf, application/vnd.ms-excel, image/*"
-                />
-              </Form.Group>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Location</Form.Label>
-                <Form.Control
-                  type="text"
-                  autoFocus
-                  onChange={this.UpdateTargetLocation}
-                />
-              </Form.Group>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Dropdown>
-                  <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                    {this.state.NewTarget.type}
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu>
-                    <Dropdown.Item
-                      onClick={() => this.UpdateTargetType("server")}
-                    >
-                      Server
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      onClick={() => this.UpdateTargetType("individual")}
-                    >
-                      Individual
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      onClick={() => this.UpdateTargetType("organization")}
-                    >
-                      Organization
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      onClick={() => this.UpdateTargetType("service")}
-                    >
-                      Service
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      onClick={() => this.UpdateTargetType("website")}
-                    >
-                      Website
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      onClick={() => this.UpdateTargetType("other")}
-                    >
-                      Other
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </Form.Group>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlTextarea1"
-              >
-                <Form.Label>Description</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  placeholder="about the target"
-                  rows={3}
-                  onChange={this.UpdateTargetDescription}
-                />
-              </Form.Group>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.TargetModal}>
-              Close
-            </Button>
-            <Button
-              variant="primary"
-              onClick={() => {
-                this.UploadTarget();
-                this.TargetModal();
-              }}
-            >
-              Save Target
-            </Button>
-          </Modal.Footer>
-        </Modal>
-
-        <Modal show={this.state.TaskModal} onHide={this.TaskModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>New Task</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Title</Form.Label>
-                <Form.Control
-                  type="text"
-                  autoFocus
-                  onChange={this.UpdateTaskTitle}
-                />
-              </Form.Group>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Dropdown>
-                  <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                    {this.state.NewTask.AgentName}
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu>
-                    {this.state.members.map((member, i) => {
-                      return (
-                        <Dropdown.Item
-                          key={i}
-                          onClick={() =>
-                            this.UpdateTaskMember(member.u_id, member.u_name)
-                          }
-                        >
-                          {member.u_name}
-                        </Dropdown.Item>
-                      );
-                    })}
-                  </Dropdown.Menu>
-                </Dropdown>
-                <Dropdown>
-                  <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                    {this.state.NewTask.state}
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu>
-                    <Dropdown.Item
-                      onClick={() => {
-                        this.UpdateTaskState("to do");
-                      }}
-                    >
-                      To Do
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      onClick={() => {
-                        this.UpdateTaskState("in progress");
-                      }}
-                    >
-                      In Progress
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      onClick={() => {
-                        this.UpdateTaskState("done");
-                      }}
-                    >
-                      Done
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </Form.Group>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlTextarea1"
-              >
-                <Form.Label>Description</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={3}
-                  onChange={this.UpdateTaskDescription}
-                />
-              </Form.Group>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.TaskModal}>
-              Close
-            </Button>
-            <Button
-              variant="primary"
-              onClick={() => {
-                this.UploadTask();
-                this.TaskModal();
-              }}
-            >
-              Save Task
-            </Button>
-          </Modal.Footer>
-        </Modal>
-
-        <Modal show={this.state.MemberModal} onHide={this.MemberModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>New Member</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>User ID</Form.Label>
-                <Form.Control
-                  type="text"
-                  autoFocus
-                  onChange={this.UpdateMemberID}
-                />
-              </Form.Group>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.MemberModal}>
-              Close
-            </Button>
-            <Button
-              variant="primary"
-              onClick={() => {
-                this.UploadMemeber();
-                this.MemberModal();
-              }}
-            >
-              Add Member
-            </Button>
-          </Modal.Footer>
-        </Modal>
-
-        <Modal show={this.state.TaskModal} onHide={this.TaskModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>New Task</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Title</Form.Label>
-                <Form.Control
-                  type="text"
-                  autoFocus
-                  onChange={this.UpdateTaskTitle}
-                />
-              </Form.Group>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Dropdown>
-                  <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                    {this.state.NewTask.AgentName}
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu>
-                    {this.state.members.map((member, i) => {
-                      return (
-                        <Dropdown.Item
-                          key={i}
-                          onClick={() =>
-                            this.UpdateTaskMember(member.u_id, member.u_name)
-                          }
-                        >
-                          {member.u_name}
-                        </Dropdown.Item>
-                      );
-                    })}
-                  </Dropdown.Menu>
-                </Dropdown>
-                <Dropdown>
-                  <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                    {this.state.NewTask.state}
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu>
-                    <Dropdown.Item
-                      onClick={() => {
-                        this.UpdateTaskState("to do");
-                      }}
-                    >
-                      To Do
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      onClick={() => {
-                        this.UpdateTaskState("in progress");
-                      }}
-                    >
-                      In Progress
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      onClick={() => {
-                        this.UpdateTaskState("done");
-                      }}
-                    >
-                      Done
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </Form.Group>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlTextarea1"
-              >
-                <Form.Label>Description</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={3}
-                  onChange={this.UpdateTaskDescription}
-                />
-              </Form.Group>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.TaskModal}>
-              Close
-            </Button>
-            <Button
-              variant="primary"
-              onClick={() => {
-                this.UploadTask();
-                this.TaskModal();
-              }}
-            >
-              Save Task
-            </Button>
-          </Modal.Footer>
-        </Modal>
-
-        <Modal
-          show={this.state.SettingsModal}
-          size="lg"
-          onHide={this.SettingsModal}
-          aria-labelledby="example-modal-sizes-title-lg"
-        >
-          <Modal.Header closeButton>
-            <Modal.Title id="example-modal-sizes-title-lg">
-              Large Modal
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <button className="NewObject" onClick={this.MemberModal}>
-              New Members
-            </button>
-            <button className="NewObject" onClick={this.StateModal}>
-              Switch State
-            </button>
-            <button className="NewObject" onClick={this.InfoModal}>
-              Update information
-            </button>
-            <button className="NewObject" onClick={this.DeleteModal}>
-              Delete Operation
-            </button>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.SettingsModal}>
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal>
-
-        <Modal show={this.state.DeleteModal} onHide={this.DeleteModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>Delete Operation</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form>
-              <p>Are you sure you want to delete this Comment</p>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.DeleteModal}>
-              Close
-            </Button>
-            <Button
-              variant="primary"
-              onClick={() => {
-                this.DeleteOperation();
-                this.DeleteModal();
-              }}
-            >
-              Delete
-            </Button>
-          </Modal.Footer>
-        </Modal>
-
-        <Modal show={this.state.StateModal} onHide={this.StateModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>State</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Switch State</Form.Label>
-                <select className="Sort" onChange={this.UpdateOperationState}>
-                  <option value="active">Active</option>
-                  <option value="inactive">Inactive</option>
-                </select>
-              </Form.Group>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.StateModal}>
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal>
-
-        <Modal show={this.state.InfoModal} onHide={this.InfoModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>New Info</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Operation Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  autoFocus
-                  onChange={this.UpdateNewInfoName}
-                />
-              </Form.Group>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Operation Description</Form.Label>
-                <Form.Control
-                  type="text"
-                  autoFocus
-                  onChange={this.UpdateNewInfoDescription}
-                />
-              </Form.Group>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.InfoModal}>
-              Close
-            </Button>
-            <Button
-              variant="primary"
-              onClick={() => {
-                this.UploadNewInfo();
-                this.InfoModal();
-              }}
-            >
-              Save
-            </Button>
-          </Modal.Footer>
-        </Modal>
       </div>
     );
   }

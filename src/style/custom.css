@@ -3,7 +3,7 @@
 body {
   margin: 0px;
   color: black;
-  font-family: "Poppins", sans-serif;
+  font-family: 'grInter';
   font-weight: bold;
   overflow-x: hidden;
   width: 100%;
@@ -40,7 +40,6 @@ select:focus-visible {
   -webkit-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
   box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
-  height: 85px;
 }
 
 .nav-ham-container .ham {
@@ -307,16 +306,23 @@ select {
 
 /* TargetProfile */
 .TargetProfile {
-  margin: auto;
   height: auto;
+  width: 100%;
+}
+
+.TargetProfile .TargetProfileContent {
   width: 90%;
+  margin: auto;
 }
 
 .TargetProfile img {
-  width: 200px;
-  height: 200px;
-  border: 1px rgb(172, 172, 172) solid;
-  border-radius: 1px;
+  width: 300px;
+  height: 100%;
+  object-fit: cover;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-right: 2px solid #c7c7c7;
+  padding-right: 1px;
 }
 
 .TargetProfile .TargetProfileInfo {
@@ -324,29 +330,21 @@ select {
 }
 
 .TargetProfile .TargetProfileHeader {
+  height: 300px;
   display: flex;
+  border: 2px solid #c7c7c7;
+  border-radius: 10px;
+  background-color: #fafcff;
 }
 
 .TargetProfile .TargetProfileInfo ul {
   list-style: none;
+  font-weight: 500;
 }
 
 .TargetProfileSlider {
   width: 100%;
   margin-top: 20px;
-}
-
-.TargetProfileSlider .btns-container {
-  width: 90%;
-}
-
-.TargetProfileSlider .profile-slider-btn {
-  display: inline-block;
-  margin-left: 10px;
-  width: 30%;
-  padding: 15px;
-  text-align: center;
-  font-size: 15px;
 }
 
 .TargetProfile .SearchContainer {
@@ -355,6 +353,37 @@ select {
 
 .TargetProfile .SearchContainer .NewObject {
   width: 8.5rem;
+}
+
+.TargetProfile .OptionsContainer {
+  list-style-type: none;
+  padding: 0;
+  overflow: hidden;
+  background-color: rgb(251, 251, 251);
+  margin-top: -20px !important;
+}
+
+.TargetProfile .OptionsContainer li {
+  float: left;
+  width: 25%;
+}
+
+.TargetProfile .OptionsContainer li a {
+  display: block;
+  background-color: #1d2635;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  /* border-right: 2px solid rgb(158, 158, 158);
+  border-bottom: 2px solid rgb(158, 158, 158); */
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+.TargetProfile .OptionsContainer li a:hover {
+  background-color: #324ab2;
+  color: white;
 }
 
 /* TargetProfile-end */
@@ -414,8 +443,12 @@ select {
 /* NoteCard-end */
 
 .OperationProfile {
-  margin: auto;
   height: auto;
+  width: 100%;
+}
+
+.OperationProfileContent {
+  margin: auto;
   width: 90%;
 }
 
@@ -498,6 +531,37 @@ select {
   color: rgb(88, 88, 88);
   margin: 5px;
   font-size: 13px;
+}
+
+.OperationProfile .OptionsContainer {
+  list-style-type: none;
+  padding: 0;
+  overflow: hidden;
+  background-color: rgb(251, 251, 251);
+  margin-top: -20px !important;
+}
+
+.OperationProfile .OptionsContainer li {
+  float: left;
+  width: 25%;
+}
+
+.OperationProfile .OptionsContainer li a {
+  display: block;
+  background-color: #1d2635;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  /* border-right: 2px solid rgb(158, 158, 158);
+  border-bottom: 2px solid rgb(158, 158, 158); */
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
+.OperationProfile .OptionsContainer li a:hover {
+  background-color: #324ab2;
+  color: white;
 }
 
 .TaskCardContainer {
