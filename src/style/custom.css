@@ -316,7 +316,7 @@ select {
 }
 
 .TargetProfile img {
-  width: 300px;
+  width: 40%;
   height: 100%;
   object-fit: cover;
   border-top-left-radius: 10px;
@@ -457,10 +457,13 @@ select {
 }
 
 .OperationProfile img {
-  width: 200px;
-  height: 200px;
-  border: 1px rgb(172, 172, 172) solid;
-  border-radius: 1px;
+  width: 40%;
+  height: 100%;
+  object-fit: cover;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-right: 2px solid #c7c7c7;
+  padding-right: 1px;
 }
 
 .OperationProfile .OperationProfileInfo {
@@ -468,11 +471,16 @@ select {
 }
 
 .OperationProfile .OperationProfileHeader {
+  height: 300px;
   display: flex;
+  border: 2px solid #c7c7c7;
+  border-radius: 10px;
+  background-color: #fafcff;
 }
 
 .OperationProfile .OperationProfileInfo ul {
   list-style: none;
+  font-weight: 500;
 }
 
 .OperationProfileSlider {
