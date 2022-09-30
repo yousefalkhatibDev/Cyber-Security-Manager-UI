@@ -592,8 +592,6 @@ class TargetProfile extends React.Component {
           </div>
 
           <div className="TargetProfileSlider">
-
-
             <div
               className="NotesSlide"
               style={{ display: this.state.NotesTab ? null : "none" }}
@@ -861,20 +859,35 @@ class TargetProfile extends React.Component {
           >
             <Modal.Header closeButton>
               <Modal.Title id="example-modal-sizes-title-lg">
-                Large Modal
+                Settings
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <button className="NewObject btn btn-info" onClick={this.InfoModal} style={{ display: "block", margin: "10px" }}>
-                Update information
-              </button>
-              <button className="NewObject btn btn-danger" onClick={this.DeleteModal} style={{ display: "block", margin: "10px", marginTop: "20px" }}>
-                Delete Target
-              </button>
+              <div style={{ display: "flex", margin: "20px 0px" }}>
+                <div style={{ width: "50%" }}>
+                  <h4>Update</h4>
+                  <p style={{ fontWeight: "400" }}>You can update this target by clicking Update next to this text</p>
+                </div>
+                <button className="NewObject btn btn-primary" onClick={this.InfoModal} style={{ display: "block", marginLeft: "auto", marginTop: "30px", fontSize: "15px", width: "40%", height: "50px", }}>
+                  Update information
+                </button>
+              </div>
+              <div style={{ display: "flex", margin: "20px 0px" }}>
+                <div style={{ width: "50%" }}>
+                  <h4>Delete</h4>
+                  <p style={{ fontWeight: "400" }}>You can delete this target by clicking Delete next to this text</p>
+                </div>
+                <button className="NewObject btn btn-danger" onClick={this.DeleteModal} style={{ display: "block", marginLeft: "auto", marginTop: "30px", width: "40%", height: "50px" }}>
+                  Delete Target
+                </button>
+              </div>
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={this.SettingsModal}>
                 Close
+              </Button>
+              <Button variant="primary" onClick={this.SettingsModal}>
+                Ok
               </Button>
             </Modal.Footer>
           </Modal>
@@ -961,7 +974,7 @@ class TargetProfile extends React.Component {
             </Modal.Footer>
           </Modal>
         </div>
-      </div>
+      </div >
     );
   }
 }
