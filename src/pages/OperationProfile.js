@@ -1421,10 +1421,10 @@ class OperationProfile extends React.Component {
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label>Switch State</Form.Label>
-                  <select className="Sort" onChange={this.UpdateOperationState}>
+                  <Form.Select className="Sort" onChange={this.UpdateOperationState} aria-label="Default select example">
                     <option value="active">Active</option>
                     <option value="inactive">Inactive</option>
-                  </select>
+                  </Form.Select>
                 </Form.Group>
               </Form>
             </Modal.Body>
