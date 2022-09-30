@@ -32,6 +32,14 @@ select:focus-visible {
   outline: none;
 }
 
+.modal.fade .modal-dialog {
+  transition: transform .3s ease-out !important;
+}
+
+.fade {
+  transition: opacity .15s linear;
+}
+
 .NavBar {
   background-color: #1d2635;
   padding: 5px;

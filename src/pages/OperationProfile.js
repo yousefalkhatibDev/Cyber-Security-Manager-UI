@@ -1226,7 +1226,7 @@ class OperationProfile extends React.Component {
             </Modal.Footer>
           </Modal>
 
-          <Modal show={this.state.TaskModal} onHide={this.TaskModal}>
+          <Modal show={this.state.TaskModal} onHide={this.TaskModal} >
             <Modal.Header closeButton>
               <Modal.Title>New Task</Modal.Title>
             </Modal.Header>
@@ -1435,7 +1435,7 @@ class OperationProfile extends React.Component {
             </Modal.Footer>
           </Modal>
 
-          <Modal show={this.state.InfoModal} onHide={this.InfoModal}>
+          <Modal show={this.state.InfoModal} onHide={this.InfoModal} className="ModalInModal">
             <Modal.Header closeButton>
               <Modal.Title>New Info</Modal.Title>
             </Modal.Header>
@@ -1481,7 +1481,7 @@ class OperationProfile extends React.Component {
             </Modal.Footer>
           </Modal>
         </div>
-      </div>
+      </div >
     );
   }
 }
