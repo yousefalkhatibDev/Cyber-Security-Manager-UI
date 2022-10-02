@@ -685,9 +685,8 @@ select {
   flex-wrap: wrap;
   justify-content: center;
   align-content: center;
-  width: 90%;
-  margin-left: auto;
-  margin-right: auto;
+  padding: 6%;
+  margin: 0;
 }
 
 .Login form {
