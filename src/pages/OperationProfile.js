@@ -1338,39 +1338,39 @@ class OperationProfile extends React.Component {
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <div style={{ display: "flex", margin: "20px 0px" }}>
-                <div style={{ width: "50%" }}>
+              <div className="SettingsModal-Container">
+                <div>
                   <h4>Add member</h4>
-                  <p style={{ fontWeight: "400" }}>You can add a member to this target by clicking Add next to this text</p>
+                  <p>You can add a member to this target by clicking Add next to this text</p>
                 </div>
-                <button className="NewObject btn btn-outline-secondary" onClick={this.MemberModal} style={{ display: "block", marginLeft: "auto", marginTop: "30px", width: "40%", height: "50px" }}>
+                <button className="NewObject btn btn-outline-secondary" onClick={this.MemberModal}>
                   New Members
                 </button>
               </div>
-              <div style={{ display: "flex", margin: "20px 0px" }}>
-                <div style={{ width: "50%" }}>
+              <div className="SettingsModal-Container">
+                <div>
                   <h4>Switch state</h4>
-                  <p style={{ fontWeight: "400" }}>You can switch the activity of this target by clicking Switch state next to this text</p>
+                  <p>You can switch the activity of this target by clicking Switch state next to this text</p>
                 </div>
-                <button className="NewObject btn btn-outline-secondary" onClick={this.StateModal} style={{ display: "block", marginLeft: "auto", marginTop: "30px", width: "40%", height: "50px" }}>
+                <button className="NewObject btn btn-outline-secondary" onClick={this.StateModal}>
                   Switch State
                 </button>
               </div>
-              <div style={{ display: "flex", margin: "20px 0px" }}>
-                <div style={{ width: "50%" }}>
+              <div className="SettingsModal-Container">
+                <div>
                   <h4>Update</h4>
-                  <p style={{ fontWeight: "400" }}>You can update this target by clicking Update next to this text</p>
+                  <p>You can update this target by clicking Update next to this text</p>
                 </div>
-                <button className="NewObject btn btn-primary" onClick={this.InfoModal} style={{ display: "block", marginLeft: "auto", marginTop: "30px", width: "40%", height: "50px" }}>
+                <button className="NewObject btn btn-primary" onClick={this.InfoModal}>
                   Update information
                 </button>
               </div>
-              <div style={{ display: "flex", margin: "20px 0px" }}>
-                <div style={{ width: "50%" }}>
+              <div className="SettingsModal-Container">
+                <div>
                   <h4>Delete</h4>
-                  <p style={{ fontWeight: "400" }}>You can delete this target by clicking Delete next to this text</p>
+                  <p>You can delete this target by clicking Delete next to this text</p>
                 </div>
-                <button className="NewObject btn btn-danger" onClick={this.DeleteModal} style={{ display: "block", marginLeft: "auto", marginTop: "30px", width: "40%", height: "50px" }}>
+                <button className="NewObject btn btn-danger" onClick={this.DeleteModal}>
                   Delete Operation
                 </button>
               </div>
@@ -1435,7 +1435,7 @@ class OperationProfile extends React.Component {
             </Modal.Footer>
           </Modal>
 
-          <Modal show={this.state.InfoModal} onHide={this.InfoModal} className="ModalInModal">
+          <Modal show={this.state.InfoModal} onHide={this.InfoModal}>
             <Modal.Header closeButton>
               <Modal.Title>New Info</Modal.Title>
             </Modal.Header>

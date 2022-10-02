@@ -863,21 +863,21 @@ class TargetProfile extends React.Component {
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <div style={{ display: "flex", margin: "20px 0px" }}>
-                <div style={{ width: "50%" }}>
+              <div className="SettingsModal-Container">
+                <div>
                   <h4>Update</h4>
-                  <p style={{ fontWeight: "400" }}>You can update this target by clicking Update next to this text</p>
+                  <p>You can update this target by clicking Update next to this text</p>
                 </div>
-                <button className="NewObject btn btn-primary" onClick={this.InfoModal} style={{ display: "block", marginLeft: "auto", marginTop: "30px", fontSize: "15px", width: "40%", height: "50px", }}>
+                <button className="NewObject btn btn-primary" onClick={this.InfoModal}>
                   Update information
                 </button>
               </div>
-              <div style={{ display: "flex", margin: "20px 0px" }}>
-                <div style={{ width: "50%" }}>
+              <div className="SettingsModal-Container">
+                <div>
                   <h4>Delete</h4>
-                  <p style={{ fontWeight: "400" }}>You can delete this target by clicking Delete next to this text</p>
+                  <p>You can delete this target by clicking Delete next to this text</p>
                 </div>
-                <button className="NewObject btn btn-danger" onClick={this.DeleteModal} style={{ display: "block", marginLeft: "auto", marginTop: "30px", width: "40%", height: "50px" }}>
+                <button className="NewObject btn btn-danger" onClick={this.DeleteModal}>
                   Delete Target
                 </button>
               </div>
