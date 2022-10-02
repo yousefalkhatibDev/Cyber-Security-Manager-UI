@@ -789,9 +789,9 @@ class OperationProfile extends React.Component {
             <img src={this.state.image} alt="user-card" />
             <div className="OperationProfileInfo">
               <ul>
-                <li>Name: {this.state.name}</li>
-                <li>Members Count: {this.state.MembersCount}</li>
-                <li>Targets Count: {this.state.TargetsCount}</li>
+                <li style={{ fontSize: '23px' }}>{this.state.name}</li>
+                <li style={{ fontSize: '15px' }}>Members Count: {this.state.MembersCount}</li>
+                <li style={{ marginTop: '10px' }}>Targets Count: {this.state.TargetsCount}</li>
                 <li>Posts Count: {this.state.PostsCount}</li>
                 <li>State: {this.state.state}</li>
                 <li>
@@ -1226,7 +1226,7 @@ class OperationProfile extends React.Component {
             </Modal.Footer>
           </Modal>
 
-          <Modal show={this.state.TaskModal} onHide={this.TaskModal}>
+          <Modal show={this.state.TaskModal} onHide={this.TaskModal} >
             <Modal.Header closeButton>
               <Modal.Title>New Task</Modal.Title>
             </Modal.Header>
@@ -1338,22 +1338,49 @@ class OperationProfile extends React.Component {
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <button className="NewObject" onClick={this.MemberModal}>
-                New Members
-              </button>
-              <button className="NewObject" onClick={this.StateModal}>
-                Switch State
-              </button>
-              <button className="NewObject" onClick={this.InfoModal}>
-                Update information
-              </button>
-              <button className="NewObject" onClick={this.DeleteModal}>
-                Delete Operation
-              </button>
+              <div style={{ display: "flex", margin: "20px 0px" }}>
+                <div style={{ width: "50%" }}>
+                  <h4>Add member</h4>
+                  <p style={{ fontWeight: "400" }}>You can add a member to this target by clicking Add next to this text</p>
+                </div>
+                <button className="NewObject btn btn-outline-secondary" onClick={this.MemberModal} style={{ display: "block", marginLeft: "auto", marginTop: "30px", width: "40%", height: "50px" }}>
+                  New Members
+                </button>
+              </div>
+              <div style={{ display: "flex", margin: "20px 0px" }}>
+                <div style={{ width: "50%" }}>
+                  <h4>Switch state</h4>
+                  <p style={{ fontWeight: "400" }}>You can switch the activity of this target by clicking Switch state next to this text</p>
+                </div>
+                <button className="NewObject btn btn-outline-secondary" onClick={this.StateModal} style={{ display: "block", marginLeft: "auto", marginTop: "30px", width: "40%", height: "50px" }}>
+                  Switch State
+                </button>
+              </div>
+              <div style={{ display: "flex", margin: "20px 0px" }}>
+                <div style={{ width: "50%" }}>
+                  <h4>Update</h4>
+                  <p style={{ fontWeight: "400" }}>You can update this target by clicking Update next to this text</p>
+                </div>
+                <button className="NewObject btn btn-primary" onClick={this.InfoModal} style={{ display: "block", marginLeft: "auto", marginTop: "30px", width: "40%", height: "50px" }}>
+                  Update information
+                </button>
+              </div>
+              <div style={{ display: "flex", margin: "20px 0px" }}>
+                <div style={{ width: "50%" }}>
+                  <h4>Delete</h4>
+                  <p style={{ fontWeight: "400" }}>You can delete this target by clicking Delete next to this text</p>
+                </div>
+                <button className="NewObject btn btn-danger" onClick={this.DeleteModal} style={{ display: "block", marginLeft: "auto", marginTop: "30px", width: "40%", height: "50px" }}>
+                  Delete Operation
+                </button>
+              </div>
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={this.SettingsModal}>
                 Close
+              </Button>
+              <Button variant="primary" onClick={this.SettingsModal}>
+                Ok
               </Button>
             </Modal.Footer>
           </Modal>
@@ -1394,10 +1421,10 @@ class OperationProfile extends React.Component {
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label>Switch State</Form.Label>
-                  <select className="Sort" onChange={this.UpdateOperationState}>
+                  <Form.Select className="Sort" onChange={this.UpdateOperationState} aria-label="Default select example">
                     <option value="active">Active</option>
                     <option value="inactive">Inactive</option>
-                  </select>
+                  </Form.Select>
                 </Form.Group>
               </Form>
             </Modal.Body>
@@ -1408,7 +1435,7 @@ class OperationProfile extends React.Component {
             </Modal.Footer>
           </Modal>
 
-          <Modal show={this.state.InfoModal} onHide={this.InfoModal}>
+          <Modal show={this.state.InfoModal} onHide={this.InfoModal} className="ModalInModal">
             <Modal.Header closeButton>
               <Modal.Title>New Info</Modal.Title>
             </Modal.Header>
@@ -1454,7 +1481,7 @@ class OperationProfile extends React.Component {
             </Modal.Footer>
           </Modal>
         </div>
-      </div>
+      </div >
     );
   }
 }
