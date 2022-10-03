@@ -567,10 +567,10 @@ class TargetProfile extends React.Component {
     return (
       <div className="TargetProfile">
         <ul class="OptionsContainer">
-          <li><a onClick={() => { this.SettingsModal(); }}>Settings <FontAwesomeIcon icon={faGear} style={{ marginLeft: "5px" }} /></a>  </li>
-          <li><a onClick={() => { this.switchSlider("Notes"); }}>Notes <FontAwesomeIcon icon={faNoteSticky} style={{ marginLeft: "5px" }} /></a></li>
-          <li><a onClick={() => { this.switchSlider("Relations"); }}>Relations <FontAwesomeIcon icon={faPeopleArrows} style={{ marginLeft: "5px" }} /></a></li>
-          <li><a onClick={() => { this.switchSlider("RelatedBy"); }}>Related By <FontAwesomeIcon icon={faPerson} style={{ marginLeft: "5px" }} /></a></li>
+          <li style={{ width: "23%" }}><a onClick={() => { this.SettingsModal(); }}>Settings <FontAwesomeIcon icon={faGear} style={{ marginLeft: "5px" }} /></a>  </li>
+          <li style={{ width: "23%" }}><a onClick={() => { this.switchSlider("Notes"); }}>Notes <FontAwesomeIcon icon={faNoteSticky} style={{ marginLeft: "5px" }} /></a></li>
+          <li style={{ width: "27%" }}><a onClick={() => { this.switchSlider("Relations"); }}>Relations <FontAwesomeIcon icon={faPeopleArrows} style={{ marginLeft: "5px" }} /></a></li>
+          <li style={{ width: "27%" }}><a onClick={() => { this.switchSlider("RelatedBy"); }}>Related By <FontAwesomeIcon icon={faPerson} style={{ marginLeft: "5px" }} /></a></li>
         </ul>
         <div className="TargetProfileContent">
           <div className="TargetProfileHeader">
@@ -955,7 +955,7 @@ class TargetProfile extends React.Component {
             </Modal.Header>
             <Modal.Body>
               <Form>
-                <p>Are you sure you want to delete this Comment</p>
+                <p>Are you sure you want to delete this Target?</p>
               </Form>
             </Modal.Body>
             <Modal.Footer>
