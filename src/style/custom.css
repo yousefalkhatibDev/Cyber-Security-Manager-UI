@@ -1,12 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
 
+html {
+  overflow-x: hidden;
+  height: 100%;
+}
+
 body {
+  width: 100%;
+  height: 100%;
   margin: 0px;
   color: black;
   font-family: 'grInter';
   font-weight: bold;
   overflow-x: hidden;
-  width: 100%;
+  position: relative;
 }
 
 /* top-bar */
@@ -367,7 +374,6 @@ select {
   list-style-type: none;
   padding: 0;
   overflow: hidden;
-  background-color: rgb(251, 251, 251);
   margin-top: -20px !important;
 }
 
@@ -399,7 +405,7 @@ select {
 /* NoteCard */
 
 .NoteCardContainer {
-  width: 20%;
+  width: 33%;
   text-align: center;
   height: auto;
   border-radius: 5px;
@@ -449,6 +455,8 @@ select {
 }
 
 /* NoteCard-end */
+
+/* Operation profile */
 
 .OperationProfile {
   height: auto;
@@ -632,6 +640,35 @@ select {
   font-size: 13px;
 }
 
+.SettingsModal-Container {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 20px 0px;
+}
+
+.SettingsModal-Container div {
+  width: 50%;
+}
+
+.SettingsModal-Container h4 {
+  font-size: 19px;
+}
+
+.SettingsModal-Container p {
+  font-weight: 400;
+  font-size: 15px;
+}
+
+.SettingsModal-Container button {
+  display: block;
+  margin-left: auto;
+  margin-top: 30px;
+  width: 40%;
+  height: 50px;
+}
+
+/* Operation profile end */
+
 /*Login page*/
 
 .Login *,
@@ -771,7 +808,7 @@ select {
 
   .SearchContainer div input,
   .SearchContainer div select {
-    width: 80% !important;
+    width: 100% !important;
   }
 
   .SearchContainer div:nth-of-type(2) {
@@ -830,13 +867,42 @@ select {
   }
 }
 
-@media screen and (max-width: 560px) {
+@media screen and (max-width: 600px) {
   .OperationCardContainer {
     width: 90%;
   }
 
   .OperationCard-name {
     font-size: 20px;
+  }
+
+  .OperationProfile .OptionsContainer li a {
+    padding: 14px 0px;
+    font-size: 14px;
+  }
+
+  .OperationProfile .OptionsContainer li a svg {
+    font-size: 11px;
+    margin-left: 2px !important;
+  }
+
+  .SettingsModal-Container div {
+    width: 95%;
+  }
+
+  .SettingsModal-Container h4 {
+    font-size: 18px;
+  }
+
+  .SettingsModal-Container p {
+    font-size: 14px;
+  }
+
+  .SettingsModal-Container button {
+    margin-right: auto;
+    margin-left: 5px;
+    margin-top: 0px;
+    width: 90%;
   }
 
   .TargetCardContainer {
@@ -849,6 +915,20 @@ select {
 
   .TargetProfileSlider .profile-slider-btn {
     padding: 10px;
+  }
+
+  .TargetProfile .OptionsContainer li a {
+    padding: 14px 0px;
+    font-size: 14px;
+  }
+
+  .TargetProfile .OptionsContainer li a svg {
+    font-size: 11px;
+    margin-left: 2px !important;
+  }
+
+  .NoteCardContainer {
+    width: 50%;
   }
 }
 
