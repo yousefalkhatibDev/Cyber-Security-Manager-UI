@@ -134,6 +134,7 @@ select:focus-visible {
   padding: 15px; */
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   margin: 10px 25px;
 }
 
@@ -143,14 +144,16 @@ select:focus-visible {
   flex-wrap: wrap;
   justify-content: space-around;
   width: 50%;
-  margin-top: 30px;
+  height: 100%;
+  margin-top: 40px;
 }
 
 .userInfoCards-card {
   display: flex;
+  flex-direction: column;
   justify-content: flex-start;
   width: 100%;
-  height: 150px;
+  height: auto;
   font-weight: 500;
   padding: 20px;
   margin: 15px 0px;
@@ -158,8 +161,82 @@ select:focus-visible {
   border-radius: 7px;
 }
 
-.userOperations-Container {
-  margin-top: 60px;
+.userInfoCards-recentPosts {
+  height: 300px;
+  overflow-y: scroll;
+}
+
+.userInfoCards-recentPosts .postCard {
+  margin: 15px 0px;
+  height: auto;
+  border: 2px solid #dddce0;
+  border-radius: 10px;
+}
+
+.userInfoCards-recentPosts .postCard-content {
+  display: flex;
+  padding: 20px 10px;
+}
+
+.userInfoCards-recentPosts .postCard-content img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.userInfoCards-recentPosts .postCard-content .postCard-text {
+  font-weight: 400;
+}
+
+.userInfoCards-recentTargets {
+  height: 300px;
+  overflow-y: scroll;
+}
+
+.userInfoCards-recentTargets .targetCard {
+  margin: 15px 0px;
+  height: auto;
+  border: 2px solid #dddce0;
+  border-radius: 10px;
+}
+
+.userInfoCards-recentTargets .targetCard-content {
+  display: flex;
+  padding: 20px 10px;
+}
+
+.userInfoCards-recentTargets .targetCard-content img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.userInfoCards-recentTargets .targetCard-content .targetCard-text {
+  font-weight: 400;
+}
+
+.userInfoCards-card .userInfoCards-NextLevel {
+  margin-left: auto;
+  margin-right: 5px;
+  color: rgb(181, 181, 181);
+}
+
+.userInfoCards-card .userInfoCards-NextLevel p span {
+  color: rgb(3, 165, 209);
+}
+
+.userInfoCards-card .userInfoCards-ProgressBar .progress {
+  height: 1.2rem;
+}
+
+.userInfoCards-card .userInfoCount span {
+  color: rgb(2, 97, 123);
+}
+
+.userRecentAccess-Container {
+  margin-top: 20px;
   width: 50%;
 }
 
@@ -167,7 +244,16 @@ select:focus-visible {
   width: 100%;
 }
 
+.userTargets-recent {
+  width: 100%;
+}
+
 .userOperations-recent h4 {
+  margin-left: 20px;
+  font-weight: 400;
+}
+
+.userTargets-recent h4 {
   margin-left: 20px;
   font-weight: 400;
 }
@@ -280,7 +366,7 @@ select {
   padding: 5px;
 }
 
-.OperationCardContainer .OperationCardContainerButton {
+.OperationCardContainerButton {
   width: 100%;
   background-color: #324ab2;
   border: none;
@@ -291,7 +377,7 @@ select {
   border-bottom-right-radius: 5px;
 }
 
-.OperationCardContainer .OperationCardContainerButton:hover {
+.OperationCardContainerButton:hover {
   cursor: pointer;
 }
 
@@ -883,6 +969,25 @@ select {
   }
 }
 
+@media (max-width: 900px) {
+  .userRecentAccess-Container {
+    width: 100%;
+    display: flex;
+  }
+
+  .userInfoCards-Container {
+    width: 100%;
+  }
+
+  .OperationDescription {
+    font-size: 15px;
+  }
+
+  .TargetDescription {
+    font-size: 15px;
+  }
+}
+
 @media (max-width: 700px) {
   .nav-links {
     position: absolute;
@@ -935,6 +1040,10 @@ select {
 
   .OperationProfile .OperationProfileInfo ul li:nth-of-type(2) {
     font-size: 16px;
+  }
+
+  .userRecentAccess-Container {
+    flex-wrap: wrap;
   }
 }
 

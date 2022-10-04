@@ -79,10 +79,10 @@ class TopBar extends React.Component {
           </ul>
 
           <ul className="nav-ham-container">
-            <div class="ham" onClick={this.HandleHamClick}>
-              <div class="line1"></div>
-              <div class="line2"></div>
-              <div class="line3"></div>
+            <div className="ham" onClick={this.HandleHamClick}>
+              <div className="line1"></div>
+              <div className="line2"></div>
+              <div className="line3"></div>
             </div>
           </ul>
 
