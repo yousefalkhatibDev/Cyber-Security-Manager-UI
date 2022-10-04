@@ -16,7 +16,6 @@ import API from "../helper/API";
 
 const withParams = (Component) => (props) => {
   const { id } = useParams();
-
   return <Component {...props} id={id} />;
 };
 
@@ -789,9 +788,9 @@ class OperationProfile extends React.Component {
             <img src={this.state.image} alt="user-card" />
             <div className="OperationProfileInfo">
               <ul>
-                <li style={{ fontSize: '23px' }}>{this.state.name}</li>
-                <li style={{ fontSize: '15px' }}>Members Count: {this.state.MembersCount}</li>
-                <li style={{ marginTop: '10px' }}>Targets Count: {this.state.TargetsCount}</li>
+                <li>{this.state.name}</li>
+                <li>Members Count: {this.state.MembersCount}</li>
+                <li>Targets Count: {this.state.TargetsCount}</li>
                 <li>Posts Count: {this.state.PostsCount}</li>
                 <li>State: {this.state.state}</li>
                 <li>

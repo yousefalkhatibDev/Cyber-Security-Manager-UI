@@ -132,7 +132,44 @@ select:focus-visible {
   height: auto;
   width: 90%;
   padding: 15px; */
+  display: flex;
+  flex-direction: row;
+  margin: 10px 25px;
+}
+
+.userInfoCards-Container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 50%;
+  margin-top: 30px;
+}
+
+.userInfoCards-card {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  height: 150px;
+  font-weight: 500;
+  padding: 20px;
+  margin: 15px 0px;
+  border: 2px solid #dddce0;
+  border-radius: 7px;
+}
+
+.userOperations-Container {
+  margin-top: 60px;
+  width: 50%;
+}
+
+.userOperations-recent {
+  width: 100%;
+}
+
+.userOperations-recent h4 {
   margin-left: 20px;
+  font-weight: 400;
 }
 
 /* end-dashboard */
@@ -485,6 +522,24 @@ select {
 .OperationProfile .OperationProfileInfo {
   width: "100%";
 }
+
+.OperationProfile .OperationProfileInfo ul {
+  font-size: 15px;
+}
+
+.OperationProfile .OperationProfileInfo ul li:nth-of-type(1) {
+  font-size: 23px;
+}
+
+.OperationProfile .OperationProfileInfo ul li:nth-of-type(2) {
+  font-size: 18px;
+}
+
+.OperationProfile .OperationProfileInfo ul li:nth-of-type(3) {
+  margin-top: 10px;
+}
+
+
 
 .OperationProfile .OperationProfileHeader {
   height: 300px;
@@ -866,6 +921,22 @@ select {
   .user-name {
     font-size: 11px;
   }
+
+  .OperationProfile .OperationProfileHeader {
+    height: 270px;
+  }
+
+  .OperationProfile .OperationProfileInfo ul {
+    font-size: 14px;
+  }
+
+  .OperationProfile .OperationProfileInfo ul li:nth-of-type(1) {
+    font-size: 20px;
+  }
+
+  .OperationProfile .OperationProfileInfo ul li:nth-of-type(2) {
+    font-size: 16px;
+  }
 }
 
 @media screen and (max-width: 600px) {
@@ -877,6 +948,10 @@ select {
     font-size: 20px;
   }
 
+  .OperationProfile .OperationProfileHeader {
+    height: 210px;
+  }
+
   .OperationProfile .OptionsContainer li a {
     padding: 14px 0px;
     font-size: 14px;
@@ -885,6 +960,18 @@ select {
   .OperationProfile .OptionsContainer li a svg {
     font-size: 11px;
     margin-left: 2px !important;
+  }
+
+  .OperationProfile .OperationProfileInfo ul {
+    font-size: 11px;
+  }
+
+  .OperationProfile .OperationProfileInfo ul li:nth-of-type(1) {
+    font-size: 16px;
+  }
+
+  .OperationProfile .OperationProfileInfo ul li:nth-of-type(2) {
+    font-size: 13px;
   }
 
   .SettingsModal-Container div {
