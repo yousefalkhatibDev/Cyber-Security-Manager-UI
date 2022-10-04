@@ -16,12 +16,16 @@ import OperationProfile from "./pages/OperationProfile";
 import Operations from "./pages/Operations";
 import Targets from "./pages/Targets";
 import Login from "./pages/Login";
+import PrivateNavBar from "./Router/PrivateNavBar";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <NavBar />
+        <PrivateNavBar>
+          <NavBar />
+        </PrivateNavBar>
+
         <Routes>
           <Route
             exact
