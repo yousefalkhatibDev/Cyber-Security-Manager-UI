@@ -3,15 +3,16 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import API from "../helper/API";
+import Dropdown from "react-bootstrap/Dropdown";
+
 
 class TaskCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       Displaytask: false,
-      DeleteModal: false,
+      DeleteModal: false
     };
-
     this.DisplayTask = this.DisplayTask.bind(this);
     this.DeleteTask = this.DeleteTask.bind(this);
     this.DeleteModal = this.DeleteModal.bind(this);
@@ -80,6 +81,24 @@ class TaskCard extends React.Component {
             </p> */}
           </Modal.Body>
           <Modal.Footer>
+            <div style={{ marginRight: "auto" }}>
+              <Dropdown>
+                <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                  Dropdown Button
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item>
+                    To Do
+                  </Dropdown.Item>
+                  <Dropdown.Item>
+                    In Progress
+                  </Dropdown.Item>
+                  <Dropdown.Item>
+                    Done
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
             <Button variant="danger" onClick={() => { this.DeleteModal(); }} >
               Delete
             </Button>
