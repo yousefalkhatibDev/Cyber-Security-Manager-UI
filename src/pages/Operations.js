@@ -231,20 +231,20 @@ class Operations extends React.Component {
 
         <p>add panigation </p>
         {/* <p className="pagination"> <IoIosArrowForward /> </p> */}
-
-        {this.state.operations.map((operation, i) => {
-          return (
-            <OperationCard
-              key={i}
-              id={operation.o_id}
-              name={operation.o_name}
-              description={operation.o_description}
-              status={operation.o_state}
-              CreateDate={operation.o_create_date}
-            />
-          );
-        })}
-
+        <div className="OperationsContainer">
+          {this.state.operations.map((operation, i) => {
+            return (
+              <OperationCard
+                key={i}
+                id={operation.o_id}
+                name={operation.o_name}
+                description={operation.o_description}
+                status={operation.o_state}
+                CreateDate={operation.o_create_date}
+              />
+            );
+          })}
+        </div>
         <Modal show={this.state.modal} onHide={this.ModalShow}>
           <Modal.Header closeButton>
             <Modal.Title>New Operation</Modal.Title>
@@ -331,6 +331,7 @@ class Operations extends React.Component {
             </Button>
           </Modal.Footer>
         </Modal>
+
       </div>
     );
   }

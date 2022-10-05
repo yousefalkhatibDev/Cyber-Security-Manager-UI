@@ -93,21 +93,22 @@ class Targets extends React.Component {
           </div>
         </div>
         <p>add panigation </p>
-
-        {this.state.targets.map((target, i) => {
-          return (
-            <TargetCard
-              key={i}
-              id={target.t_id}
-              name={target.t_name}
-              description={target.t_description}
-              type={target.t_type}
-              operation={target.o_name}
-              CreateDate={target.t_create_date}
-              UpdateDate={target.t_update_date}
-            />
-          );
-        })}
+        <div className="TargetsContainer">
+          {this.state.targets.map((target, i) => {
+            return (
+              <TargetCard
+                key={i}
+                id={target.t_id}
+                name={target.t_name}
+                description={target.t_description}
+                type={target.t_type}
+                operation={target.o_name}
+                CreateDate={target.t_create_date}
+                UpdateDate={target.t_update_date}
+              />
+            );
+          })}
+        </div>
       </div>
     );
   }

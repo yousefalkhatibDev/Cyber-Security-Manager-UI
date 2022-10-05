@@ -18,6 +18,7 @@ class TaskCard extends React.Component {
   }
 
   DeleteModal() {
+    console.log("called")
     this.setState({ DeleteModal: !this.state.DeleteModal });
   }
 
@@ -79,10 +80,10 @@ class TaskCard extends React.Component {
             </p> */}
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="danger" onClick={() => { this.DeleteModal(); }}>
+            <Button variant="danger" onClick={() => { this.DeleteModal(); }} >
               Delete
             </Button>
-            <Button variant="secondary" onClick={this.Displaytask}>
+            <Button variant="secondary" onClick={this.DisplayTask}>
               Close
             </Button>
           </Modal.Footer>

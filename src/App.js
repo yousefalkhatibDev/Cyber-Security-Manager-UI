@@ -8,6 +8,7 @@ import "./style/custom.css";
 // components
 import NavBar from "./components/NavBar";
 import PrivateRoute from "./Router/PrivateRoute";
+import Footer from "./components/Footer";
 
 // screens
 import Dashboard from "./pages/Dashboard";
@@ -75,6 +76,7 @@ function App() {
           />
         </Routes>
       </BrowserRouter>
+      <Footer />
     </div>
   );
 }

@@ -325,9 +325,13 @@ select {
   cursor: pointer;
 }
 
+.OperationsContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .OperationCardContainer {
   border: #e0e0e0 1px solid;
-  float: left;
   width: 45%;
   height: auto;
   margin-bottom: 15px;
@@ -393,6 +397,11 @@ select {
   margin: auto;
   height: auto;
   width: 90%;
+}
+
+.TargetsContainer {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .TargetCardContainer {
@@ -728,6 +737,12 @@ select {
   background-color: #324ab2;
   color: white;
 }
+
+.dropdown {
+  margin: 5px 0px;
+}
+
+/* end operation profile */
 
 .TaskCardContainer {
   width: 20%;

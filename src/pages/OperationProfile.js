@@ -1108,14 +1108,13 @@ class OperationProfile extends React.Component {
                   />
                 </Form.Group>
                 <Form.Group
-                  className="mb-3"
+                  className="mb-3 dropdownTask"
                   controlId="exampleForm.ControlInput1"
                 >
                   <Dropdown>
                     <Dropdown.Toggle variant="primary" id="dropdown-basic">
                       {this.state.NewTask.AgentName}
                     </Dropdown.Toggle>
-
                     <Dropdown.Menu>
                       {this.state.members.map((member, i) => {
                         return (
@@ -1135,7 +1134,6 @@ class OperationProfile extends React.Component {
                     <Dropdown.Toggle variant="primary" id="dropdown-basic">
                       {this.state.NewTask.state}
                     </Dropdown.Toggle>
-
                     <Dropdown.Menu>
                       <Dropdown.Item
                         onClick={() => {
