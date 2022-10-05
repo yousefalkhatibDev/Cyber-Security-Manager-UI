@@ -10,7 +10,6 @@ body {
   height: 100%;
   margin: 0px;
   color: black;
-  font-family: 'grInter';
   font-weight: bold;
   overflow-x: hidden;
   position: relative;
@@ -256,6 +255,7 @@ select:focus-visible {
 .userTargets-recent h4 {
   margin-left: 20px;
   font-weight: 400;
+  width: 90%;
 }
 
 /* end-dashboard */

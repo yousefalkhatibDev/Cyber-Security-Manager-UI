@@ -70,17 +70,18 @@ class TaskCard extends React.Component {
           <Modal.Body>
             <p>{this.props.text}</p>
             <p>{this.props.agent}</p>
-            <p
+            {/* <p
               className="PostComments"
               style={{ cursor: "pointer" }}
-              onClick={() => {
-                this.DeleteModal();
-              }}
+
             >
               Delete
-            </p>
+            </p> */}
           </Modal.Body>
           <Modal.Footer>
+            <Button variant="danger" onClick={() => { this.DeleteModal(); }}>
+              Delete
+            </Button>
             <Button variant="secondary" onClick={this.Displaytask}>
               Close
             </Button>
