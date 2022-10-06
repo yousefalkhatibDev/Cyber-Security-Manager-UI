@@ -407,7 +407,7 @@ class OperationProfile extends React.Component {
     const data = { OperationID: this.props.id };
     await API.post("/get_operation_image", data).then(async (respone) => {
       const res = respone.data;
-      if (res.data === false) {
+      if (res.data === false || res.data.o_image === '') {
         this.setState({
           image:
             "https://img.freepik.com/free-vector/neon-cyber-security-concept-with-padlock-circuit_23-2148536303.jpg?w=900&t=st=1660930843~exp=1660931443~hmac=efcef9e6d44df72e8f8d1f679f29b28823bd0313b2a61eefecbda97b8622878d",
@@ -838,6 +838,7 @@ class OperationProfile extends React.Component {
                     title={post.p_title}
                     text={post.p_text}
                     author={post.u_name}
+                    createDate={post.p_create_date}
                     GetPosts={this.GetPosts}
                     GetPostsCount={this.GetPostsCount}
                   />
@@ -871,19 +872,21 @@ class OperationProfile extends React.Component {
                   New Target
                 </button>
               </div>
-              {this.state.targets.map((target, i) => {
-                return (
-                  <TargetCard
-                    key={i}
-                    id={target.t_id}
-                    name={target.t_name}
-                    description={target.t_description}
-                    type={target.t_type}
-                    CreateDate={target.t_create_date}
-                    UpdateDate={target.t_update_date}
-                  />
-                );
-              })}
+              <div style={{ display: "flex", flexWrap: "wrap" }}>
+                {this.state.targets.map((target, i) => {
+                  return (
+                    <TargetCard
+                      key={i}
+                      id={target.t_id}
+                      name={target.t_name}
+                      description={target.t_description}
+                      type={target.t_type}
+                      CreateDate={target.t_create_date}
+                      UpdateDate={target.t_update_date}
+                    />
+                  );
+                })}
+              </div>
             </div>
 
             <div

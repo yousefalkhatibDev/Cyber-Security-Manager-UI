@@ -4,6 +4,9 @@ import API from "../helper/API";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
+import Dropdown from "react-bootstrap/Dropdown";
+import { BiDotsVerticalRounded } from "react-icons/bi"
+import { MdDelete, MdOutlineReply } from "react-icons/md"
 
 class Post extends React.Component {
   constructor(props) {
@@ -106,37 +109,40 @@ class Post extends React.Component {
     return (
       <>
         <div className="Post">
-          <p className="Postauthor">author: {this.props.author}</p>
-          <p className="Postauthor">{this.props.title}</p>
-          <p className="PostContent">{this.props.text}</p>
+          <div className="PostAuthContainer" >
+            <img className="PostAuthImage" src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=580&amp;q=80" />
+            <p className="Postauthor">{this.props.author}</p>
+            <p className="Postauthor">{this.props.createDate.split("T")[0]}</p>
+            <div className="PostDottedIcon">
+              <Dropdown>
+                <Dropdown.Toggle id="dropdown-basic" className="DropDownToggle">
+                  <BiDotsVerticalRounded />
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item onClick={this.CommentModal}>Reply <MdOutlineReply style={{ marginLeft: "67px" }} /> </Dropdown.Item>
+                  <Dropdown.Item onClick={this.DeleteModal}>Delete <MdDelete style={{ marginLeft: "60px" }} /></Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
+          </div>
+          <p className="Postauthor" >{this.props.title}</p>
+          <p className="PostContent" style={{ fontWeight: 500 }}>{this.props.text}</p>
           <hr />
-          <p
-            className="PostComments"
-            style={{ cursor: "pointer" }}
-            onClick={this.CommentModal}
-          >
-            Reply
-          </p>
-          <p
-            className="PostComments"
-            style={{ cursor: "pointer" }}
-            onClick={() => {
-              this.DeleteModal();
-            }}
-          >
-            Delete
-          </p>
-          {this.state.comments.map((comment, i) => {
-            return (
-              <Comment
-                key={i}
-                id={comment.c_id}
-                text={comment.c_text}
-                user={comment.u_name}
-                refresh={this.GetComments}
-              />
-            );
-          })}
+          <div style={{ borderLeft: "2px solid rgb(187 187 187)", paddingLeft: "10px" }}>
+            {this.state.comments.map((comment, i) => {
+              return (
+                <Comment
+                  key={i}
+                  id={comment.c_id}
+                  text={comment.c_text}
+                  user={comment.u_name}
+                  createDate={comment.c_create_date}
+                  refresh={this.GetComments}
+                />
+              );
+            })}
+          </div>
         </div>
 
         <Modal show={this.state.CommentModal} onHide={this.CommentModal}>
@@ -188,7 +194,7 @@ class Post extends React.Component {
               Close
             </Button>
             <Button
-              variant="primary"
+              variant="danger"
               onClick={() => {
                 this.DeletePost();
                 this.DeleteModal();

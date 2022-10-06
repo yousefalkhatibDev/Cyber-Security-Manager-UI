@@ -3,6 +3,9 @@ import API from "../helper/API";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
+import Dropdown from "react-bootstrap/Dropdown";
+import { BiDotsVerticalRounded } from "react-icons/bi"
+import { MdDelete, MdOutlineReply } from "react-icons/md"
 
 class Comment extends React.Component {
   constructor(props) {
@@ -39,16 +42,24 @@ class Comment extends React.Component {
   render() {
     return (
       <>
-        <div>
-          <p>{this.props.user}</p>
-          <p>{this.props.text}</p>
-          <p
-            className="PostComments"
-            style={{ cursor: "pointer" }}
-            onClick={this.DeleteModal}
-          >
-            Delete
-          </p>
+        <div className="Comment">
+          <div className="CommentAuthContainer">
+            <img className="CommentAuthImage" src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=580&amp;q=80" />
+            <p className="Commentauthor">{this.props.user}</p>
+            <p className="Commentauthor">{this.props.createDate.split("T")[0]}</p>
+            <div className="CommentDottedIcon">
+              <Dropdown>
+                <Dropdown.Toggle id="dropdown-basic" className="DropDownToggle">
+                  <BiDotsVerticalRounded />
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item onClick={this.DeleteModal}>Delete <MdDelete style={{ marginLeft: "60px" }} /></Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
+          </div>
+          <p style={{ fontWeight: 500 }} >{this.props.text}</p>
         </div>
 
         <Modal show={this.state.DeleteModal} onHide={this.DeleteModal}>
@@ -65,7 +76,7 @@ class Comment extends React.Component {
               Close
             </Button>
             <Button
-              variant="primary"
+              variant="danger"
               onClick={() => {
                 this.DeleteComment();
                 this.DeleteModal();
