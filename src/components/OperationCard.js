@@ -77,7 +77,7 @@ class OperationCard extends React.Component {
 
   render() {
     return (
-      <div className="OperationCardContainer">
+      <div className="OperationCardContainer" style={{ width: `${this.props.width}%` }}>
         <div
           className="OperationImg ConstRadius"
           style={{ position: "relative" }}

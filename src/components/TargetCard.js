@@ -46,7 +46,7 @@ class TargetCard extends React.Component {
 
   render() {
     return (
-      <div className="TargetCardContainer">
+      <div className="TargetCardContainer" style={{ width: `${this.props.width}%` }}>
         <div className="TargetImg ConstRadius" style={{ position: "relative" }}>
           <img src={this.state.image} alt="vector" />
 

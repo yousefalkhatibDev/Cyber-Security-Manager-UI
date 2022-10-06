@@ -21,7 +21,6 @@ import API from "../helper/API";
 
 const withParams = (Component) => (props) => {
   const { id } = useParams();
-
   return <Component {...props} id={id} />;
 };
 
@@ -839,6 +838,7 @@ class OperationProfile extends React.Component {
             <img src={this.state.image} alt="user-card" />
             <div className="OperationProfileInfo">
               <ul>
+<<<<<<< HEAD
                 <li style={{ fontSize: "23px" }}>{this.state.name}</li>
                 <li style={{ fontSize: "15px" }}>
                   Members Count: {this.state.MembersCount}
@@ -846,6 +846,11 @@ class OperationProfile extends React.Component {
                 <li style={{ marginTop: "10px" }}>
                   Targets Count: {this.state.TargetsCount}
                 </li>
+=======
+                <li>{this.state.name}</li>
+                <li>Members Count: {this.state.MembersCount}</li>
+                <li>Targets Count: {this.state.TargetsCount}</li>
+>>>>>>> 1358c069c29f27ae597878b4d3713eef1495fff2
                 <li>Posts Count: {this.state.PostsCount}</li>
                 <li>State: {this.state.state}</li>
                 <li>
@@ -1163,14 +1168,13 @@ class OperationProfile extends React.Component {
                   />
                 </Form.Group>
                 <Form.Group
-                  className="mb-3"
+                  className="mb-3 dropdownTask"
                   controlId="exampleForm.ControlInput1"
                 >
                   <Dropdown>
                     <Dropdown.Toggle variant="primary" id="dropdown-basic">
                       {this.state.NewTask.AgentName}
                     </Dropdown.Toggle>
-
                     <Dropdown.Menu>
                       {this.state.members.map((member, i) => {
                         return (
@@ -1190,7 +1194,6 @@ class OperationProfile extends React.Component {
                     <Dropdown.Toggle variant="primary" id="dropdown-basic">
                       {this.state.NewTask.state}
                     </Dropdown.Toggle>
-
                     <Dropdown.Menu>
                       <Dropdown.Item
                         onClick={() => {
