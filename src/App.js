@@ -10,6 +10,7 @@ import "./style/App.css"
 import NavBar from "./components/NavBar";
 import PrivateRoute from "./Router/PrivateRoute";
 import Footer from "./components/Footer";
+import ContentWrapper from "./components/ContentWrapper";
 
 // screens
 import Dashboard from "./pages/Dashboard";
@@ -34,7 +35,9 @@ function App() {
             path="/"
             element={
               <PrivateRoute>
-                <Dashboard />
+                <ContentWrapper>
+                  <Dashboard />
+                </ContentWrapper>
               </PrivateRoute>
             }
           />
@@ -44,7 +47,9 @@ function App() {
             path="/target_profile/:id"
             element={
               <PrivateRoute>
-                <TargetProfile />
+                <ContentWrapper>
+                  <TargetProfile />
+                </ContentWrapper>
               </PrivateRoute>
             }
           />
@@ -53,7 +58,9 @@ function App() {
             path="/operations"
             element={
               <PrivateRoute>
-                <Operations />
+                <ContentWrapper>
+                  <Operations />
+                </ContentWrapper>
               </PrivateRoute>
             }
           />
@@ -62,7 +69,9 @@ function App() {
             path="/targets"
             element={
               <PrivateRoute>
-                <Targets />
+                <ContentWrapper>
+                  <Targets />
+                </ContentWrapper>
               </PrivateRoute>
             }
           />
@@ -71,13 +80,17 @@ function App() {
             path="/operation_profile/:id"
             element={
               <PrivateRoute>
-                <OperationProfile />
+                <ContentWrapper>
+                  <OperationProfile />
+                </ContentWrapper>
               </PrivateRoute>
             }
           />
+
         </Routes>
+        <Footer />
+
       </BrowserRouter>
-      <Footer />
     </div>
   );
 }

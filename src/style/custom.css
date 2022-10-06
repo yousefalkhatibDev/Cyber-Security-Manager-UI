@@ -12,6 +12,7 @@ body {
   color: black;
   font-weight: bold;
   overflow-x: hidden;
+  overflow: hidden;
   position: relative;
   display: table;
 }
