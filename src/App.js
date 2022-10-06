@@ -38,6 +38,7 @@ function App() {
                 <ContentWrapper>
                   <Dashboard />
                 </ContentWrapper>
+                <Footer />
               </PrivateRoute>
             }
           />
@@ -50,6 +51,7 @@ function App() {
                 <ContentWrapper>
                   <TargetProfile />
                 </ContentWrapper>
+                <Footer />
               </PrivateRoute>
             }
           />
@@ -61,6 +63,7 @@ function App() {
                 <ContentWrapper>
                   <Operations />
                 </ContentWrapper>
+                <Footer />
               </PrivateRoute>
             }
           />
@@ -72,6 +75,7 @@ function App() {
                 <ContentWrapper>
                   <Targets />
                 </ContentWrapper>
+                <Footer />
               </PrivateRoute>
             }
           />
@@ -83,13 +87,11 @@ function App() {
                 <ContentWrapper>
                   <OperationProfile />
                 </ContentWrapper>
+                <Footer />
               </PrivateRoute>
             }
           />
-
         </Routes>
-        <Footer />
-
       </BrowserRouter>
     </div>
   );
