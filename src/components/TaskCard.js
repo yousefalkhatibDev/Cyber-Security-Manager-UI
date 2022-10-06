@@ -84,7 +84,7 @@ class TaskCard extends React.Component {
             <div style={{ marginRight: "auto" }}>
               <Dropdown>
                 <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                  Dropdown Button
+                  Change Task Status
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
                   <Dropdown.Item>

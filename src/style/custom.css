@@ -13,6 +13,7 @@ body {
   font-weight: bold;
   overflow-x: hidden;
   position: relative;
+  display: table;
 }
 
 /* top-bar */
