@@ -24,7 +24,7 @@ class TargetCard extends React.Component {
             "https://img.freepik.com/premium-vector/anonymous-hacker-concept-with-flat-design_23-2147895788.jpg?w=740",
         });
       } else {
-        this.setState({ image: `data:image/jpeg;base64,${res.data}` });
+        this.setState({ image: res.data.t_image });
       }
     });
   }

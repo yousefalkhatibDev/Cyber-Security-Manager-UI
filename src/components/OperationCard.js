@@ -29,7 +29,7 @@ class OperationCard extends React.Component {
             "https://img.freepik.com/free-vector/neon-cyber-security-concept-with-padlock-circuit_23-2148536303.jpg?w=900&t=st=1660930843~exp=1660931443~hmac=efcef9e6d44df72e8f8d1f679f29b28823bd0313b2a61eefecbda97b8622878d",
         });
       } else {
-        this.setState({ image: `data:image/jpeg;base64,${res.data}` });
+        this.setState({ image: res.data.o_image });
       }
     });
   }
@@ -84,9 +84,7 @@ class OperationCard extends React.Component {
         >
           <img src={this.state.image} alt="vector" />
 
-          <h2 className="OperationCard-name" >
-            {this.props.name}
-          </h2>
+          <h2 className="OperationCard-name">{this.props.name}</h2>
         </div>
 
         <div className="OperationDescription">

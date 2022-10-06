@@ -5,8 +5,13 @@ import Modal from "react-bootstrap/Modal";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useParams } from "react-router-dom";
 import Moment from "moment";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGear, faBullseye, faAddressCard, faListCheck } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faGear,
+  faBullseye,
+  faAddressCard,
+  faListCheck,
+} from "@fortawesome/free-solid-svg-icons";
 
 // components
 import TargetCard from "../components/TargetCard";
@@ -414,7 +419,7 @@ class OperationProfile extends React.Component {
             "https://img.freepik.com/free-vector/neon-cyber-security-concept-with-padlock-circuit_23-2148536303.jpg?w=900&t=st=1660930843~exp=1660931443~hmac=efcef9e6d44df72e8f8d1f679f29b28823bd0313b2a61eefecbda97b8622878d",
         });
       } else {
-        this.setState({ image: `data:image/jpeg;base64,${res.data}` });
+        this.setState({ image: res.data.o_image });
       }
     });
   }
@@ -778,24 +783,74 @@ class OperationProfile extends React.Component {
   render() {
     return (
       <div className="OperationProfile">
-        <ul class="OptionsContainer">
-          <li><a onClick={() => { this.SettingsModal(); }}>Settings <FontAwesomeIcon icon={faGear} style={{ marginLeft: "5px" }} /></a>  </li>
-          <li><a onClick={() => { this.SwitchSlider("Targets"); }}>Targets <FontAwesomeIcon icon={faBullseye} style={{ marginLeft: "5px" }} /></a></li>
-          <li><a onClick={() => { this.SwitchSlider("Notes"); }}>Posts <FontAwesomeIcon icon={faAddressCard} style={{ marginLeft: "5px" }} /></a></li>
-          <li><a onClick={() => { this.SwitchSlider("Tasks"); }}>Tasks <FontAwesomeIcon icon={faListCheck} style={{ marginLeft: "5px" }} /></a></li>
+        <ul className="OptionsContainer">
+          <li>
+            <a
+              onClick={() => {
+                this.SettingsModal();
+              }}
+            >
+              Settings{" "}
+              <FontAwesomeIcon icon={faGear} style={{ marginLeft: "5px" }} />
+            </a>{" "}
+          </li>
+          <li>
+            <a
+              onClick={() => {
+                this.SwitchSlider("Targets");
+              }}
+            >
+              Targets{" "}
+              <FontAwesomeIcon
+                icon={faBullseye}
+                style={{ marginLeft: "5px" }}
+              />
+            </a>
+          </li>
+          <li>
+            <a
+              onClick={() => {
+                this.SwitchSlider("Notes");
+              }}
+            >
+              Posts{" "}
+              <FontAwesomeIcon
+                icon={faAddressCard}
+                style={{ marginLeft: "5px" }}
+              />
+            </a>
+          </li>
+          <li>
+            <a
+              onClick={() => {
+                this.SwitchSlider("Tasks");
+              }}
+            >
+              Tasks{" "}
+              <FontAwesomeIcon
+                icon={faListCheck}
+                style={{ marginLeft: "5px" }}
+              />
+            </a>
+          </li>
         </ul>
-        <div class="OperationProfileContent">
+        <div className="OperationProfileContent">
           <div className="OperationProfileHeader">
             <img src={this.state.image} alt="user-card" />
             <div className="OperationProfileInfo">
               <ul>
-                <li style={{ fontSize: '23px' }}>{this.state.name}</li>
-                <li style={{ fontSize: '15px' }}>Members Count: {this.state.MembersCount}</li>
-                <li style={{ marginTop: '10px' }}>Targets Count: {this.state.TargetsCount}</li>
+                <li style={{ fontSize: "23px" }}>{this.state.name}</li>
+                <li style={{ fontSize: "15px" }}>
+                  Members Count: {this.state.MembersCount}
+                </li>
+                <li style={{ marginTop: "10px" }}>
+                  Targets Count: {this.state.TargetsCount}
+                </li>
                 <li>Posts Count: {this.state.PostsCount}</li>
                 <li>State: {this.state.state}</li>
                 <li>
-                  Create Date: {Moment(this.state.CreateDate).format("MMM Do YY")}
+                  Create Date:{" "}
+                  {Moment(this.state.CreateDate).format("MMM Do YY")}
                 </li>
                 <li>Description: {this.state.description}</li>
               </ul>
@@ -803,7 +858,6 @@ class OperationProfile extends React.Component {
           </div>
 
           <div className="OperationProfileSlider">
-
             <div
               className="PostsSlide"
               style={{ display: this.state.PostsTab ? null : "none" }}
@@ -1226,7 +1280,7 @@ class OperationProfile extends React.Component {
             </Modal.Footer>
           </Modal>
 
-          <Modal show={this.state.TaskModal} onHide={this.TaskModal} >
+          <Modal show={this.state.TaskModal} onHide={this.TaskModal}>
             <Modal.Header closeButton>
               <Modal.Title>New Task</Modal.Title>
             </Modal.Header>
@@ -1341,36 +1395,60 @@ class OperationProfile extends React.Component {
               <div className="SettingsModal-Container">
                 <div>
                   <h4>Add member</h4>
-                  <p>You can add a member to this target by clicking Add next to this text</p>
+                  <p>
+                    You can add a member to this target by clicking Add next to
+                    this text
+                  </p>
                 </div>
-                <button className="NewObject btn btn-outline-secondary" onClick={this.MemberModal}>
+                <button
+                  className="NewObject btn btn-outline-secondary"
+                  onClick={this.MemberModal}
+                >
                   New Members
                 </button>
               </div>
               <div className="SettingsModal-Container">
                 <div>
                   <h4>Switch state</h4>
-                  <p>You can switch the activity of this target by clicking Switch state next to this text</p>
+                  <p>
+                    You can switch the activity of this target by clicking
+                    Switch state next to this text
+                  </p>
                 </div>
-                <button className="NewObject btn btn-outline-secondary" onClick={this.StateModal}>
+                <button
+                  className="NewObject btn btn-outline-secondary"
+                  onClick={this.StateModal}
+                >
                   Switch State
                 </button>
               </div>
               <div className="SettingsModal-Container">
                 <div>
                   <h4>Update</h4>
-                  <p>You can update this target by clicking Update next to this text</p>
+                  <p>
+                    You can update this target by clicking Update next to this
+                    text
+                  </p>
                 </div>
-                <button className="NewObject btn btn-primary" onClick={this.InfoModal}>
+                <button
+                  className="NewObject btn btn-primary"
+                  onClick={this.InfoModal}
+                >
                   Update information
                 </button>
               </div>
               <div className="SettingsModal-Container">
                 <div>
                   <h4>Delete</h4>
-                  <p>You can delete this target by clicking Delete next to this text</p>
+                  <p>
+                    You can delete this target by clicking Delete next to this
+                    text
+                  </p>
                 </div>
-                <button className="NewObject btn btn-danger" onClick={this.DeleteModal}>
+                <button
+                  className="NewObject btn btn-danger"
+                  onClick={this.DeleteModal}
+                >
                   Delete Operation
                 </button>
               </div>
@@ -1421,7 +1499,12 @@ class OperationProfile extends React.Component {
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Label>Switch State</Form.Label>
-                  <Form.Select className="Sort" onChange={this.UpdateOperationState} aria-label="Default select example">
+                  <Form.Select
+                    className="Sort"
+                    onChange={this.UpdateOperationState}
+                    aria-label="Default select example"
+                  >
+                    <option selected disabled>State</option>
                     <option value="active">Active</option>
                     <option value="inactive">Inactive</option>
                   </Form.Select>
@@ -1481,7 +1564,7 @@ class OperationProfile extends React.Component {
             </Modal.Footer>
           </Modal>
         </div>
-      </div >
+      </div>
     );
   }
 }
