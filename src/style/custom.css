@@ -332,6 +332,7 @@ select {
 .OperationsContainer {
   display: flex;
   flex-wrap: wrap;
+  margin-top: 20px;
 }
 
 .OperationCardContainer {
@@ -406,6 +407,7 @@ select {
 .TargetsContainer {
   display: flex;
   flex-wrap: wrap;
+  margin-top: 20px;
 }
 
 .TargetCardContainer {
@@ -1036,6 +1038,47 @@ select {
 .Login .LoginButton .circle.animate {
   animation: grow 0.5s linear;
 }
+
+/* pagination */
+
+.pagination {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  padding-left: 0;
+  list-style: none;
+  border-radius: 0.25rem;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.pagination a,
+.pagination span {
+  border: none;
+  text-align: center;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 0;
+  color: rgba(0, 0, 0, 0.8);
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, .05);
+  margin-right: 4px;
+  text-decoration: none;
+  -webkit-box-shadow: 0 10px 27px -20px rgb(0 0 0 / 33%);
+  -moz-box-shadow: 0 10px 27px -20px rgba(0, 0, 0, .33);
+  box-shadow: 0 10px 27px -20px rgb(0 0 0 / 33%);
+}
+
+.pagination a.active {
+  background-color: #324ab2;
+  color: white;
+  border-radius: 1px;
+}
+
+/* end pagination */
 
 @media screen and (max-width: 1212px) {
   .SearchContainer div {

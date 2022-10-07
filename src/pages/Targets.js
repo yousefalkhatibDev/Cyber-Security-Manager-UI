@@ -1,6 +1,7 @@
 import React from "react";
 import TargetCard from "../components/TargetCard";
 import API from "../helper/API";
+import Pagination from "../components/Pagination";
 
 class Targets extends React.Component {
   constructor(props) {
@@ -9,11 +10,14 @@ class Targets extends React.Component {
       targets: [],
       filter: "",
       search: "",
+      currentPage: 1,
+      targetsToDisplayNumber: 4
     };
 
     this.GetTargets = this.GetTargets.bind(this);
     this.UpdateFilter = this.UpdateFilter.bind(this);
     this.UpdateSearch = this.UpdateSearch.bind(this);
+    this.setCurrentPage = this.setCurrentPage.bind(this)
   }
 
   async UpdateSearch(event) {
@@ -63,11 +67,18 @@ class Targets extends React.Component {
       });
   }
 
+  setCurrentPage(page) {
+    this.setState({ currentPage: page })
+  }
+
   async componentDidMount() {
     await this.GetTargets();
   }
 
   render() {
+    let lastTargetIndex = this.state.currentPage * this.state.targetsToDisplayNumber
+    let firstTargetIndex = lastTargetIndex - this.state.targetsToDisplayNumber
+    const currentTargetsToDisplay = this.state.targets.slice(firstTargetIndex, lastTargetIndex)
     return (
       <div className="Targets">
         <h1 style={{ marginLeft: "20px" }}>Targets</h1>
@@ -92,9 +103,8 @@ class Targets extends React.Component {
             </select>
           </div>
         </div>
-        <p>add panigation </p>
         <div className="TargetsContainer">
-          {this.state.targets.map((target, i) => {
+          {currentTargetsToDisplay.map((target, i) => {
             return (
               <TargetCard
                 key={i}
@@ -108,7 +118,14 @@ class Targets extends React.Component {
               />
             );
           })}
+          <Pagination
+            totalOperationsNumber={this.state.targets.length}
+            postsToDisplayNumber={this.state.targetsToDisplayNumber}
+            setCurrentPage={this.setCurrentPage}
+            currentPage={this.state.currentPage}
+          />
         </div>
+
       </div>
     );
   }
