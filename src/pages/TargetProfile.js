@@ -665,20 +665,22 @@ class TargetProfile extends React.Component {
                   New Relation
                 </button>
               </div>
-              {this.state.relations.map((relation, i) => {
-                return (
-                  <TargetCard
-                    key={i}
-                    id={relation.t_id}
-                    name={relation.t_name}
-                    description={relation.t_description}
-                    type={relation.t_type}
-                    relation={relation.r_type}
-                    CreateDate={relation.t_create_date}
-                    UpdateDate={relation.t_update_date}
-                  />
-                );
-              })}
+              <div style={{ display: "flex", flexWrap: "wrap" }}>
+                {this.state.relations.map((relation, i) => {
+                  return (
+                    <TargetCard
+                      key={i}
+                      id={relation.t_id}
+                      name={relation.t_name}
+                      description={relation.t_description}
+                      type={relation.t_type}
+                      relation={relation.r_type}
+                      CreateDate={relation.t_create_date}
+                      UpdateDate={relation.t_update_date}
+                    />
+                  );
+                })}
+              </div>
             </div>
 
             <div
@@ -707,20 +709,22 @@ class TargetProfile extends React.Component {
                   </select>
                 </div>
               </div>
-              {this.state.RelatedBY.map((relation, i) => {
-                return (
-                  <TargetCard
-                    key={i}
-                    id={relation.t_id}
-                    name={relation.t_name}
-                    description={relation.t_description}
-                    type={relation.t_type}
-                    relation={relation.r_type}
-                    CreateDate={relation.t_create_date}
-                    UpdateDate={relation.t_update_date}
-                  />
-                );
-              })}
+              <div style={{ display: "flex", flexWrap: "wrap" }}>
+                {this.state.RelatedBY.map((relation, i) => {
+                  return (
+                    <TargetCard
+                      key={i}
+                      id={relation.t_id}
+                      name={relation.t_name}
+                      description={relation.t_description}
+                      type={relation.t_type}
+                      relation={relation.r_type}
+                      CreateDate={relation.t_create_date}
+                      UpdateDate={relation.t_update_date}
+                    />
+                  );
+                })}
+              </div>
             </div>
           </div>
 
