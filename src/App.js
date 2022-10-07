@@ -4,11 +4,13 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 // style
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./style/custom.css";
+import "./style/App.css"
 
 // components
 import NavBar from "./components/NavBar";
 import PrivateRoute from "./Router/PrivateRoute";
 import Footer from "./components/Footer";
+import ContentWrapper from "./components/ContentWrapper";
 
 // screens
 import Dashboard from "./pages/Dashboard";
@@ -33,7 +35,10 @@ function App() {
             path="/"
             element={
               <PrivateRoute>
-                <Dashboard />
+                <ContentWrapper>
+                  <Dashboard />
+                </ContentWrapper>
+                <Footer />
               </PrivateRoute>
             }
           />
@@ -43,7 +48,10 @@ function App() {
             path="/target_profile/:id"
             element={
               <PrivateRoute>
-                <TargetProfile />
+                <ContentWrapper>
+                  <TargetProfile />
+                </ContentWrapper>
+                <Footer />
               </PrivateRoute>
             }
           />
@@ -52,7 +60,10 @@ function App() {
             path="/operations"
             element={
               <PrivateRoute>
-                <Operations />
+                <ContentWrapper>
+                  <Operations />
+                </ContentWrapper>
+                <Footer />
               </PrivateRoute>
             }
           />
@@ -61,7 +72,10 @@ function App() {
             path="/targets"
             element={
               <PrivateRoute>
-                <Targets />
+                <ContentWrapper>
+                  <Targets />
+                </ContentWrapper>
+                <Footer />
               </PrivateRoute>
             }
           />
@@ -70,13 +84,15 @@ function App() {
             path="/operation_profile/:id"
             element={
               <PrivateRoute>
-                <OperationProfile />
+                <ContentWrapper>
+                  <OperationProfile />
+                </ContentWrapper>
+                <Footer />
               </PrivateRoute>
             }
           />
         </Routes>
       </BrowserRouter>
-      <Footer />
     </div>
   );
 }

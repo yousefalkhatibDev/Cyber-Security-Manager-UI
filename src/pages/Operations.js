@@ -6,6 +6,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 // import { IoIosArrowForward } from "react-icons/io";
 import OperationCard from "../components/OperationCard";
 import API from "../helper/API";
+import Pagination from "../components/Pagination";
 
 // return (
 //   <div className="App">
@@ -28,6 +29,8 @@ class Operations extends React.Component {
       OperationState: "State",
       Base64State: "",
       FileName: "",
+      currentPage: 1,
+      operationsToDisplayNumber: 4
     };
 
     this.ModalShow = this.ModalShow.bind(this);
@@ -42,6 +45,7 @@ class Operations extends React.Component {
     this.UpdateBase64 = this.UpdateBase64.bind(this);
     this.UpdateFileName = this.UpdateFileName.bind(this);
     this.convertToBase64 = this.convertToBase64.bind(this);
+    this.setCurrentPage = this.setCurrentPage.bind(this)
   }
 
   UpdateFileName(FileName) {
@@ -192,11 +196,18 @@ class Operations extends React.Component {
       });
   }
 
+  setCurrentPage(page) {
+    this.setState({ currentPage: page })
+  }
+
   componentDidMount() {
     this.GetOperations();
   }
 
   render() {
+    let lastOperationIndex = this.state.currentPage * this.state.operationsToDisplayNumber
+    let firstOperationIndex = lastOperationIndex - this.state.operationsToDisplayNumber
+    const currentOperationsToDisplay = this.state.operations.slice(firstOperationIndex, lastOperationIndex)
     return (
       <div className="Operations">
         <h1 style={{ marginLeft: "20px" }}>Operations</h1>
@@ -227,11 +238,9 @@ class Operations extends React.Component {
             New Operation
           </button>
         </div>
-
-        <p>add panigation </p>
         {/* <p className="pagination"> <IoIosArrowForward /> </p> */}
         <div className="OperationsContainer">
-          {this.state.operations.map((operation, i) => {
+          {currentOperationsToDisplay.map((operation, i) => {
             return (
               <OperationCard
                 key={i}
@@ -244,6 +253,12 @@ class Operations extends React.Component {
             );
           })}
         </div>
+        <Pagination
+          totalOperationsNumber={this.state.operations.length}
+          postsToDisplayNumber={this.state.operationsToDisplayNumber}
+          setCurrentPage={this.setCurrentPage}
+          currentPage={this.state.currentPage}
+        />
         <Modal show={this.state.modal} onHide={this.ModalShow}>
           <Modal.Header closeButton>
             <Modal.Title>New Operation</Modal.Title>

@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 
 html {
   overflow-x: hidden;
@@ -12,7 +13,10 @@ body {
   color: black;
   font-weight: bold;
   overflow-x: hidden;
+  overflow: hidden;
   position: relative;
+  display: table;
+  font-family: 'Open Sans', sans-serif;
 }
 
 /* top-bar */
@@ -328,6 +332,7 @@ select {
 .OperationsContainer {
   display: flex;
   flex-wrap: wrap;
+  margin-top: 20px;
 }
 
 .OperationCardContainer {
@@ -402,6 +407,7 @@ select {
 .TargetsContainer {
   display: flex;
   flex-wrap: wrap;
+  margin-top: 20px;
 }
 
 .TargetCardContainer {
@@ -677,14 +683,47 @@ select {
 }
 
 .OperationProfile .Post {
-  padding: 5px;
+  padding: 15px;
   margin: 10px;
   border-radius: 5px;
-  border: 2px rgb(179, 179, 179) solid;
-  border-left: 5px solid #324ab2;
+  border: 1px solid #e1e1e1c4;
   -webkit-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
   box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
+}
+
+.OperationProfile .Post .PostAuthContainer {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+}
+
+.OperationProfile .Post .PostAuthImage {
+  width: 40px;
+  border-radius: 100px;
+  border-right: none;
+  margin-right: 12px;
+}
+
+.OperationProfile .Post .PostAuthContainer p:nth-of-type(2) {
+  font-weight: 400;
+  font-size: 13px;
+  padding-left: 12px;
+}
+
+.OperationProfile .Post .PostAuthContainer .PostDottedIcon {
+  margin-left: auto;
+}
+
+.OperationProfile .Post .PostAuthContainer .PostDottedIcon .DropDownToggle {
+  font-size: 18px;
+  background-color: transparent;
+  border: none;
+  color: black;
+}
+
+.OperationProfile .Post .PostAuthContainer .PostDottedIcon .DropDownToggle::after {
+  display: none;
 }
 
 .OperationProfile .Post .Postauthor {
@@ -743,6 +782,51 @@ select {
 }
 
 /* end operation profile */
+
+/* post comments */
+
+.OperationProfile .Comment {
+  border: 1px solid #e1e1e1c4;
+  border-radius: 5px;
+  padding: 7px;
+  margin-bottom: 15px;
+}
+
+.OperationProfile .Comment .CommentAuthContainer {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+}
+
+.OperationProfile .Comment .CommentAuthImage {
+  width: 40px;
+  border-radius: 100px;
+  border-right: none;
+  margin-right: 12px;
+}
+
+.OperationProfile .Comment .CommentAuthContainer p:nth-of-type(2) {
+  font-weight: 400;
+  font-size: 13px;
+  padding-left: 12px;
+}
+
+.OperationProfile .Comment .CommentAuthContainer .CommentDottedIcon {
+  margin-left: auto;
+}
+
+.OperationProfile .Comment .CommentAuthContainer .CommentDottedIcon .DropDownToggle {
+  font-size: 18px;
+  background-color: transparent;
+  border: none;
+  color: black;
+}
+
+.OperationProfile .Post .CommentAuthContainer .CommentDottedIcon .DropDownToggle::after {
+  display: none;
+}
+
+/* end post comments */
 
 .TaskCardContainer {
   width: 20%;
@@ -954,6 +1038,47 @@ select {
 .Login .LoginButton .circle.animate {
   animation: grow 0.5s linear;
 }
+
+/* pagination */
+
+.pagination {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  padding-left: 0;
+  list-style: none;
+  border-radius: 0.25rem;
+  width: 100%;
+  margin-top: 15px;
+}
+
+.pagination a,
+.pagination span {
+  border: none;
+  text-align: center;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 0;
+  color: rgba(0, 0, 0, 0.8);
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, .05);
+  margin-right: 4px;
+  text-decoration: none;
+  -webkit-box-shadow: 0 10px 27px -20px rgb(0 0 0 / 33%);
+  -moz-box-shadow: 0 10px 27px -20px rgba(0, 0, 0, .33);
+  box-shadow: 0 10px 27px -20px rgb(0 0 0 / 33%);
+}
+
+.pagination a.active {
+  background-color: #324ab2;
+  color: white;
+  border-radius: 1px;
+}
+
+/* end pagination */
 
 @media screen and (max-width: 1212px) {
   .SearchContainer div {

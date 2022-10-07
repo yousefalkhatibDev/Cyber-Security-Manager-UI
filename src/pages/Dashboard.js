@@ -71,23 +71,18 @@ class Dashboard extends React.Component {
   }
 
   GetRecentTargets() {
-    if (this.state.targets.length > 5) {
-      for (let i = 0; i <= 5; i++) {
-        this.setState({ recentTargets: [...this.state.recentTargets, this.state.targets[i]] })
-      }
-    } else {
-      for (let i = 0; i < this.state.targets.length; i++) {
-        this.setState({ recentTargets: [...this.state.recentTargets, this.state.targets[i]] })
-      }
+    for (let i = 0; i < this.state.targets.length; i++) {
+      if (this.state.recentTargets.length > 5) return;
+      this.setState({ recentTargets: [...this.state.recentTargets, this.state.targets[i]] })
     }
-    console.log(this.state.recentTargets)
   }
 
   async GetRecentPosts() {
-    for (let i = 0; i <= 5; i++) {
+    for (let i = 0; i <= this.state.operations.length; i++) {
       if (this.state.operations[i] == undefined) return;
+      if (this.state.recentPosts.length > 5) return;
       // this.setState({ recentOperations: [...this.state.recentOperations, this.state.operations[i]] });
-      await this.GetPosts(this.state.operations[i].o_id)
+      const posts = await this.GetPosts(this.state.operations[i].o_id)
     };
   }
 
