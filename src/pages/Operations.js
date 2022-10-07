@@ -164,7 +164,6 @@ class Operations extends React.Component {
         const res = respone.data;
         if (res.data) {
           this.setState({ operations: res.data });
-          console.log(res.data)
         }
       })
       .catch(function (error) {

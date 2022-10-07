@@ -282,7 +282,7 @@ class TargetProfile extends React.Component {
             "https://img.freepik.com/premium-vector/anonymous-hacker-concept-with-flat-design_23-2147895788.jpg?w=740",
         });
       } else {
-        this.setState({ image: `data:image/jpeg;base64,${res.data}` });
+        this.setState({ image: res.data.t_image });
       }
     });
   }
@@ -566,7 +566,7 @@ class TargetProfile extends React.Component {
   render() {
     return (
       <div className="TargetProfile">
-        <ul class="OptionsContainer">
+        <ul className="OptionsContainer">
           <li style={{ width: "23%" }}><a onClick={() => { this.SettingsModal(); }}>Settings <FontAwesomeIcon icon={faGear} style={{ marginLeft: "5px" }} /></a>  </li>
           <li style={{ width: "23%" }}><a onClick={() => { this.switchSlider("Notes"); }}>Notes <FontAwesomeIcon icon={faNoteSticky} style={{ marginLeft: "5px" }} /></a></li>
           <li style={{ width: "27%" }}><a onClick={() => { this.switchSlider("Relations"); }}>Relations <FontAwesomeIcon icon={faPeopleArrows} style={{ marginLeft: "5px" }} /></a></li>
