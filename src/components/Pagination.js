@@ -24,6 +24,7 @@ export default class Pagination extends Component {
 
                     })
                 }
+                <a href="#">...</a>
                 <a href="#">»</a>
             </div>
         )
