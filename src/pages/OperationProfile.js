@@ -838,7 +838,6 @@ class OperationProfile extends React.Component {
             <img src={this.state.image} alt="user-card" />
             <div className="OperationProfileInfo">
               <ul>
-<<<<<<< HEAD
                 <li style={{ fontSize: "23px" }}>{this.state.name}</li>
                 <li style={{ fontSize: "15px" }}>
                   Members Count: {this.state.MembersCount}
@@ -846,11 +845,6 @@ class OperationProfile extends React.Component {
                 <li style={{ marginTop: "10px" }}>
                   Targets Count: {this.state.TargetsCount}
                 </li>
-=======
-                <li>{this.state.name}</li>
-                <li>Members Count: {this.state.MembersCount}</li>
-                <li>Targets Count: {this.state.TargetsCount}</li>
->>>>>>> 1358c069c29f27ae597878b4d3713eef1495fff2
                 <li>Posts Count: {this.state.PostsCount}</li>
                 <li>State: {this.state.state}</li>
                 <li>
