@@ -18,6 +18,7 @@ import TargetCard from "../components/TargetCard";
 import Post from "../components/Post";
 import TaskCard from "../components/TaskCard";
 import API from "../helper/API";
+import Pagination from "../components/Pagination";
 
 const withParams = (Component) => (props) => {
   const { id } = useParams();
@@ -60,6 +61,10 @@ class OperationProfile extends React.Component {
       SettingsModal: false,
       DeleteModal: false,
       StateModal: false,
+      currentPageTargets: 1,
+      targetsToDisplayNumber: 4,
+      currentPageTasks: 1,
+      tasksToDisplayNumber: 4,
       NewTarget: {
         name: "",
         Base64State: "",
@@ -146,6 +151,7 @@ class OperationProfile extends React.Component {
     this.UpdateOperationState = this.UpdateOperationState.bind(this);
     this.UpdateNewInfoName = this.UpdateNewInfoName.bind(this);
     this.UpdateNewInfoDescription = this.UpdateNewInfoDescription.bind(this);
+    this.setCurrentPage = this.setCurrentPage.bind(this)
   }
 
   InfoModal() {
@@ -767,6 +773,14 @@ class OperationProfile extends React.Component {
       });
   }
 
+  setCurrentPage(page, type) {
+    if (type === "tasks") {
+      this.setState({ currentPageTasks: page })
+    } else if (type === "targets") {
+      this.setState({ currentPageTargets: page })
+    }
+  }
+
   componentDidMount() {
     this.GetOperationInfo();
     this.GetPosts();
@@ -780,6 +794,12 @@ class OperationProfile extends React.Component {
   }
 
   render() {
+    let lastTargetsIndex = this.state.currentPageTargets * this.state.targetsToDisplayNumber
+    let firstTargetsIndex = lastTargetsIndex - this.state.targetsToDisplayNumber
+    const currentTargetsToDisplay = this.state.targets.slice(firstTargetsIndex, lastTargetsIndex)
+    let lastTasksIndex = this.state.currentPageTasks * this.state.tasksToDisplayNumber
+    let firstTasksIndex = lastTasksIndex - this.state.tasksToDisplayNumber
+    const currentTasksToDisplay = this.state.tasks.slice(firstTasksIndex, lastTasksIndex)
     return (
       <div className="OperationProfile">
         <ul className="OptionsContainer">
@@ -927,7 +947,7 @@ class OperationProfile extends React.Component {
                 </button>
               </div>
               <div style={{ display: "flex", flexWrap: "wrap" }}>
-                {this.state.targets.map((target, i) => {
+                {currentTargetsToDisplay.map((target, i) => {
                   return (
                     <TargetCard
                       key={i}
@@ -941,6 +961,13 @@ class OperationProfile extends React.Component {
                   );
                 })}
               </div>
+              <Pagination
+                type="targets"
+                totalOperationsNumber={this.state.targets.length}
+                postsToDisplayNumber={this.state.targetsToDisplayNumber}
+                setCurrentPage={this.setCurrentPage}
+                currentPage={this.state.currentPageTargets}
+              />
             </div>
 
             <div
@@ -969,20 +996,29 @@ class OperationProfile extends React.Component {
                   New Task
                 </button>
               </div>
-              {this.state.tasks.map((task, i) => {
-                return (
-                  <TaskCard
-                    key={i}
-                    id={task.tk_id}
-                    title={task.tk_title}
-                    text={task.tk_content}
-                    agent={task.u_name}
-                    refresh={this.GetTasks}
-                    CreateDate={task.tk_create_date}
-                    UpdateDate={task.tk_update_date}
-                  />
-                );
-              })}
+              <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "start" }}>
+                {currentTasksToDisplay.map((task, i) => {
+                  return (
+                    <TaskCard
+                      key={i}
+                      id={task.tk_id}
+                      title={task.tk_title}
+                      text={task.tk_content}
+                      agent={task.u_name}
+                      refresh={this.GetTasks}
+                      CreateDate={task.tk_create_date}
+                      UpdateDate={task.tk_update_date}
+                    />
+                  );
+                })}
+              </div>
+              <Pagination
+                type="tasks"
+                totalOperationsNumber={this.state.tasks.length}
+                postsToDisplayNumber={this.state.tasksToDisplayNumber}
+                setCurrentPage={this.setCurrentPage}
+                currentPage={this.state.currentPageTasks}
+              />
             </div>
           </div>
 

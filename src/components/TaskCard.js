@@ -48,9 +48,12 @@ class TaskCard extends React.Component {
     return (
       <div className="TaskCardContainer">
         <p className="TaskTitle">
-          {this.props.title.length > 18
+          <img className="PostAuthImage" src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=580&amp;q=80" />
+          <p>{this.props.agent}</p>
+          <p>{this.props.CreateDate.split("T")[0]}</p>
+          {/* {this.props.title.length > 18
             ? this.props.title.substring(0, 18) + " ..."
-            : this.props.title}
+            : this.props.title} */}
         </p>
         <hr />
         <p className="TaskContent">
@@ -70,8 +73,8 @@ class TaskCard extends React.Component {
             <Modal.Title>{this.props.title}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <p>{this.props.text}</p>
-            <p>{this.props.agent}</p>
+            <p>{this.props.title}</p>
+            <p style={{ fontWeight: "400" }}>{this.props.text}</p>
             {/* <p
               className="PostComments"
               style={{ cursor: "pointer" }}

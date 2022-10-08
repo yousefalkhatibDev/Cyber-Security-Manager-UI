@@ -12,6 +12,7 @@ import { faGear, faNoteSticky, faPeopleArrows, faPerson } from "@fortawesome/fre
 import NoteCard from "../components/NoteCard";
 import TargetCard from "../components/TargetCard";
 import API from "../helper/API";
+import Pagination from "../components/Pagination";
 
 const withParams = (Component) => (props) => {
   const { id } = useParams();
@@ -48,6 +49,12 @@ class TargetProfile extends React.Component {
       NotesModal: false,
       RelationsModal: false,
       SettingsModal: false,
+      currentPageNotes: 1,
+      notesToDisplayNumber: 4,
+      currentPageRelations: 1,
+      relationsToDisplayNumber: 4,
+      currentPageRelatedBy: 1,
+      relatedByToDisplayNumber: 4,
       NewNote: {
         title: "",
         text: "",
@@ -105,6 +112,8 @@ class TargetProfile extends React.Component {
 
     this.DeleteTarget = this.DeleteTarget.bind(this);
     this.DeleteModal = this.DeleteModal.bind(this);
+
+    this.setCurrentPage = this.setCurrentPage.bind(this)
   }
 
   InfoModal() {
@@ -553,6 +562,17 @@ class TargetProfile extends React.Component {
     });
   }
 
+  setCurrentPage(page, type) {
+    console.log(type)
+    if (type === "notes") {
+      this.setState({ currentPageNotes: page })
+    } else if (type === "relations") {
+      this.setState({ currentPageRelations: page })
+    } else if (type === "relatedBy") {
+      this.setState({ currentPageRelatedBy: page })
+    }
+  }
+
   componentDidMount() {
     this.GetTargetInfo();
     this.GetTargets();
@@ -563,7 +583,19 @@ class TargetProfile extends React.Component {
     this.GetImage();
   }
 
+
   render() {
+    let lastNotesIndex = this.state.currentPageNotes * this.state.notesToDisplayNumber
+    let firstNotesIndex = lastNotesIndex - this.state.notesToDisplayNumber
+    const currentNotesToDisplay = this.state.notes.slice(firstNotesIndex, lastNotesIndex)
+
+    let lastRelationsIndex = this.state.currentPageRelations * this.state.relationsToDisplayNumber
+    let firstRelationsIndex = lastRelationsIndex - this.state.relationsToDisplayNumber
+    const currentRelationsToDisplay = this.state.relations.slice(firstRelationsIndex, lastRelationsIndex)
+
+    let lastRelatedByIndex = this.state.currentPageRelatedBy * this.state.eelatedByToDisplayNumber
+    let firstRelatedByIndex = lastRelatedByIndex - this.state.eelatedByToDisplayNumber
+    const currentRelatedByToDisplay = this.state.RelatedBY.slice(firstRelatedByIndex, lastRelatedByIndex)
     return (
       <div className="TargetProfile">
         <ul className="OptionsContainer">
@@ -620,7 +652,7 @@ class TargetProfile extends React.Component {
               </div>
 
               <div>
-                {this.state.notes.map((note, i) => {
+                {currentNotesToDisplay.map((note, i) => {
                   return (
                     <NoteCard
                       key={i}
@@ -637,6 +669,13 @@ class TargetProfile extends React.Component {
                   );
                 })}
               </div>
+              <Pagination
+                type="notes"
+                totalOperationsNumber={this.state.notes.length}
+                postsToDisplayNumber={this.state.notesToDisplayNumber}
+                setCurrentPage={this.setCurrentPage}
+                currentPage={this.state.currentPageNotes}
+              />
             </div>
 
             <div
@@ -665,20 +704,29 @@ class TargetProfile extends React.Component {
                   New Relation
                 </button>
               </div>
-              {this.state.relations.map((relation, i) => {
-                return (
-                  <TargetCard
-                    key={i}
-                    id={relation.t_id}
-                    name={relation.t_name}
-                    description={relation.t_description}
-                    type={relation.t_type}
-                    relation={relation.r_type}
-                    CreateDate={relation.t_create_date}
-                    UpdateDate={relation.t_update_date}
-                  />
-                );
-              })}
+              <div style={{ display: "flex", flexWrap: "wrap" }}>
+                {currentRelationsToDisplay.map((relation, i) => {
+                  return (
+                    <TargetCard
+                      key={i}
+                      id={relation.t_id}
+                      name={relation.t_name}
+                      description={relation.t_description}
+                      type={relation.t_type}
+                      relation={relation.r_type}
+                      CreateDate={relation.t_create_date}
+                      UpdateDate={relation.t_update_date}
+                    />
+                  );
+                })}
+              </div>
+              <Pagination
+                type="relations"
+                totalOperationsNumber={this.state.relations.length}
+                postsToDisplayNumber={this.state.relationsToDisplayNumber}
+                setCurrentPage={this.setCurrentPage}
+                currentPage={this.state.currentPageRelations}
+              />
             </div>
 
             <div
@@ -707,20 +755,29 @@ class TargetProfile extends React.Component {
                   </select>
                 </div>
               </div>
-              {this.state.RelatedBY.map((relation, i) => {
-                return (
-                  <TargetCard
-                    key={i}
-                    id={relation.t_id}
-                    name={relation.t_name}
-                    description={relation.t_description}
-                    type={relation.t_type}
-                    relation={relation.r_type}
-                    CreateDate={relation.t_create_date}
-                    UpdateDate={relation.t_update_date}
-                  />
-                );
-              })}
+              <div style={{ display: "flex", flexWrap: "wrap" }}>
+                {currentRelatedByToDisplay.map((relation, i) => {
+                  return (
+                    <TargetCard
+                      key={i}
+                      id={relation.t_id}
+                      name={relation.t_name}
+                      description={relation.t_description}
+                      type={relation.t_type}
+                      relation={relation.r_type}
+                      CreateDate={relation.t_create_date}
+                      UpdateDate={relation.t_update_date}
+                    />
+                  );
+                })}
+              </div>
+              <Pagination
+                type="relatedBy"
+                totalOperationsNumber={this.state.RelatedBY.length}
+                postsToDisplayNumber={this.state.relatedByToDisplayNumber}
+                setCurrentPage={this.setCurrentPage}
+                currentPage={this.state.currentPageRelatedBy}
+              />
             </div>
           </div>
 
