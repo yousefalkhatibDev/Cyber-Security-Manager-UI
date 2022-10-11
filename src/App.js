@@ -20,6 +20,7 @@ import Operations from "./pages/Operations";
 import Targets from "./pages/Targets";
 import Login from "./pages/Login";
 import PrivateNavBar from "./Router/PrivateNavBar";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -43,6 +44,18 @@ function App() {
             }
           />
           <Route exact path="/login" element={<Login />} />
+          <Route
+            exact
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <ContentWrapper>
+                  <Profile />
+                </ContentWrapper>
+                <Footer />
+              </PrivateRoute>
+            }
+          />
           <Route
             exact
             path="/target_profile/:id"

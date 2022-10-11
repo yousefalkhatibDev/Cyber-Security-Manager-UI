@@ -55,6 +55,8 @@ select:focus-visible {
   padding: 5px;
   height: 90px;
   margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
   -webkit-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
   box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
@@ -80,6 +82,10 @@ select:focus-visible {
   display: none;
 }
 
+.dropdown-toggle::after {
+  display: none !important;
+}
+
 /* end-top-bar */
 
 /* nav menu */
@@ -103,10 +109,12 @@ select:focus-visible {
   color: white;
   font-size: 12px;
   padding: 1px;
+  display: flex;
+  align-items: center;
 }
 
 .user-name p {
-  margin-left: 35% !important;
+  margin-left: 2% !important;
 }
 
 .nav-menu {
@@ -1200,7 +1208,7 @@ select {
   }
 
   .user-card {
-    padding: 15px;
+    padding: 5px;
     width: 170px;
   }
 
@@ -1234,6 +1242,10 @@ select {
 }
 
 @media screen and (max-width: 600px) {
+  footer {
+    font-size: 14px;
+  }
+
   .OperationCardContainer {
     width: 90%;
   }
@@ -1307,6 +1319,24 @@ select {
   .TargetProfile .OptionsContainer li a svg {
     font-size: 11px;
     margin-left: 2px !important;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .user-name p {
+    display: none;
+  }
+
+  .TargetProfile .OptionsContainer li a {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .TargetProfile .OptionsContainer li a svg {
+    display: block;
+    font-size: 15px;
+    margin: 5px 0px;
   }
 }
 
