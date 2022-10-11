@@ -543,7 +543,7 @@ select {
 /* NoteCard */
 
 .NoteCardContainer {
-  width: 33%;
+  width: 47%;
   text-align: center;
   height: auto;
   border-radius: 5px;
@@ -561,6 +561,8 @@ select {
 }
 
 .NoteTitle {
+  display: flex;
+  align-items: center;
   border: none;
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
@@ -568,6 +570,24 @@ select {
   padding: 10px;
   margin: 0;
   text-align: center;
+}
+
+.NoteTitle img {
+  width: 40px;
+  border-radius: 100px;
+  border: none;
+  margin-right: 12px;
+}
+
+.NoteTitle p:nth-of-type(1) {
+  font-weight: 500;
+  padding-left: 5px;
+}
+
+.NoteTitle p:nth-of-type(2) {
+  font-weight: 500;
+  font-size: 12px;
+  padding-left: 10px;
 }
 
 .NoteContent {
@@ -1144,6 +1164,16 @@ select {
   }
 }
 
+@media (max-width: 755px) {
+  .TaskCardContainer {
+    width: 100%;
+  }
+
+  .NoteCardContainer {
+    width: 100%;
+  }
+}
+
 @media (max-width: 700px) {
   .nav-links {
     position: absolute;
@@ -1277,10 +1307,6 @@ select {
   .TargetProfile .OptionsContainer li a svg {
     font-size: 11px;
     margin-left: 2px !important;
-  }
-
-  .NoteCardContainer {
-    width: 50%;
   }
 }
 
