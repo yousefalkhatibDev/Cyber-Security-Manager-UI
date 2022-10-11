@@ -55,6 +55,8 @@ select:focus-visible {
   padding: 5px;
   height: 90px;
   margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
   -webkit-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
   box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
@@ -80,6 +82,10 @@ select:focus-visible {
   display: none;
 }
 
+.dropdown-toggle::after {
+  display: none !important;
+}
+
 /* end-top-bar */
 
 /* nav menu */
@@ -103,10 +109,12 @@ select:focus-visible {
   color: white;
   font-size: 12px;
   padding: 1px;
+  display: flex;
+  align-items: center;
 }
 
 .user-name p {
-  margin-left: 35% !important;
+  margin-left: 2% !important;
 }
 
 .nav-menu {
@@ -543,7 +551,7 @@ select {
 /* NoteCard */
 
 .NoteCardContainer {
-  width: 33%;
+  width: 47%;
   text-align: center;
   height: auto;
   border-radius: 5px;
@@ -561,6 +569,8 @@ select {
 }
 
 .NoteTitle {
+  display: flex;
+  align-items: center;
   border: none;
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
@@ -568,6 +578,24 @@ select {
   padding: 10px;
   margin: 0;
   text-align: center;
+}
+
+.NoteTitle img {
+  width: 40px;
+  border-radius: 100px;
+  border: none;
+  margin-right: 12px;
+}
+
+.NoteTitle p:nth-of-type(1) {
+  font-weight: 500;
+  padding-left: 5px;
+}
+
+.NoteTitle p:nth-of-type(2) {
+  font-weight: 500;
+  font-size: 12px;
+  padding-left: 10px;
 }
 
 .NoteContent {
@@ -1144,6 +1172,16 @@ select {
   }
 }
 
+@media (max-width: 755px) {
+  .TaskCardContainer {
+    width: 100%;
+  }
+
+  .NoteCardContainer {
+    width: 100%;
+  }
+}
+
 @media (max-width: 700px) {
   .nav-links {
     position: absolute;
@@ -1170,7 +1208,7 @@ select {
   }
 
   .user-card {
-    padding: 15px;
+    padding: 5px;
     width: 170px;
   }
 
@@ -1204,6 +1242,10 @@ select {
 }
 
 @media screen and (max-width: 600px) {
+  footer {
+    font-size: 14px;
+  }
+
   .OperationCardContainer {
     width: 90%;
   }
@@ -1278,9 +1320,23 @@ select {
     font-size: 11px;
     margin-left: 2px !important;
   }
+}
 
-  .NoteCardContainer {
-    width: 50%;
+@media screen and (max-width: 420px) {
+  .user-name p {
+    display: none;
+  }
+
+  .TargetProfile .OptionsContainer li a {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .TargetProfile .OptionsContainer li a svg {
+    display: block;
+    font-size: 15px;
+    margin: 5px 0px;
   }
 }
 
