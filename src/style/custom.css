@@ -313,6 +313,7 @@ select:focus-visible {
   margin: auto;
   height: auto;
   width: 90%;
+  margin-top: 25px;
 }
 
 .SearchContainer {

@@ -7,6 +7,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import OperationCard from "../components/OperationCard";
 import API from "../helper/API";
 import Pagination from "../components/Pagination";
+import { SiHackaday } from "react-icons/si"
 
 // return (
 //   <div className="App">
@@ -209,144 +210,151 @@ class Operations extends React.Component {
     let firstOperationIndex = lastOperationIndex - this.state.operationsToDisplayNumber
     const currentOperationsToDisplay = this.state.operations.slice(firstOperationIndex, lastOperationIndex)
     return (
-      <div className="Operations">
-        <h1 style={{ marginLeft: "20px" }}>Operations</h1>
-
-        <div className="SearchContainer">
-          <div>
-            <button disabled>Search</button>
-            <input
-              placeholder="Search by name or description"
-              type="text"
-              className="Search"
-              onChange={this.UpdateSearch}
-            />
+      <>
+        <div className='pageHeader'>
+          <SiHackaday color="white" className='pageHeader-icon' textDecoration="none" />
+          <div className='pageHeader-title'>
+            <h1>Operations</h1>
+            <p>Check out new operations and plans!</p>
           </div>
-
-          <div>
-            <button disabled>Sort by</button>
-            <select className="Sort" onChange={this.UpdateFilter}>
-              <option value="all">All</option>
-              <option value="name">Name</option>
-              <option value="date">Date</option>
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-            </select>
-          </div>
-
-          <button className="NewObject" onClick={this.ModalShow}>
-            New Operation
-          </button>
         </div>
-        {/* <p className="pagination"> <IoIosArrowForward /> </p> */}
-        <div className="OperationsContainer">
-          {currentOperationsToDisplay.map((operation, i) => {
-            return (
-              <OperationCard
-                key={i}
-                id={operation.o_id}
-                name={operation.o_name}
-                description={operation.o_description}
-                status={operation.o_state}
-                CreateDate={operation.o_create_date}
+        <div className="Operations">
+          <h1 style={{ marginLeft: "20px" }}>Operations</h1>
+          <div className="SearchContainer">
+            <div>
+              <button disabled>Search</button>
+              <input
+                placeholder="Search by name or description"
+                type="text"
+                className="Search"
+                onChange={this.UpdateSearch}
               />
-            );
-          })}
+            </div>
+
+            <div>
+              <button disabled>Sort by</button>
+              <select className="Sort" onChange={this.UpdateFilter}>
+                <option value="all">All</option>
+                <option value="name">Name</option>
+                <option value="date">Date</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+            </div>
+
+            <button className="NewObject" onClick={this.ModalShow}>
+              New Operation
+            </button>
+          </div>
+          {/* <p className="pagination"> <IoIosArrowForward /> </p> */}
+          <div className="OperationsContainer">
+            {currentOperationsToDisplay.map((operation, i) => {
+              return (
+                <OperationCard
+                  key={i}
+                  id={operation.o_id}
+                  name={operation.o_name}
+                  description={operation.o_description}
+                  status={operation.o_state}
+                  CreateDate={operation.o_create_date}
+                />
+              );
+            })}
+          </div>
+          <Pagination
+            totalOperationsNumber={this.state.operations.length}
+            postsToDisplayNumber={this.state.operationsToDisplayNumber}
+            setCurrentPage={this.setCurrentPage}
+            currentPage={this.state.currentPage}
+          />
+          <Modal show={this.state.modal} onHide={this.ModalShow}>
+            <Modal.Header closeButton>
+              <Modal.Title>New Operation</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Operation Name</Form.Label>
+                  <Form.Control
+                    type="email"
+                    placeholder="e.g. Alpha, Bravo"
+                    autoFocus
+                    onChange={this.UpdateName}
+                  />
+                </Form.Group>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Operation Image</Form.Label>
+                  <Form.Control
+                    type="file"
+                    autoFocus
+                    onChange={this.convertToBase64}
+                    id="inputFile"
+                    name="inputFile"
+                    accept="application/pdf, application/vnd.ms-excel, image/*"
+                  />
+                </Form.Group>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Label>Operation Password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    autoFocus
+                    onChange={this.UpdatePassword}
+                  />
+                </Form.Group>
+                <Dropdown>
+                  <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                    {this.state.OperationState}
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu>
+                    <Dropdown.Item onClick={() => this.UpdateState("active")}>
+                      Active
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={() => this.UpdateState("inactive")}>
+                      Inactive
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+                <Form.Group
+                  className="mb-3"
+                  controlId="exampleForm.ControlTextarea1"
+                >
+                  <Form.Label>Operation Description</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    placeholder="about the operation"
+                    rows={3}
+                    onChange={this.UpdateDescription}
+                  />
+                </Form.Group>
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={this.ModalShow}>
+                Close
+              </Button>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  this.UploadOperation();
+                  this.ModalShow();
+                }}
+              >
+                Save Operation
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </div>
-        <Pagination
-          totalOperationsNumber={this.state.operations.length}
-          postsToDisplayNumber={this.state.operationsToDisplayNumber}
-          setCurrentPage={this.setCurrentPage}
-          currentPage={this.state.currentPage}
-        />
-        <Modal show={this.state.modal} onHide={this.ModalShow}>
-          <Modal.Header closeButton>
-            <Modal.Title>New Operation</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Operation Name</Form.Label>
-                <Form.Control
-                  type="email"
-                  placeholder="e.g. Alpha, Bravo"
-                  autoFocus
-                  onChange={this.UpdateName}
-                />
-              </Form.Group>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Operation Image</Form.Label>
-                <Form.Control
-                  type="file"
-                  autoFocus
-                  onChange={this.convertToBase64}
-                  id="inputFile"
-                  name="inputFile"
-                  accept="application/pdf, application/vnd.ms-excel, image/*"
-                />
-              </Form.Group>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlInput1"
-              >
-                <Form.Label>Operation Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  autoFocus
-                  onChange={this.UpdatePassword}
-                />
-              </Form.Group>
-              <Dropdown>
-                <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                  {this.state.OperationState}
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu>
-                  <Dropdown.Item onClick={() => this.UpdateState("active")}>
-                    Active
-                  </Dropdown.Item>
-                  <Dropdown.Item onClick={() => this.UpdateState("inactive")}>
-                    Inactive
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlTextarea1"
-              >
-                <Form.Label>Operation Description</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  placeholder="about the operation"
-                  rows={3}
-                  onChange={this.UpdateDescription}
-                />
-              </Form.Group>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.ModalShow}>
-              Close
-            </Button>
-            <Button
-              variant="primary"
-              onClick={() => {
-                this.UploadOperation();
-                this.ModalShow();
-              }}
-            >
-              Save Operation
-            </Button>
-          </Modal.Footer>
-        </Modal>
-
-      </div>
+      </>
     );
   }
 }
