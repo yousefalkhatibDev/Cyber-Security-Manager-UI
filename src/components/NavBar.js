@@ -68,7 +68,7 @@ class TopBar extends React.Component {
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>
-                    <Dropdown.Item href="/profile"><span style={{ marginRight: "25px" }}>My Profile</span> <MdOutlinePerson color="black" size={"13"} textDecoration="none" /></Dropdown.Item>
+                    <Dropdown.Item href="/profile"><Link to="/profile" style={{ textDecoration: "none" }}><span style={{ marginRight: "25px", color: "black" }}>My Profile</span> <MdOutlinePerson color="black" size={"13"} textDecoration="none" /></Link></Dropdown.Item>
                     <Dropdown.Item onClick={this.Logout}><span style={{ marginRight: "50px" }}>Logout</span> <FiLogOut color="black" size={"13"} textDecoration="none" /></Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>

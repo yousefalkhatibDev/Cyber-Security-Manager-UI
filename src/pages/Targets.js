@@ -2,6 +2,7 @@ import React from "react";
 import TargetCard from "../components/TargetCard";
 import API from "../helper/API";
 import Pagination from "../components/Pagination";
+import { FiTarget } from "react-icons/fi"
 
 class Targets extends React.Component {
   constructor(props) {
@@ -80,53 +81,62 @@ class Targets extends React.Component {
     let firstTargetIndex = lastTargetIndex - this.state.targetsToDisplayNumber
     const currentTargetsToDisplay = this.state.targets.slice(firstTargetIndex, lastTargetIndex)
     return (
-      <div className="Targets">
-        <h1 style={{ marginLeft: "20px" }}>Targets</h1>
+      <>
+        <div className='pageHeader'>
+          <FiTarget color="white" className='pageHeader-icon' textDecoration="none" />
+          <div className='pageHeader-title'>
+            <h1>Targets</h1>
+            <p>See who people are targeting!</p>
+          </div>
+        </div>
+        <div className="Targets">
+          <h1 style={{ marginLeft: "20px" }}>Targets</h1>
 
-        <div className="SearchContainer targetsSearchContainer">
-          <div>
-            <button disabled>Search</button>
-            <input
-              placeholder="Search by name or description"
-              type="text"
-              className="Search"
-              onChange={this.UpdateSearch}
+          <div className="SearchContainer targetsSearchContainer">
+            <div>
+              <button disabled>Search</button>
+              <input
+                placeholder="Search by name or description"
+                type="text"
+                className="Search"
+                onChange={this.UpdateSearch}
+              />
+            </div>
+
+            <div style={{ marginLeft: "20px" }}>
+              <button disabled>Sort by</button>
+              <select className="Sort" onChange={this.UpdateFilter}>
+                <option value="all">All</option>
+                <option value="name">Name</option>
+                <option value="date">Date</option>
+              </select>
+            </div>
+          </div>
+          <div className="TargetsContainer">
+            {currentTargetsToDisplay.map((target, i) => {
+              return (
+                <TargetCard
+                  key={i}
+                  id={target.t_id}
+                  name={target.t_name}
+                  description={target.t_description}
+                  type={target.t_type}
+                  operation={target.o_name}
+                  CreateDate={target.t_create_date}
+                  UpdateDate={target.t_update_date}
+                />
+              );
+            })}
+            <Pagination
+              totalOperationsNumber={this.state.targets.length}
+              postsToDisplayNumber={this.state.targetsToDisplayNumber}
+              setCurrentPage={this.setCurrentPage}
+              currentPage={this.state.currentPage}
             />
           </div>
 
-          <div style={{ marginLeft: "20px" }}>
-            <button disabled>Sort by</button>
-            <select className="Sort" onChange={this.UpdateFilter}>
-              <option value="all">All</option>
-              <option value="name">Name</option>
-              <option value="date">Date</option>
-            </select>
-          </div>
         </div>
-        <div className="TargetsContainer">
-          {currentTargetsToDisplay.map((target, i) => {
-            return (
-              <TargetCard
-                key={i}
-                id={target.t_id}
-                name={target.t_name}
-                description={target.t_description}
-                type={target.t_type}
-                operation={target.o_name}
-                CreateDate={target.t_create_date}
-                UpdateDate={target.t_update_date}
-              />
-            );
-          })}
-          <Pagination
-            totalOperationsNumber={this.state.targets.length}
-            postsToDisplayNumber={this.state.targetsToDisplayNumber}
-            setCurrentPage={this.setCurrentPage}
-            currentPage={this.state.currentPage}
-          />
-        </div>
-
-      </div>
+      </>
     );
   }
 }
