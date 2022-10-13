@@ -701,10 +701,6 @@ class TargetProfile extends React.Component {
                     <option value="date">Date</option>
                   </select>
                 </div>
-                <Button variant="outline-success" onClick={this.RelationsModal} className="addNewButton" >
-                  <AiOutlinePlus size="30" color="green" />
-                  <p>Add a new relation</p>
-                </Button>
               </div>
               <div style={{ display: "flex", flexWrap: "wrap" }}>
                 {currentRelationsToDisplay.map((relation, i) => {
@@ -721,6 +717,10 @@ class TargetProfile extends React.Component {
                     />
                   );
                 })}
+                <div className="newOperation-TargetCard" onClick={this.RelationsModal}>
+                  <AiOutlinePlus style={{ color: "rgb(0, 180, 0)" }} size="55" textDecoration="none" />
+                  <p>Add a new operation</p>
+                </div>
               </div>
               <Pagination
                 type="relations"
