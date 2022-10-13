@@ -12,6 +12,7 @@ import {
   faAddressCard,
   faListCheck,
 } from "@fortawesome/free-solid-svg-icons";
+import { AiOutlinePlus } from "react-icons/ai"
 
 // components
 import TargetCard from "../components/TargetCard";
@@ -839,7 +840,7 @@ class OperationProfile extends React.Component {
               />
             </a>
           </li>
-          <li>
+          <li >
             <a
               onClick={() => {
                 this.SwitchSlider("Tasks");
@@ -871,7 +872,7 @@ class OperationProfile extends React.Component {
                   Create Date:{" "}
                   {Moment(this.state.CreateDate).format("MMM Do YY")}
                 </li>
-                <li>Description: {this.state.description}</li>
+                <li style={{ width: "60%" }}>Description: {this.state.description}</li>
               </ul>
             </div>
           </div>
@@ -899,9 +900,10 @@ class OperationProfile extends React.Component {
                     <option value="older_to_newest">Older to Newest</option>
                   </select>
                 </div>
-                <button className="NewObject" onClick={this.PostModal}>
-                  New Post
-                </button>
+                <Button variant="outline-success" onClick={this.PostModal} className="addNewButton" >
+                  <AiOutlinePlus size="30" color="green" />
+                  <p>Add a new post</p>
+                </Button>
               </div>
 
               {this.state.posts.map((post, i) => {
@@ -942,9 +944,6 @@ class OperationProfile extends React.Component {
                     <option value="date">Date</option>
                   </select>
                 </div>
-                <button className="NewObject" onClick={this.TargetModal}>
-                  New Target
-                </button>
               </div>
               <div style={{ display: "flex", flexWrap: "wrap" }}>
                 {currentTargetsToDisplay.map((target, i) => {
@@ -960,6 +959,10 @@ class OperationProfile extends React.Component {
                     />
                   );
                 })}
+                <div className="newOperation-TargetCard" onClick={this.TargetModal} style={{ height: "400px" }}>
+                  <AiOutlinePlus style={{ color: "rgb(0, 180, 0)" }} size="55" textDecoration="none" />
+                  <p>Add a new target</p>
+                </div>
               </div>
               <Pagination
                 type="targets"
@@ -992,9 +995,10 @@ class OperationProfile extends React.Component {
                     <option value="my_tasks">My Tasks</option>
                   </select>
                 </div>
-                <button className="NewObject" onClick={this.TaskModal}>
-                  New Task
-                </button>
+                <Button variant="outline-success" onClick={this.TaskModal} className="addNewButton" >
+                  <AiOutlinePlus size="30" color="green" />
+                  <p>Add a new task</p>
+                </Button>
               </div>
               <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "start" }}>
                 {currentTasksToDisplay.map((task, i) => {

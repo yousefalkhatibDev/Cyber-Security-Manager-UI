@@ -8,6 +8,7 @@ import OperationCard from "../components/OperationCard";
 import API from "../helper/API";
 import Pagination from "../components/Pagination";
 import { SiHackaday } from "react-icons/si"
+import { AiOutlinePlus } from "react-icons/ai"
 
 // return (
 //   <div className="App">
@@ -241,10 +242,6 @@ class Operations extends React.Component {
                 <option value="inactive">Inactive</option>
               </select>
             </div>
-
-            <button className="NewObject" onClick={this.ModalShow}>
-              New Operation
-            </button>
           </div>
           {/* <p className="pagination"> <IoIosArrowForward /> </p> */}
           <div className="OperationsContainer">
@@ -260,6 +257,10 @@ class Operations extends React.Component {
                 />
               );
             })}
+            <div className="newOperation-TargetCard" onClick={this.ModalShow}>
+              <AiOutlinePlus style={{ color: "rgb(0, 180, 0)" }} size="55" textDecoration="none" />
+              <p>Add a new operation</p>
+            </div>
           </div>
           <Pagination
             totalOperationsNumber={this.state.operations.length}

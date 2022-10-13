@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import Moment from "moment";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGear, faNoteSticky, faPeopleArrows, faPerson } from "@fortawesome/free-solid-svg-icons";
+import { AiOutlinePlus } from "react-icons/ai"
 
 // components
 import NoteCard from "../components/NoteCard";
@@ -592,8 +593,8 @@ class TargetProfile extends React.Component {
     let firstRelationsIndex = lastRelationsIndex - this.state.relationsToDisplayNumber
     const currentRelationsToDisplay = this.state.relations.slice(firstRelationsIndex, lastRelationsIndex)
 
-    let lastRelatedByIndex = this.state.currentPageRelatedBy * this.state.eelatedByToDisplayNumber
-    let firstRelatedByIndex = lastRelatedByIndex - this.state.eelatedByToDisplayNumber
+    let lastRelatedByIndex = this.state.currentPageRelatedBy * this.state.relatedByToDisplayNumber
+    let firstRelatedByIndex = lastRelatedByIndex - this.state.relatedByToDisplayNumber
     const currentRelatedByToDisplay = this.state.RelatedBY.slice(firstRelatedByIndex, lastRelatedByIndex)
     return (
       <div className="TargetProfile">
@@ -627,8 +628,8 @@ class TargetProfile extends React.Component {
               className="NotesSlide"
               style={{ display: this.state.NotesTab ? null : "none" }}
             >
-              <div className="SearchContainer">
-                <div>
+              <div className="SearchContainer" >
+                <div >
                   <button disabled>Search</button>
                   <input
                     placeholder="Search by title or description"
@@ -645,9 +646,10 @@ class TargetProfile extends React.Component {
                     <option value="date">Date</option>
                   </select>
                 </div>
-                <button className="NewObject" onClick={this.NotesModal}>
-                  New Note
-                </button>
+                <Button variant="outline-success" onClick={this.NotesModal} className="addNewButton" >
+                  <AiOutlinePlus size="30" color="green" />
+                  <p>Add a new note</p>
+                </Button>
               </div>
 
               <div>
@@ -699,9 +701,10 @@ class TargetProfile extends React.Component {
                     <option value="date">Date</option>
                   </select>
                 </div>
-                <button className="NewObject" onClick={this.RelationsModal}>
-                  New Relation
-                </button>
+                <Button variant="outline-success" onClick={this.RelationsModal} className="addNewButton" >
+                  <AiOutlinePlus size="30" color="green" />
+                  <p>Add a new relation</p>
+                </Button>
               </div>
               <div style={{ display: "flex", flexWrap: "wrap" }}>
                 {currentRelationsToDisplay.map((relation, i) => {
