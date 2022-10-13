@@ -12,12 +12,14 @@ import {
   faAddressCard,
   faListCheck,
 } from "@fortawesome/free-solid-svg-icons";
+import { AiOutlinePlus } from "react-icons/ai"
 
 // components
 import TargetCard from "../components/TargetCard";
 import Post from "../components/Post";
 import TaskCard from "../components/TaskCard";
 import API from "../helper/API";
+import Pagination from "../components/Pagination";
 
 const withParams = (Component) => (props) => {
   const { id } = useParams();
@@ -60,6 +62,10 @@ class OperationProfile extends React.Component {
       SettingsModal: false,
       DeleteModal: false,
       StateModal: false,
+      currentPageTargets: 1,
+      targetsToDisplayNumber: 4,
+      currentPageTasks: 1,
+      tasksToDisplayNumber: 4,
       NewTarget: {
         name: "",
         Base64State: "",
@@ -146,6 +152,7 @@ class OperationProfile extends React.Component {
     this.UpdateOperationState = this.UpdateOperationState.bind(this);
     this.UpdateNewInfoName = this.UpdateNewInfoName.bind(this);
     this.UpdateNewInfoDescription = this.UpdateNewInfoDescription.bind(this);
+    this.setCurrentPage = this.setCurrentPage.bind(this)
   }
 
   InfoModal() {
@@ -767,6 +774,14 @@ class OperationProfile extends React.Component {
       });
   }
 
+  setCurrentPage(page, type) {
+    if (type === "tasks") {
+      this.setState({ currentPageTasks: page })
+    } else if (type === "targets") {
+      this.setState({ currentPageTargets: page })
+    }
+  }
+
   componentDidMount() {
     this.GetOperationInfo();
     this.GetPosts();
@@ -780,6 +795,12 @@ class OperationProfile extends React.Component {
   }
 
   render() {
+    let lastTargetsIndex = this.state.currentPageTargets * this.state.targetsToDisplayNumber
+    let firstTargetsIndex = lastTargetsIndex - this.state.targetsToDisplayNumber
+    const currentTargetsToDisplay = this.state.targets.slice(firstTargetsIndex, lastTargetsIndex)
+    let lastTasksIndex = this.state.currentPageTasks * this.state.tasksToDisplayNumber
+    let firstTasksIndex = lastTasksIndex - this.state.tasksToDisplayNumber
+    const currentTasksToDisplay = this.state.tasks.slice(firstTasksIndex, lastTasksIndex)
     return (
       <div className="OperationProfile">
         <ul className="OptionsContainer">
@@ -819,7 +840,7 @@ class OperationProfile extends React.Component {
               />
             </a>
           </li>
-          <li>
+          <li >
             <a
               onClick={() => {
                 this.SwitchSlider("Tasks");
@@ -851,7 +872,7 @@ class OperationProfile extends React.Component {
                   Create Date:{" "}
                   {Moment(this.state.CreateDate).format("MMM Do YY")}
                 </li>
-                <li>Description: {this.state.description}</li>
+                <li style={{ width: "60%" }}>Description: {this.state.description}</li>
               </ul>
             </div>
           </div>
@@ -879,9 +900,10 @@ class OperationProfile extends React.Component {
                     <option value="older_to_newest">Older to Newest</option>
                   </select>
                 </div>
-                <button className="NewObject" onClick={this.PostModal}>
-                  New Post
-                </button>
+                <Button variant="outline-success" onClick={this.PostModal} className="addNewButton" >
+                  <AiOutlinePlus size="30" color="green" />
+                  <p>Add a new post</p>
+                </Button>
               </div>
 
               {this.state.posts.map((post, i) => {
@@ -922,12 +944,9 @@ class OperationProfile extends React.Component {
                     <option value="date">Date</option>
                   </select>
                 </div>
-                <button className="NewObject" onClick={this.TargetModal}>
-                  New Target
-                </button>
               </div>
               <div style={{ display: "flex", flexWrap: "wrap" }}>
-                {this.state.targets.map((target, i) => {
+                {currentTargetsToDisplay.map((target, i) => {
                   return (
                     <TargetCard
                       key={i}
@@ -940,7 +959,18 @@ class OperationProfile extends React.Component {
                     />
                   );
                 })}
+                <div className="newOperation-TargetCard" onClick={this.TargetModal} style={{ height: "400px" }}>
+                  <AiOutlinePlus style={{ color: "rgb(0, 180, 0)" }} size="55" textDecoration="none" />
+                  <p>Add a new target</p>
+                </div>
               </div>
+              <Pagination
+                type="targets"
+                totalOperationsNumber={this.state.targets.length}
+                postsToDisplayNumber={this.state.targetsToDisplayNumber}
+                setCurrentPage={this.setCurrentPage}
+                currentPage={this.state.currentPageTargets}
+              />
             </div>
 
             <div
@@ -965,24 +995,34 @@ class OperationProfile extends React.Component {
                     <option value="my_tasks">My Tasks</option>
                   </select>
                 </div>
-                <button className="NewObject" onClick={this.TaskModal}>
-                  New Task
-                </button>
+                <Button variant="outline-success" onClick={this.TaskModal} className="addNewButton" >
+                  <AiOutlinePlus size="30" color="green" />
+                  <p>Add a new task</p>
+                </Button>
               </div>
-              {this.state.tasks.map((task, i) => {
-                return (
-                  <TaskCard
-                    key={i}
-                    id={task.tk_id}
-                    title={task.tk_title}
-                    text={task.tk_content}
-                    agent={task.u_name}
-                    refresh={this.GetTasks}
-                    CreateDate={task.tk_create_date}
-                    UpdateDate={task.tk_update_date}
-                  />
-                );
-              })}
+              <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "start" }}>
+                {currentTasksToDisplay.map((task, i) => {
+                  return (
+                    <TaskCard
+                      key={i}
+                      id={task.tk_id}
+                      title={task.tk_title}
+                      text={task.tk_content}
+                      agent={task.u_name}
+                      refresh={this.GetTasks}
+                      CreateDate={task.tk_create_date}
+                      UpdateDate={task.tk_update_date}
+                    />
+                  );
+                })}
+              </div>
+              <Pagination
+                type="tasks"
+                totalOperationsNumber={this.state.tasks.length}
+                postsToDisplayNumber={this.state.tasksToDisplayNumber}
+                setCurrentPage={this.setCurrentPage}
+                currentPage={this.state.currentPageTasks}
+              />
             </div>
           </div>
 
