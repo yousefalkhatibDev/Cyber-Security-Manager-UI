@@ -5,9 +5,14 @@ import Modal from "react-bootstrap/Modal";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useParams } from "react-router-dom";
 import Moment from "moment";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGear, faNoteSticky, faPeopleArrows, faPerson } from "@fortawesome/free-solid-svg-icons";
-import { AiOutlinePlus } from "react-icons/ai"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faGear,
+  faNoteSticky,
+  faPeopleArrows,
+  faPerson,
+} from "@fortawesome/free-solid-svg-icons";
+import { AiOutlinePlus } from "react-icons/ai";
 
 // components
 import NoteCard from "../components/NoteCard";
@@ -113,7 +118,7 @@ class TargetProfile extends React.Component {
     this.DeleteTarget = this.DeleteTarget.bind(this);
     this.DeleteModal = this.DeleteModal.bind(this);
 
-    this.setCurrentPage = this.setCurrentPage.bind(this)
+    this.setCurrentPage = this.setCurrentPage.bind(this);
   }
 
   InfoModal() {
@@ -131,6 +136,9 @@ class TargetProfile extends React.Component {
     await API.post("/update_target_info", data)
       .then((respone) => {
         const res = respone.data;
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
         if (res.data) {
           this.GetTargetInfo();
         }
@@ -175,6 +183,9 @@ class TargetProfile extends React.Component {
     await API.post("/remove_target", data)
       .then((respone) => {
         const res = respone.data;
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
         if (res.data) {
           window.location = "/targets";
         }
@@ -285,6 +296,9 @@ class TargetProfile extends React.Component {
     const data = { TargetID: this.props.id };
     await API.post("/get_target_image", data).then(async (respone) => {
       const res = respone.data;
+      if (res.ErrorMessage) {
+        window.alert(res.ErrorMessage);
+      }
       if (res.data === false) {
         this.setState({
           image:
@@ -309,6 +323,9 @@ class TargetProfile extends React.Component {
     await API.post("/get_related_by_targets", data)
       .then((respone) => {
         const res = respone.data;
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
         if (res.data) {
           this.setState({
             RelatedBY: res.data,
@@ -327,6 +344,9 @@ class TargetProfile extends React.Component {
     await API.post("/get_targets_by_user", data)
       .then((respone) => {
         const res = respone.data;
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
         if (res.data) {
           this.setState({ targets: res.data });
         }
@@ -384,6 +404,9 @@ class TargetProfile extends React.Component {
     await API.post("/add_relation", data)
       .then((respone) => {
         const res = respone.data;
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
         if (res.data) {
           this.GetRelations();
         }
@@ -433,6 +456,9 @@ class TargetProfile extends React.Component {
     await API.post("/add_note", data)
       .then((respone) => {
         const res = respone.data;
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
         if (res.data) {
           this.GetNotes();
           this.GetNotesCount();
@@ -452,6 +478,9 @@ class TargetProfile extends React.Component {
     await API.post("/get_notes", data)
       .then((respone) => {
         const res = respone.data;
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
         if (res.data) {
           this.setState({
             notes: res.data,
@@ -472,6 +501,9 @@ class TargetProfile extends React.Component {
     await API.post("/get_relations", data)
       .then((respone) => {
         const res = respone.data;
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
         if (res.data) {
           this.setState({
             relations: res.data,
@@ -491,6 +523,9 @@ class TargetProfile extends React.Component {
     await API.post("/get_target_info", data)
       .then((respone) => {
         const res = respone.data;
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
         if (res.data) {
           this.setState({
             id: res.data[0].t_id,
@@ -556,6 +591,9 @@ class TargetProfile extends React.Component {
     const data = { TargetID: this.props.id };
     await API.post("/get_target_notes_count", data).then(async (respone) => {
       const res = respone.data;
+      if (res.ErrorMessage) {
+        window.alert(res.ErrorMessage);
+      }
       if (res.data) {
         this.setState({ NotesCount: res.data[0].NotesCount });
       }
@@ -563,13 +601,13 @@ class TargetProfile extends React.Component {
   }
 
   setCurrentPage(page, type) {
-    console.log(type)
+    console.log(type);
     if (type === "notes") {
-      this.setState({ currentPageNotes: page })
+      this.setState({ currentPageNotes: page });
     } else if (type === "relations") {
-      this.setState({ currentPageRelations: page })
+      this.setState({ currentPageRelations: page });
     } else if (type === "relatedBy") {
-      this.setState({ currentPageRelatedBy: page })
+      this.setState({ currentPageRelatedBy: page });
     }
   }
 
@@ -583,26 +621,85 @@ class TargetProfile extends React.Component {
     this.GetImage();
   }
 
-
   render() {
-    let lastNotesIndex = this.state.currentPageNotes * this.state.notesToDisplayNumber
-    let firstNotesIndex = lastNotesIndex - this.state.notesToDisplayNumber
-    const currentNotesToDisplay = this.state.notes.slice(firstNotesIndex, lastNotesIndex)
+    let lastNotesIndex =
+      this.state.currentPageNotes * this.state.notesToDisplayNumber;
+    let firstNotesIndex = lastNotesIndex - this.state.notesToDisplayNumber;
+    const currentNotesToDisplay = this.state.notes.slice(
+      firstNotesIndex,
+      lastNotesIndex
+    );
 
-    let lastRelationsIndex = this.state.currentPageRelations * this.state.relationsToDisplayNumber
-    let firstRelationsIndex = lastRelationsIndex - this.state.relationsToDisplayNumber
-    const currentRelationsToDisplay = this.state.relations.slice(firstRelationsIndex, lastRelationsIndex)
+    let lastRelationsIndex =
+      this.state.currentPageRelations * this.state.relationsToDisplayNumber;
+    let firstRelationsIndex =
+      lastRelationsIndex - this.state.relationsToDisplayNumber;
+    const currentRelationsToDisplay = this.state.relations.slice(
+      firstRelationsIndex,
+      lastRelationsIndex
+    );
 
-    let lastRelatedByIndex = this.state.currentPageRelatedBy * this.state.relatedByToDisplayNumber
-    let firstRelatedByIndex = lastRelatedByIndex - this.state.relatedByToDisplayNumber
-    const currentRelatedByToDisplay = this.state.RelatedBY.slice(firstRelatedByIndex, lastRelatedByIndex)
+    let lastRelatedByIndex =
+      this.state.currentPageRelatedBy * this.state.relatedByToDisplayNumber;
+    let firstRelatedByIndex =
+      lastRelatedByIndex - this.state.relatedByToDisplayNumber;
+    const currentRelatedByToDisplay = this.state.RelatedBY.slice(
+      firstRelatedByIndex,
+      lastRelatedByIndex
+    );
     return (
       <div className="TargetProfile">
         <ul className="OptionsContainer">
-          <li style={{ width: "23%" }}><a onClick={() => { this.SettingsModal(); }}>Settings <FontAwesomeIcon icon={faGear} style={{ marginLeft: "5px" }} /></a>  </li>
-          <li style={{ width: "23%" }}><a onClick={() => { this.switchSlider("Notes"); }}>Notes <FontAwesomeIcon icon={faNoteSticky} style={{ marginLeft: "5px" }} /></a></li>
-          <li style={{ width: "27%" }}><a onClick={() => { this.switchSlider("Relations"); }}>Relations <FontAwesomeIcon icon={faPeopleArrows} style={{ marginLeft: "5px" }} /></a></li>
-          <li style={{ width: "27%" }}><a onClick={() => { this.switchSlider("RelatedBy"); }}>Related By <FontAwesomeIcon icon={faPerson} style={{ marginLeft: "5px" }} /></a></li>
+          <li style={{ width: "23%" }}>
+            <a
+              href={() => null}
+              onClick={() => {
+                this.SettingsModal();
+              }}
+            >
+              Settings{" "}
+              <FontAwesomeIcon icon={faGear} style={{ marginLeft: "5px" }} />
+            </a>{" "}
+          </li>
+          <li style={{ width: "23%" }}>
+            <a
+              href={() => null}
+              onClick={() => {
+                this.switchSlider("Notes");
+              }}
+            >
+              Notes{" "}
+              <FontAwesomeIcon
+                icon={faNoteSticky}
+                style={{ marginLeft: "5px" }}
+              />
+            </a>
+          </li>
+          <li style={{ width: "27%" }}>
+            <a
+              href={() => null}
+              onClick={() => {
+                this.switchSlider("Relations");
+              }}
+            >
+              Relations{" "}
+              <FontAwesomeIcon
+                icon={faPeopleArrows}
+                style={{ marginLeft: "5px" }}
+              />
+            </a>
+          </li>
+          <li style={{ width: "27%" }}>
+            <a
+              href={() => null}
+              onClick={() => {
+                this.switchSlider("RelatedBy");
+              }}
+            >
+              Related By{" "}
+              <FontAwesomeIcon icon={faPerson} style={{ marginLeft: "5px" }} />
+            </a>
+          </li>
         </ul>
         <div className="TargetProfileContent">
           <div className="TargetProfileHeader">
@@ -611,13 +708,17 @@ class TargetProfile extends React.Component {
               <ul>
                 <li style={{ fontSize: "23px" }}>{this.state.name}</li>
                 <li style={{ fontSize: "15px" }}>{this.state.description}</li>
-                <li style={{ marginTop: "10px" }}>Notes Count: {this.state.NotesCount}</li>
+                <li style={{ marginTop: "10px" }}>
+                  Notes Count: {this.state.NotesCount}
+                </li>
                 <li>Type: {this.state.type}</li>
                 <li>
-                  Create Date: {Moment(this.state.CreateDate).format("MMM Do YY")}
+                  Create Date:{" "}
+                  {Moment(this.state.CreateDate).format("MMM Do YY")}
                 </li>
                 <li>
-                  Last Update: {Moment(this.state.UpdateDate).format("MMM Do YY")}
+                  Last Update:{" "}
+                  {Moment(this.state.UpdateDate).format("MMM Do YY")}
                 </li>
               </ul>
             </div>
@@ -628,8 +729,8 @@ class TargetProfile extends React.Component {
               className="NotesSlide"
               style={{ display: this.state.NotesTab ? null : "none" }}
             >
-              <div className="SearchContainer" >
-                <div >
+              <div className="SearchContainer">
+                <div>
                   <button disabled>Search</button>
                   <input
                     placeholder="Search by title or description"
@@ -646,7 +747,11 @@ class TargetProfile extends React.Component {
                     <option value="date">Date</option>
                   </select>
                 </div>
-                <Button variant="outline-success" onClick={this.NotesModal} className="addNewButton" >
+                <Button
+                  variant="outline-success"
+                  onClick={this.NotesModal}
+                  className="addNewButton"
+                >
                   <AiOutlinePlus size="30" color="green" />
                   <p>Add a new note</p>
                 </Button>
@@ -695,7 +800,10 @@ class TargetProfile extends React.Component {
                 </div>
                 <div style={{ marginLeft: "20px" }}>
                   <button disabled>Sort by</button>
-                  <select className="Sort" onChange={this.UpdateFilterRelations}>
+                  <select
+                    className="Sort"
+                    onChange={this.UpdateFilterRelations}
+                  >
                     <option value="all">All</option>
                     <option value="name">Name</option>
                     <option value="date">Date</option>
@@ -717,9 +825,16 @@ class TargetProfile extends React.Component {
                     />
                   );
                 })}
-                <div className="newOperation-TargetCard" onClick={this.RelationsModal}>
-                  <AiOutlinePlus style={{ color: "rgb(0, 180, 0)" }} size="55" textDecoration="none" />
-                  <p>Add a new operation</p>
+                <div
+                  className="newOperation-TargetCard"
+                  onClick={this.RelationsModal}
+                >
+                  <AiOutlinePlus
+                    style={{ color: "rgb(0, 180, 0)" }}
+                    size="55"
+                    textDecoration="none"
+                  />
+                  <p>Add a new Relation</p>
                 </div>
               </div>
               <Pagination
@@ -925,18 +1040,30 @@ class TargetProfile extends React.Component {
               <div className="SettingsModal-Container">
                 <div>
                   <h4>Update</h4>
-                  <p>You can update this target by clicking Update next to this text</p>
+                  <p>
+                    You can update this target by clicking Update next to this
+                    text
+                  </p>
                 </div>
-                <button className="NewObject btn btn-primary" onClick={this.InfoModal}>
+                <button
+                  className="NewObject btn btn-primary"
+                  onClick={this.InfoModal}
+                >
                   Update information
                 </button>
               </div>
               <div className="SettingsModal-Container">
                 <div>
                   <h4>Delete</h4>
-                  <p>You can delete this target by clicking Delete next to this text</p>
+                  <p>
+                    You can delete this target by clicking Delete next to this
+                    text
+                  </p>
                 </div>
-                <button className="NewObject btn btn-danger" onClick={this.DeleteModal}>
+                <button
+                  className="NewObject btn btn-danger"
+                  onClick={this.DeleteModal}
+                >
                   Delete Target
                 </button>
               </div>
@@ -1033,7 +1160,7 @@ class TargetProfile extends React.Component {
             </Modal.Footer>
           </Modal>
         </div>
-      </div >
+      </div>
     );
   }
 }

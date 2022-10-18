@@ -7,8 +7,8 @@ import Dropdown from "react-bootstrap/Dropdown";
 import OperationCard from "../components/OperationCard";
 import API from "../helper/API";
 import Pagination from "../components/Pagination";
-import { SiHackaday } from "react-icons/si"
-import { AiOutlinePlus } from "react-icons/ai"
+import { SiHackaday } from "react-icons/si";
+import { AiOutlinePlus } from "react-icons/ai";
 
 // return (
 //   <div className="App">
@@ -32,7 +32,7 @@ class Operations extends React.Component {
       Base64State: "",
       FileName: "",
       currentPage: 1,
-      operationsToDisplayNumber: 4
+      operationsToDisplayNumber: 4,
     };
 
     this.ModalShow = this.ModalShow.bind(this);
@@ -47,7 +47,7 @@ class Operations extends React.Component {
     this.UpdateBase64 = this.UpdateBase64.bind(this);
     this.UpdateFileName = this.UpdateFileName.bind(this);
     this.convertToBase64 = this.convertToBase64.bind(this);
-    this.setCurrentPage = this.setCurrentPage.bind(this)
+    this.setCurrentPage = this.setCurrentPage.bind(this);
   }
 
   UpdateFileName(FileName) {
@@ -164,6 +164,11 @@ class Operations extends React.Component {
     await API.post("/get_operations", data)
       .then((respone) => {
         const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
         if (res.data) {
           this.setState({ operations: res.data });
         }
@@ -189,6 +194,11 @@ class Operations extends React.Component {
     await API.post("/add_operation", data)
       .then((respone) => {
         const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
         if (res.data) {
           this.GetOperations();
         }
@@ -199,7 +209,7 @@ class Operations extends React.Component {
   }
 
   setCurrentPage(page) {
-    this.setState({ currentPage: page })
+    this.setState({ currentPage: page });
   }
 
   componentDidMount() {
@@ -207,14 +217,23 @@ class Operations extends React.Component {
   }
 
   render() {
-    let lastOperationIndex = this.state.currentPage * this.state.operationsToDisplayNumber
-    let firstOperationIndex = lastOperationIndex - this.state.operationsToDisplayNumber
-    const currentOperationsToDisplay = this.state.operations.slice(firstOperationIndex, lastOperationIndex)
+    let lastOperationIndex =
+      this.state.currentPage * this.state.operationsToDisplayNumber;
+    let firstOperationIndex =
+      lastOperationIndex - this.state.operationsToDisplayNumber;
+    const currentOperationsToDisplay = this.state.operations.slice(
+      firstOperationIndex,
+      lastOperationIndex
+    );
     return (
       <>
-        <div className='pageHeader'>
-          <SiHackaday color="white" className='pageHeader-icon' textDecoration="none" />
-          <div className='pageHeader-title'>
+        <div className="pageHeader">
+          <SiHackaday
+            color="white"
+            className="pageHeader-icon"
+            textDecoration="none"
+          />
+          <div className="pageHeader-title">
             <h1>Operations</h1>
             <p>Check out new operations and plans!</p>
           </div>
@@ -258,7 +277,11 @@ class Operations extends React.Component {
               );
             })}
             <div className="newOperation-TargetCard" onClick={this.ModalShow}>
-              <AiOutlinePlus style={{ color: "rgb(0, 180, 0)" }} size="55" textDecoration="none" />
+              <AiOutlinePlus
+                style={{ color: "rgb(0, 180, 0)" }}
+                size="55"
+                textDecoration="none"
+              />
               <p>Add a new operation</p>
             </div>
           </div>

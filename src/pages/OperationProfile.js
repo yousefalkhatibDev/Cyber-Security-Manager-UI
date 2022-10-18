@@ -12,7 +12,7 @@ import {
   faAddressCard,
   faListCheck,
 } from "@fortawesome/free-solid-svg-icons";
-import { AiOutlinePlus } from "react-icons/ai"
+import { AiOutlinePlus } from "react-icons/ai";
 
 // components
 import TargetCard from "../components/TargetCard";
@@ -152,7 +152,7 @@ class OperationProfile extends React.Component {
     this.UpdateOperationState = this.UpdateOperationState.bind(this);
     this.UpdateNewInfoName = this.UpdateNewInfoName.bind(this);
     this.UpdateNewInfoDescription = this.UpdateNewInfoDescription.bind(this);
-    this.setCurrentPage = this.setCurrentPage.bind(this)
+    this.setCurrentPage = this.setCurrentPage.bind(this);
   }
 
   InfoModal() {
@@ -169,6 +169,11 @@ class OperationProfile extends React.Component {
     await API.post("/update_operation_info", data)
       .then((respone) => {
         const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
         if (res.data) {
           this.GetOperationInfo();
         }
@@ -205,6 +210,11 @@ class OperationProfile extends React.Component {
     await API.post("/update_operation_state", data)
       .then((respone) => {
         const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
         if (res.data) {
           this.GetOperationInfo();
         }
@@ -222,6 +232,11 @@ class OperationProfile extends React.Component {
     await API.post("/remove_operation", data)
       .then((respone) => {
         const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
         if (res.data) {
           window.location = "/operations";
         }
@@ -333,6 +348,11 @@ class OperationProfile extends React.Component {
       await API.post("/get_tasks_by_agent", data)
         .then((respone) => {
           const res = respone.data;
+
+          if (res.ErrorMessage) {
+            window.alert(res.ErrorMessage);
+          }
+
           if (res.data) {
             this.setState({ tasks: res.data });
           }
@@ -385,6 +405,11 @@ class OperationProfile extends React.Component {
     const data = { OperationID: this.props.id };
     await API.post("/get_operation_posts_count", data).then(async (respone) => {
       const res = respone.data;
+
+      if (res.ErrorMessage) {
+        window.alert(res.ErrorMessage);
+      }
+
       if (res.data) {
         this.setState({ PostsCount: res.data[0].PostsCount });
       }
@@ -396,6 +421,11 @@ class OperationProfile extends React.Component {
     await API.post("/get_operation_targets_count", data).then(
       async (respone) => {
         const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
         if (res.data) {
           this.setState({ TargetsCount: res.data[0].TargetsCount });
         }
@@ -408,6 +438,11 @@ class OperationProfile extends React.Component {
     await API.post("/get_operation_members_count", data).then(
       async (respone) => {
         const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
         if (res.data) {
           this.setState({ MembersCount: res.data[0].MembersCount });
         }
@@ -419,7 +454,12 @@ class OperationProfile extends React.Component {
     const data = { OperationID: this.props.id };
     await API.post("/get_operation_image", data).then(async (respone) => {
       const res = respone.data;
-      if (res.data === false || res.data.o_image === '') {
+
+      if (res.ErrorMessage) {
+        window.alert(res.ErrorMessage);
+      }
+
+      if (res.data === false || res.data.o_image === "") {
         this.setState({
           image:
             "https://img.freepik.com/free-vector/neon-cyber-security-concept-with-padlock-circuit_23-2148536303.jpg?w=900&t=st=1660930843~exp=1660931443~hmac=efcef9e6d44df72e8f8d1f679f29b28823bd0313b2a61eefecbda97b8622878d",
@@ -444,6 +484,11 @@ class OperationProfile extends React.Component {
     await API.post("/add_member", data)
       .then((respone) => {
         const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
         if (res.data) {
           this.GetMembers();
           this.GetMembersCount();
@@ -519,6 +564,11 @@ class OperationProfile extends React.Component {
     await API.post("/add_task", data)
       .then((respone) => {
         const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
         if (res.data) {
           this.GetTasks();
         }
@@ -536,6 +586,11 @@ class OperationProfile extends React.Component {
     await API.post("/get_members", data)
       .then((respone) => {
         const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
         if (res.data) {
           this.setState({
             members: res.data,
@@ -608,6 +663,11 @@ class OperationProfile extends React.Component {
     await API.post("/get_operation_info", data)
       .then((respone) => {
         const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
         if (res.data) {
           this.setState({
             id: res.data[0].o_id,
@@ -631,6 +691,11 @@ class OperationProfile extends React.Component {
     await API.post("/get_posts", data)
       .then((respone) => {
         const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
         if (res.data) {
           this.setState({ posts: res.data });
         }
@@ -649,6 +714,11 @@ class OperationProfile extends React.Component {
     await API.post("/get_targets", data)
       .then((respone) => {
         const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
         if (res.data) {
           this.setState({ targets: res.data });
         }
@@ -659,9 +729,6 @@ class OperationProfile extends React.Component {
   }
 
   async GetTasks() {
-    console.log(
-      "do not forget the tasks api and clean state after every modal close"
-    );
     const data = {
       OperationID: this.props.id,
       search: this.state.SearchTasks,
@@ -670,6 +737,11 @@ class OperationProfile extends React.Component {
     await API.post("/get_tasks", data)
       .then((respone) => {
         const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
         if (res.data) {
           this.setState({ tasks: res.data });
         }
@@ -743,6 +815,11 @@ class OperationProfile extends React.Component {
     await API.post("/add_target", data)
       .then((respone) => {
         const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
         if (res.data) {
           this.GetTargets();
           this.GetTargetsCount();
@@ -764,6 +841,10 @@ class OperationProfile extends React.Component {
     await API.post("/add_post", data)
       .then((respone) => {
         const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
         if (res.data) {
           this.GetPosts();
           this.GetPostsCount();
@@ -776,9 +857,9 @@ class OperationProfile extends React.Component {
 
   setCurrentPage(page, type) {
     if (type === "tasks") {
-      this.setState({ currentPageTasks: page })
+      this.setState({ currentPageTasks: page });
     } else if (type === "targets") {
-      this.setState({ currentPageTargets: page })
+      this.setState({ currentPageTargets: page });
     }
   }
 
@@ -795,17 +876,27 @@ class OperationProfile extends React.Component {
   }
 
   render() {
-    let lastTargetsIndex = this.state.currentPageTargets * this.state.targetsToDisplayNumber
-    let firstTargetsIndex = lastTargetsIndex - this.state.targetsToDisplayNumber
-    const currentTargetsToDisplay = this.state.targets.slice(firstTargetsIndex, lastTargetsIndex)
-    let lastTasksIndex = this.state.currentPageTasks * this.state.tasksToDisplayNumber
-    let firstTasksIndex = lastTasksIndex - this.state.tasksToDisplayNumber
-    const currentTasksToDisplay = this.state.tasks.slice(firstTasksIndex, lastTasksIndex)
+    let lastTargetsIndex =
+      this.state.currentPageTargets * this.state.targetsToDisplayNumber;
+    let firstTargetsIndex =
+      lastTargetsIndex - this.state.targetsToDisplayNumber;
+    const currentTargetsToDisplay = this.state.targets.slice(
+      firstTargetsIndex,
+      lastTargetsIndex
+    );
+    let lastTasksIndex =
+      this.state.currentPageTasks * this.state.tasksToDisplayNumber;
+    let firstTasksIndex = lastTasksIndex - this.state.tasksToDisplayNumber;
+    const currentTasksToDisplay = this.state.tasks.slice(
+      firstTasksIndex,
+      lastTasksIndex
+    );
     return (
       <div className="OperationProfile">
         <ul className="OptionsContainer">
           <li>
             <a
+              href={() => null}
               onClick={() => {
                 this.SettingsModal();
               }}
@@ -816,6 +907,7 @@ class OperationProfile extends React.Component {
           </li>
           <li>
             <a
+              href={() => null}
               onClick={() => {
                 this.SwitchSlider("Targets");
               }}
@@ -829,6 +921,7 @@ class OperationProfile extends React.Component {
           </li>
           <li>
             <a
+              href={() => null}
               onClick={() => {
                 this.SwitchSlider("Notes");
               }}
@@ -840,8 +933,9 @@ class OperationProfile extends React.Component {
               />
             </a>
           </li>
-          <li >
+          <li>
             <a
+              href={() => null}
               onClick={() => {
                 this.SwitchSlider("Tasks");
               }}
@@ -872,7 +966,9 @@ class OperationProfile extends React.Component {
                   Create Date:{" "}
                   {Moment(this.state.CreateDate).format("MMM Do YY")}
                 </li>
-                <li style={{ width: "60%" }}>Description: {this.state.description}</li>
+                <li style={{ width: "60%" }}>
+                  Description: {this.state.description}
+                </li>
               </ul>
             </div>
           </div>
@@ -900,7 +996,11 @@ class OperationProfile extends React.Component {
                     <option value="older_to_newest">Older to Newest</option>
                   </select>
                 </div>
-                <Button variant="outline-success" onClick={this.PostModal} className="addNewButton" >
+                <Button
+                  variant="outline-success"
+                  onClick={this.PostModal}
+                  className="addNewButton"
+                >
                   <AiOutlinePlus size="30" color="green" />
                   <p>Add a new post</p>
                 </Button>
@@ -959,8 +1059,16 @@ class OperationProfile extends React.Component {
                     />
                   );
                 })}
-                <div className="newOperation-TargetCard" onClick={this.TargetModal} style={{ height: "400px" }}>
-                  <AiOutlinePlus style={{ color: "rgb(0, 180, 0)" }} size="55" textDecoration="none" />
+                <div
+                  className="newOperation-TargetCard"
+                  onClick={this.TargetModal}
+                  style={{ height: "400px" }}
+                >
+                  <AiOutlinePlus
+                    style={{ color: "rgb(0, 180, 0)" }}
+                    size="55"
+                    textDecoration="none"
+                  />
                   <p>Add a new target</p>
                 </div>
               </div>
@@ -995,12 +1103,22 @@ class OperationProfile extends React.Component {
                     <option value="my_tasks">My Tasks</option>
                   </select>
                 </div>
-                <Button variant="outline-success" onClick={this.TaskModal} className="addNewButton" >
+                <Button
+                  variant="outline-success"
+                  onClick={this.TaskModal}
+                  className="addNewButton"
+                >
                   <AiOutlinePlus size="30" color="green" />
                   <p>Add a new task</p>
                 </Button>
               </div>
-              <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "start" }}>
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  justifyContent: "start",
+                }}
+              >
                 {currentTasksToDisplay.map((task, i) => {
                   return (
                     <TaskCard

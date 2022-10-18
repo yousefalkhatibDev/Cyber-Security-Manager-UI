@@ -3,9 +3,6 @@ import { CgProfile } from 'react-icons/cg'
 import Button from "react-bootstrap/Button";
 
 export default class Profile extends Component {
-  constructor(props) {
-    super(props)
-  }
   render() {
     return (
       <div className='profilePage'>

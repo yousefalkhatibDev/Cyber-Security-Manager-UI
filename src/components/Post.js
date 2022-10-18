@@ -5,8 +5,8 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Dropdown from "react-bootstrap/Dropdown";
-import { BiDotsVerticalRounded } from "react-icons/bi"
-import { MdDelete, MdOutlineReply } from "react-icons/md"
+import { BiDotsVerticalRounded } from "react-icons/bi";
+import { MdDelete, MdOutlineReply } from "react-icons/md";
 
 class Post extends React.Component {
   constructor(props) {
@@ -36,6 +36,11 @@ class Post extends React.Component {
     await API.post("/remove_post", data)
       .then((respone) => {
         const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
         if (res.data) {
           this.props.GetPosts();
           this.props.GetPostsCount();
@@ -67,6 +72,11 @@ class Post extends React.Component {
     await API.post("/get_comments", data)
       .then((respone) => {
         const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
         if (res.data) {
           this.setState({ comments: res.data });
         }
@@ -86,6 +96,11 @@ class Post extends React.Component {
     await API.post("/add_comment", data)
       .then((respone) => {
         const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
         if (res.data) {
           this.GetComments();
         }
@@ -109,8 +124,12 @@ class Post extends React.Component {
     return (
       <>
         <div className="Post">
-          <div className="PostAuthContainer" >
-            <img className="PostAuthImage" src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=580&amp;q=80" />
+          <div className="PostAuthContainer">
+            <img
+              alt=""
+              className="PostAuthImage"
+              src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=580&amp;q=80"
+            />
             <p className="Postauthor">{this.props.author}</p>
             <p className="Postauthor">{this.props.createDate.split("T")[0]}</p>
             <div className="PostDottedIcon">
@@ -120,16 +139,27 @@ class Post extends React.Component {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
-                  <Dropdown.Item onClick={this.CommentModal}>Reply <MdOutlineReply style={{ marginLeft: "67px" }} /> </Dropdown.Item>
-                  <Dropdown.Item onClick={this.DeleteModal}>Delete <MdDelete style={{ marginLeft: "60px" }} /></Dropdown.Item>
+                  <Dropdown.Item onClick={this.CommentModal}>
+                    Reply <MdOutlineReply style={{ marginLeft: "67px" }} />{" "}
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={this.DeleteModal}>
+                    Delete <MdDelete style={{ marginLeft: "60px" }} />
+                  </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </div>
           </div>
-          <p className="Postauthor" >{this.props.title}</p>
-          <p className="PostContent" style={{ fontWeight: 500 }}>{this.props.text}</p>
+          <p className="Postauthor">{this.props.title}</p>
+          <p className="PostContent" style={{ fontWeight: 500 }}>
+            {this.props.text}
+          </p>
           <hr />
-          <div style={{ borderLeft: "2px solid rgb(187 187 187)", paddingLeft: "10px" }}>
+          <div
+            style={{
+              borderLeft: "2px solid rgb(187 187 187)",
+              paddingLeft: "10px",
+            }}
+          >
             {this.state.comments.map((comment, i) => {
               return (
                 <Comment

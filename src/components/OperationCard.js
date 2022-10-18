@@ -23,8 +23,16 @@ class OperationCard extends React.Component {
     const data = { OperationID: this.props.id };
     await API.post("/get_operation_image", data).then(async (respone) => {
       const res = respone.data;
-      console.log(res.data)
-      if (res.data === false || res.data.o_image === '' || res.data.o_image === null) {
+
+      if (res.ErrorMessage) {
+        window.alert(res.ErrorMessage);
+      }
+
+      if (
+        res.data === false ||
+        res.data.o_image === "" ||
+        res.data.o_image === null
+      ) {
         this.setState({
           image:
             "https://img.freepik.com/free-vector/neon-cyber-security-concept-with-padlock-circuit_23-2148536303.jpg?w=900&t=st=1660930843~exp=1660931443~hmac=efcef9e6d44df72e8f8d1f679f29b28823bd0313b2a61eefecbda97b8622878d",
@@ -39,6 +47,11 @@ class OperationCard extends React.Component {
     const data = { OperationID: this.props.id };
     await API.post("/get_operation_posts_count", data).then(async (respone) => {
       const res = respone.data;
+
+      if (res.ErrorMessage) {
+        window.alert(res.ErrorMessage);
+      }
+
       if (res.data) {
         this.setState({ PostsCount: res.data[0].PostsCount });
       }
@@ -50,6 +63,11 @@ class OperationCard extends React.Component {
     await API.post("/get_operation_targets_count", data).then(
       async (respone) => {
         const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
         if (res.data) {
           this.setState({ TargetsCount: res.data[0].TargetsCount });
         }
@@ -62,6 +80,11 @@ class OperationCard extends React.Component {
     await API.post("/get_operation_members_count", data).then(
       async (respone) => {
         const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
         if (res.data) {
           this.setState({ MembersCount: res.data[0].MembersCount });
         }
@@ -78,7 +101,10 @@ class OperationCard extends React.Component {
 
   render() {
     return (
-      <div className="OperationCardContainer" style={{ width: `${this.props.width}%` }}>
+      <div
+        className="OperationCardContainer"
+        style={{ width: `${this.props.width}%` }}
+      >
         <div
           className="OperationImg ConstRadius"
           style={{ position: "relative" }}

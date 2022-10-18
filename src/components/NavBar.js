@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FiLogOut } from "react-icons/fi";
 import { MdOutlinePerson } from "react-icons/md";
-import Dropdown from 'react-bootstrap/Dropdown';
+import Dropdown from "react-bootstrap/Dropdown";
 
 import API from "../helper/API";
 
@@ -13,16 +13,16 @@ class TopBar extends React.Component {
       isLinksActive: false,
     };
     this.Logout = this.Logout.bind(this);
-    this.HandleHamClick = this.HandleHamClick.bind(this)
-    this.HandleOnScroll = this.HandleOnScroll.bind(this)
+    this.HandleHamClick = this.HandleHamClick.bind(this);
+    this.HandleOnScroll = this.HandleOnScroll.bind(this);
   }
 
   componentDidMount() {
-    window.addEventListener('scroll', this.HandleOnScroll);
+    window.addEventListener("scroll", this.HandleOnScroll);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.HandleOnScroll);
+    window.removeEventListener("scroll", this.HandleOnScroll);
   }
 
   async Logout() {
@@ -33,6 +33,11 @@ class TopBar extends React.Component {
     await API.post("/logout", data)
       .then((respone) => {
         const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
         if (res.data) {
           window.sessionStorage.removeItem("token");
           window.location = "/login";
@@ -45,21 +50,25 @@ class TopBar extends React.Component {
 
   HandleHamClick() {
     const currentState = this.state.isLinksActive;
-    this.setState({ isLinksActive: !currentState })
+    this.setState({ isLinksActive: !currentState });
   }
 
   HandleOnScroll() {
-    this.setState({ isLinksActive: false })
+    this.setState({ isLinksActive: false });
   }
   render() {
     return (
       <>
-        <nav className="NavBar" >
+        <nav className="NavBar">
           <div>
             <div className="user-card">
               <div className="user-name">
                 <Dropdown>
-                  <Dropdown.Toggle variant="success" id="dropdown-basic" style={{ border: "none", backgroundColor: "transparent" }}>
+                  <Dropdown.Toggle
+                    variant="success"
+                    id="dropdown-basic"
+                    style={{ border: "none", backgroundColor: "transparent" }}
+                  >
                     <img
                       src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80"
                       alt="user-card"
@@ -68,15 +77,39 @@ class TopBar extends React.Component {
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu>
-                    <Dropdown.Item href="/profile"><Link to="/profile" style={{ textDecoration: "none" }}><span style={{ marginRight: "25px", color: "black" }}>My Profile</span> <MdOutlinePerson color="black" size={"13"} textDecoration="none" /></Link></Dropdown.Item>
-                    <Dropdown.Item onClick={this.Logout}><span style={{ marginRight: "50px" }}>Logout</span> <FiLogOut color="black" size={"13"} textDecoration="none" /></Dropdown.Item>
+                    <Dropdown.Item href="/profile">
+                      <Link to="/profile" style={{ textDecoration: "none" }}>
+                        <span style={{ marginRight: "25px", color: "black" }}>
+                          My Profile
+                        </span>{" "}
+                        <MdOutlinePerson
+                          color="black"
+                          size={"13"}
+                          textDecoration="none"
+                        />
+                      </Link>
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={this.Logout}>
+                      <span style={{ marginRight: "50px" }}>Logout</span>{" "}
+                      <FiLogOut
+                        color="black"
+                        size={"13"}
+                        textDecoration="none"
+                      />
+                    </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
                 <p>Ahmad almuhidat</p>
               </div>
             </div>
 
-            <ul className={this.state.isLinksActive ? 'nav-menu nav-links navActive' : 'nav-menu nav-links'}>
+            <ul
+              className={
+                this.state.isLinksActive
+                  ? "nav-menu nav-links navActive"
+                  : "nav-menu nav-links"
+              }
+            >
               <Link to="/" className="option">
                 Dashboard
               </Link>
@@ -100,7 +133,12 @@ class TopBar extends React.Component {
             <ul className="nav-menu" style={{ float: "right" }}>
               <li>
                 <Link to="#">
-                  <FiLogOut color="white" size={"23"} textDecoration="none" onClick={this.Logout} />
+                  <FiLogOut
+                    color="white"
+                    size={"23"}
+                    textDecoration="none"
+                    onClick={this.Logout}
+                  />
                 </Link>
               </li>
             </ul>

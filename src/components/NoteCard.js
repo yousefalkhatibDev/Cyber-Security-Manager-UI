@@ -29,6 +29,11 @@ class NoteCard extends React.Component {
     await API.post("/remove_note", data)
       .then((respone) => {
         const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
         if (res.data) {
           this.props.GetNotes();
           this.props.GetNotesCount();
@@ -47,16 +52,21 @@ class NoteCard extends React.Component {
     return (
       <div className="NoteCardContainer">
         <p className="NoteTitle">
-          <img className="PostAuthImage" src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=580&amp;q=80" />
+          <img
+            alt=""
+            className="PostAuthImage"
+            src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=580&amp;q=80"
+          />
           <p>{this.props.author}</p>
           <p>{this.props.CreateDate.split("T")[0]}</p>
         </p>
         <hr />
         <p className="NoteContent">
           <p>{this.props.title}</p>
-          <p style={{ fontWeight: "500" }}>{this.props.text.length > 130
-            ? this.props.text.substring(0, 130) + " ..."
-            : this.props.text}
+          <p style={{ fontWeight: "500" }}>
+            {this.props.text.length > 130
+              ? this.props.text.substring(0, 130) + " ..."
+              : this.props.text}
           </p>
         </p>
 
@@ -66,14 +76,16 @@ class NoteCard extends React.Component {
 
         <Modal show={this.state.DisplayNote} onHide={this.DisplayNote}>
           <Modal.Header closeButton>
-            <Modal.Title>{this.props.title} By: {this.props.author}</Modal.Title>
+            <Modal.Title>
+              {this.props.title} By: {this.props.author}
+            </Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <p>{this.props.text}</p>
             <p>type: {this.props.type}</p>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="danger" onClick={this.DeleteModal} >
+            <Button variant="danger" onClick={this.DeleteModal}>
               Delete
             </Button>
             <Button variant="secondary" onClick={this.DisplayNote}>

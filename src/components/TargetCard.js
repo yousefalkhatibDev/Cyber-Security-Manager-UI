@@ -18,6 +18,11 @@ class TargetCard extends React.Component {
     const data = { TargetID: this.props.id };
     await API.post("/get_target_image", data).then(async (respone) => {
       const res = respone.data;
+
+      if (res.ErrorMessage) {
+        window.alert(res.ErrorMessage);
+      }
+
       if (res.data === false) {
         this.setState({
           image:
@@ -33,6 +38,11 @@ class TargetCard extends React.Component {
     const data = { TargetID: this.props.id };
     await API.post("/get_target_notes_count", data).then(async (respone) => {
       const res = respone.data;
+
+      if (res.ErrorMessage) {
+        window.alert(res.ErrorMessage);
+      }
+
       if (res.data) {
         this.setState({ NotesCount: res.data[0].NotesCount });
       }
@@ -41,12 +51,15 @@ class TargetCard extends React.Component {
 
   componentDidMount() {
     this.GetNotesCount();
-    this.GetImage()
+    this.GetImage();
   }
 
   render() {
     return (
-      <div className="TargetCardContainer" style={{ width: `${this.props.width}%` }}>
+      <div
+        className="TargetCardContainer"
+        style={{ width: `${this.props.width}%` }}
+      >
         <div className="TargetImg ConstRadius" style={{ position: "relative" }}>
           <img src={this.state.image} alt="vector" />
 

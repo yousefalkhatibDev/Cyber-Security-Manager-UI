@@ -40,6 +40,11 @@ class Login extends React.Component {
     await API.post("/login", data)
       .then((respone) => {
         const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
         if (res.data) {
           // this.setState({ loading: false });
           window.sessionStorage.setItem("token", res.data);
