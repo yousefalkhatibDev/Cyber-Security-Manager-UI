@@ -6,10 +6,9 @@ class OperationCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      MembersCount: 4,
-      TargetsCount: 4,
-      PostsCount: 4,
-      test: "",
+      MembersCount: 0,
+      TargetsCount: 0,
+      PostsCount: 0,
       image: "",
     };
 

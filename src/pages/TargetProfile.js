@@ -119,10 +119,36 @@ class TargetProfile extends React.Component {
     this.DeleteModal = this.DeleteModal.bind(this);
 
     this.setCurrentPage = this.setCurrentPage.bind(this);
+    this.SetLastAccessedTarget = this.SetLastAccessedTarget.bind(this);
+  }
+
+  async SetLastAccessedTarget() {
+    const data = {
+      TargetID: this.props.id,
+    };
+
+    await API.post("/set_last_accessed_target", data)
+      .then((respone) => {
+        const res = respone.data;
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
   }
 
   InfoModal() {
-    this.setState({ InfoModal: !this.state.InfoModal });
+    this.setState((prevState) => ({
+      InfoModal: !this.state.InfoModal,
+      NewInfo: {
+        ...prevState.NewInfo,
+        name: "",
+        description: "",
+        location: "",
+      },
+    }));
   }
 
   async UploadNewInfo() {
@@ -545,9 +571,15 @@ class TargetProfile extends React.Component {
   }
 
   NotesModal() {
-    this.setState({
+    this.setState((prevState) => ({
       NotesModal: !this.state.NotesModal,
-    });
+      NewNote: {
+        ...prevState.NewNote,
+        title: "",
+        text: "",
+        type: "",
+      },
+    }));
   }
 
   RelationsModal() {
@@ -619,6 +651,7 @@ class TargetProfile extends React.Component {
     this.GetRelations();
     this.GetRelatedByTargets();
     this.GetImage();
+    this.SetLastAccessedTarget();
   }
 
   render() {

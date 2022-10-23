@@ -111,9 +111,13 @@ class Post extends React.Component {
   }
 
   CommentModal() {
-    this.setState({
+    this.setState((prevState) => ({
       CommentModal: !this.state.CommentModal,
-    });
+      NewComment: {
+        ...prevState.NewComment,
+        comment: "",
+      },
+    }));
   }
 
   componentDidMount() {

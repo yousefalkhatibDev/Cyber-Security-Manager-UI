@@ -129,19 +129,6 @@ class TopBar extends React.Component {
                 <div className="line3"></div>
               </div>
             </ul>
-
-            <ul className="nav-menu" style={{ float: "right" }}>
-              <li>
-                <Link to="#">
-                  <FiLogOut
-                    color="white"
-                    size={"23"}
-                    textDecoration="none"
-                    onClick={this.Logout}
-                  />
-                </Link>
-              </li>
-            </ul>
           </div>
         </nav>
       </>

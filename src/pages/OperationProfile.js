@@ -128,6 +128,7 @@ class OperationProfile extends React.Component {
     this.UploadTask = this.UploadTask.bind(this);
     this.UploadMemeber = this.UploadMemeber.bind(this);
     this.UploadNewInfo = this.UploadNewInfo.bind(this);
+    this.SetLastAccessedOperation = this.SetLastAccessedOperation.bind(this);
 
     // Updating
     this.UpdateTaskMember = this.UpdateTaskMember.bind(this);
@@ -155,8 +156,33 @@ class OperationProfile extends React.Component {
     this.setCurrentPage = this.setCurrentPage.bind(this);
   }
 
+  async SetLastAccessedOperation() {
+    const data = {
+      OperationID: this.props.id,
+    };
+
+    await API.post("/set_last_accessed_operation", data)
+      .then((respone) => {
+        const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  }
+
   InfoModal() {
-    this.setState({ InfoModal: !this.state.InfoModal });
+    this.setState((prevState) => ({
+      InfoModal: !this.state.InfoModal,
+      NewInfo: {
+        ...prevState.NewInfo,
+        name: "",
+        description: "",
+      },
+    }));
   }
 
   async UploadNewInfo() {
@@ -500,9 +526,13 @@ class OperationProfile extends React.Component {
   }
 
   MemberModal() {
-    this.setState({
+    this.setState((prevState) => ({
       MemberModal: !this.state.MemberModal,
-    });
+      NewMember: {
+        ...prevState.NewMember,
+        agent: "",
+      },
+    }));
   }
 
   UpdateMemberID(event) {
@@ -752,21 +782,43 @@ class OperationProfile extends React.Component {
   }
 
   PostModal() {
-    this.setState({
+    this.setState((prevState) => ({
       PostModal: !this.state.PostModal,
-    });
+      NewPost: {
+        ...prevState.NewPost,
+        title: "",
+        text: "",
+      },
+    }));
   }
 
   TargetModal() {
-    this.setState({
+    this.setState((prevState) => ({
       TargetModal: !this.state.TargetModal,
-    });
+      NewTarget: {
+        ...prevState.NewTarget,
+        name: "",
+        Base64State: "",
+        FileName: "",
+        type: "Target Type",
+        description: "",
+        location: "",
+      },
+    }));
   }
 
   TaskModal() {
-    this.setState({
+    this.setState((prevState) => ({
       TaskModal: !this.state.TaskModal,
-    });
+      NewTask: {
+        ...prevState.NewTask,
+        AgentName: "Assign To",
+        title: "",
+        agent: "",
+        state: "To Do",
+        description: "",
+      },
+    }));
   }
 
   SwitchSlider(slide) {
@@ -873,6 +925,7 @@ class OperationProfile extends React.Component {
     this.GetPostsCount();
     this.GetTargetsCount();
     this.GetMembersCount();
+    this.SetLastAccessedOperation();
   }
 
   render() {

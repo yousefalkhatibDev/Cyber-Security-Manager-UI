@@ -2,7 +2,7 @@ import React from "react";
 import OperationCard from "../components/OperationCard";
 import TargetCard from "../components/TargetCard";
 import API from "../helper/API";
-import ProgressBar from "react-bootstrap/ProgressBar";
+// import ProgressBar from "react-bootstrap/ProgressBar";
 import { MdDashboard } from "react-icons/md";
 // import Summary from "../components/Summary";
 
@@ -10,11 +10,11 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      operations: [],
-      recentPosts: [],
-      targets: [],
-      recentTargets: [],
-      progress: 20,
+      operations: {},
+      recentPosts: {},
+      targets: {},
+      recentTargets: {},
+      progress: 0,
       TargetsCount: 0,
       OperationsCount: 0,
     };
@@ -134,22 +134,46 @@ class Dashboard extends React.Component {
       });
   }
 
-  GetRecentTargets() {
-    for (let i = 0; i < this.state.targets.length; i++) {
-      if (this.state.recentTargets.length > 5) return;
-      this.setState({
-        recentTargets: [...this.state.recentTargets, this.state.targets[i]],
+  async GetRecentTargets() {
+    const token = window.sessionStorage.getItem("token");
+    const data = { Token: token };
+
+    await API.post("/get_recent_targets", data)
+      .then((respone) => {
+        const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
+        if (res.data) {
+          this.setState({ recentTargets: res.data });
+        }
+      })
+      .catch(function (error) {
+        console.error(error);
       });
-    }
   }
 
   async GetRecentPosts() {
-    for (let i = 0; i <= this.state.operations.length; i++) {
-      if (this.state.operations[i] === undefined) return;
-      if (this.state.recentPosts.length > 5) return;
-      // this.setState({ recentOperations: [...this.state.recentOperations, this.state.operations[i]] });
-      // const posts = await this.GetPosts(this.state.operations[i].o_id);
-    }
+    const token = window.sessionStorage.getItem("token");
+    const data = { Token: token };
+
+    await API.post("/get_recent_posts", data)
+      .then((respone) => {
+        const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
+        if (res.data) {
+          this.setState({ recentPosts: res.data });
+        }
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
   }
 
   GoToPostOperation(id) {
@@ -161,10 +185,12 @@ class Dashboard extends React.Component {
   }
 
   async componentDidMount() {
-    await this.GetOperations();
-    await this.GetTargets();
+    this.GetOperations();
+    this.GetTargets();
     this.GetRecentPosts();
     this.GetRecentTargets();
+    this.GetOperationsCount();
+    this.GetTargetsCount();
   }
 
   render() {
@@ -267,7 +293,7 @@ class Dashboard extends React.Component {
                 );
               })}
             </div>
-            <div className="userInfoCards-card">
+            {/* <div className="userInfoCards-card">
               <h5>Level</h5>
               <div className="userInfoCards-NextLevel">
                 <p>
@@ -283,14 +309,14 @@ class Dashboard extends React.Component {
               <div className="userInfoCards-NextLevel">
                 <p>10/200</p>
               </div>
-            </div>
+            </div> */}
             <div className="userInfoCards-card">
               <h5>More information</h5>
               <p className="userInfoCount">
-                Operations: <span>2</span>
+                Operations: <span>{this.state.OperationsCount}</span>
               </p>
               <p className="userInfoCount">
-                Targets: <span>4</span>
+                Targets: <span>{this.state.TargetsCount}</span>
               </p>
             </div>
           </div>

@@ -5,13 +5,12 @@ import Form from "react-bootstrap/Form";
 import API from "../helper/API";
 import Dropdown from "react-bootstrap/Dropdown";
 
-
 class TaskCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       Displaytask: false,
-      DeleteModal: false
+      DeleteModal: false,
     };
     this.DisplayTask = this.DisplayTask.bind(this);
     this.DeleteTask = this.DeleteTask.bind(this);
@@ -19,7 +18,7 @@ class TaskCard extends React.Component {
   }
 
   DeleteModal() {
-    console.log("called")
+    console.log("called");
     this.setState({ DeleteModal: !this.state.DeleteModal });
   }
 
@@ -35,7 +34,7 @@ class TaskCard extends React.Component {
         if (res.ErrorMessage) {
           window.alert(res.ErrorMessage);
         }
-  
+
         if (res.data) {
           this.props.refresh();
         }
@@ -53,7 +52,11 @@ class TaskCard extends React.Component {
     return (
       <div className="TaskCardContainer">
         <p className="TaskTitle">
-          <img alt="" className="PostAuthImage" src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=580&amp;q=80" />
+          <img
+            alt=""
+            className="PostAuthImage"
+            src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=580&amp;q=80"
+          />
           <p>{this.props.agent}</p>
           <p>{this.props.CreateDate.split("T")[0]}</p>
           {/* {this.props.title.length > 18
@@ -95,19 +98,18 @@ class TaskCard extends React.Component {
                   Change Task Status
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  <Dropdown.Item>
-                    To Do
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    In Progress
-                  </Dropdown.Item>
-                  <Dropdown.Item>
-                    Done
-                  </Dropdown.Item>
+                  <Dropdown.Item>To Do</Dropdown.Item>
+                  <Dropdown.Item>In Progress</Dropdown.Item>
+                  <Dropdown.Item>Done</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </div>
-            <Button variant="danger" onClick={() => { this.DeleteModal(); }} >
+            <Button
+              variant="danger"
+              onClick={() => {
+                this.DeleteModal();
+              }}
+            >
               Delete
             </Button>
             <Button variant="secondary" onClick={this.DisplayTask}>
