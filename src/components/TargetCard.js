@@ -18,11 +18,7 @@ class TargetCard extends React.Component {
     const data = { TargetID: this.props.id };
     await API.post("/get_target_image", data).then(async (respone) => {
       const res = respone.data;
-
-      if (res.ErrorMessage) {
-        window.alert(res.ErrorMessage);
-      }
-
+      if (res.ErrorMessage) window.alert(res.ErrorMessage);
       if (res.data === false) {
         this.setState({
           image:

@@ -10,10 +10,10 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      operations: {},
-      recentPosts: {},
-      targets: {},
-      recentTargets: {},
+      operations: [],
+      recentPosts: [],
+      targets: [],
+      recentTargets: [],
       progress: 0,
       TargetsCount: 0,
       OperationsCount: 0,
@@ -103,9 +103,7 @@ class Dashboard extends React.Component {
         }
 
         if (res.data) {
-          this.setState({
-            recentPosts: [...this.state.recentPosts, ...res.data],
-          });
+          this.setState({ recentPosts: res.data });
         }
       })
       .catch(function (error) {
@@ -250,7 +248,7 @@ class Dashboard extends React.Component {
                     <div className="postCard-content">
                       <img
                         alt=""
-                        src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80"
+                        src={el.u_image}
                       />
                       <div className="postCard-text">
                         <h5>{el.p_title}</h5>
@@ -276,7 +274,7 @@ class Dashboard extends React.Component {
                     <div className="targetCard-content">
                       <img
                         alt=""
-                        src="https://img.freepik.com/premium-vector/anonymous-hacker-concept-with-flat-design_23-2147895788.jpg?w=740"
+                        src={el.t_image}
                       />
                       <div className="targetCard-text">
                         <h5>{el.t_name}</h5>

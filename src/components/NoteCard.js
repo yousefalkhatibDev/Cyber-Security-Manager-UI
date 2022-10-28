@@ -29,11 +29,7 @@ class NoteCard extends React.Component {
     await API.post("/remove_note", data)
       .then((respone) => {
         const res = respone.data;
-
-        if (res.ErrorMessage) {
-          window.alert(res.ErrorMessage);
-        }
-
+        if (res.ErrorMessage) window.alert(res.ErrorMessage);
         if (res.data) {
           this.props.GetNotes();
           this.props.GetNotesCount();
@@ -52,11 +48,7 @@ class NoteCard extends React.Component {
     return (
       <div className="NoteCardContainer">
         <p className="NoteTitle">
-          <img
-            alt=""
-            className="PostAuthImage"
-            src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=580&amp;q=80"
-          />
+          <img alt="" className="PostAuthImage" src={this.props.UserImage} />
           <p>{this.props.author}</p>
           <p>{this.props.CreateDate.split("T")[0]}</p>
         </p>

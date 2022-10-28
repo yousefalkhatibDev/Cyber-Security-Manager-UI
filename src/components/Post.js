@@ -36,11 +36,7 @@ class Post extends React.Component {
     await API.post("/remove_post", data)
       .then((respone) => {
         const res = respone.data;
-
-        if (res.ErrorMessage) {
-          window.alert(res.ErrorMessage);
-        }
-
+        if (res.ErrorMessage) window.alert(res.ErrorMessage);
         if (res.data) {
           this.props.GetPosts();
           this.props.GetPostsCount();
@@ -67,19 +63,14 @@ class Post extends React.Component {
   async GetComments() {
     const data = {
       PostID: this.props.id,
+      Token: window.sessionStorage.getItem("token")
     };
 
     await API.post("/get_comments", data)
       .then((respone) => {
         const res = respone.data;
-
-        if (res.ErrorMessage) {
-          window.alert(res.ErrorMessage);
-        }
-
-        if (res.data) {
-          this.setState({ comments: res.data });
-        }
+        if (res.ErrorMessage) window.alert(res.ErrorMessage);
+        if (res.data) this.setState({ comments: res.data });
       })
       .catch(function (error) {
         console.error(error);
@@ -96,14 +87,8 @@ class Post extends React.Component {
     await API.post("/add_comment", data)
       .then((respone) => {
         const res = respone.data;
-
-        if (res.ErrorMessage) {
-          window.alert(res.ErrorMessage);
-        }
-
-        if (res.data) {
-          this.GetComments();
-        }
+        if (res.ErrorMessage) window.alert(res.ErrorMessage);
+        if (res.data) this.GetComments();
       })
       .catch(function (error) {
         console.error(error);
@@ -129,11 +114,7 @@ class Post extends React.Component {
       <>
         <div className="Post">
           <div className="PostAuthContainer">
-            <img
-              alt=""
-              className="PostAuthImage"
-              src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=580&amp;q=80"
-            />
+            <img alt="" className="PostAuthImage" src={this.props.UserImage} />
             <p className="Postauthor">{this.props.author}</p>
             <p className="Postauthor">{this.props.createDate.split("T")[0]}</p>
             <div className="PostDottedIcon">
@@ -171,6 +152,8 @@ class Post extends React.Component {
                   id={comment.c_id}
                   text={comment.c_text}
                   user={comment.u_name}
+                  UserImage={comment.u_image}
+                  BelongToUser={comment.BelongToUser}
                   createDate={comment.c_create_date}
                   refresh={this.GetComments}
                 />

@@ -20,6 +20,56 @@ export default class Profile extends Component {
     this.UpdateUserEmail = this.UpdateUserEmail.bind(this);
     this.UpdateUserBio = this.UpdateUserBio.bind(this);
     this.UploadNewUserInfo = this.UploadNewUserInfo.bind(this);
+    this.UpdateUserImage = this.UpdateUserImage.bind(this);
+    this.convertToBase64 = this.convertToBase64.bind(this);
+  }
+
+  convertToBase64(event) {
+    //Read File
+    const selectedFile = document.getElementById("inputFile").files;
+
+    //Check File is not Empty
+    if (selectedFile.length > 0) {
+      // Select the very first file from list
+      const fileToLoad = selectedFile[0];
+
+      // FileReader function for read the file.
+      const fileReader = new FileReader();
+      var self = this;
+
+      // Onload of file read the file content
+      fileReader.onload = async function (fileLoadedEvent) {
+        let base64 = fileLoadedEvent.target.result;
+        let fileName = event.target.files[0].name;
+        self.UpdateUserImage(base64);
+        document.getElementById("inputFile").value = null;
+      };
+      // // Convert data to base64
+      fileReader.readAsDataURL(fileToLoad);
+    }
+  }
+
+  async UpdateUserImage(value) {
+    const data = {
+      Token: window.sessionStorage.getItem("token"),
+      UserImage: value,
+    };
+
+    await API.post("/update_user_image", data)
+      .then((respone) => {
+        const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
+        if (res.data) {
+          this.GetUserInfo();
+        }
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
   }
 
   async UploadNewUserInfo() {
@@ -43,9 +93,9 @@ export default class Profile extends Component {
           this.setState((prevState) => ({
             UserNewInfo: {
               ...prevState.UserNewInfo,
-              name: "",
-              email: "",
-              bio: "",
+              name: this.state.UserInfo.u_name,
+              email: this.state.UserInfo.u_email,
+              bio: this.state.UserInfo.u_bio,
             },
           }));
         }
@@ -96,7 +146,15 @@ export default class Profile extends Component {
         }
 
         if (res.data) {
-          this.setState({ UserInfo: res.data });
+          this.setState((prevState) => ({
+            UserInfo: res.data,
+            UserNewInfo: {
+              ...prevState.UserNewInfo,
+              name: this.state.UserInfo.u_name,
+              email: this.state.UserInfo.u_email,
+              bio: this.state.UserInfo.u_bio,
+            },
+          }));
         }
       })
       .catch(function (error) {
@@ -105,7 +163,7 @@ export default class Profile extends Component {
   }
 
   componentDidMount() {
-    // this.GetUserInfo();
+    this.GetUserInfo();
   }
 
   render() {
@@ -126,10 +184,12 @@ export default class Profile extends Component {
           <div className="profileCardInfo">
             <div className="profileCardInfo-imageContainer">
               <img
-                src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80"
+                src={this.state.UserInfo.u_image}
                 alt="user-card"
                 className="profileCardInfo-image"
               />
+              <p>change profile image</p>
+              <input type="file" onChange={this.convertToBase64} id="inputFile"/>
             </div>
             <div className="inputs-group">
               <label htmlFor="username">User ID</label>
@@ -137,7 +197,7 @@ export default class Profile extends Component {
                 type="text"
                 name="username"
                 disabled
-                defaultValue="User12345"
+                defaultValue={this.state.UserInfo.u_id}
                 className="profileCardInfo-input"
               />
             </div>
@@ -147,7 +207,7 @@ export default class Profile extends Component {
                 <input
                   type="text"
                   name="full-name"
-                  defaultValue="Ahmad almuhidat"
+                  defaultValue={this.state.UserInfo.u_name}
                   className="profileCardInfo-input"
                   onChange={this.UpdateUserName}
                 />
@@ -157,22 +217,26 @@ export default class Profile extends Component {
                 <input
                   type="text"
                   name="email"
-                  defaultValue="ahmad@cts.com"
+                  defaultValue={this.state.UserInfo.u_email}
                   className="profileCardInfo-input"
                   onChange={this.UpdateUserEmail}
                 />
               </div>
               <div className="inputs-group">
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">Bio</label>
                 <input
                   type="textarea"
-                  defaultValue="bio"
+                  defaultValue={this.state.UserInfo.u_bio}
                   className="profileCardInfo-input"
                   onChange={this.UpdateUserBio}
                 />
               </div>
               <div style={{ display: "flex", width: "90%" }}>
-                <Button variant="success" style={{ borderRadius: "5px" }}>
+                <Button
+                  variant="success"
+                  style={{ borderRadius: "5px" }}
+                  onClick={this.UploadNewUserInfo}
+                >
                   Save Changes
                 </Button>
               </div>

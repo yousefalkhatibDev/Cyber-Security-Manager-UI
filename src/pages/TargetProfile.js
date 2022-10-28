@@ -802,6 +802,7 @@ class TargetProfile extends React.Component {
                       author={note.u_name}
                       CreateDate={note.n_create_date}
                       UpdateDate={note.n_update_date}
+                      UserImage={note.u_image}
                       GetNotes={this.GetNotes}
                       GetNotesCount={this.GetNotesCount}
                     />
@@ -1104,9 +1105,6 @@ class TargetProfile extends React.Component {
             <Modal.Footer>
               <Button variant="secondary" onClick={this.SettingsModal}>
                 Close
-              </Button>
-              <Button variant="primary" onClick={this.SettingsModal}>
-                Ok
               </Button>
             </Modal.Footer>
           </Modal>

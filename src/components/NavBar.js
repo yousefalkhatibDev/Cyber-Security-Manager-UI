@@ -6,23 +6,43 @@ import Dropdown from "react-bootstrap/Dropdown";
 
 import API from "../helper/API";
 
-class TopBar extends React.Component {
+class NavBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isLinksActive: false,
+      UserImage: "",
+      UserName: ""
     };
     this.Logout = this.Logout.bind(this);
     this.HandleHamClick = this.HandleHamClick.bind(this);
     this.HandleOnScroll = this.HandleOnScroll.bind(this);
+    this.GetUserInfo = this.GetUserInfo.bind(this);
   }
 
-  componentDidMount() {
-    window.addEventListener("scroll", this.HandleOnScroll);
-  }
+  async GetUserInfo() {
+    const data = {
+      Token: window.sessionStorage.getItem("token"),
+    };
 
-  componentWillUnmount() {
-    window.removeEventListener("scroll", this.HandleOnScroll);
+    await API.post("/get_user_info", data)
+      .then((respone) => {
+        const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
+        if (res.data) {
+          this.setState({
+            UserImage: res.data.u_image,
+            UserName: res.data.u_name
+          })
+        }
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
   }
 
   async Logout() {
@@ -56,6 +76,16 @@ class TopBar extends React.Component {
   HandleOnScroll() {
     this.setState({ isLinksActive: false });
   }
+
+  componentDidMount() {
+    this.GetUserInfo()
+    window.addEventListener("scroll", this.HandleOnScroll);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.HandleOnScroll);
+  }
+
   render() {
     return (
       <>
@@ -70,7 +100,7 @@ class TopBar extends React.Component {
                     style={{ border: "none", backgroundColor: "transparent" }}
                   >
                     <img
-                      src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80"
+                      src={this.state.UserImage}
                       alt="user-card"
                       className="user-img-top-bar"
                     />
@@ -99,7 +129,7 @@ class TopBar extends React.Component {
                     </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
-                <p>Ahmad almuhidat</p>
+                <p>{this.state.UserName}</p>
               </div>
             </div>
 
@@ -136,4 +166,4 @@ class TopBar extends React.Component {
   }
 }
 
-export default TopBar;
+export default NavBar;

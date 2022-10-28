@@ -22,11 +22,7 @@ class OperationCard extends React.Component {
     const data = { OperationID: this.props.id };
     await API.post("/get_operation_image", data).then(async (respone) => {
       const res = respone.data;
-
-      if (res.ErrorMessage) {
-        window.alert(res.ErrorMessage);
-      }
-
+      if (res.ErrorMessage) window.alert(res.ErrorMessage);
       if (
         res.data === false ||
         res.data.o_image === "" ||
@@ -46,14 +42,8 @@ class OperationCard extends React.Component {
     const data = { OperationID: this.props.id };
     await API.post("/get_operation_posts_count", data).then(async (respone) => {
       const res = respone.data;
-
-      if (res.ErrorMessage) {
-        window.alert(res.ErrorMessage);
-      }
-
-      if (res.data) {
-        this.setState({ PostsCount: res.data[0].PostsCount });
-      }
+      if (res.ErrorMessage) window.alert(res.ErrorMessage);
+      if (res.data) this.setState({ PostsCount: res.data[0].PostsCount });
     });
   }
 
@@ -62,14 +52,8 @@ class OperationCard extends React.Component {
     await API.post("/get_operation_targets_count", data).then(
       async (respone) => {
         const res = respone.data;
-
-        if (res.ErrorMessage) {
-          window.alert(res.ErrorMessage);
-        }
-
-        if (res.data) {
-          this.setState({ TargetsCount: res.data[0].TargetsCount });
-        }
+        if (res.ErrorMessage) window.alert(res.ErrorMessage);
+        if (res.data) this.setState({ TargetsCount: res.data[0].TargetsCount });
       }
     );
   }
@@ -79,14 +63,8 @@ class OperationCard extends React.Component {
     await API.post("/get_operation_members_count", data).then(
       async (respone) => {
         const res = respone.data;
-
-        if (res.ErrorMessage) {
-          window.alert(res.ErrorMessage);
-        }
-
-        if (res.data) {
-          this.setState({ MembersCount: res.data[0].MembersCount });
-        }
+        if (res.ErrorMessage) window.alert(res.ErrorMessage);
+        if (res.data) this.setState({ MembersCount: res.data[0].MembersCount });
       }
     );
   }
@@ -109,7 +87,6 @@ class OperationCard extends React.Component {
           style={{ position: "relative" }}
         >
           <img src={this.state.image} alt="vector" />
-
           <h2 className="OperationCard-name">{this.props.name}</h2>
         </div>
 

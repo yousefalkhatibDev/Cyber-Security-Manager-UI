@@ -717,6 +717,7 @@ class OperationProfile extends React.Component {
     const data = {
       OperationID: this.props.id,
       search: this.state.SearchPosts,
+      Token: window.sessionStorage.getItem("token")
     };
     await API.post("/get_posts", data)
       .then((respone) => {
@@ -1068,6 +1069,7 @@ class OperationProfile extends React.Component {
                     text={post.p_text}
                     author={post.u_name}
                     createDate={post.p_create_date}
+                    UserImage={post.u_image}
                     GetPosts={this.GetPosts}
                     GetPostsCount={this.GetPostsCount}
                   />
@@ -1178,8 +1180,10 @@ class OperationProfile extends React.Component {
                       key={i}
                       id={task.tk_id}
                       title={task.tk_title}
+                      state={task.tk_state}
                       text={task.tk_content}
                       agent={task.u_name}
+                      UserImage={task.u_image}
                       refresh={this.GetTasks}
                       CreateDate={task.tk_create_date}
                       UpdateDate={task.tk_update_date}
@@ -1667,9 +1671,6 @@ class OperationProfile extends React.Component {
             <Modal.Footer>
               <Button variant="secondary" onClick={this.SettingsModal}>
                 Close
-              </Button>
-              <Button variant="primary" onClick={this.SettingsModal}>
-                Ok
               </Button>
             </Modal.Footer>
           </Modal>
