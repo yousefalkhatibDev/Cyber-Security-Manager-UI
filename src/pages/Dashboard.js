@@ -4,6 +4,10 @@ import TargetCard from "../components/TargetCard";
 import API from "../helper/API";
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import { MdDashboard } from 'react-icons/md'
+import { FiLogOut } from "react-icons/fi";
+import { MdOutlinePerson } from "react-icons/md";
+import Dropdown from "react-bootstrap/Dropdown";
+import { Link } from "react-router-dom";
 // import Summary from "../components/Summary";
 
 class Dashboard extends React.Component {
@@ -106,10 +110,55 @@ class Dashboard extends React.Component {
     return (
       <>
         <div className='pageHeader'>
-          <MdDashboard color="green" className='pageHeader-icon' textDecoration="none" />
           <div className='pageHeader-title'>
-            <h1>Dashboard</h1>
-            <p>Check out your status and progress!</p>
+            <MdDashboard color="black" className='pageHeader-icon' textDecoration="none" />
+            <div>
+              <h1>Dashboard</h1>
+              <p>Check out your status and progress!</p>
+            </div>
+          </div>
+          <div>
+            <div className="user-card">
+              <div className="user-name">
+                <Dropdown>
+                  <Dropdown.Toggle
+                    variant="success"
+                    id="dropdown-basic"
+                    style={{ border: "none", backgroundColor: "transparent" }}
+                  >
+                    <img
+                      src={this.state.UserImage}
+                      alt="user-card"
+                      className="user-img-top-bar"
+                    />
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu>
+                    <Dropdown.Item href="/profile">
+                      <Link to="/profile" style={{ textDecoration: "none" }}>
+                        <span style={{ marginRight: "25px", color: "black" }}>
+                          My Profile
+                        </span>{" "}
+                        <MdOutlinePerson
+                          color="black"
+                          size={"13"}
+                          textDecoration="none"
+                        />
+                      </Link>
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={this.Logout}>
+                      <span style={{ marginRight: "50px" }}>Logout</span>{" "}
+                      <FiLogOut
+                        color="black"
+                        size={"13"}
+                        textDecoration="none"
+                      />
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+                <p>{this.state.UserName}</p>
+              </div>
+            </div>
           </div>
         </div>
         <div className="dashboard">
