@@ -6,7 +6,7 @@ export default class ContentWrapper extends Component {
     }
     render() {
         return (
-            <div style={{ minHeight: "100vh" }}>
+            <div className='ContentWrapper'>
                 {this.props.children}
             </div>
         )

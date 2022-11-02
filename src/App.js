@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 
 // style
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -31,9 +31,10 @@ function App() {
         </PrivateNavBar>
 
         <Routes>
+          <Route exact path="/" element={<Navigate to="/dashboard" />} />
           <Route
             exact
-            path="/"
+            path="/dashboard"
             element={
               <PrivateRoute>
                 <ContentWrapper>

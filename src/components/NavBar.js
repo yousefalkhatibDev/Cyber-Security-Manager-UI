@@ -1,8 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FiLogOut } from "react-icons/fi";
-import { MdOutlinePerson } from "react-icons/md";
+import { FiLogOut, FiTarget } from "react-icons/fi";
+import { MdOutlinePerson, MdDashboard } from "react-icons/md";
+import { GrSettingsOption } from "react-icons/gr"
 import Dropdown from 'react-bootstrap/Dropdown';
+import {
+  CDBSidebar,
+  CDBSidebarContent,
+  CDBSidebarFooter,
+  CDBSidebarHeader,
+  CDBSidebarMenu,
+  CDBSidebarMenuItem
+} from "cdbreact";
+import { NavLink } from "react-router-dom";
 
 import API from "../helper/API";
 
@@ -11,18 +21,10 @@ class TopBar extends React.Component {
     super(props);
     this.state = {
       isLinksActive: false,
+      isOpened: true
     };
     this.Logout = this.Logout.bind(this);
-    this.HandleHamClick = this.HandleHamClick.bind(this)
-    this.HandleOnScroll = this.HandleOnScroll.bind(this)
-  }
-
-  componentDidMount() {
-    window.addEventListener('scroll', this.HandleOnScroll);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.HandleOnScroll);
+    this.handleDrawerOpen = this.handleDrawerOpen.bind(this)
   }
 
   async Logout() {
@@ -43,69 +45,101 @@ class TopBar extends React.Component {
       });
   }
 
-  HandleHamClick() {
-    const currentState = this.state.isLinksActive;
-    this.setState({ isLinksActive: !currentState })
+  handleDrawerOpen() {
+    this.setState({ isOpened: !this.state.isOpened })
   }
 
-  HandleOnScroll() {
-    this.setState({ isLinksActive: false })
-  }
   render() {
     return (
       <>
-        <nav className="NavBar" >
-          <div>
-            <div className="user-card">
-              <div className="user-name">
-                <Dropdown>
-                  <Dropdown.Toggle variant="success" id="dropdown-basic" style={{ border: "none", backgroundColor: "transparent" }}>
-                    <img
-                      src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=580&q=80"
-                      alt="user-card"
-                      className="user-img-top-bar"
-                    />
-                  </Dropdown.Toggle>
+        <div
+          className="sideBar-container"
+        >
+          <CDBSidebar textColor="#202020" backgroundColor="rgb(255, 255, 255)">
+            <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large" onClick={this.handleDrawerOpen} style={{ color: "rgb(10, 10, 10)" }}></i>}>
+              <a
+                href="/dashboard"
+                className="text-decoration-none"
+                style={{ color: "inherit" }}
+              >
+                Sidebar
+              </a>
+            </CDBSidebarHeader>
 
-                  <Dropdown.Menu>
-                    <Dropdown.Item href="/profile"><Link to="/profile" style={{ textDecoration: "none" }}><span style={{ marginRight: "25px", color: "black" }}>My Profile</span> <MdOutlinePerson color="black" size={"13"} textDecoration="none" /></Link></Dropdown.Item>
-                    <Dropdown.Item onClick={this.Logout}><span style={{ marginRight: "50px" }}>Logout</span> <FiLogOut color="black" size={"13"} textDecoration="none" /></Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-                <p>Ahmad almuhidat</p>
+            <CDBSidebarFooter style={{ textAlign: "center" }}>
+              {/* <div
+                className="sidebar-btn-wrapper"
+                style={{
+                  padding: "20px 5px"
+                }}
+              >
+                Sidebar Footer
+              </div> */}
+              <div className={this.state.isOpened ? "sideBar-footer" : "sideBar-footer sideBar-footer-closed"}>
+                <NavLink
+                  to="/dashboard"
+                  className={({ isActive }) =>
+                    isActive ? "sideBar-active" : undefined
+                  }
+                >
+                  <MdDashboard
+                    color="black"
+                    size={"20"}
+                    textDecoration="none"
+                  />
+                  <span>Dashboard</span>
+                </NavLink>
+                <NavLink
+                  to="/operations"
+                  className={({ isActive }) =>
+                    isActive ? "sideBar-active" : undefined
+                  }
+                >
+                  <GrSettingsOption
+                    color="black"
+                    size={"20"}
+                    textDecoration="none"
+                  />
+                  <span>Operations</span>
+                </NavLink>
+                <NavLink
+                  to="/targets"
+                  className={({ isActive }) =>
+                    isActive ? "sideBar-active" : undefined
+                  }
+                >
+                  <FiTarget
+                    color="black"
+                    size={"20"}
+                    textDecoration="none"
+                  />
+                  <span>Targets</span>
+                </NavLink>
+                <NavLink
+                  to="/profile"
+                  className={({ isActive }) =>
+                    isActive ? "sideBar-active" : undefined
+                  }
+                >
+                  <MdOutlinePerson
+                    color="black"
+                    size={"20"}
+                    textDecoration="none"
+                  />
+                  <span>profile</span>
+                </NavLink>
+                <NavLink onClick={this.Logout} >
+                  <FiLogOut
+                    color="black"
+                    size={"20"}
+                    textDecoration="none"
+                  />
+                  <span>logout</span>
+                </NavLink>
               </div>
-            </div>
-
-            <ul className={this.state.isLinksActive ? 'nav-menu nav-links navActive' : 'nav-menu nav-links'}>
-              <Link to="/" className="option">
-                Dashboard
-              </Link>
-              <Link to="/operations" className="option">
-                Operations
-              </Link>
-              <Link to="targets" className="option">
-                Targets
-              </Link>
-            </ul>
-          </div>
-          <div>
-            <ul className="nav-ham-container">
-              <div className="ham" onClick={this.HandleHamClick}>
-                <div className="line1"></div>
-                <div className="line2"></div>
-                <div className="line3"></div>
-              </div>
-            </ul>
-
-            <ul className="nav-menu" style={{ float: "right" }}>
-              <li>
-                <Link to="#">
-                  <FiLogOut color="white" size={"23"} textDecoration="none" onClick={this.Logout} />
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </nav>
+            </CDBSidebarFooter>
+          </CDBSidebar>
+        </div >
       </>
     );
   }
