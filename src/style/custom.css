@@ -226,6 +226,7 @@ select:focus-visible {
   padding: 1px;
   display: flex;
   align-items: center;
+  justify-content: space-around;
 }
 
 .user-name p {
@@ -1313,12 +1314,17 @@ select {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 .profileCardInfo-image {
   height: 150px;
   width: 150px;
   border-radius: 80px;
+}
+
+.profileCardInfo-fileInput {
+  width: 100%;
 }
 
 .profileCardInfo-inputsContainer {
@@ -1464,6 +1470,10 @@ footer {
 
   .profileCardInfo {
     height: 700px;
+  }
+
+  .profileCardInfo-fileInput {
+    width: auto;
   }
 
   .TargetProfile .TargetProfileInfo ul {

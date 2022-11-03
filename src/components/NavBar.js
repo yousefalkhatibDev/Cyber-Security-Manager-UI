@@ -22,6 +22,7 @@ class NavBar extends React.Component {
     this.state = {
       isLinksActive: false,
       isOpened: true,
+      coolDown: false,
       UserImage: "",
       UserName: ""
     };
@@ -79,7 +80,11 @@ class NavBar extends React.Component {
   }
 
   handleDrawerOpen() {
-    this.setState({ isOpened: !this.state.isOpened })
+    if (this.state.coolDown === true) {
+      return;
+    }
+    this.setState({ isOpened: !this.state.isOpened, coolDown: true })
+    setTimeout(() => { this.setState({ coolDown: false }) }, 300)
   }
 
   render() {

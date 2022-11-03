@@ -227,7 +227,7 @@ class Dashboard extends React.Component {
   render() {
     return (
       <>
-        <div className='pageHeader'>
+        <div className='pageHeader' style={{ justifyContent: "space-between" }}>
           <div className='pageHeader-title'>
             <MdDashboard color="black" className='pageHeader-icon' textDecoration="none" />
             <div>
@@ -332,7 +332,7 @@ class Dashboard extends React.Component {
                       </div>
                     </div>
                     <button
-                      class="OperationCardContainerButton"
+                      className="OperationCardContainerButton"
                       onClick={() => this.GoToPostOperation(el.p_operation)}
                     >
                       Navigate to Operation
@@ -357,7 +357,7 @@ class Dashboard extends React.Component {
                       </div>
                     </div>
                     <button
-                      class="OperationCardContainerButton"
+                      className="OperationCardContainerButton"
                       onClick={() => this.GoToTarget(el.t_id)}
                     >
                       Navigate to Target

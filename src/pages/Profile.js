@@ -189,17 +189,7 @@ export default class Profile extends Component {
                 className="profileCardInfo-image"
               />
               <p>change profile image</p>
-              <input type="file" onChange={this.convertToBase64} id="inputFile"/>
-            </div>
-            <div className="inputs-group">
-              <label htmlFor="username">User ID</label>
-              <input
-                type="text"
-                name="username"
-                disabled
-                defaultValue={this.state.UserInfo.u_id}
-                className="profileCardInfo-input"
-              />
+              <input type="file" onChange={this.convertToBase64} id="inputFile" className="profileCardInfo-fileInput" />
             </div>
             <div className="profileCardInfo-inputsContainer">
               <div className="inputs-group">
@@ -220,6 +210,16 @@ export default class Profile extends Component {
                   defaultValue={this.state.UserInfo.u_email}
                   className="profileCardInfo-input"
                   onChange={this.UpdateUserEmail}
+                />
+              </div>
+              <div className="inputs-group">
+                <label htmlFor="username">User ID</label>
+                <input
+                  type="text"
+                  name="username"
+                  disabled
+                  defaultValue={this.state.UserInfo.u_id}
+                  className="profileCardInfo-input"
                 />
               </div>
               <div className="inputs-group">

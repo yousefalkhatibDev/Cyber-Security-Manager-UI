@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-export default class ContentWrapper extends Component {
+class ContentWrapper extends Component {
     constructor(props) {
         super(props)
     }
@@ -12,3 +12,5 @@ export default class ContentWrapper extends Component {
         )
     }
 }
+
+export default ContentWrapper
