@@ -2,7 +2,7 @@ import React from "react";
 import TargetCard from "../components/TargetCard";
 import API from "../helper/API";
 import Pagination from "../components/Pagination";
-import { FiTarget } from "react-icons/fi"
+import { FiTarget } from "react-icons/fi";
 
 class Targets extends React.Component {
   constructor(props) {
@@ -12,13 +12,13 @@ class Targets extends React.Component {
       filter: "",
       search: "",
       currentPage: 1,
-      targetsToDisplayNumber: 4
+      targetsToDisplayNumber: 4,
     };
 
     this.GetTargets = this.GetTargets.bind(this);
     this.UpdateFilter = this.UpdateFilter.bind(this);
     this.UpdateSearch = this.UpdateSearch.bind(this);
-    this.setCurrentPage = this.setCurrentPage.bind(this)
+    this.setCurrentPage = this.setCurrentPage.bind(this);
   }
 
   async UpdateSearch(event) {
@@ -59,6 +59,9 @@ class Targets extends React.Component {
     await API.post("/get_targets_by_user", data)
       .then((respone) => {
         const res = respone.data;
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
         if (res.data) {
           this.setState({ targets: res.data });
         }
@@ -69,7 +72,7 @@ class Targets extends React.Component {
   }
 
   setCurrentPage(page) {
-    this.setState({ currentPage: page })
+    this.setState({ currentPage: page });
   }
 
   async componentDidMount() {
@@ -77,14 +80,22 @@ class Targets extends React.Component {
   }
 
   render() {
-    let lastTargetIndex = this.state.currentPage * this.state.targetsToDisplayNumber
-    let firstTargetIndex = lastTargetIndex - this.state.targetsToDisplayNumber
-    const currentTargetsToDisplay = this.state.targets.slice(firstTargetIndex, lastTargetIndex)
+    let lastTargetIndex =
+      this.state.currentPage * this.state.targetsToDisplayNumber;
+    let firstTargetIndex = lastTargetIndex - this.state.targetsToDisplayNumber;
+    const currentTargetsToDisplay = this.state.targets.slice(
+      firstTargetIndex,
+      lastTargetIndex
+    );
     return (
       <>
-        <div className='pageHeader'>
-          <FiTarget color="white" className='pageHeader-icon' textDecoration="none" />
-          <div className='pageHeader-title'>
+        <div className="pageHeader">
+          <FiTarget
+            color="white"
+            className="pageHeader-icon"
+            textDecoration="none"
+          />
+          <div className="pageHeader-title">
             <h1>Targets</h1>
             <p>See who people are targeting!</p>
           </div>
@@ -134,7 +145,6 @@ class Targets extends React.Component {
               currentPage={this.state.currentPage}
             />
           </div>
-
         </div>
       </>
     );

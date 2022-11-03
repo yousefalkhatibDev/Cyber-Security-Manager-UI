@@ -16,15 +16,43 @@ import { NavLink } from "react-router-dom";
 
 import API from "../helper/API";
 
-class TopBar extends React.Component {
+class NavBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isLinksActive: false,
-      isOpened: true
+      isOpened: true,
+      UserImage: "",
+      UserName: ""
     };
     this.Logout = this.Logout.bind(this);
+    this.GetUserInfo = this.GetUserInfo.bind(this);
     this.handleDrawerOpen = this.handleDrawerOpen.bind(this)
+  }
+
+  async GetUserInfo() {
+    const data = {
+      Token: window.sessionStorage.getItem("token"),
+    };
+
+    await API.post("/get_user_info", data)
+      .then((respone) => {
+        const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
+        if (res.data) {
+          this.setState({
+            UserImage: res.data.u_image,
+            UserName: res.data.u_name
+          })
+        }
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
   }
 
   async Logout() {
@@ -35,6 +63,11 @@ class TopBar extends React.Component {
     await API.post("/logout", data)
       .then((respone) => {
         const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
         if (res.data) {
           window.sessionStorage.removeItem("token");
           window.location = "/login";
@@ -145,4 +178,4 @@ class TopBar extends React.Component {
   }
 }
 
-export default TopBar;
+export default NavBar;

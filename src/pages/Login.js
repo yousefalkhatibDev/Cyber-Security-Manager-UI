@@ -35,13 +35,18 @@ class Login extends React.Component {
       Password: this.state.password,
     };
 
-    // this.setState({ loading: true });
+    this.setState({ loading: true });
 
     await API.post("/login", data)
       .then((respone) => {
         const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
         if (res.data) {
-          // this.setState({ loading: false });
+          this.setState({ loading: false });
           window.sessionStorage.setItem("token", res.data);
           window.location = "/";
         } else {

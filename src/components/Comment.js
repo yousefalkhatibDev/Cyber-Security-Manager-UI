@@ -4,8 +4,8 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Dropdown from "react-bootstrap/Dropdown";
-import { BiDotsVerticalRounded } from "react-icons/bi"
-import { MdDelete, MdOutlineReply } from "react-icons/md"
+import { BiDotsVerticalRounded } from "react-icons/bi";
+import { MdDelete } from "react-icons/md";
 
 class Comment extends React.Component {
   constructor(props) {
@@ -23,16 +23,13 @@ class Comment extends React.Component {
   }
 
   async DeleteComment() {
-    const data = {
-      CommnetID: this.props.id,
-    };
+    const data = { CommnetID: this.props.id };
 
     await API.post("/remove_comment", data)
       .then((respone) => {
         const res = respone.data;
-        if (res.data) {
-          this.props.refresh();
-        }
+        if (res.ErrorMessage) window.alert(res.ErrorMessage);
+        if (res.data) this.props.refresh();
       })
       .catch(function (error) {
         console.error(error);
@@ -44,22 +41,35 @@ class Comment extends React.Component {
       <>
         <div className="Comment">
           <div className="CommentAuthContainer">
-            <img className="CommentAuthImage" src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=580&amp;q=80" />
+            <img
+              alt=""
+              className="CommentAuthImage"
+              src={this.props.UserImage}
+            />
             <p className="Commentauthor">{this.props.user}</p>
-            <p className="Commentauthor">{this.props.createDate.split("T")[0]}</p>
-            <div className="CommentDottedIcon">
-              <Dropdown>
-                <Dropdown.Toggle id="dropdown-basic" className="DropDownToggle">
-                  <BiDotsVerticalRounded />
-                </Dropdown.Toggle>
+            <p className="Commentauthor">
+              {this.props.createDate.split("T")[0]}
+            </p>
+            {this.props.BelongToUser ? (
+              <div className="CommentDottedIcon">
+                <Dropdown>
+                  <Dropdown.Toggle
+                    id="dropdown-basic"
+                    className="DropDownToggle"
+                  >
+                    <BiDotsVerticalRounded />
+                  </Dropdown.Toggle>
 
-                <Dropdown.Menu>
-                  <Dropdown.Item onClick={this.DeleteModal}>Delete <MdDelete style={{ marginLeft: "60px" }} /></Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </div>
+                  <Dropdown.Menu>
+                    <Dropdown.Item onClick={this.DeleteModal}>
+                      Delete <MdDelete style={{ marginLeft: "60px" }} />
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </div>
+            ) : null}
           </div>
-          <p style={{ fontWeight: 500 }} >{this.props.text}</p>
+          <p style={{ fontWeight: 500 }}>{this.props.text}</p>
         </div>
 
         <Modal show={this.state.DeleteModal} onHide={this.DeleteModal}>

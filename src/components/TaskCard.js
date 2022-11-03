@@ -4,23 +4,41 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import API from "../helper/API";
 import Dropdown from "react-bootstrap/Dropdown";
-
+import Moment from "moment";
 
 class TaskCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       Displaytask: false,
-      DeleteModal: false
+      DeleteModal: false,
     };
+
     this.DisplayTask = this.DisplayTask.bind(this);
     this.DeleteTask = this.DeleteTask.bind(this);
     this.DeleteModal = this.DeleteModal.bind(this);
+    this.UpdateTaskStatus = this.UpdateTaskStatus.bind(this);
   }
 
   DeleteModal() {
-    console.log("called")
     this.setState({ DeleteModal: !this.state.DeleteModal });
+  }
+
+  async UpdateTaskStatus(NewStatus) {
+    const data = {
+      TaskID: this.props.id,
+      TaskStatus: NewStatus,
+    };
+
+    await API.post("/update_task_status", data)
+      .then((respone) => {
+        const res = respone.data;
+        if (res.ErrorMessage) window.alert(res.ErrorMessage);
+        if (res.data) this.props.refresh();
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
   }
 
   async DeleteTask() {
@@ -31,9 +49,8 @@ class TaskCard extends React.Component {
     await API.post("/remove_task", data)
       .then((respone) => {
         const res = respone.data;
-        if (res.data) {
-          this.props.refresh();
-        }
+        if (res.ErrorMessage) window.alert(res.ErrorMessage);
+        if (res.data) this.props.refresh();
       })
       .catch(function (error) {
         console.error(error);
@@ -48,12 +65,9 @@ class TaskCard extends React.Component {
     return (
       <div className="TaskCardContainer">
         <p className="TaskTitle">
-          <img className="PostAuthImage" src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=580&amp;q=80" />
+          <img alt="" className="PostAuthImage" src={this.props.UserImage} />
           <p>{this.props.agent}</p>
-          <p>{this.props.CreateDate.split("T")[0]}</p>
-          {/* {this.props.title.length > 18
-            ? this.props.title.substring(0, 18) + " ..."
-            : this.props.title} */}
+          <p> {Moment(this.props.CreateDate).format("MMM Do YY")}</p>
         </p>
         <hr />
         <p className="TaskContent">
@@ -62,7 +76,7 @@ class TaskCard extends React.Component {
             : this.props.text}
         </p>
 
-        <p className="TaskAgent">{this.props.agent}</p>
+        <p className="TaskAgent">assigned to: {this.props.agent}</p>
 
         <button className="BtnTask" onClick={this.DisplayTask}>
           Display
@@ -73,15 +87,12 @@ class TaskCard extends React.Component {
             <Modal.Title>{this.props.title}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <p>{this.props.title}</p>
             <p style={{ fontWeight: "400" }}>{this.props.text}</p>
-            {/* <p
-              className="PostComments"
-              style={{ cursor: "pointer" }}
-
-            >
-              Delete
-            </p> */}
+            <p className="TaskAgent">to: <img src={this.props.UserImage} style={{width: "50px", height: "50px"}} />  {this.props.agent}</p>
+            <p className="TaskAgent">state: {this.props.state}</p>
+            <p className="TaskAgent">
+              Create Date: {Moment(this.props.CreateDate).format("MMM Do YY")}
+            </p>
           </Modal.Body>
           <Modal.Footer>
             <div style={{ marginRight: "auto" }}>
@@ -90,19 +101,36 @@ class TaskCard extends React.Component {
                   Change Task Status
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                  <Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => {
+                      this.UpdateTaskStatus("to do");
+                    }}
+                  >
                     To Do
                   </Dropdown.Item>
-                  <Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => {
+                      this.UpdateTaskStatus("in progress");
+                    }}
+                  >
                     In Progress
                   </Dropdown.Item>
-                  <Dropdown.Item>
+                  <Dropdown.Item
+                    onClick={() => {
+                      this.UpdateTaskStatus("done");
+                    }}
+                  >
                     Done
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </div>
-            <Button variant="danger" onClick={() => { this.DeleteModal(); }} >
+            <Button
+              variant="danger"
+              onClick={() => {
+                this.DeleteModal();
+              }}
+            >
               Delete
             </Button>
             <Button variant="secondary" onClick={this.DisplayTask}>
