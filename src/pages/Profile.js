@@ -150,9 +150,9 @@ export default class Profile extends Component {
             UserInfo: res.data,
             UserNewInfo: {
               ...prevState.UserNewInfo,
-              name: this.state.UserInfo.u_name,
-              email: this.state.UserInfo.u_email,
-              bio: this.state.UserInfo.u_bio,
+              name: res.data.u_name,
+              email: res.data.u_email,
+              bio: res.data.u_bio,
             },
           }));
         }
