@@ -170,14 +170,16 @@ export default class Profile extends Component {
     return (
       <div className="profilePage">
         <div className="pageHeader">
-          <CgProfile
-            color="green"
-            className="pageHeader-icon"
-            textDecoration="none"
-          />
           <div className="pageHeader-title">
-            <h1>Profile Page</h1>
-            <p>Manage your account</p>
+            <CgProfile
+              color="black"
+              className="pageHeader-icon"
+              textDecoration="none"
+            />
+            <div>
+              <h1>Profile Page</h1>
+              <p>Manage your account</p>
+            </div>
           </div>
         </div>
         <div className="profilePage-container">

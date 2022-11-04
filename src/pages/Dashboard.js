@@ -1,13 +1,15 @@
 import React from "react";
-import OperationCard from "../components/OperationCard";
-import TargetCard from "../components/TargetCard";
+import OperationCardDashboard from "../components/OperationCardDashboard";
+import TargetCardDashboard from "../components/TargetCardDashboard";
 import API from "../helper/API";
 import ProgressBar from 'react-bootstrap/ProgressBar';
-import { MdDashboard } from 'react-icons/md'
-import { FiLogOut } from "react-icons/fi";
-import { MdOutlinePerson } from "react-icons/md";
 import Dropdown from "react-bootstrap/Dropdown";
 import { Link } from "react-router-dom";
+import dashboardIcon from "../icons/dashboard-fill.svg"
+import operationIcon from "../icons/operation.svg"
+import targetIcon from "../icons/target.svg"
+import logoutIcon from "../icons/Logout.svg"
+import profileIcon from "../icons/profile.svg"
 // import Summary from "../components/Summary";
 
 class Dashboard extends React.Component {
@@ -110,7 +112,7 @@ class Dashboard extends React.Component {
         }
 
         if (res.data) {
-          this.setState({ recentPosts: res.data });
+          this.setState({ recentPosts: res });
         }
       })
       .catch(function (error) {
@@ -167,7 +169,6 @@ class Dashboard extends React.Component {
     await API.post("/get_recent_posts", data)
       .then((respone) => {
         const res = respone.data;
-
         if (res.ErrorMessage) {
           window.alert(res.ErrorMessage);
         }
@@ -229,7 +230,8 @@ class Dashboard extends React.Component {
       <>
         <div className='pageHeader' style={{ justifyContent: "space-between" }}>
           <div className='pageHeader-title'>
-            <MdDashboard color="black" className='pageHeader-icon' textDecoration="none" />
+            <img src={dashboardIcon} />
+            {/* <MdDashboard color="black" className='pageHeader-icon' textDecoration="none" /> */}
             <div>
               <h1>Dashboard</h1>
               <p>Check out your status and progress!</p>
@@ -238,7 +240,7 @@ class Dashboard extends React.Component {
           <div>
             <div className="user-card">
               <div className="user-name">
-                <Dropdown>
+                <Dropdown style={{ display: "flex", alignItems: "center" }}>
                   <Dropdown.Toggle
                     variant="success"
                     id="dropdown-basic"
@@ -249,29 +251,20 @@ class Dashboard extends React.Component {
                       alt="user-card"
                       className="user-img-top-bar"
                     />
-                    <div style={{ color: "black" }}>{this.state.UserName}</div>
                   </Dropdown.Toggle>
-
+                  <div style={{ color: "black", width: "150px" }}>{this.state.UserName}</div>
                   <Dropdown.Menu>
                     <Dropdown.Item href="/profile">
                       <Link to="/profile" style={{ textDecoration: "none" }}>
                         <span style={{ marginRight: "25px", color: "black" }}>
                           My Profile
                         </span>{" "}
-                        <MdOutlinePerson
-                          color="black"
-                          size={"13"}
-                          textDecoration="none"
-                        />
+                        <img src={profileIcon} style={{ width: "15px" }} />
                       </Link>
                     </Dropdown.Item>
                     <Dropdown.Item onClick={this.Logout}>
                       <span style={{ marginRight: "50px" }}>Logout</span>{" "}
-                      <FiLogOut
-                        color="black"
-                        size={"13"}
-                        textDecoration="none"
-                      />
+                      <img src={logoutIcon} style={{ width: "15px" }} />
                     </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
@@ -280,26 +273,44 @@ class Dashboard extends React.Component {
             </div>
           </div>
         </div>
+        <div className="dashboard-buttonsSection">
+          <button>
+            <div>
+              <img src={operationIcon} style={{ width: "32px" }} />
+              Operations
+              <span className="separator"></span>
+              {this.state.operations.length}
+            </div>
+          </button>
+          <button>
+            <div>
+              <img src={targetIcon} style={{ width: "32px" }} />
+              Targets
+              <span className="separator"></span>
+              {this.state.targets.length}
+            </div>
+          </button>
+        </div>
         <div className="dashboard">
           <div className="userRecentAccess-Container">
             <div className="userOperations-recent">
-              <h4>Last accessed operation</h4>
+              <h4 style={{ color: "rgb(30, 30, 100)", margin: "25px 0px 25px 20px" }}>Last accessed operation</h4>
               {this.state.operations.length && (
-                <OperationCard
+                <OperationCardDashboard
                   key={1}
                   id={this.state.operations[0].o_id}
                   name={this.state.operations[0].o_name}
                   description={this.state.operations[0].o_description}
                   status={this.state.operations[0].o_state}
                   CreateDate={this.state.operations[0].o_create_date}
-                  width={90}
+                  width={95}
                 />
               )}
             </div>
             <div className="userTargets-recent">
-              <h4>Last accessed target</h4>
+              <h4 style={{ color: "rgb(30, 30, 100)", margin: "30px 0px 30px 20px" }}>Last accessed target</h4>
               {this.state.targets.length && (
-                <TargetCard
+                <TargetCardDashboard
                   key={2}
                   id={this.state.targets[0].t_id}
                   name={this.state.targets[0].t_name}
@@ -308,13 +319,73 @@ class Dashboard extends React.Component {
                   operation={this.state.targets[0].o_name}
                   CreateDate={this.state.targets[0].t_create_date}
                   UpdateDate={this.state.targets[0].t_update_date}
-                  width={90}
+                  width={95}
                 />
               )}
             </div>
           </div>
+          <div className="recentPosts-container">
+            <h4 style={{ color: "rgb(30, 30, 100)", display: "inline-block", margin: "25px 0px" }}>Recent Posts</h4>
+            <h4 style={{ color: "rgb(30, 30, 100)", display: "inline-block", margin: "25px 0px", position: "absolute", right: 10 }}>See All</h4>
+            <div className="recentPostsCard-container">
+              {this.state.recentPosts.slice(0, 2).map((el) => {
+                return (
+                  <div className="postCard" key={el.p_id}>
+                    <div className="postCard-content">
+                      <img
+                        alt=""
+                        src={el.u_image}
+                      />
+                      <div className="postCard-text">
+                        <h5>{el.u_name}</h5>
+                        <p>{el.p_text}</p>
+                      </div>
+                    </div>
+                    <div className="postCard-buttonContainer">
+                      <button
+                        className="postCard-button"
+                        onClick={() => this.GoToPostOperation(el.p_operation)}
+                      >
+                        Navigate to Operation
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
 
-          <div className="userInfoCards-Container">
+          <div className="recentTargets-container">
+            <h4 style={{ color: "rgb(30, 30, 100)", display: "inline-block", margin: "55px 0px 25px 0px" }}>Recent Targets</h4>
+            <h4 style={{ color: "rgb(30, 30, 100)", display: "inline-block", margin: "55px 0px 25px 0px", position: "absolute", right: 10 }}>See All</h4>
+            <div className="recentTargetsCard-container">
+              {this.state.recentTargets.slice(0, 2).map((el) => {
+                return (
+                  <div className="targetCard" key={el.p_id}>
+                    <div className="targetCard-content">
+                      <img
+                        alt=""
+                        src={el.t_image}
+                      />
+                      <div className="targetCard-text">
+                        <h5>{el.t_name}</h5>
+                        <p>{el.t_description}</p>
+                      </div>
+                    </div>
+                    <div className="targetCard-buttonContainer">
+                      <button
+                        className="targetCard-button"
+                        onClick={() => this.GoToTarget(el.t_id)}
+                      >
+                        Navigate to Target
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          {/* <div className="userInfoCards-Container">
             <div className="userInfoCards-card userInfoCards-recentPosts">
               <h5>Recent Posts</h5>
               {this.state.recentPosts.map((el) => {
@@ -365,8 +436,8 @@ class Dashboard extends React.Component {
                   </div>
                 );
               })}
-            </div>
-            {/* <div className="userInfoCards-card">
+            </div> */}
+          {/* <div className="userInfoCards-card">
               <h5>Level</h5>
               <div className="userInfoCards-NextLevel">
                 <p>
@@ -383,7 +454,7 @@ class Dashboard extends React.Component {
                 <p>10/200</p>
               </div>
             </div> */}
-            <div className="userInfoCards-card">
+          {/* <div className="userInfoCards-card">
               <h5>More information</h5>
               <p className="userInfoCount">
                 Operations: <span>{this.state.OperationsCount}</span>
@@ -391,8 +462,8 @@ class Dashboard extends React.Component {
               <p className="userInfoCount">
                 Targets: <span>{this.state.TargetsCount}</span>
               </p>
-            </div>
-          </div>
+            </div> */}
+          {/* </div> */}
         </div>
       </>
     );

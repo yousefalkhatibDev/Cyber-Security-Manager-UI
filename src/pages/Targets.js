@@ -90,14 +90,16 @@ class Targets extends React.Component {
     return (
       <>
         <div className="pageHeader">
-          <FiTarget
-            color="white"
-            className="pageHeader-icon"
-            textDecoration="none"
-          />
           <div className="pageHeader-title">
-            <h1>Targets</h1>
-            <p>See who people are targeting!</p>
+            <FiTarget
+              color="black"
+              className="pageHeader-icon"
+              textDecoration="none"
+            />
+            <div>
+              <h1>Targets</h1>
+              <p>See who people are targeting!</p>
+            </div>
           </div>
         </div>
         <div className="Targets">

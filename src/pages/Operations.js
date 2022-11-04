@@ -7,7 +7,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import OperationCard from "../components/OperationCard";
 import API from "../helper/API";
 import Pagination from "../components/Pagination";
-import { SiHackaday } from "react-icons/si";
+import { GrSettingsOption } from "react-icons/gr"
 import { AiOutlinePlus } from "react-icons/ai";
 
 // return (
@@ -228,14 +228,16 @@ class Operations extends React.Component {
     return (
       <>
         <div className="pageHeader">
-          <SiHackaday
-            color="white"
-            className="pageHeader-icon"
-            textDecoration="none"
-          />
           <div className="pageHeader-title">
-            <h1>Operations</h1>
-            <p>Check out new operations and plans!</p>
+            <GrSettingsOption
+              color="black"
+              className="pageHeader-icon"
+              textDecoration="none"
+            />
+            <div>
+              <h1>Operations</h1>
+              <p>Check out new operations and plans!</p>
+            </div>
           </div>
         </div>
         <div className="Operations">
