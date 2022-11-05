@@ -1,4 +1,4 @@
-import { Navigate } from "react-router";
+import { Navigate } from "react-router-dom";
 
 const PrivateRoute = ({ children }) => {
   const auth = window.sessionStorage.getItem("token");
