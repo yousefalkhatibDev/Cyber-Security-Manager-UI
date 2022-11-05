@@ -88,7 +88,7 @@ class TaskCard extends React.Component {
           </Modal.Header>
           <Modal.Body>
             <p style={{ fontWeight: "400" }}>{this.props.text}</p>
-            <p className="TaskAgent">to: <img src={this.props.UserImage} style={{width: "50px", height: "50px"}} />  {this.props.agent}</p>
+            <p className="TaskAgent">to: <img src={this.props.UserImage} style={{ width: "50px", height: "50px" }} alt="user image" />  {this.props.agent}</p>
             <p className="TaskAgent">state: {this.props.state}</p>
             <p className="TaskAgent">
               Create Date: {Moment(this.props.CreateDate).format("MMM Do YY")}

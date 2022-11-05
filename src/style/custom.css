@@ -68,7 +68,84 @@ select:focus-visible {
   color: #202020 !important;
 }
 
-.NavBar {
+.ContentWrapper {
+  min-height: 100vh;
+  width: calc(100% - 250px);
+  margin-left: auto;
+  margin-bottom: 60px;
+}
+
+
+.sideBar-container {
+  display: flex;
+  height: 100vh;
+  overflow: scroll initial;
+  position: fixed;
+  bottom: 0;
+  z-index: 10;
+  box-shadow: 3px -1px 8px 0px rgba(0, 0, 0, 0.11);
+  -webkit-box-shadow: 3px -1px 8px 0px rgba(0, 0, 0, 0.11);
+  -moz-box-shadow: 3px -1px 8px 0px rgba(0, 0, 0, 0.11);
+}
+
+.sideBar-footer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 70px;
+}
+
+.sideBar-footer a {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  padding-left: 30px;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 500;
+  gap: 15px;
+  color: #000000;
+  text-decoration: none;
+}
+
+.sideBar-footer-closed a {
+  justify-content: center;
+  padding-left: 0px;
+}
+
+.sideBar-footer-closed a span {
+  display: none;
+}
+
+.sideBar-active {
+  background-color: #D2E2FD;
+  position: relative;
+}
+
+.sideBar-active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  height: 100%;
+  width: 8px;
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+  background-color: #18202D;
+}
+
+
+.kdnwZJ {
+  width: 250px !important;
+  min-width: 250px !important;
+}
+
+.sideBar-logo {
+  width: 90%;
+  height: 100px;
+  margin-top: 70px;
+}
+
+/* .navBar {
   background-color: #1d2635;
   padding: 5px;
   height: 90px;
@@ -88,7 +165,7 @@ select:focus-visible {
 }
 
 .nav-ham-container .ham div {
-  width: 26px;
+  width: 26px;.Nav
   height: 3px;
   background-color: rgb(202, 202, 202);
   margin-bottom: 4px;
@@ -102,27 +179,28 @@ select:focus-visible {
 
 .dropdown-toggle::after {
   display: none !important;
-}
+} */
 
 /* end-top-bar */
 
 /* page header */
 
 .pageHeader {
-  background-color: #18202d;
-  margin-top: -20px;
-  padding: 15px;
   display: flex;
   align-items: center;
+  margin-top: 15px;
   margin-bottom: 25px;
+  padding: 15px;
 }
 
 .pageHeader .pageHeader-icon {
-  font-size: 65px;
+  font-size: 35px;
+  margin-top: 5px;
 }
 
 .pageHeader .pageHeader-title {
-  color: white;
+  display: flex;
+  color: #000000;
   margin-left: 20px;
 }
 
@@ -133,6 +211,13 @@ select:focus-visible {
 .pageHeader .pageHeader-title p {
   font-weight: 400;
   font-size: 15px;
+}
+
+.pageHeader .pageHeader-title img {
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
+  margin-top: 9px;
 }
 
 /* end page header */
@@ -147,8 +232,8 @@ select:focus-visible {
 }
 
 .user-img-top-bar {
-  width: 55px;
-  height: 55px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   margin-left: 10px;
   float: left;
@@ -160,6 +245,7 @@ select:focus-visible {
   padding: 1px;
   display: flex;
   align-items: center;
+  justify-content: space-around;
 }
 
 .user-name p {
@@ -198,106 +284,46 @@ select:focus-visible {
   margin: 10px 25px;
 }
 
-.userInfoCards-Container {
+.dashboard-buttonsSection {
   display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
   justify-content: space-around;
-  width: 50%;
+}
+
+.dashboard-buttonsSection button {
+  height: 70px;
+  width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 10px;
+  background-color: #D2E2FD;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.dashboard-buttonsSection button:nth-of-type(1) {
+  background-color: #86B3FC;
+}
+
+.dashboard-buttonsSection button div {
   height: 100%;
-  margin-top: 40px;
-}
-
-.userInfoCards-card {
+  width: 70%;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  width: 100%;
-  height: auto;
-  font-weight: 500;
-  padding: 20px;
-  margin: 15px 0px;
-  border: 2px solid #dddce0;
-  border-radius: 7px;
+  align-items: center;
+  justify-content: space-around;
 }
 
-.userInfoCards-recentPosts {
-  height: 300px;
-  overflow-y: scroll;
-}
-
-.userInfoCards-recentPosts .postCard {
-  margin: 15px 0px;
-  height: auto;
-  border: 2px solid #dddce0;
+.dashboard-buttonsSection button div .separator {
+  border: thin solid #3840471d;
   border-radius: 10px;
-}
-
-.userInfoCards-recentPosts .postCard-content {
-  display: flex;
-  padding: 20px 10px;
-}
-
-.userInfoCards-recentPosts .postCard-content img {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  margin-right: 10px;
-}
-
-.userInfoCards-recentPosts .postCard-content .postCard-text {
-  font-weight: 400;
-}
-
-.userInfoCards-recentTargets {
-  height: 300px;
-  overflow-y: scroll;
-}
-
-.userInfoCards-recentTargets .targetCard {
-  margin: 15px 0px;
-  height: auto;
-  border: 2px solid #dddce0;
-  border-radius: 10px;
-}
-
-.userInfoCards-recentTargets .targetCard-content {
-  display: flex;
-  padding: 20px 10px;
-}
-
-.userInfoCards-recentTargets .targetCard-content img {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  margin-right: 10px;
-}
-
-.userInfoCards-recentTargets .targetCard-content .targetCard-text {
-  font-weight: 400;
-}
-
-.userInfoCards-card .userInfoCards-NextLevel {
-  margin-left: auto;
-  margin-right: 5px;
-  color: rgb(181, 181, 181);
-}
-
-.userInfoCards-card .userInfoCards-NextLevel p span {
-  color: rgb(3, 165, 209);
-}
-
-.userInfoCards-card .userInfoCards-ProgressBar .progress {
-  height: 1.2rem;
-}
-
-.userInfoCards-card .userInfoCount span {
-  color: rgb(2, 97, 123);
+  height: 50%;
+  display: inline-block;
 }
 
 .userRecentAccess-Container {
   margin-top: 20px;
-  width: 50%;
+  width: 100%;
 }
 
 .userOperations-recent {
@@ -317,6 +343,140 @@ select:focus-visible {
   margin-left: 20px;
   font-weight: 400;
   width: 90%;
+}
+
+.recentPosts-container {
+  margin-left: 20px;
+  width: 95%;
+  position: relative;
+}
+
+.recentPosts-container .recentPostsCard-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.recentPosts-container .recentPostsCard-container .postCard {
+  width: 49%;
+  min-height: 370px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0px -1px 8px 1px rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: 0px -1px 8px 1px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0px -1px 8px 1px rgba(0, 0, 0, 0.15);
+}
+
+.recentPosts-container .recentPostsCard-container .postCard .postCard-content {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.recentPosts-container .recentPostsCard-container .postCard img {
+  width: 75px;
+  height: 75px;
+  border-radius: 100px;
+  object-fit: cover;
+}
+
+.recentPosts-container .recentPostsCard-container .postCard .postCard-content .postCard-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.recentPosts-container .recentPostsCard-container .postCard .postCard-content .postCard-text h5 {
+  font-weight: 600;
+  font-size: 17px;
+  margin-top: 18px;
+  color: #1d2635;
+}
+
+.recentPosts-container .recentPostsCard-container .postCard .postCard-buttonContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: auto;
+}
+
+.recentPosts-container .recentPostsCard-container .postCard .postCard-buttonContainer .postCard-button {
+  height: 60px;
+  width: 90%;
+  background-color: #18202D;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+}
+
+.recentTargets-container {
+  margin-left: 20px;
+  width: 95%;
+  position: relative;
+}
+
+.recentTargets-container .recentTargetsCard-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.recentTargets-container .recentTargetsCard-container .targetCard {
+  width: 49%;
+  min-height: 370px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0px -1px 8px 1px rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: 0px -1px 8px 1px rgba(0, 0, 0, 0.15);
+  -moz-box-shadow: 0px -1px 8px 1px rgba(0, 0, 0, 0.15);
+}
+
+.recentTargets-container .recentTargetsCard-container .targetCard .targetCard-content {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.recentTargets-container .recentTargetsCard-container .targetCard img {
+  width: 75px;
+  height: 75px;
+  border-radius: 100px;
+  object-fit: cover;
+}
+
+.recentTargets-container .recentTargetsCard-container .targetCard .targetCard-content .targetCard-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.recentTargets-container .recentTargetsCard-container .targetCard .targetCard-content .targetCard-text h5 {
+  font-weight: 600;
+  font-size: 17px;
+  margin-top: 18px;
+  color: #1d2635;
+}
+
+.recentTargets-container .recentTargetsCard-container .targetCard .targetCard-buttonContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: auto;
+}
+
+.recentTargets-container .recentTargetsCard-container .targetCard .targetCard-buttonContainer .targetCard-button {
+  height: 60px;
+  width: 90%;
+  background-color: #18202D;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
 }
 
 /* end-dashboard */
@@ -407,7 +567,7 @@ select {
   height: auto;
   margin-bottom: 15px;
   margin-left: 20px;
-  border-radius: 5px;
+  border-radius: 10px;
   -webkit-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
   box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
@@ -498,6 +658,85 @@ select {
 
 /* end-operations */
 
+/* operation card dashboard */
+
+.OperationCardDashboard-container {
+  display: flex;
+}
+
+.OperationCardDashboard-container img {
+  width: 40%;
+  height: 200px;
+  border-radius: 20px;
+  margin-right: 15px;
+  object-fit: cover;
+}
+
+.OperationCardDashboard-container .OperationDescription {
+  margin-right: auto;
+}
+
+.OperationCardDashboard-container .OperationDescription .OperationDescription-title {
+  color: rgb(55, 55, 127);
+}
+
+.OperationCardDashboard-container .OperationDescription .OperationDescription-date {
+  color: rgb(140, 140, 140);
+  font-weight: 500;
+}
+
+.OperationCardDashboard-container .OperationDescription .OperationDescription-description {
+  padding-top: 45px;
+}
+
+.OperationCardDashboardContainerStatus {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.OperationCardDashboardContainerStatus .OperationCardDashboardContainerStatus-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 15px;
+  margin: 30px 0px;
+  background-color: rgb(237, 237, 237);
+  border-radius: 10px;
+}
+
+.OperationCardDashboardContainerStatus .OperationCardDashboardContainerStatus-container div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.OperationCardDashboardContainerStatus .OperationCardDashboardContainerStatus-container .separator {
+  border: thin solid #38404719;
+  border-radius: 10px;
+  height: 80%;
+  display: inline-block;
+}
+
+.OperationCardDashboardContainerButton {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.OperationCardDashboardContainerButton .OperationCardDashboardContainerButton-button {
+  height: 60px;
+  width: 45%;
+  background-color: #18202D;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+}
+
+/* end operation card dashboard */
+
 /* targets */
 .Targets {
   margin: auto;
@@ -518,7 +757,7 @@ select {
   height: auto;
   margin-bottom: 15px;
   margin-left: 20px;
-  border-radius: 5px;
+  border-radius: 10px;
   -webkit-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
   box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
@@ -557,6 +796,85 @@ select {
 }
 
 /* end-targets */
+
+/* targets dashboard */
+
+.TargetCardDashboard-container {
+  display: flex;
+}
+
+.TargetCardDashboard-container img {
+  width: 40%;
+  height: 200px;
+  border-radius: 20px;
+  margin-right: 15px;
+  object-fit: cover;
+}
+
+.TargetCardDashboard-container .TargetDescription {
+  margin-right: auto;
+}
+
+.TargetCardDashboard-container .TargetDescription .TargetDescription-title {
+  color: rgb(55, 55, 127);
+}
+
+.TargetCardDashboard-container .TargetDescription .TargetDescription-date {
+  color: rgb(140, 140, 140);
+  font-weight: 500;
+}
+
+.TargetCardDashboard-container .TargetDescription .TargetDescription-description {
+  padding-top: 45px;
+}
+
+.TargetCardDashboardContainerStatus {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.TargetCardDashboardContainerStatus .TargetCardDashboardContainerStatus-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 15px;
+  margin: 30px 0px;
+  background-color: rgb(237, 237, 237);
+  border-radius: 10px;
+}
+
+.TargetCardDashboardContainerStatus .TargetCardDashboardContainerStatus-container div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.TargetCardDashboardContainerStatus .TargetCardDashboardContainerStatus-container .separator {
+  border: thin solid #38404719;
+  border-radius: 10px;
+  height: 80%;
+  display: inline-block;
+}
+
+.TargetCardDashboardContainerButton {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.TargetCardDashboardContainerButton .TargetCardDashboardContainerButton-button {
+  height: 60px;
+  width: 45%;
+  background-color: #18202D;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+}
+
+/* end targets dashboard */
 
 /* TargetProfile */
 .TargetProfile {
@@ -1247,12 +1565,17 @@ select {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 .profileCardInfo-image {
   height: 150px;
   width: 150px;
   border-radius: 80px;
+}
+
+.profileCardInfo-fileInput {
+  width: 100%;
 }
 
 .profileCardInfo-inputsContainer {
@@ -1278,6 +1601,15 @@ select {
 }
 
 /* end profile */
+
+/* footer */
+
+footer {
+  width: calc(100% - 80px);
+  margin-left: auto;
+}
+
+/* end footer */
 @media screen and (max-width: 1024px) {
   .OperationCard-name {
     font-size: 2.5vw;
@@ -1291,10 +1623,6 @@ select {
 }
 
 @media (max-width: 900px) {
-  .userRecentAccess-Container {
-    width: 100%;
-    display: flex;
-  }
 
   .userInfoCards-Container {
     width: 100%;
@@ -1389,6 +1717,10 @@ select {
 
   .profileCardInfo {
     height: 700px;
+  }
+
+  .profileCardInfo-fileInput {
+    width: auto;
   }
 
   .TargetProfile .TargetProfileInfo ul {

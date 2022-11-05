@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 
 // style
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -31,15 +31,15 @@ function App() {
         </PrivateNavBar>
 
         <Routes>
+          <Route exact path="/" element={<Navigate to="/dashboard" />} />
           <Route
             exact
-            path="/"
+            path="/dashboard"
             element={
               <PrivateRoute>
                 <ContentWrapper>
                   <Dashboard />
                 </ContentWrapper>
-                <Footer />
               </PrivateRoute>
             }
           />
@@ -52,7 +52,6 @@ function App() {
                 <ContentWrapper>
                   <Profile />
                 </ContentWrapper>
-                <Footer />
               </PrivateRoute>
             }
           />
@@ -64,7 +63,6 @@ function App() {
                 <ContentWrapper>
                   <TargetProfile />
                 </ContentWrapper>
-                <Footer />
               </PrivateRoute>
             }
           />
@@ -76,7 +74,6 @@ function App() {
                 <ContentWrapper>
                   <Operations />
                 </ContentWrapper>
-                <Footer />
               </PrivateRoute>
             }
           />
@@ -88,7 +85,6 @@ function App() {
                 <ContentWrapper>
                   <Targets />
                 </ContentWrapper>
-                <Footer />
               </PrivateRoute>
             }
           />
@@ -100,7 +96,6 @@ function App() {
                 <ContentWrapper>
                   <OperationProfile />
                 </ContentWrapper>
-                <Footer />
               </PrivateRoute>
             }
           />

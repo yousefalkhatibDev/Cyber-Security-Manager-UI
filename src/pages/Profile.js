@@ -170,14 +170,16 @@ export default class Profile extends Component {
     return (
       <div className="profilePage">
         <div className="pageHeader">
-          <CgProfile
-            color="green"
-            className="pageHeader-icon"
-            textDecoration="none"
-          />
           <div className="pageHeader-title">
-            <h1>Profile Page</h1>
-            <p>Manage your account</p>
+            <CgProfile
+              color="black"
+              className="pageHeader-icon"
+              textDecoration="none"
+            />
+            <div>
+              <h1>Profile Page</h1>
+              <p>Manage your account</p>
+            </div>
           </div>
         </div>
         <div className="profilePage-container">
@@ -189,17 +191,7 @@ export default class Profile extends Component {
                 className="profileCardInfo-image"
               />
               <p>change profile image</p>
-              <input type="file" onChange={this.convertToBase64} id="inputFile"/>
-            </div>
-            <div className="inputs-group">
-              <label htmlFor="username">User ID</label>
-              <input
-                type="text"
-                name="username"
-                disabled
-                defaultValue={this.state.UserInfo.u_id}
-                className="profileCardInfo-input"
-              />
+              <input type="file" onChange={this.convertToBase64} id="inputFile" className="profileCardInfo-fileInput" />
             </div>
             <div className="profileCardInfo-inputsContainer">
               <div className="inputs-group">
@@ -220,6 +212,16 @@ export default class Profile extends Component {
                   defaultValue={this.state.UserInfo.u_email}
                   className="profileCardInfo-input"
                   onChange={this.UpdateUserEmail}
+                />
+              </div>
+              <div className="inputs-group">
+                <label htmlFor="username">User ID</label>
+                <input
+                  type="text"
+                  name="username"
+                  disabled
+                  defaultValue={this.state.UserInfo.u_id}
+                  className="profileCardInfo-input"
                 />
               </div>
               <div className="inputs-group">
