@@ -2,16 +2,15 @@ import React from "react";
 import Moment from "moment";
 import API from "../helper/API";
 
-class OperationCard extends React.Component {
+class OperationCardDashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       MembersCount: 0,
       TargetsCount: 0,
       PostsCount: 0,
-      image: "",
+      image: ""
     };
-
     this.GetImage = this.GetImage.bind(this);
     this.GetPostsCount = this.GetPostsCount.bind(this);
     this.GetTargetsCount = this.GetTargetsCount.bind(this);
@@ -79,44 +78,72 @@ class OperationCard extends React.Component {
   render() {
     return (
       <div
-        className="OperationCardContainer"
+        className="OperationCardContainer OperationCardContainer-OperationsPage"
+        ref={this.operationCardRef}
         style={{ width: `${this.props.width}%` }}
       >
-        <div
-          className="OperationImg ConstRadius"
-          style={{ position: "relative" }}
-        >
+        <div className="OperationCard-container" style={{ position: "relative" }}>
           <img src={this.state.image} alt="vector" />
-          <h2 className="OperationCard-name">{this.props.name}</h2>
-        </div>
+          <div id="OperationCardContent-container">
+            <div className="OperationDescription">
+              <p className="OperationDescription-title">
+                {this.props.name}
+              </p>
+              <p className="OperationDescription-date">
+                {Moment(this.props.CreateDate).format("MMM Do YY")}
+              </p>
+              <p className="OperationDescription-description">
+                {this.props.description.length < 77
+                  ? this.props.description
+                  : this.props.description.substring(0, 76) + "..."}
+              </p>
+            </div>
+            {
+              this.props.status === "inactive" ?
+                (
+                  <p style={{ paddingRight: "20px", paddingTop: "10px", color: "red" }}>
 
-        <div className="OperationDescription">
-          <p>
-            {this.props.description.length < 77
-              ? this.props.description
-              : this.props.description.substring(0, 76) + "..."}
-          </p>
-          <ul>
-            <li>Members Count: {this.state.MembersCount}</li>
-            <li>Targets Count: {this.state.TargetsCount}</li>
-            <li>Posts Count: {this.state.PostsCount}</li>
-            <li>Status: {this.props.status}</li>
-            <li>
-              Create Date: {Moment(this.props.CreateDate).format("MMM Do YY")}
-            </li>
-          </ul>
+                    {this.props.status}
+                  </p>
+                )
+                :
+                (
+                  <p style={{ paddingRight: "20px", paddingTop: "10px", color: "green" }}>
+                    {this.props.status}
+                  </p>
+                )
+            }
+          </div>
         </div>
-        <button
-          className="OperationCardContainerButton"
-          onClick={() => {
-            window.location = "/operation_profile/" + this.props.id;
-          }}
-        >
-          Navigate to Operation
-        </button>
-      </div>
+        <div>
+          <hr style={{ width: "100%", marginTop: "-10px" }} />
+          <div className="OperationCardContainerStatus">
+            <div className="OperationCardContainerStatus-container">
+              <div>
+                Members Count: {this.state.MembersCount}
+              </div>
+              <div>
+                TargetsCount: {this.state.TargetsCount}
+              </div>
+              <div>
+                Posts Count: {this.state.PostsCount}
+              </div>
+            </div>
+          </div>
+          <div className="OperationCardDashboardContainerButton">
+            <button
+              className="OperationCardDashboardContainerButton-button"
+              onClick={() => {
+                window.location = "/operation_profile/" + this.props.id;
+              }}
+            >
+              Navigate to Operation
+            </button>
+          </div>
+        </div>
+      </div >
     );
   }
 }
 
-export default OperationCard;
+export default OperationCardDashboard;

@@ -15,7 +15,6 @@ export default class Pagination extends Component {
     }
     return pages.length ? (
       <div className="pagination mb-4">
-        <a href={() => null}>«</a>
         {pages.map((page, i) => {
           if (this.props.currentPage === page) {
             if (this.props.type && this.props.type === "targets") {
