@@ -3,13 +3,14 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Dropdown from "react-bootstrap/Dropdown";
+import { Link } from "react-router-dom";
 // import { IoIosArrowForward } from "react-icons/io";
 import OperationCard from "../components/OperationCard";
 import API from "../helper/API";
 import Pagination from "../components/Pagination";
-import { GrSettingsOption } from "react-icons/gr"
-import { AiOutlinePlus } from "react-icons/ai";
-
+import { FiSearch } from "react-icons/fi"
+import { MdFilterList } from "react-icons/md"
+import operationIcon from "../icons/operation.svg"
 // return (
 //   <div className="App">
 //     <img src={base64State} alt="i" />
@@ -83,23 +84,23 @@ class Operations extends React.Component {
     }
   }
 
-  async UpdateFilter(event) {
-    if (event.target.value === "all") {
+  async UpdateFilter(value) {
+    if (value === "all") {
       await this.GetOperations();
     }
 
-    if (event.target.value === "active" || event.target.value === "inactive") {
+    if (value === "active" || value === "inactive") {
       await this.GetOperations();
-      await this.setState({ filter: event.target.value });
+      await this.setState({ filter: value });
       var filteredArray = this.state.operations.filter((operation) => {
-        return operation.o_state === event.target.value;
+        return operation.o_state === value;
       });
       await this.setState({ operations: filteredArray });
     }
 
-    if (event.target.value === "date") {
+    if (value === "date") {
       await this.GetOperations();
-      await this.setState({ filter: event.target.value });
+      await this.setState({ filter: value });
       filteredArray = this.state.operations.sort((a, b) => {
         var c = new Date(a.o_create_date);
         var d = new Date(b.o_create_date);
@@ -108,9 +109,9 @@ class Operations extends React.Component {
       await this.setState({ operations: filteredArray });
     }
 
-    if (event.target.value === "name") {
+    if (value === "name") {
       await this.GetOperations();
-      await this.setState({ filter: event.target.value });
+      await this.setState({ filter: value });
       filteredArray = this.state.operations.sort((a, b) => {
         return a.o_name.localeCompare(b.o_name);
       });
@@ -228,43 +229,59 @@ class Operations extends React.Component {
     return (
       <>
         <div className="pageHeader">
-          <div className="pageHeader-title">
-            <GrSettingsOption
-              color="black"
-              className="pageHeader-icon"
-              textDecoration="none"
-            />
+          <div className="pageHeader-title" style={{ width: "95%" }}>
+            <img src={operationIcon} style={{ width: "35px" }} />
             <div>
               <h1>Operations</h1>
               <p>Check out new operations and plans!</p>
             </div>
+            <button className="NewOperationButton" onClick={this.ModalShow}>Add New Operation</button>
           </div>
         </div>
         <div className="Operations">
-          <h1 style={{ marginLeft: "20px" }}>Operations</h1>
           <div className="SearchContainer">
-            <div>
-              <button disabled>Search</button>
+            <div className="SearchInputContainer">
               <input
                 placeholder="Search by name or description"
                 type="text"
                 className="Search"
                 onChange={this.UpdateSearch}
               />
+              <FiSearch size={25} />
             </div>
-
-            <div>
-              <button disabled>Sort by</button>
-              <select className="Sort" onChange={this.UpdateFilter}>
-                <option value="all">All</option>
-                <option value="name">Name</option>
-                <option value="date">Date</option>
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
-              </select>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", width: "100%" }}>
+              <Dropdown style={{ width: "auto" }}>
+                <Dropdown.Toggle
+                  variant="success"
+                  id="dropdown-basic"
+                  style={{ border: "none", backgroundColor: "transparent" }}
+                >
+                  <MdFilterList size={22} />
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item key="all" onClick={() => this.UpdateFilter("all")}>
+                    <span style={{ marginRight: "25px", color: "black" }}>
+                      All
+                    </span>
+                  </Dropdown.Item>
+                  <Dropdown.Item key="name" onClick={() => this.UpdateFilter("name")}>
+                    <span style={{ marginRight: "50px" }}>By Name</span>
+                  </Dropdown.Item>
+                  <Dropdown.Item key="date" onClick={() => this.UpdateFilter("date")}>
+                    <span style={{ marginRight: "50px" }}>By Date</span>
+                  </Dropdown.Item>
+                  <Dropdown.Item key="active" onClick={() => this.UpdateFilter("active")}>
+                    <span style={{ marginRight: "50px" }}>Active</span>
+                  </Dropdown.Item>
+                  <Dropdown.Item key="inactive" onClick={() => this.UpdateFilter("inactive")}>
+                    <span style={{ marginRight: "50px" }}>Inactive</span>
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
             </div>
           </div>
-          {/* <p className="pagination"> <IoIosArrowForward /> </p> */}
+          <h2 style={{ color: "rgb(60, 60, 60)" }}>{this.state.operations.length} Operations</h2>
+          <hr style={{ marginBottom: "40px" }} />
           <div className="OperationsContainer">
             {currentOperationsToDisplay.map((operation, i) => {
               return (
@@ -278,14 +295,6 @@ class Operations extends React.Component {
                 />
               );
             })}
-            <div className="newOperation-TargetCard" onClick={this.ModalShow}>
-              <AiOutlinePlus
-                style={{ color: "rgb(0, 180, 0)" }}
-                size="55"
-                textDecoration="none"
-              />
-              <p>Add a new operation</p>
-            </div>
           </div>
           <Pagination
             totalOperationsNumber={this.state.operations.length}

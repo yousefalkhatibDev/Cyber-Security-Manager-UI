@@ -9,9 +9,8 @@ class OperationCardDashboard extends React.Component {
             MembersCount: 0,
             TargetsCount: 0,
             PostsCount: 0,
-            image: "",
+            image: ""
         };
-
         this.GetImage = this.GetImage.bind(this);
         this.GetPostsCount = this.GetPostsCount.bind(this);
         this.GetTargetsCount = this.GetTargetsCount.bind(this);
@@ -80,6 +79,7 @@ class OperationCardDashboard extends React.Component {
         return (
             <div
                 className="OperationCardContainer"
+                ref={this.operationCardRef}
                 style={{ width: `${this.props.width}%`, padding: "25px" }}
             >
                 <div className="OperationCardDashboard-container">

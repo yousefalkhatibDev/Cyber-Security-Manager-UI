@@ -28,10 +28,9 @@ class NavBar extends React.Component {
       UserImage: "",
       UserName: ""
     };
-    this.sideBarRef = React.createRef()
     this.Logout = this.Logout.bind(this);
     this.GetUserInfo = this.GetUserInfo.bind(this);
-    this.handleDrawerOpen = this.handleDrawerOpen.bind(this)
+    // this.handleDrawerOpen = this.handleDrawerOpen.bind(this)
   }
 
   async GetUserInfo() {
@@ -82,13 +81,13 @@ class NavBar extends React.Component {
       });
   }
 
-  handleDrawerOpen() {
-    if (this.sideBarRef.current.getBoundingClientRect().width === 270) {
-      this.setState({ isOpened: false })
-    } else {
-      this.setState({ isOpened: true })
-    }
-  }
+  // handleDrawerOpen() {
+  //   if (this.sideBarRef.current.getBoundingClientRect().width === 270) {
+  //     this.setState({ isOpened: false })
+  //   } else {
+  //     this.setState({ isOpened: true })
+  //   }
+  // }
 
   render() {
     return (
