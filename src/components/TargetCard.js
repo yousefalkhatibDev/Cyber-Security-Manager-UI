@@ -56,56 +56,61 @@ class TargetCard extends React.Component {
         className="TargetCardContainer"
         style={{ width: `${this.props.width}%` }}
       >
-        <div className="TargetImg ConstRadius" style={{ position: "relative" }}>
+        <div className="TargetCard-Container">
           <img src={this.state.image} alt="vector" />
-
-          <h2
-            style={{
-              position: "absolute",
-              bottom: "-17px",
-              left: "0px",
-              backgroundColor: "#324ab2",
-              padding: "5px",
-              fontSize: "20px",
-              borderTopRightRadius: "3px",
-              color: "white",
-            }}
-          >
-            {this.props.name}
-          </h2>
+          <div id="TargetCardContent-container">
+            <div className="TargetDescription">
+              <p className="TargetDescription-title">
+                {this.props.name}
+              </p>
+              <p className="TargetDescription-date">
+                {Moment(this.props.CreateDate).format("MMM Do YY")}
+              </p>
+              <p className="TargetDescription-description">
+                {this.props.description.length < 77
+                  ? this.props.description
+                  : this.props.description.substring(0, 76) + "..."}
+              </p>
+            </div>
+          </div>
         </div>
-
-        <div className="TargetDescription">
-          <p>
-            {this.props.description.length < 77
-              ? this.props.description
-              : this.props.description.substring(0, 76) + "..."}
-          </p>
-          <ul>
-            <li>Notes Count: {this.state.NotesCount}</li>
-            <li>Type: {this.props.type}</li>
-            {this.props.operation ? (
-              <li>Operation: {this.props.operation}</li>
-            ) : null}
-            {this.props.relation ? (
-              <li>Relation: {this.props.relation}</li>
-            ) : null}
-            <li>
-              Create Date: {Moment(this.props.CreateDate).format("MMM Do YY")}
-            </li>
-            <li>
-              Last Update: {Moment(this.props.UpdateDate).format("MMM Do YY")}
-            </li>
-          </ul>
+        <div>
+          <hr style={{ width: "100%", marginTop: "-10px" }} />
+          <div className="TargetCardContainerStatus">
+            <div className="TargetCardContainerStatus-container">
+              <div>
+                Notes Count: {this.state.NotesCount}
+              </div>
+              <div>
+                Type: {this.props.type}
+              </div>
+              <div>
+                Operation: {this.props.operation}
+              </div>
+              <div>
+                Last UpdateDate: {Moment(this.props.UpdateDate).format("MMM Do YY")}
+              </div>
+            </div>
+          </div>
+          <div className="TargetCardDashboardContainerButton">
+            <button
+              className="TargetCardDashboardContainerButton-button"
+              onClick={() => {
+                window.location = "/target_profile/" + this.props.id;
+              }}
+            >
+              Navigate to Target
+            </button>
+          </div>
         </div>
-        <button
+        {/* <button
           className="TargetCardContainerButton"
           onClick={() => {
             window.location = "/target_profile/" + this.props.id;
           }}
         >
           Navigate to Target
-        </button>
+        </button> */}
       </div>
     );
   }

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import { CgProfile } from "react-icons/cg";
 import Button from "react-bootstrap/Button";
+import profileIcon from "../icons/profile.svg"
+import Form from "react-bootstrap/Form";
+import Modal from "react-bootstrap/Modal";
 import API from "../helper/API";
 
 export default class Profile extends Component {
@@ -12,9 +14,10 @@ export default class Profile extends Component {
         name: "",
         email: "",
         bio: "",
+        modal: false
       },
     };
-
+    this.ModalShow = this.ModalShow.bind(this);
     this.GetUserInfo = this.GetUserInfo.bind(this);
     this.UpdateUserName = this.UpdateUserName.bind(this);
     this.UpdateUserEmail = this.UpdateUserEmail.bind(this);
@@ -22,6 +25,12 @@ export default class Profile extends Component {
     this.UploadNewUserInfo = this.UploadNewUserInfo.bind(this);
     this.UpdateUserImage = this.UpdateUserImage.bind(this);
     this.convertToBase64 = this.convertToBase64.bind(this);
+  }
+
+  ModalShow() {
+    this.setState({
+      modal: !this.state.modal
+    });
   }
 
   convertToBase64(event) {
@@ -170,19 +179,29 @@ export default class Profile extends Component {
     return (
       <div className="profilePage">
         <div className="pageHeader">
-          <div className="pageHeader-title">
-            <CgProfile
-              color="black"
-              className="pageHeader-icon"
-              textDecoration="none"
-            />
+          <div className="pageHeader-title" style={{ width: "95%" }}>
+            <img src={profileIcon} style={{ width: "35px" }} />
             <div>
               <h1>Profile Page</h1>
               <p>Manage your account</p>
             </div>
+            <button className="EditProfileButton" onClick={this.ModalShow}>Edit Profile</button>
           </div>
         </div>
         <div className="profilePage-container">
+          <div className="profileCardInfo">
+            <img
+              src={this.state.UserInfo.u_image}
+              alt="user-card"
+              className="profileCardInfo-image"
+            />
+            <div className="profileCardInfo-content">
+              <p>{this.state.UserInfo.u_name}</p>
+              <p>User ID: <div style={{ marginLeft: "20px", display: "inline-block" }}>{this.state.UserInfo.u_id}</div></p>
+            </div>
+          </div>
+        </div>
+        {/* <div className="profilePage-container">
           <div className="profileCardInfo">
             <div className="profileCardInfo-imageContainer">
               <img
@@ -244,7 +263,18 @@ export default class Profile extends Component {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
+        <Modal show={this.state.modal} onHide={this.ModalShow}>
+          <Modal.Header closeButton>
+            <Modal.Title>New Operation</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            Test
+          </Modal.Body>
+          <Modal.Footer>
+            Test
+          </Modal.Footer>
+        </Modal>
       </div>
     );
   }
