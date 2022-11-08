@@ -16,6 +16,9 @@ import operationIcon from "../icons/operation.svg"
 //     <a href={base64State} target={base64State}>read pdf</a>
 //   </div>
 // );
+import { FileUploader } from "react-drag-drop-files";
+
+const fileTypes = ["PDF", "PNG", "GIF", "JPEG", "TIFF", "PSD", "EPS", "AI"];
 
 class Operations extends React.Component {
   constructor(props) {
@@ -28,7 +31,7 @@ class Operations extends React.Component {
       OperationName: "",
       OperationPassword: "",
       OperationDescription: "",
-      OperationState: "State",
+      OperationState: "inactive",
       Base64State: "",
       FileName: "",
       currentPage: 1,
@@ -58,14 +61,11 @@ class Operations extends React.Component {
     window.localStorage.setItem("base64", base64);
   }
 
-  convertToBase64(event) {
-    //Read File
-    const selectedFile = document.getElementById("inputFile").files;
+  convertToBase64(file) {
 
     //Check File is not Empty
-    if (selectedFile.length > 0) {
+    if (file) {
       // Select the very first file from list
-      const fileToLoad = selectedFile[0];
 
       // FileReader function for read the file.
       const fileReader = new FileReader();
@@ -74,12 +74,12 @@ class Operations extends React.Component {
       // Onload of file read the file content
       fileReader.onload = async function (fileLoadedEvent) {
         let base64 = fileLoadedEvent.target.result;
-        let fileName = event.target.files[0].name;
+        let fileName = file.name;
         self.UpdateBase64(base64);
         self.UpdateFileName(fileName);
       };
       // // Convert data to base64
-      fileReader.readAsDataURL(fileToLoad);
+      fileReader.readAsDataURL(file);
     }
   }
 
@@ -151,10 +151,18 @@ class Operations extends React.Component {
     });
   }
 
-  UpdateState(value) {
-    this.setState({
-      OperationState: value,
-    });
+  UpdateState(event) {
+    if (event.target.checked === true) {
+      this.setState({
+        OperationState: "active",
+      });
+    } else {
+      this.setState({
+        OperationState: "inactive",
+      });
+    }
+    // if()
+    // 
   }
 
   async GetOperations() {
@@ -323,7 +331,18 @@ class Operations extends React.Component {
                   className="mb-3"
                   controlId="exampleForm.ControlInput1"
                 >
-                  <Form.Label>Operation Image</Form.Label>
+                  <Form.Group
+                    className="mb-3"
+                    controlId="exampleForm.ControlInput1"
+                  >
+                    <Form.Label>Operation Password</Form.Label>
+                    <Form.Control
+                      type="password"
+                      autoFocus
+                      onChange={this.UpdatePassword}
+                    />
+                  </Form.Group>
+                  {/* <Form.Label>Operation Image</Form.Label>
                   <Form.Control
                     type="file"
                     autoFocus
@@ -331,24 +350,23 @@ class Operations extends React.Component {
                     id="inputFile"
                     name="inputFile"
                     accept="application/pdf, application/vnd.ms-excel, image/*"
-                  />
+                  /> */}
                 </Form.Group>
-                <Form.Group
-                  className="mb-3"
-                  controlId="exampleForm.ControlInput1"
-                >
-                  <Form.Label>Operation Password</Form.Label>
-                  <Form.Control
-                    type="password"
-                    autoFocus
-                    onChange={this.UpdatePassword}
-                  />
-                </Form.Group>
-                <Dropdown>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "25px 0px" }}>
+                  <h3>State</h3>
+                  <Form>
+                    <Form.Check
+                      type="switch"
+                      id="SwitchState-SwitchButton"
+                      onClick={this.UpdateState}
+                    />
+                  </Form>
+                </div>
+                {/* <Dropdown>
                   <Dropdown.Toggle variant="primary" id="dropdown-basic">
                     {this.state.OperationState}
                   </Dropdown.Toggle>
-
+                  
                   <Dropdown.Menu>
                     <Dropdown.Item onClick={() => this.UpdateState("active")}>
                       Active
@@ -357,7 +375,7 @@ class Operations extends React.Component {
                       Inactive
                     </Dropdown.Item>
                   </Dropdown.Menu>
-                </Dropdown>
+                </Dropdown> */}
                 <Form.Group
                   className="mb-3"
                   controlId="exampleForm.ControlTextarea1"
@@ -370,9 +388,23 @@ class Operations extends React.Component {
                     onChange={this.UpdateDescription}
                   />
                 </Form.Group>
+                <div className="dragAndDrop">
+                  <p>Operation Image</p>
+                  <FileUploader handleChange={this.convertToBase64} name="file" types={fileTypes} />
+                </div>
               </Form>
+              <div className="ModalButtons">
+                <button
+                  className="OkButton"
+                  onClick={() => {
+                    this.UploadOperation();
+                    this.ModalShow();
+                  }}
+                >Save Operation</button>
+                <button className="CancelButton" onClick={this.ModalShow}>Cancel</button>
+              </div>
             </Modal.Body>
-            <Modal.Footer>
+            {/* <Modal.Footer>
               <Button variant="secondary" onClick={this.ModalShow}>
                 Close
               </Button>
@@ -385,7 +417,7 @@ class Operations extends React.Component {
               >
                 Save Operation
               </Button>
-            </Modal.Footer>
+            </Modal.Footer> */}
           </Modal>
         </div>
       </>

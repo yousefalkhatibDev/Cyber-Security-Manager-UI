@@ -50,24 +50,6 @@ select:focus-visible {
   transition: opacity .15s linear;
 }
 
-.addNewButton {
-  width: 11.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  padding: 7px !important;
-  border-radius: 5px !important;
-  border-color: #198754 !important;
-  transition: 0.2s ease-in-out;
-  color: #202020 !important;
-  margin: 10px 0px;
-}
-
-.addNewButton:hover {
-  background-color: #81b19b64 !important;
-  color: #202020 !important;
-}
-
 .ContentWrapper {
   min-height: 100vh;
   width: calc(100% - 250px);
@@ -1336,17 +1318,17 @@ select {
   width: 90%;
 }
 
-.OperationProfile .SettingsCard .SettingsCard-Content .SwitchState #SwitchState-SwitchButton {
+#SwitchState-SwitchButton {
   font-size: 1.5rem;
   transition: background-position .15s ease-in-out !important;
 }
 
-.OperationProfile .SettingsCard .SettingsCard-Content .SwitchState #SwitchState-SwitchButton:checked {
+#SwitchState-SwitchButton:checked {
   background-color: #18202D;
   border: none;
 }
 
-.OperationProfile .SettingsCard .SettingsCard-Content .SwitchState #SwitchState-SwitchButton:focus {
+#SwitchState-SwitchButton:focus {
   border: none;
   box-shadow: 0 0 0 0.25rem rgba(25, 28, 32, 0.25);
 }
@@ -2073,6 +2055,62 @@ footer {
 }
 
 /* end footer */
+
+/* drag and drop */
+
+.dragAndDrop label {
+  border: 1px solid #ced4da;
+  border-radius: 0.375rem;
+  height: 150px;
+  margin-top: -0.5rem;
+}
+
+.dragAndDrop label svg {
+  display: none;
+}
+
+.dragAndDrop label div {
+  display: flex;
+  justify-content: center;
+}
+
+.dragAndDrop label div span:nth-of-type(2) {
+  display: none;
+}
+
+/* end drag and drop */
+
+/* modal buttons */
+
+.ModalButtons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.ModalButtons button {
+  height: 50px;
+  width: 48%;
+  border: none;
+  border-radius: 5px;
+  font-weight: 600;
+}
+
+.ModalButtons .OkButton {
+  background-color: #18202D;
+  color: white;
+}
+
+.ModalButtons .CancelButton {
+  background-color: rgb(246, 246, 246);
+  color: black;
+  -webkit-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
+  box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
+}
+
+/* end modal buttons */
 @media screen and (max-width: 1024px) {
   .OperationCard-name {
     font-size: 2.5vw;
