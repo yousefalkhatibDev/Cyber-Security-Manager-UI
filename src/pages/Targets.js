@@ -3,7 +3,7 @@ import TargetCard from "../components/TargetCard";
 import API from "../helper/API";
 import Pagination from "../components/Pagination";
 import Dropdown from "react-bootstrap/Dropdown";
-import { MdFilterList } from "react-icons/md"
+import filterIcon from "../icons/Filter.svg"
 import { FiTarget, FiSearch } from "react-icons/fi";
 
 class Targets extends React.Component {
@@ -124,7 +124,7 @@ class Targets extends React.Component {
                   id="dropdown-basic"
                   style={{ border: "none", backgroundColor: "transparent" }}
                 >
-                  <MdFilterList size={22} />
+                  <img src={filterIcon} width={22} />
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
                   <Dropdown.Item key="all" onClick={() => this.UpdateFilter("all")}>

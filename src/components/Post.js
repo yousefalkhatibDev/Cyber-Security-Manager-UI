@@ -135,6 +135,7 @@ class Post extends React.Component {
             style={{
               borderLeft: "2px solid rgb(187 187 187)",
               paddingLeft: "10px",
+              marginTop: "20px"
             }}
           >
             {this.state.comments.map((comment, i) => {
