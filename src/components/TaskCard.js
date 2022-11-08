@@ -5,16 +5,19 @@ import Form from "react-bootstrap/Form";
 import API from "../helper/API";
 import Dropdown from "react-bootstrap/Dropdown";
 import Moment from "moment";
+import { BiDotsVerticalRounded } from "react-icons/bi";
+
 
 class TaskCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      Displaytask: false,
+      ChangeStatusModal: false,
       DeleteModal: false,
+      status: ""
     };
-
-    this.DisplayTask = this.DisplayTask.bind(this);
+    this.ChangeStatusTask = this.ChangeStatusTask.bind(this)
+    this.HandleChangeStatusTask = this.HandleChangeStatusTask.bind(this)
     this.DeleteTask = this.DeleteTask.bind(this);
     this.DeleteModal = this.DeleteModal.bind(this);
     this.UpdateTaskStatus = this.UpdateTaskStatus.bind(this);
@@ -24,10 +27,12 @@ class TaskCard extends React.Component {
     this.setState({ DeleteModal: !this.state.DeleteModal });
   }
 
-  async UpdateTaskStatus(NewStatus) {
+  async UpdateTaskStatus() {
+    this.setState({ ChangeStatusModal: false })
+
     const data = {
       TaskID: this.props.id,
-      TaskStatus: NewStatus,
+      TaskStatus: this.state.status,
     };
 
     await API.post("/update_task_status", data)
@@ -57,17 +62,37 @@ class TaskCard extends React.Component {
       });
   }
 
-  DisplayTask() {
-    this.setState({ DisplayTask: !this.state.DisplayTask });
+  ChangeStatusTask() {
+    this.setState({ ChangeStatusModal: !this.state.ChangeStatusModal, status: "" })
   }
 
+  HandleChangeStatusTask(event) {
+    this.setState({ status: event.target.value })
+  }
   render() {
     return (
       <div className="TaskCardContainer">
         <p className="TaskTitle">
           <img alt="" className="PostAuthImage" src={this.props.UserImage} />
-          <p>{this.props.agent}</p>
-          <p> {Moment(this.props.CreateDate).format("MMM Do YY")}</p>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+            <p>{this.props.agent}</p>
+            <p> {Moment(this.props.CreateDate).format("MMM Do YY")}</p>
+          </div>
+          <div className="TaskDottedIcon">
+            <Dropdown>
+              <Dropdown.Toggle id="dropdown-basic" className="DropDownToggle">
+                <BiDotsVerticalRounded />
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={this.ChangeStatusTask}>
+                  Change Task Status
+                </Dropdown.Item>
+                <Dropdown.Item onClick={this.DeleteModal}>
+                  Delete
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
         </p>
         <hr />
         <p className="TaskContent">
@@ -78,65 +103,61 @@ class TaskCard extends React.Component {
 
         <p className="TaskAgent">assigned to: {this.props.agent}</p>
 
-        <button className="BtnTask" onClick={this.DisplayTask}>
+        {/* <button className="BtnTask" onClick={this.DisplayTask}>
           Display
-        </button>
+        </button> */}
 
-        <Modal show={this.state.DisplayTask} onHide={this.DisplayTask}>
+        <Modal show={this.state.ChangeStatusModal} onHide={this.ChangeStatusTask}>
           <Modal.Header closeButton>
-            <Modal.Title>{this.props.title}</Modal.Title>
+            <Modal.Title>Change Task Status</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <p style={{ fontWeight: "400" }}>{this.props.text}</p>
-            <p className="TaskAgent">to: <img src={this.props.UserImage} style={{ width: "50px", height: "50px" }} alt="user image" />  {this.props.agent}</p>
-            <p className="TaskAgent">state: {this.props.state}</p>
-            <p className="TaskAgent">
-              Create Date: {Moment(this.props.CreateDate).format("MMM Do YY")}
-            </p>
+            <Form>
+              <Form.Check
+                type="radio"
+                name="group"
+                id="To Do"
+                label="To Do"
+                value="to do"
+                checked={
+                  this.state.status === "" ?
+                    this.props.state === "to do" && true
+                    :
+                    this.state.status === "to do" && true
+                }
+                onChange={this.HandleChangeStatusTask}
+              />
+              <Form.Check
+                type="radio"
+                label="In Progress"
+                name="group"
+                id="In Progress"
+                value="in progress"
+                checked={
+                  this.state.status === "" ?
+                    this.props.state === "in progress" && true
+                    :
+                    this.state.status === "in progress" && true
+                }
+                onChange={this.HandleChangeStatusTask}
+              />
+              <Form.Check
+                type="radio"
+                label="Done"
+                name="group"
+                id="Done"
+                value="done"
+                checked={
+                  this.state.status === "" ?
+                    this.props.state === "done" && true
+                    :
+                    this.state.status === "done" && true
+                }
+                onChange={this.HandleChangeStatusTask}
+              />
+            </Form>
+            <button className="NewTaskButton" onClick={() => this.UpdateTaskStatus()}>Save Changes</button>
           </Modal.Body>
-          <Modal.Footer>
-            <div style={{ marginRight: "auto" }}>
-              <Dropdown>
-                <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                  Change Task Status
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Dropdown.Item
-                    onClick={() => {
-                      this.UpdateTaskStatus("to do");
-                    }}
-                  >
-                    To Do
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    onClick={() => {
-                      this.UpdateTaskStatus("in progress");
-                    }}
-                  >
-                    In Progress
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    onClick={() => {
-                      this.UpdateTaskStatus("done");
-                    }}
-                  >
-                    Done
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </div>
-            <Button
-              variant="danger"
-              onClick={() => {
-                this.DeleteModal();
-              }}
-            >
-              Delete
-            </Button>
-            <Button variant="secondary" onClick={this.DisplayTask}>
-              Close
-            </Button>
-          </Modal.Footer>
         </Modal>
 
         <Modal show={this.state.DeleteModal} onHide={this.DeleteModal}>

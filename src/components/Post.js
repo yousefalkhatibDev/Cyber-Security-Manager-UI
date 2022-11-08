@@ -5,8 +5,8 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Dropdown from "react-bootstrap/Dropdown";
-import { BiDotsVerticalRounded } from "react-icons/bi";
-import { MdDelete, MdOutlineReply } from "react-icons/md";
+import deleteIcon from "../icons/delete.svg"
+import sendIcon from "../icons/send.svg"
 
 class Post extends React.Component {
   constructor(props) {
@@ -21,7 +21,6 @@ class Post extends React.Component {
     };
 
     this.GetComments = this.GetComments.bind(this);
-    this.CommentModal = this.CommentModal.bind(this);
     this.UploadComment = this.UploadComment.bind(this);
     this.UpdateComment = this.UpdateComment.bind(this);
     this.DeleteModal = this.DeleteModal.bind(this);
@@ -95,15 +94,15 @@ class Post extends React.Component {
       });
   }
 
-  CommentModal() {
-    this.setState((prevState) => ({
-      CommentModal: !this.state.CommentModal,
-      NewComment: {
-        ...prevState.NewComment,
-        comment: "",
-      },
-    }));
-  }
+  // CommentModal() {
+  //   this.setState((prevState) => ({
+  //     CommentModal: !this.state.CommentModal,
+  //     NewComment: {
+  //       ...prevState.NewComment,
+  //       comment: "",
+  //     },
+  //   }));
+  // }
 
   componentDidMount() {
     this.GetComments();
@@ -115,30 +114,23 @@ class Post extends React.Component {
         <div className="Post">
           <div className="PostAuthContainer">
             <img alt="" className="PostAuthImage" src={this.props.UserImage} />
-            <p className="Postauthor">{this.props.author}</p>
-            <p className="Postauthor">{this.props.createDate.split("T")[0]}</p>
-            <div className="PostDottedIcon">
-              <Dropdown>
-                <Dropdown.Toggle id="dropdown-basic" className="DropDownToggle">
-                  <BiDotsVerticalRounded />
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu>
-                  <Dropdown.Item onClick={this.CommentModal}>
-                    Reply <MdOutlineReply style={{ marginLeft: "67px" }} />{" "}
-                  </Dropdown.Item>
-                  <Dropdown.Item onClick={this.DeleteModal}>
-                    Delete <MdDelete style={{ marginLeft: "60px" }} />
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+              <p className="Postauthor">{this.props.author}</p>
+              <p className="Postauthor">{this.props.createDate.split("T")[0]}</p>
+            </div>
+            <div className="PostDeleteIcon">
+              <img src={deleteIcon} onClick={this.DeleteModal} />
             </div>
           </div>
-          <p className="Postauthor">{this.props.title}</p>
+
+          <p className="PostTitle">{this.props.title}</p>
           <p className="PostContent" style={{ fontWeight: 500 }}>
             {this.props.text}
           </p>
-          <hr />
+          <div className="PostInputContainer">
+            <input type="text" className="PostInput" onChange={this.UpdateComment} placeholder="reply" />
+            <img src={sendIcon} className="PostInputIcon" onClick={this.UploadComment} />
+          </div>
           <div
             style={{
               borderLeft: "2px solid rgb(187 187 187)",

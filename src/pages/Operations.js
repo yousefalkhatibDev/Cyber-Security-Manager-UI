@@ -8,7 +8,7 @@ import OperationCard from "../components/OperationCard";
 import API from "../helper/API";
 import Pagination from "../components/Pagination";
 import { FiSearch } from "react-icons/fi"
-import { MdFilterList } from "react-icons/md"
+import filterIcon from "../icons/Filter.svg"
 import operationIcon from "../icons/operation.svg"
 // return (
 //   <div className="App">
@@ -255,7 +255,7 @@ class Operations extends React.Component {
                   id="dropdown-basic"
                   style={{ border: "none", backgroundColor: "transparent" }}
                 >
-                  <MdFilterList size={22} />
+                  <img src={filterIcon} width={22} />
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
                   <Dropdown.Item key="all" onClick={() => this.UpdateFilter("all")}>

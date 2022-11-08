@@ -12,7 +12,8 @@ import {
   faAddressCard,
   faListCheck,
 } from "@fortawesome/free-solid-svg-icons";
-import { AiOutlinePlus } from "react-icons/ai";
+import { FiSearch } from "react-icons/fi"
+import filterIcon from "../icons/Filter.svg"
 
 // components
 import TargetCard from "../components/TargetCard";
@@ -20,6 +21,8 @@ import Post from "../components/Post";
 import TaskCard from "../components/TaskCard";
 import API from "../helper/API";
 import Pagination from "../components/Pagination";
+import OperationCardDashboard from "../components/OperationCardDashboard";
+import ProfilesNavigationBar from "../components/ProfilesNavigationBar";
 
 const withParams = (Component) => (props) => {
   const { id } = useParams();
@@ -55,6 +58,7 @@ class OperationProfile extends React.Component {
       PostsTab: true,
       TargetsTab: false,
       TasksTab: false,
+      SettingsTab: false,
       PostModal: false,
       TargetModal: false,
       TaskModal: false,
@@ -102,7 +106,7 @@ class OperationProfile extends React.Component {
     this.PostModal = this.PostModal.bind(this);
     this.TargetModal = this.TargetModal.bind(this);
     this.TaskModal = this.TaskModal.bind(this);
-    this.SettingsModal = this.SettingsModal.bind(this);
+    // this.SettingsModal = this.SettingsModal.bind(this);
     this.MemberModal = this.MemberModal.bind(this);
     this.DeleteModal = this.DeleteModal.bind(this);
     this.StateModal = this.StateModal.bind(this);
@@ -228,9 +232,18 @@ class OperationProfile extends React.Component {
   }
 
   async UpdateOperationState(event) {
+    let OperationState;
+    if (event.target.checked === false) {
+      this.setState({ state: "inactive" })
+      OperationState = "inactive"
+    } else {
+      this.setState({ state: "active" })
+      OperationState = "active"
+    }
+    console.log(event.target.checked)
     const data = {
       OperationID: this.props.id,
-      OperationState: event.target.value,
+      OperationState: OperationState,
     };
 
     await API.post("/update_operation_state", data)
@@ -295,25 +308,14 @@ class OperationProfile extends React.Component {
     this.GetTasks();
   }
 
-  async UpdateFilterPosts(event) {
-    if (event.target.value === "all") {
+  async UpdateFilterPosts(value) {
+    if (value === "all") {
       await this.GetPosts();
     }
 
-    if (event.target.value === "newest_to_older") {
+    if (value === "newest_to_older") {
       await this.GetPosts();
-      await this.setState({ FilterPosts: event.target.value });
-      let filteredArray = this.state.posts.sort((a, b) => {
-        var c = new Date(a.p_create_date);
-        var d = new Date(b.p_create_date);
-        return c - d;
-      });
-      await this.setState({ posts: filteredArray });
-    }
-
-    if (event.target.value === "older_to_newest") {
-      await this.GetPosts();
-      await this.setState({ FilterPosts: event.target.value });
+      await this.setState({ FilterPosts: value });
       let filteredArray = this.state.posts.sort((a, b) => {
         var c = new Date(a.p_create_date);
         var d = new Date(b.p_create_date);
@@ -321,16 +323,27 @@ class OperationProfile extends React.Component {
       });
       await this.setState({ posts: filteredArray });
     }
+
+    if (value === "older_to_newest") {
+      await this.GetPosts();
+      await this.setState({ FilterPosts: value });
+      let filteredArray = this.state.posts.sort((a, b) => {
+        var c = new Date(a.p_create_date);
+        var d = new Date(b.p_create_date);
+        return c - d;
+      });
+      await this.setState({ posts: filteredArray });
+    }
   }
 
-  async UpdateFilterTargets(event) {
-    if (event.target.value === "all") {
+  async UpdateFilterTargets(value) {
+    if (value === "all") {
       await this.GetTargets();
     }
 
-    if (event.target.value === "date") {
+    if (value === "date") {
       await this.GetTargets();
-      await this.setState({ FilterTargets: event.target.value });
+      await this.setState({ FilterTargets: value });
       let filteredArray = this.state.targets.sort((a, b) => {
         var c = new Date(a.t_create_date);
         var d = new Date(b.t_create_date);
@@ -339,9 +352,9 @@ class OperationProfile extends React.Component {
       await this.setState({ targets: filteredArray });
     }
 
-    if (event.target.value === "name") {
+    if (value === "name") {
       await this.GetTargets();
-      await this.setState({ FilterTargets: event.target.value });
+      await this.setState({ FilterTargets: value });
       let filteredArray = this.state.targets.sort((a, b) => {
         return a.t_name.localeCompare(b.t_name);
       });
@@ -349,14 +362,14 @@ class OperationProfile extends React.Component {
     }
   }
 
-  async UpdateFilterTasks(event) {
-    if (event.target.value === "all") {
+  async UpdateFilterTasks(value) {
+    if (value === "all") {
       await this.GetTasks();
     }
 
-    if (event.target.value === "older_to_newest") {
+    if (value === "older_to_newest") {
       await this.GetTasks();
-      await this.setState({ FilterTasks: event.target.value });
+      await this.setState({ FilterTasks: value });
       let filteredArray = this.state.tasks.sort((a, b) => {
         var c = new Date(a.tk_create_date);
         var d = new Date(b.tk_create_date);
@@ -365,7 +378,7 @@ class OperationProfile extends React.Component {
       await this.setState({ tasks: filteredArray });
     }
 
-    if (event.target.value === "my_tasks") {
+    if (value === "my_tasks") {
       const data = {
         TaskOperation: this.props.id,
         Token: window.sessionStorage.getItem("token"),
@@ -496,9 +509,9 @@ class OperationProfile extends React.Component {
     });
   }
 
-  SettingsModal() {
-    this.setState({ SettingsModal: !this.state.SettingsModal });
-  }
+  // SettingsModal() {
+  //   this.setState({ SettingsModal: !this.state.SettingsModal });
+  // }
 
   async UploadMemeber() {
     const data = {
@@ -829,6 +842,7 @@ class OperationProfile extends React.Component {
           PostsTab: true,
           TargetsTab: false,
           TasksTab: false,
+          SettingsTab: false
         });
         break;
 
@@ -837,6 +851,7 @@ class OperationProfile extends React.Component {
           PostsTab: false,
           TargetsTab: true,
           TasksTab: false,
+          SettingsTab: false
         });
         break;
 
@@ -845,8 +860,17 @@ class OperationProfile extends React.Component {
           PostsTab: false,
           TargetsTab: false,
           TasksTab: true,
+          SettingsTab: false
         });
         break;
+
+      case "Settings":
+        this.setState({
+          PostsTab: false,
+          TargetsTab: false,
+          TasksTab: false,
+          SettingsTab: true
+        })
 
       default:
         break;
@@ -947,119 +971,67 @@ class OperationProfile extends React.Component {
     );
     return (
       <div className="OperationProfile">
-        <ul className="OptionsContainer">
-          <li>
-            <a
-              href={() => null}
-              onClick={() => {
-                this.SettingsModal();
-              }}
-            >
-              Settings{" "}
-              <FontAwesomeIcon icon={faGear} style={{ marginLeft: "5px" }} />
-            </a>{" "}
-          </li>
-          <li>
-            <a
-              href={() => null}
-              onClick={() => {
-                this.SwitchSlider("Targets");
-              }}
-            >
-              Targets{" "}
-              <FontAwesomeIcon
-                icon={faBullseye}
-                style={{ marginLeft: "5px" }}
-              />
-            </a>
-          </li>
-          <li>
-            <a
-              href={() => null}
-              onClick={() => {
-                this.SwitchSlider("Notes");
-              }}
-            >
-              Posts{" "}
-              <FontAwesomeIcon
-                icon={faAddressCard}
-                style={{ marginLeft: "5px" }}
-              />
-            </a>
-          </li>
-          <li>
-            <a
-              href={() => null}
-              onClick={() => {
-                this.SwitchSlider("Tasks");
-              }}
-            >
-              Tasks{" "}
-              <FontAwesomeIcon
-                icon={faListCheck}
-                style={{ marginLeft: "5px" }}
-              />
-            </a>
-          </li>
-        </ul>
         <div className="OperationProfileContent">
-          <div className="OperationProfileHeader">
-            <img src={this.state.image} alt="user-card" />
-            <div className="OperationProfileInfo">
-              <ul>
-                <li style={{ fontSize: "23px" }}>{this.state.name}</li>
-                <li style={{ fontSize: "15px" }}>
-                  Members Count: {this.state.MembersCount}
-                </li>
-                <li style={{ marginTop: "10px" }}>
-                  Targets Count: {this.state.TargetsCount}
-                </li>
-                <li>Posts Count: {this.state.PostsCount}</li>
-                <li>State: {this.state.state}</li>
-                <li>
-                  Create Date:{" "}
-                  {Moment(this.state.CreateDate).format("MMM Do YY")}
-                </li>
-                <li style={{ width: "60%" }}>
-                  Description: {this.state.description}
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="OperationProfileSlider">
-            <div
-              className="PostsSlide"
-              style={{ display: this.state.PostsTab ? null : "none" }}
-            >
-              <div className="SearchContainer">
-                <div>
-                  <button disabled>Search</button>
+          {
+            this.state.id !== "" &&
+            (
+              <OperationCardDashboard
+                key={1}
+                id={this.state.id}
+                name={this.state.name}
+                description={this.state.description}
+                status={this.state.state}
+                CreateDate={this.state.CreateDate}
+                width={100}
+              />
+            )
+          }
+          <div
+            className="PostsSlide"
+          >
+            <div className="OperationProfileSlider" style={{ display: this.state.PostsTab ? null : "none" }}>
+              <div className="SearchContainer" style={{ margin: "0px", marginTop: "40px" }}>
+                <div className="SearchInputContainer">
                   <input
-                    placeholder="Search by title or description"
+                    placeholder="Search by name or description"
                     type="text"
                     className="Search"
                     onChange={this.UpdateSearchPosts}
                   />
+                  <FiSearch size={25} />
                 </div>
-                <div style={{ marginLeft: "20px" }}>
-                  <button disabled>Sort by</button>
-                  <select className="Sort" onChange={this.UpdateFilterPosts}>
-                    <option value="all">All</option>
-                    <option value="newest_to_older">Newest to Older</option>
-                    <option value="older_to_newest">Older to Newest</option>
-                  </select>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", width: "100%" }}>
+                  <Dropdown style={{ width: "auto" }}>
+                    <Dropdown.Toggle
+                      variant="success"
+                      id="dropdown-basic"
+                      style={{ border: "none", backgroundColor: "transparent" }}
+                    >
+                      <img src={filterIcon} width={22} />
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      <Dropdown.Item key="all" onClick={() => this.UpdateFilterPosts("all")}>
+                        <span style={{ marginRight: "25px", color: "black" }}>
+                          All
+                        </span>
+                      </Dropdown.Item>
+                      <Dropdown.Item key="newest_to_older" onClick={() => this.UpdateFilterPosts("newest_to_older")}>
+                        <span style={{ marginRight: "50px" }}>newst to older</span>
+                      </Dropdown.Item>
+                      <Dropdown.Item key="older_to_newest" onClick={() => this.UpdateFilterPosts("older_to_newest")}>
+                        <span style={{ marginRight: "50px" }}>older to newst</span>
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </div>
-                <Button
-                  variant="outline-success"
-                  onClick={this.PostModal}
-                  className="addNewButton"
-                >
-                  <AiOutlinePlus size="30" color="green" />
-                  <p>Add a new post</p>
-                </Button>
               </div>
-
+              <ProfilesNavigationBar
+                type="operationProfile"
+                SwitchSlider={this.SwitchSlider}
+                SwitchSettings={this.SettingsModal}
+                postsActive
+              />
+              <button className="NewPostButton" onClick={this.PostModal}>add new post</button>
               {this.state.posts.map((post, i) => {
                 return (
                   <Post
@@ -1081,26 +1053,49 @@ class OperationProfile extends React.Component {
               className="TargetsSlide"
               style={{ display: this.state.TargetsTab ? null : "none" }}
             >
-              <div className="SearchContainer">
-                <div>
-                  <button disabled>Search</button>
+              <div className="SearchContainer" style={{ margin: "0px" }}>
+                <div className="SearchInputContainer">
                   <input
-                    placeholder="Search by title or description"
+                    placeholder="Search by name or description"
                     type="text"
                     className="Search"
                     onChange={this.UpdateSearchTargets}
                   />
+                  <FiSearch size={25} />
                 </div>
-                <div style={{ marginLeft: "20px" }}>
-                  <button disabled>Sort by</button>
-                  <select className="Sort" onChange={this.UpdateFilterTargets}>
-                    <option value="all">All</option>
-                    <option value="name">Name</option>
-                    <option value="date">Date</option>
-                  </select>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", width: "100%" }}>
+                  <Dropdown style={{ width: "auto" }}>
+                    <Dropdown.Toggle
+                      variant="success"
+                      id="dropdown-basic"
+                      style={{ border: "none", backgroundColor: "transparent" }}
+                    >
+                      <img src={filterIcon} width={22} />
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      <Dropdown.Item key="all" onClick={() => this.UpdateFilterTargets("all")}>
+                        <span style={{ marginRight: "25px", color: "black" }}>
+                          All
+                        </span>
+                      </Dropdown.Item>
+                      <Dropdown.Item key="name" onClick={() => this.UpdateFilterTargets("name")}>
+                        <span style={{ marginRight: "50px" }}>By Name</span>
+                      </Dropdown.Item>
+                      <Dropdown.Item key="date" onClick={() => this.UpdateFilterTargets("date")}>
+                        <span style={{ marginRight: "50px" }}>By Date</span>
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </div>
               </div>
-              <div style={{ display: "flex", flexWrap: "wrap" }}>
+              <ProfilesNavigationBar
+                type="operationProfile"
+                SwitchSlider={this.SwitchSlider}
+                SwitchSettings={this.SettingsModal}
+                targetsActive
+              />
+              <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between" }}>
+                <button className="NewTargetButton" onClick={this.TargetModal}>add new target</button>
                 {currentTargetsToDisplay.map((target, i) => {
                   return (
                     <TargetCard
@@ -1114,18 +1109,6 @@ class OperationProfile extends React.Component {
                     />
                   );
                 })}
-                <div
-                  className="newOperation-TargetCard"
-                  onClick={this.TargetModal}
-                  style={{ height: "400px" }}
-                >
-                  <AiOutlinePlus
-                    style={{ color: "rgb(0, 180, 0)" }}
-                    size="55"
-                    textDecoration="none"
-                  />
-                  <p>Add a new target</p>
-                </div>
               </div>
               <Pagination
                 type="targets"
@@ -1140,33 +1123,47 @@ class OperationProfile extends React.Component {
               className="TasksSlide"
               style={{ display: this.state.TasksTab ? null : "none" }}
             >
-              <div className="SearchContainer">
-                <div>
-                  <button disabled>Search</button>
+              <div className="SearchContainer" style={{ margin: "0px", marginTop: "40px" }}>
+                <div className="SearchInputContainer">
                   <input
-                    placeholder="Search by title or description"
+                    placeholder="Search by name or description"
                     type="text"
                     className="Search"
                     onChange={this.UpdatesearchTask}
                   />
+                  <FiSearch size={25} />
                 </div>
-                <div style={{ marginLeft: "20px" }}>
-                  <button disabled>Sort by</button>
-                  <select className="Sort" onChange={this.UpdateFilterTasks}>
-                    <option value="all">All</option>
-                    <option value="older_to_newest">Older to Newest</option>
-                    <option value="my_tasks">My Tasks</option>
-                  </select>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", width: "100%" }}>
+                  <Dropdown style={{ width: "auto" }}>
+                    <Dropdown.Toggle
+                      variant="success"
+                      id="dropdown-basic"
+                      style={{ border: "none", backgroundColor: "transparent" }}
+                    >
+                      <img src={filterIcon} width={22} />
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      <Dropdown.Item key="all" onClick={() => this.UpdateFilterTasks("all")}>
+                        <span style={{ marginRight: "25px", color: "black" }}>
+                          All
+                        </span>
+                      </Dropdown.Item>
+                      <Dropdown.Item key="older_to_newest" onClick={() => this.UpdateFilterTasks("older_to_newest")}>
+                        <span style={{ marginRight: "50px" }}>Older to newst</span>
+                      </Dropdown.Item>
+                      <Dropdown.Item key="my_tasks" onClick={() => this.UpdateFilterTasks("my_tasks")}>
+                        <span style={{ marginRight: "50px" }}>My Tasks</span>
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </div>
-                <Button
-                  variant="outline-success"
-                  onClick={this.TaskModal}
-                  className="addNewButton"
-                >
-                  <AiOutlinePlus size="30" color="green" />
-                  <p>Add a new task</p>
-                </Button>
               </div>
+              <ProfilesNavigationBar
+                type="operationProfile"
+                SwitchSlider={this.SwitchSlider}
+                SwitchSettings={this.SettingsModal}
+                tasksActive
+              />
               <div
                 style={{
                   display: "flex",
@@ -1174,6 +1171,7 @@ class OperationProfile extends React.Component {
                   justifyContent: "start",
                 }}
               >
+                <button className="NewTaskButton" onClick={this.TaskModal}>add new task</button>
                 {currentTasksToDisplay.map((task, i) => {
                   return (
                     <TaskCard
@@ -1198,6 +1196,55 @@ class OperationProfile extends React.Component {
                 setCurrentPage={this.setCurrentPage}
                 currentPage={this.state.currentPageTasks}
               />
+            </div>
+          </div>
+
+          <div
+            className="SettingsSlide"
+            style={{ display: this.state.SettingsTab ? null : "none" }}
+          >
+            <ProfilesNavigationBar
+              type="operationProfile"
+              SwitchSlider={this.SwitchSlider}
+              SwitchSettings={this.SettingsModal}
+              settingsActive
+            />
+            <div className="SettingsCard">
+              <h1 className="SettingsCard-Header">Settings</h1>
+              <div className="SettingsCard-Content">
+                <div className="AddMember">
+                  <p className="AddMember-Header">Add member</p>
+                  <p className="AddMember-Body">You can add a member to this target by clicking Add next to this text</p>
+                  <button className="NewMemberButton" onClick={this.MemberModal}>new member</button>
+                </div>
+                <hr />
+                <div className="SwitchState">
+                  <div>
+                    <p className="SwitchState-Header">Switch state</p>
+                    <p className="SwitchState-Body">You can switch the activity of this target by clicking
+                      Switch state next to this text</p>
+                  </div>
+                  <Form>
+                    <Form.Check
+                      type="switch"
+                      id="SwitchState-SwitchButton"
+                      checked={this.state.state === "active" ? true : false}
+                      onChange={this.UpdateOperationState}
+                    />
+                  </Form>
+                </div>
+                <div className="UpdateInfo">
+                  <p className="UpdateInfo-Header">Update</p>
+                  <p className="UpdateInfo-Body">You can update this target by clicking Update next to this text</p>
+                  <button className="UpdateInfoButton" onClick={this.InfoModal}>update information</button>
+                </div>
+                <hr />
+                <div className="DeleteOperation">
+                  <p className="DeleteOperation-Header">Delete</p>
+                  <p className="DeleteOperation-Body"> You can delete this target by clicking Delete next to this text</p>
+                  <button className="DeleteOperationButton" onClick={this.DeleteModal}>delete operation</button>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -1595,86 +1642,6 @@ class OperationProfile extends React.Component {
             </Modal.Footer>
           </Modal>
 
-          <Modal
-            show={this.state.SettingsModal}
-            size="lg"
-            onHide={this.SettingsModal}
-            aria-labelledby="example-modal-sizes-title-lg"
-          >
-            <Modal.Header closeButton>
-              <Modal.Title id="example-modal-sizes-title-lg">
-                Large Modal
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <div className="SettingsModal-Container">
-                <div>
-                  <h4>Add member</h4>
-                  <p>
-                    You can add a member to this target by clicking Add next to
-                    this text
-                  </p>
-                </div>
-                <button
-                  className="NewObject btn btn-outline-secondary"
-                  onClick={this.MemberModal}
-                >
-                  New Members
-                </button>
-              </div>
-              <div className="SettingsModal-Container">
-                <div>
-                  <h4>Switch state</h4>
-                  <p>
-                    You can switch the activity of this target by clicking
-                    Switch state next to this text
-                  </p>
-                </div>
-                <button
-                  className="NewObject btn btn-outline-secondary"
-                  onClick={this.StateModal}
-                >
-                  Switch State
-                </button>
-              </div>
-              <div className="SettingsModal-Container">
-                <div>
-                  <h4>Update</h4>
-                  <p>
-                    You can update this target by clicking Update next to this
-                    text
-                  </p>
-                </div>
-                <button
-                  className="NewObject btn btn-primary"
-                  onClick={this.InfoModal}
-                >
-                  Update information
-                </button>
-              </div>
-              <div className="SettingsModal-Container">
-                <div>
-                  <h4>Delete</h4>
-                  <p>
-                    You can delete this target by clicking Delete next to this
-                    text
-                  </p>
-                </div>
-                <button
-                  className="NewObject btn btn-danger"
-                  onClick={this.DeleteModal}
-                >
-                  Delete Operation
-                </button>
-              </div>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={this.SettingsModal}>
-                Close
-              </Button>
-            </Modal.Footer>
-          </Modal>
-
           <Modal show={this.state.DeleteModal} onHide={this.DeleteModal}>
             <Modal.Header closeButton>
               <Modal.Title>Delete Operation</Modal.Title>
@@ -1778,7 +1745,7 @@ class OperationProfile extends React.Component {
             </Modal.Footer>
           </Modal>
         </div>
-      </div>
+      </div >
     );
   }
 }
