@@ -49,14 +49,15 @@ class NoteCard extends React.Component {
       <div className="NoteCardContainer">
         <p className="NoteTitle">
           <img alt="" className="PostAuthImage" src={this.props.UserImage} />
-          <p>{this.props.author}</p>
-          <p>{this.props.CreateDate.split("T")[0]}</p>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+            <p>{this.props.author}</p>
+            <p>{this.props.CreateDate.split("T")[0]}</p>
+          </div>
         </p>
-        <hr />
         <p className="NoteContent">
           <p>{this.props.title}</p>
           <p style={{ fontWeight: "500" }}>
-            {this.props.text.length > 130
+            {this.props.text.length > 90
               ? this.props.text.substring(0, 130) + " ..."
               : this.props.text}
           </p>

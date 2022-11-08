@@ -2,7 +2,9 @@ import React from "react";
 import TargetCard from "../components/TargetCard";
 import API from "../helper/API";
 import Pagination from "../components/Pagination";
-import { FiTarget } from "react-icons/fi";
+import Dropdown from "react-bootstrap/Dropdown";
+import filterIcon from "../icons/Filter.svg"
+import { FiTarget, FiSearch } from "react-icons/fi";
 
 class Targets extends React.Component {
   constructor(props) {
@@ -26,14 +28,15 @@ class Targets extends React.Component {
     this.GetTargets();
   }
 
-  async UpdateFilter(event) {
-    if (event.target.value === "all") {
+  async UpdateFilter(value) {
+    console.log(value)
+    if (value === "all") {
       await this.GetTargets();
     }
 
-    if (event.target.value === "date") {
+    if (value === "date") {
       await this.GetTargets();
-      await this.setState({ filter: event.target.value });
+      await this.setState({ filter: value });
       let filteredArray = this.state.targets.sort((a, b) => {
         var c = new Date(a.t_create_date);
         var d = new Date(b.t_create_date);
@@ -42,9 +45,9 @@ class Targets extends React.Component {
       await this.setState({ targets: filteredArray });
     }
 
-    if (event.target.value === "name") {
+    if (value === "name") {
       await this.GetTargets();
-      await this.setState({ filter: event.target.value });
+      await this.setState({ filter: value });
       let filteredArray = this.state.targets.sort((a, b) => {
         return a.t_name.localeCompare(b.t_name);
       });
@@ -104,27 +107,43 @@ class Targets extends React.Component {
         </div>
         <div className="Targets">
           <h1 style={{ marginLeft: "20px" }}>Targets</h1>
-
           <div className="SearchContainer targetsSearchContainer">
-            <div>
-              <button disabled>Search</button>
+            <div className="SearchInputContainer">
               <input
                 placeholder="Search by name or description"
                 type="text"
                 className="Search"
                 onChange={this.UpdateSearch}
               />
+              <FiSearch size={25} />
             </div>
-
-            <div style={{ marginLeft: "20px" }}>
-              <button disabled>Sort by</button>
-              <select className="Sort" onChange={this.UpdateFilter}>
-                <option value="all">All</option>
-                <option value="name">Name</option>
-                <option value="date">Date</option>
-              </select>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", width: "100%" }}>
+              <Dropdown style={{ width: "auto" }}>
+                <Dropdown.Toggle
+                  variant="success"
+                  id="dropdown-basic"
+                  style={{ border: "none", backgroundColor: "transparent" }}
+                >
+                  <img src={filterIcon} width={22} />
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item key="all" onClick={() => this.UpdateFilter("all")}>
+                    <span style={{ marginRight: "25px", color: "black" }}>
+                      All
+                    </span>
+                  </Dropdown.Item>
+                  <Dropdown.Item key="name" onClick={() => this.UpdateFilter("name")}>
+                    <span style={{ marginRight: "50px" }}>By Name</span>
+                  </Dropdown.Item>
+                  <Dropdown.Item key="date" onClick={() => this.UpdateFilter("date")}>
+                    <span style={{ marginRight: "50px" }}>By Date</span>
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
             </div>
           </div>
+          <h2 style={{ color: "rgb(60, 60, 60)" }}>{this.state.targets.length} Targets</h2>
+          <hr style={{ marginBottom: "40px" }} />
           <div className="TargetsContainer">
             {currentTargetsToDisplay.map((target, i) => {
               return (

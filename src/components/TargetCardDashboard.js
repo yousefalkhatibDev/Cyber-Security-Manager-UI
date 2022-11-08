@@ -2,7 +2,7 @@ import React from "react";
 import Moment from "moment";
 import API from "../helper/API";
 
-class TargetCard extends React.Component {
+class TargetCardDashboard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -54,16 +54,13 @@ class TargetCard extends React.Component {
         return (
             <div
                 className="TargetCardContainer"
-                style={{ width: `${this.props.width}%`, padding: "25px" }}
+                style={{ width: `${this.props.width}%` }}
             >
                 <div className="TargetCardDashboard-container">
                     <img src={this.state.image} alt="vector" />
                     <div className="TargetDescription">
 
                         <p className="TargetDescription-title">
-                            {/* {this.props.description.length < 77
-                                ? this.props.description
-                                : this.props.description.substring(0, 76) + "..."} */}
                             {this.props.name}
                         </p>
                         <p className="TargetDescription-date">
@@ -74,22 +71,6 @@ class TargetCard extends React.Component {
                                 ? this.props.description
                                 : this.props.description.substring(0, 76) + "..."}
                         </p>
-                        {/* <ul>
-                            <li>Notes Count: {this.state.NotesCount}</li>
-                            <li>Type: {this.props.type}</li>
-                            {this.props.operation ? (
-                                <li>Operation: {this.props.operation}</li>
-                            ) : null}
-                            {this.props.relation ? (
-                                <li>Relation: {this.props.relation}</li>
-                            ) : null}
-                            <li>
-                                Create Date: {Moment(this.props.CreateDate).format("MMM Do YY")}
-                            </li>
-                            <li>
-                                Last Update: {Moment(this.props.UpdateDate).format("MMM Do YY")}
-                            </li>
-                        </ul> */}
                     </div>
                 </div>
                 <div className="TargetCardDashboardContainerStatus">
@@ -110,19 +91,25 @@ class TargetCard extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div className="TargetCardDashboardContainerButton">
-                    <button
-                        className="TargetCardDashboardContainerButton-button"
-                        onClick={() => {
-                            window.location = "/target_profile/" + this.props.id;
-                        }}
-                    >
-                        Navigate to Target
-                    </button>
-                </div>
+                {
+                    !this.props.noButton
+                    &&
+                    (
+                        <div className="TargetCardDashboardContainerButton">
+                            <button
+                                className="TargetCardDashboardContainerButton-button"
+                                onClick={() => {
+                                    window.location = "/target_profile/" + this.props.id;
+                                }}
+                            >
+                                Navigate to Target
+                            </button>
+                        </div>
+                    )
+                }
             </div>
         );
     }
 }
 
-export default TargetCard;
+export default TargetCardDashboard;

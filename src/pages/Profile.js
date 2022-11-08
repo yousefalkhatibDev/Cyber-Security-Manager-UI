@@ -1,7 +1,10 @@
 import React, { Component } from "react";
-import { CgProfile } from "react-icons/cg";
 import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Modal from "react-bootstrap/Modal";
 import API from "../helper/API";
+import profileIcon from "../icons/profile.svg";
+import cameraIcon from "../icons/Camera.svg";
 
 export default class Profile extends Component {
   constructor(props) {
@@ -10,11 +13,14 @@ export default class Profile extends Component {
       UserInfo: {},
       UserNewInfo: {
         name: "",
+        firstName: "",
+        lastName: "",
         email: "",
         bio: "",
+        modal: false
       },
     };
-
+    this.ModalShow = this.ModalShow.bind(this);
     this.GetUserInfo = this.GetUserInfo.bind(this);
     this.UpdateUserName = this.UpdateUserName.bind(this);
     this.UpdateUserEmail = this.UpdateUserEmail.bind(this);
@@ -23,6 +29,12 @@ export default class Profile extends Component {
     this.UpdateUserImage = this.UpdateUserImage.bind(this);
     this.convertToBase64 = this.convertToBase64.bind(this);
   }
+
+  ModalShow() {
+    this.setState({
+      modal: !this.state.modal
+    });
+  };
 
   convertToBase64(event) {
     //Read File
@@ -72,46 +84,63 @@ export default class Profile extends Component {
       });
   }
 
-  async UploadNewUserInfo() {
-    const data = {
-      Token: window.sessionStorage.getItem("token"),
-      UserEmail: this.state.UserNewInfo.email,
-      UserName: this.state.UserNewInfo.name,
-      UserBio: this.state.UserNewInfo.bio,
-    };
-
-    await API.post("/update_user_info", data)
-      .then((respone) => {
-        const res = respone.data;
-
-        if (res.ErrorMessage) {
-          window.alert(res.ErrorMessage);
-        }
-
-        if (res.data) {
-          this.GetUserInfo();
-          this.setState((prevState) => ({
-            UserNewInfo: {
-              ...prevState.UserNewInfo,
-              name: this.state.UserInfo.u_name,
-              email: this.state.UserInfo.u_email,
-              bio: this.state.UserInfo.u_bio,
-            },
-          }));
-        }
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
-  }
-
-  UpdateUserName(event) {
+  UploadNewUserInfo() {
+    const fullName = this.state.UserNewInfo.firstName.replace(/\s/g, '') + " " + this.state.UserNewInfo.lastName.replace(/\s/g, '');
     this.setState((prevState) => ({
       UserNewInfo: {
         ...prevState.UserNewInfo,
-        name: event.target.value,
+        name: fullName,
       },
-    }));
+    }), async function () {
+      const data = {
+        Token: window.sessionStorage.getItem("token"),
+        UserEmail: this.state.UserNewInfo.email,
+        UserName: this.state.UserNewInfo.name,
+        UserBio: this.state.UserNewInfo.bio,
+      };
+
+      await API.post("/update_user_info", data)
+        .then((respone) => {
+          const res = respone.data;
+
+          if (res.ErrorMessage) {
+            window.alert(res.ErrorMessage);
+          }
+
+          if (res.data) {
+            this.GetUserInfo();
+            this.setState((prevState) => ({
+              UserNewInfo: {
+                ...prevState.UserNewInfo,
+                name: this.state.UserInfo.u_name,
+                email: this.state.UserInfo.u_email,
+                bio: this.state.UserInfo.u_bio,
+              },
+            }));
+          }
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
+    })
+  }
+
+  UpdateUserName(event, type) {
+    if (type === "first") {
+      this.setState((prevState) => ({
+        UserNewInfo: {
+          ...prevState.UserNewInfo,
+          firstName: event.target.value,
+        },
+      }));
+    } else {
+      this.setState((prevState) => ({
+        UserNewInfo: {
+          ...prevState.UserNewInfo,
+          lastName: event.target.value,
+        },
+      }));
+    }
   }
 
   UpdateUserEmail(event) {
@@ -170,19 +199,36 @@ export default class Profile extends Component {
     return (
       <div className="profilePage">
         <div className="pageHeader">
-          <div className="pageHeader-title">
-            <CgProfile
-              color="black"
-              className="pageHeader-icon"
-              textDecoration="none"
-            />
+          <div className="pageHeader-title" style={{ width: "95%" }}>
+            <img src={profileIcon} style={{ width: "35px" }} />
             <div>
               <h1>Profile Page</h1>
               <p>Manage your account</p>
             </div>
+            <button className="EditProfileButton" onClick={this.ModalShow}>Edit Profile</button>
           </div>
         </div>
         <div className="profilePage-container">
+          <div className="profileCardInfo">
+            <label for="inputFile" id="labelInputFile">
+              <img
+                src={this.state.UserInfo.u_image}
+                alt="user-card"
+                className="profileCardInfo-image"
+              />
+              <div className="overlay">
+                <img src={cameraIcon} width={18} />
+              </div>
+            </label>
+            <input type="file" style={{ display: "none" }} onChange={this.convertToBase64} id="inputFile" className="profileCardInfo-fileInput" />
+            <div className="profileCardInfo-content">
+              <p>{this.state.UserInfo.u_name}</p>
+              <p>User ID: <div style={{ marginLeft: "5px", display: "inline-block" }}>{this.state.UserInfo.u_id}</div></p>
+              <p>{this.state.UserInfo.u_email}</p>
+            </div>
+          </div>
+        </div>
+        {/* <div className="profilePage-container">
           <div className="profileCardInfo">
             <div className="profileCardInfo-imageContainer">
               <img
@@ -244,7 +290,55 @@ export default class Profile extends Component {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
+        <Modal show={this.state.modal} onHide={this.ModalShow} className="ProfilePage-Modal">
+          <Modal.Header closeButton>
+            <Modal.Title>Edit Profile</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="ProfilePage-inputsContainer">
+              <div className="ProfilePage-inputsGroup">
+                <input
+                  type="text"
+                  name="first-name"
+                  placeholder="first name"
+                  defaultValue={this.state.UserInfo.u_name}
+                  pattern="[A-Za-z]"
+                  className="profileCardInfo-input"
+                  onChange={(e) => this.UpdateUserName(e, "first")}
+                />
+                <input
+                  type="text"
+                  name="last-name"
+                  placeholder="last name"
+                  defaultValue={this.state.UserInfo.u_name}
+                  pattern="[A-Za-z]"
+                  className="profileCardInfo-input"
+                  onChange={(e) => this.UpdateUserName(e, "last")}
+                />
+              </div>
+              <div className="ProfilePage-inputsGroup">
+                <input
+                  type="text"
+                  name="email"
+                  placeholder="email"
+                  defaultValue={this.state.UserInfo.u_email}
+                  className="profileCardInfo-input"
+                  onChange={this.UpdateUserEmail}
+                />
+                <input
+                  type="textarea"
+                  defaultValue={this.state.UserInfo.u_bio}
+                  placeholder="Bio"
+                  className="profileCardInfo-input"
+                  onChange={this.UpdateUserBio}
+                />
+              </div>
+              <button className="EditProfileData-Button" onClick={this.UploadNewUserInfo}>Edit</button>
+            </div>
+
+          </Modal.Body>
+        </Modal>
       </div>
     );
   }

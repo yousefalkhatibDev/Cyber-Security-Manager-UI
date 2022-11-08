@@ -12,13 +12,16 @@ import {
   faPeopleArrows,
   faPerson,
 } from "@fortawesome/free-solid-svg-icons";
-import { AiOutlinePlus } from "react-icons/ai";
+import { FiSearch } from "react-icons/fi"
+import filterIcon from "../icons/Filter.svg"
 
 // components
 import NoteCard from "../components/NoteCard";
 import TargetCard from "../components/TargetCard";
 import API from "../helper/API";
 import Pagination from "../components/Pagination";
+import TargetCardDashboard from "../components/TargetCardDashboard"
+import ProfilesNavigationBar from "../components/ProfilesNavigationBar";
 
 const withParams = (Component) => (props) => {
   const { id } = useParams();
@@ -51,6 +54,7 @@ class TargetProfile extends React.Component {
       NotesTab: 1,
       RelationsTab: 0,
       RelatedByTab: 0,
+      SettingsTab: 0,
       NotesModal: false,
       RelationsModal: false,
       SettingsModal: false,
@@ -78,7 +82,7 @@ class TargetProfile extends React.Component {
       },
     };
 
-    this.switchSlider = this.switchSlider.bind(this);
+    this.SwitchSlider = this.SwitchSlider.bind(this);
     this.NotesModal = this.NotesModal.bind(this);
     this.RelationsModal = this.RelationsModal.bind(this);
     this.GetTargetInfo = this.GetTargetInfo.bind(this);
@@ -225,23 +229,23 @@ class TargetProfile extends React.Component {
     this.setState({ DeleteModal: !this.state.DeleteModal });
   }
 
-  async UpdateFilterNotes(event) {
-    if (event.target.value === "all") {
+  async UpdateFilterNotes(value) {
+    if (value === "all") {
       await this.GetNotes();
     }
 
-    if (event.target.value === "title") {
+    if (value === "title") {
       await this.GetNotes();
-      await this.setState({ NotesFilter: event.target.value });
+      await this.setState({ NotesFilter: value });
       let filteredArray = this.state.notes.sort((a, b) => {
         return a.n_title.localeCompare(b.n_title);
       });
       await this.setState({ notes: filteredArray });
     }
 
-    if (event.target.value === "date") {
+    if (value === "date") {
       await this.GetNotes();
-      await this.setState({ NotesFilter: event.target.value });
+      await this.setState({ NotesFilter: value });
       let filteredArray = this.state.notes.sort((a, b) => {
         var c = new Date(a.n_create_date);
         var d = new Date(b.n_create_date);
@@ -251,14 +255,14 @@ class TargetProfile extends React.Component {
     }
   }
 
-  async UpdateFilterRelations(event) {
-    if (event.target.value === "all") {
+  async UpdateFilterRelations(value) {
+    if (value === "all") {
       await this.GetRelations();
     }
 
-    if (event.target.value === "date") {
+    if (value === "date") {
       await this.GetRelations();
-      await this.setState({ RelationsFilter: event.target.value });
+      await this.setState({ RelationsFilter: value });
       let filteredArray = this.state.relations.sort((a, b) => {
         var c = new Date(a.t_create_date);
         var d = new Date(b.t_create_date);
@@ -267,9 +271,9 @@ class TargetProfile extends React.Component {
       await this.setState({ relations: filteredArray });
     }
 
-    if (event.target.value === "name") {
+    if (value === "name") {
       await this.GetRelations();
-      await this.setState({ RelationsFilter: event.target.value });
+      await this.setState({ RelationsFilter: value });
       let filteredArray = this.state.relations.sort((a, b) => {
         return a.t_name.localeCompare(b.t_name);
       });
@@ -277,14 +281,14 @@ class TargetProfile extends React.Component {
     }
   }
 
-  async UpdateFilterRelatedByTargets(event) {
-    if (event.target.value === "all") {
+  async UpdateFilterRelatedByTargets(value) {
+    if (value === "all") {
       await this.GetRelatedByTargets();
     }
 
-    if (event.target.value === "date") {
+    if (value === "date") {
       await this.GetRelatedByTargets();
-      await this.setState({ RelatedByFilter: event.target.value });
+      await this.setState({ RelatedByFilter: value });
       let filteredArray = this.state.RelatedBY.sort((a, b) => {
         var c = new Date(a.t_create_date);
         var d = new Date(b.t_create_date);
@@ -293,9 +297,9 @@ class TargetProfile extends React.Component {
       await this.setState({ RelatedBY: filteredArray });
     }
 
-    if (event.target.value === "name") {
+    if (value === "name") {
       await this.GetRelatedByTargets();
-      await this.setState({ RelatedByFilter: event.target.value });
+      await this.setState({ RelatedByFilter: value });
       let filteredArray = this.state.RelatedBY.sort((a, b) => {
         return a.t_name.localeCompare(b.t_name);
       });
@@ -588,13 +592,14 @@ class TargetProfile extends React.Component {
     });
   }
 
-  switchSlider(slide) {
+  SwitchSlider(slide) {
     switch (slide) {
       case "Notes":
         this.setState({
           NotesTab: 1,
           RelationsTab: 0,
           RelatedByTab: 0,
+          SettingsTab: 0
         });
         break;
 
@@ -603,6 +608,7 @@ class TargetProfile extends React.Component {
           NotesTab: 0,
           RelationsTab: 1,
           RelatedByTab: 0,
+          SettingsTab: 0
         });
         break;
 
@@ -611,6 +617,16 @@ class TargetProfile extends React.Component {
           NotesTab: 0,
           RelationsTab: 0,
           RelatedByTab: 1,
+          SettingsTab: 0
+        });
+        break;
+
+      case "Settings":
+        this.setState({
+          NotesTab: 0,
+          RelationsTab: 0,
+          RelatedByTab: 0,
+          SettingsTab: 1
         });
         break;
 
@@ -682,79 +698,74 @@ class TargetProfile extends React.Component {
     );
     return (
       <div className="TargetProfile">
-        <ul className="OptionsContainer">
-          <li style={{ width: "23%" }}>
-            <a
-              href={() => null}
-              onClick={() => {
-                this.SettingsModal();
-              }}
-            >
-              Settings{" "}
-              <FontAwesomeIcon icon={faGear} style={{ marginLeft: "5px" }} />
-            </a>{" "}
-          </li>
-          <li style={{ width: "23%" }}>
-            <a
-              href={() => null}
-              onClick={() => {
-                this.switchSlider("Notes");
-              }}
-            >
-              Notes{" "}
-              <FontAwesomeIcon
-                icon={faNoteSticky}
-                style={{ marginLeft: "5px" }}
-              />
-            </a>
-          </li>
-          <li style={{ width: "27%" }}>
-            <a
-              href={() => null}
-              onClick={() => {
-                this.switchSlider("Relations");
-              }}
-            >
-              Relations{" "}
-              <FontAwesomeIcon
-                icon={faPeopleArrows}
-                style={{ marginLeft: "5px" }}
-              />
-            </a>
-          </li>
-          <li style={{ width: "27%" }}>
-            <a
-              href={() => null}
-              onClick={() => {
-                this.switchSlider("RelatedBy");
-              }}
-            >
-              Related By{" "}
-              <FontAwesomeIcon icon={faPerson} style={{ marginLeft: "5px" }} />
-            </a>
-          </li>
-        </ul>
+        {/* <ul className="OptionsContainer">
+            <li style={{ width: "23%" }}>
+              <a
+                href={() => null}
+                onClick={() => {
+                  this.SettingsModal();
+                }}
+              >
+                Settings{" "}
+                <FontAwesomeIcon icon={faGear} style={{ marginLeft: "5px" }} />
+              </a>{" "}
+            </li>
+            <li style={{ width: "23%" }}>
+              <a
+                href={() => null}
+                onClick={() => {
+                  this.switchSlider("Notes");
+                }}
+              >
+                Notes{" "}
+                <FontAwesomeIcon
+                  icon={faNoteSticky}
+                  style={{ marginLeft: "5px" }}
+                />
+              </a>
+            </li>
+            <li style={{ width: "27%" }}>
+              <a
+                href={() => null}
+                onClick={() => {
+                  this.switchSlider("Relations");
+                }}
+              >
+                Relations{" "}
+                <FontAwesomeIcon
+                  icon={faPeopleArrows}
+                  style={{ marginLeft: "5px" }}
+                />
+              </a>
+            </li>
+            <li style={{ width: "27%" }}>
+              <a
+                href={() => null}
+                onClick={() => {
+                  this.switchSlider("RelatedBy");
+                }}
+              >
+                Related By{" "}
+                <FontAwesomeIcon icon={faPerson} style={{ marginLeft: "5px" }} />
+              </a>
+            </li>
+          </ul> */}
         <div className="TargetProfileContent">
-          <div className="TargetProfileHeader">
-            <img src={this.state.image} alt="user-card" />
-            <div className="TargetProfileInfo">
-              <ul>
-                <li style={{ fontSize: "23px" }}>{this.state.name}</li>
-                <li style={{ fontSize: "15px" }}>{this.state.description}</li>
-                <li style={{ marginTop: "10px" }}>
-                  Notes Count: {this.state.NotesCount}
-                </li>
-                <li>Type: {this.state.type}</li>
-                <li>
-                  Create Date:{" "}
-                  {Moment(this.state.CreateDate).format("MMM Do YY")}
-                </li>
-                <li>
-                  Last Update:{" "}
-                  {Moment(this.state.UpdateDate).format("MMM Do YY")}
-                </li>
-              </ul>
-            </div>
+          <div className="TargetProfileCardContainer">
+            {
+              this.state.id
+              &&
+              <TargetCardDashboard
+                id={this.state.id}
+                name={this.state.name}
+                description={this.state.description}
+                type={this.state.type}
+                CreateDate={this.state.CreateDate}
+                UpdateDate={this.state.UpdateDate}
+                noButton
+                width={100}
+              />
+            }
           </div>
 
           <div className="TargetProfileSlider">
@@ -762,35 +773,48 @@ class TargetProfile extends React.Component {
               className="NotesSlide"
               style={{ display: this.state.NotesTab ? null : "none" }}
             >
-              <div className="SearchContainer">
-                <div>
-                  <button disabled>Search</button>
+              <div className="SearchContainer" style={{ margin: "0px", marginTop: "40px" }}>
+                <div className="SearchInputContainer">
                   <input
-                    placeholder="Search by title or description"
+                    placeholder="Search by name or description"
                     type="text"
                     className="Search"
                     onChange={this.UpdateSearchNotes}
                   />
+                  <FiSearch size={25} />
                 </div>
-                <div style={{ marginLeft: "20px" }}>
-                  <button disabled>Sort by</button>
-                  <select className="Sort" onChange={this.UpdateFilterNotes}>
-                    <option value="all">All</option>
-                    <option value="title">Title</option>
-                    <option value="date">Date</option>
-                  </select>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", width: "100%" }}>
+                  <Dropdown style={{ width: "auto" }}>
+                    <Dropdown.Toggle
+                      variant="success"
+                      id="dropdown-basic"
+                      style={{ border: "none", backgroundColor: "transparent" }}
+                    >
+                      <img src={filterIcon} width={30} />
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      <Dropdown.Item key="all" onClick={() => this.UpdateFilterNotes("all")}>
+                        <span style={{ marginRight: "25px", color: "black" }}>
+                          All
+                        </span>
+                      </Dropdown.Item>
+                      <Dropdown.Item key="title" onClick={() => this.UpdateFilterNotes("title")}>
+                        <span style={{ marginRight: "50px" }}>By Title</span>
+                      </Dropdown.Item>
+                      <Dropdown.Item key="date" onClick={() => this.UpdateFilterNotes("date")}>
+                        <span style={{ marginRight: "50px" }}>By Date</span>
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </div>
-                <Button
-                  variant="outline-success"
-                  onClick={this.NotesModal}
-                  className="addNewButton"
-                >
-                  <AiOutlinePlus size="30" color="green" />
-                  <p>Add a new note</p>
-                </Button>
               </div>
-
-              <div>
+              <ProfilesNavigationBar
+                type="targetProfile"
+                SwitchSlider={this.SwitchSlider}
+                notesActive
+              />
+              <button className="NewNoteButton" onClick={this.NotesModal}>add new note</button>
+              <div style={{ display: "flex" }}>
                 {currentNotesToDisplay.map((note, i) => {
                   return (
                     <NoteCard
@@ -822,32 +846,51 @@ class TargetProfile extends React.Component {
               className="RelationSlide"
               style={{ display: this.state.RelationsTab ? null : "none" }}
             >
-              <div className="SearchContainer">
-                <div>
-                  <button disabled>Search</button>
+              <div className="SearchContainer" style={{ margin: "0px", marginTop: "40px" }}>
+                <div className="SearchInputContainer">
                   <input
-                    placeholder="Search by title or description"
+                    placeholder="Search by name or description"
                     type="text"
                     className="Search"
                     onChange={this.UpdateSearchRelations}
                   />
+                  <FiSearch size={25} />
                 </div>
-                <div style={{ marginLeft: "20px" }}>
-                  <button disabled>Sort by</button>
-                  <select
-                    className="Sort"
-                    onChange={this.UpdateFilterRelations}
-                  >
-                    <option value="all">All</option>
-                    <option value="name">Name</option>
-                    <option value="date">Date</option>
-                  </select>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", width: "100%" }}>
+                  <Dropdown style={{ width: "auto" }}>
+                    <Dropdown.Toggle
+                      variant="success"
+                      id="dropdown-basic"
+                      style={{ border: "none", backgroundColor: "transparent" }}
+                    >
+                      <img src={filterIcon} width={30} />
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      <Dropdown.Item key="all" onClick={() => this.UpdateFilterRelations("all")}>
+                        <span style={{ marginRight: "25px", color: "black" }}>
+                          All
+                        </span>
+                      </Dropdown.Item>
+                      <Dropdown.Item key="name" onClick={() => this.UpdateFilterRelations("name")}>
+                        <span style={{ marginRight: "50px" }}>By Name</span>
+                      </Dropdown.Item>
+                      <Dropdown.Item key="date" onClick={() => this.UpdateFilterRelations("date")}>
+                        <span style={{ marginRight: "50px" }}>By Date</span>
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </div>
               </div>
+              <ProfilesNavigationBar
+                type="targetProfile"
+                SwitchSlider={this.SwitchSlider}
+                relationsActive
+              />
+              <button className="NewRelationButton" onClick={this.RelationsModal}>add new relation</button>
               <div style={{ display: "flex", flexWrap: "wrap" }}>
                 {currentRelationsToDisplay.map((relation, i) => {
                   return (
-                    <TargetCard
+                    <TargetCardDashboard
                       key={i}
                       id={relation.t_id}
                       name={relation.t_name}
@@ -856,20 +899,10 @@ class TargetProfile extends React.Component {
                       relation={relation.r_type}
                       CreateDate={relation.t_create_date}
                       UpdateDate={relation.t_update_date}
+                      width={100}
                     />
                   );
                 })}
-                <div
-                  className="newOperation-TargetCard"
-                  onClick={this.RelationsModal}
-                >
-                  <AiOutlinePlus
-                    style={{ color: "rgb(0, 180, 0)" }}
-                    size="55"
-                    textDecoration="none"
-                  />
-                  <p>Add a new Relation</p>
-                </div>
               </div>
               <Pagination
                 type="relations"
@@ -884,7 +917,7 @@ class TargetProfile extends React.Component {
               className="RelatedBySlide"
               style={{ display: this.state.RelatedByTab ? null : "none" }}
             >
-              <div className="SearchContainer">
+              {/* <div className="SearchContainer">
                 <div>
                   <button disabled>Search</button>
                   <input
@@ -905,11 +938,51 @@ class TargetProfile extends React.Component {
                     <option value="date">Date</option>
                   </select>
                 </div>
+              </div> */}
+              <div className="SearchContainer" style={{ margin: "0px", marginTop: "40px" }}>
+                <div className="SearchInputContainer">
+                  <input
+                    placeholder="Search by name or description"
+                    type="text"
+                    className="Search"
+                    onChange={this.UpdateSearchRelatedByTargets}
+                  />
+                  <FiSearch size={25} />
+                </div>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", width: "100%" }}>
+                  <Dropdown style={{ width: "auto" }}>
+                    <Dropdown.Toggle
+                      variant="success"
+                      id="dropdown-basic"
+                      style={{ border: "none", backgroundColor: "transparent" }}
+                    >
+                      <img src={filterIcon} width={30} />
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      <Dropdown.Item key="all" onClick={() => this.UpdateFilterRelatedByTargets("all")}>
+                        <span style={{ marginRight: "25px", color: "black" }}>
+                          All
+                        </span>
+                      </Dropdown.Item>
+                      <Dropdown.Item key="name" onClick={() => this.UpdateFilterRelatedByTargets("name")}>
+                        <span style={{ marginRight: "50px" }}>By Name</span>
+                      </Dropdown.Item>
+                      <Dropdown.Item key="date" onClick={() => this.UpdateFilterRelatedByTargets("date")}>
+                        <span style={{ marginRight: "50px" }}>By Date</span>
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </div>
               </div>
+              <ProfilesNavigationBar
+                type="targetProfile"
+                SwitchSlider={this.SwitchSlider}
+                relatedByActive
+              />
               <div style={{ display: "flex", flexWrap: "wrap" }}>
                 {currentRelatedByToDisplay.map((relation, i) => {
                   return (
-                    <TargetCard
+                    <TargetCardDashboard
                       key={i}
                       id={relation.t_id}
                       name={relation.t_name}
@@ -918,6 +991,7 @@ class TargetProfile extends React.Component {
                       relation={relation.r_type}
                       CreateDate={relation.t_create_date}
                       UpdateDate={relation.t_update_date}
+                      width={100}
                     />
                   );
                 })}
@@ -929,6 +1003,32 @@ class TargetProfile extends React.Component {
                 setCurrentPage={this.setCurrentPage}
                 currentPage={this.state.currentPageRelatedBy}
               />
+            </div>
+
+            <div
+              className="SettingsSlide"
+              style={{ display: this.state.SettingsTab ? null : "none" }}
+            >
+              <div className="SearchContainer"></div>
+              <ProfilesNavigationBar
+                type="targetProfile"
+                SwitchSlider={this.SwitchSlider}
+                settingsActive
+              />
+              <div className="SettingsCard">
+                <div className="SettingsCard-Content">
+                  <div className="UpdateInfo">
+                    <p className="UpdateInfo-Header">Update</p>
+                    <p className="UpdateInfo-Body">You can update this target by clicking Update next to this text</p>
+                    <button className="UpdateInfoButton" onClick={this.InfoModal}>update information</button>
+                  </div>
+                  <div className="DeleteOperation">
+                    <p className="DeleteOperation-Header">Delete</p>
+                    <p className="DeleteOperation-Body"> You can delete this target by clicking Delete next to this text</p>
+                    <button className="DeleteOperationButton" onClick={this.DeleteModal}>delete target</button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -1059,7 +1159,7 @@ class TargetProfile extends React.Component {
             </Modal.Footer>
           </Modal>
 
-          <Modal
+          {/* <Modal
             size="lg"
             show={this.state.SettingsModal}
             onHide={this.SettingsModal}
@@ -1108,7 +1208,7 @@ class TargetProfile extends React.Component {
               </Button>
             </Modal.Footer>
           </Modal>
-
+              */}
           <Modal show={this.state.InfoModal} onHide={this.InfoModal}>
             <Modal.Header closeButton>
               <Modal.Title>New Info</Modal.Title>
@@ -1191,7 +1291,7 @@ class TargetProfile extends React.Component {
             </Modal.Footer>
           </Modal>
         </div>
-      </div>
+      </div >
     );
   }
 }

@@ -127,7 +127,7 @@ class OperationCardDashboard extends React.Component {
                         </div>
                         <span className="separator"></span>
                         <div>
-                            TargetsCount
+                            Targets Count
                             <p>{this.state.TargetsCount}</p>
                         </div>
                         <span className="separator"></span>

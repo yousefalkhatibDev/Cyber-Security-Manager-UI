@@ -123,7 +123,7 @@ class OperationCardDashboard extends React.Component {
                 Members Count: {this.state.MembersCount}
               </div>
               <div>
-                TargetsCount: {this.state.TargetsCount}
+                Targets Count: {this.state.TargetsCount}
               </div>
               <div>
                 Posts Count: {this.state.PostsCount}

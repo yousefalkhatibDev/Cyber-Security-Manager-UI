@@ -841,28 +841,24 @@ select {
 .TargetsContainer {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
   margin-top: 20px;
 }
 
 .TargetCardContainer {
   border: #e0e0e0 1px solid;
   float: left;
-  width: 45%;
+  width: 49%;
   height: auto;
   margin-bottom: 15px;
-  margin-left: 20px;
   border-radius: 10px;
+  padding: 25px;
   -webkit-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
   box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
 }
 
-.TargetCardContainer .TargetImg {
-  width: 100%;
-  height: 250px;
-}
-
-.TargetCardContainer .TargetImg img {
+.TargetCardContainer .TargetCard-Container img {
   object-fit: cover;
   width: 100%;
   height: 250px;
@@ -870,23 +866,63 @@ select {
   border-top-right-radius: 5px;
 }
 
-.TargetDescription {
-  padding: 5px;
+.TargetCard-Container #TargetCardContent-container {
+  display: flex;
 }
 
-.TargetCardContainer .TargetCardContainerButton {
+.TargetCard-Container .TargetDescription {
+  margin-right: auto;
+}
+
+.TargetCard-Container .TargetDescription .TargetDescription-title {
+  color: rgb(55, 55, 127);
+  font-size: 20px;
+}
+
+.TargetCard-Container .TargetDescription .TargetDescription-date {
+  color: rgb(140, 140, 140);
+  font-weight: 500;
+}
+
+.TargetCard-Container .TargetDescription .TargetDescription-description {
+  padding-top: 45px;
+}
+
+.TargetCardContainerStatus {
   width: 100%;
-  background-color: #324ab2;
-  color: white;
-  border: none;
-  padding: 10px;
-  font-size: 15px;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
+  display: flex;
+  justify-content: center;
 }
 
-.TargetCardContainer .TargetCardContainerButton:hover {
-  cursor: pointer;
+.TargetCardContainerStatus .TargetCardContainerStatus-container {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 15px;
+  margin: 30px 0px;
+}
+
+.OperationCardContainerStatus .OperationCardContainerStatus-container div {
+  font-size: 20px;
+}
+
+.TargetCardDashboardContainerButton {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.TargetCardDashboardContainerButton .TargetCardDashboardContainerButton-button {
+  height: 60px;
+  width: 45%;
+  background-color: #18202D;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
 }
 
 /* end-targets */
@@ -981,14 +1017,8 @@ select {
   margin: auto;
 }
 
-.TargetProfile img {
-  width: 30%;
-  height: 100%;
-  object-fit: cover;
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
-  border-right: 2px solid #c7c7c767;
-  padding-right: 1px;
+.TargetProfile .TargetProfileContent .TargetProfileCardContainer {
+  width: 100%;
 }
 
 .TargetProfile .TargetProfileInfo {
@@ -1055,6 +1085,53 @@ select {
   color: white;
 }
 
+.TargetProfile .SettingsCard {
+  border-radius: 5px;
+  padding: 50px;
+  margin-top: 40px;
+  -webkit-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
+  box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
+}
+
+.TargetProfile .SettingsCard .SettingsCard-Content {
+  margin-top: 40px;
+}
+
+.TargetProfile .SettingsCard .SettingsCard-Content .UpdateInfo {
+  margin-top: 50px;
+}
+
+.TargetProfile .SettingsCard .SettingsCard-Content .UpdateInfo .UpdateInfo-Header {
+  font-size: 20px;
+}
+
+.TargetProfile .SettingsCard .SettingsCard-Content .UpdateInfo .UpdateInfo-Body {
+  font-weight: 500;
+  width: 90%;
+}
+
+.TargetProfile .SettingsCard .SettingsCard-Content .DeleteOperation .DeleteOperation-Header {
+  font-size: 20px;
+}
+
+.TargetProfile .SettingsCard .SettingsCard-Content .DeleteOperation .DeleteOperation-Body {
+  font-weight: 500;
+  width: 90%;
+}
+
+.NewNoteButton,
+.NewRelationButton {
+  height: 60px;
+  width: 100%;
+  background-color: #18202D;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  margin: 30px 0;
+}
+
 /* TargetProfile-end */
 
 /* NoteCard */
@@ -1090,18 +1167,21 @@ select {
 }
 
 .NoteTitle img {
-  width: 40px;
+  width: 90px;
   border-radius: 100px;
   border: none;
   margin-right: 12px;
 }
 
 .NoteTitle p:nth-of-type(1) {
+  margin: 5px 0px 0px 0px !important;
+  color: #1d2635;
   font-weight: 500;
   padding-left: 5px;
 }
 
 .NoteTitle p:nth-of-type(2) {
+  margin: 5px 0px 0px 0px !important;
   font-weight: 500;
   font-size: 12px;
   padding-left: 10px;
@@ -1111,17 +1191,18 @@ select {
   text-align: left;
   padding: 20px;
   font-size: 13px;
+  height: 130px;
 }
 
 .BtnNote {
-  width: 100%;
-  cursor: pointer;
+  height: 60px;
+  width: 90%;
+  background-color: #18202D;
   color: white;
+  font-weight: 600;
   border: none;
-  background-color: #324ab2;
-  padding: 10px 30px;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
+  border-radius: 5px;
+  margin: 30px 0;
 }
 
 .TargetProfile .RelationSlide {
@@ -1141,20 +1222,11 @@ select {
 .OperationProfileContent {
   margin: auto;
   width: 90%;
+  margin-top: 30px;
 }
 
 .PostsSlide {
   height: auto;
-}
-
-.OperationProfile img {
-  width: 30%;
-  height: 100%;
-  object-fit: cover;
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
-  border-right: 2px solid #c7c7c767;
-  padding-right: 1px;
 }
 
 .OperationProfile .OperationProfileInfo {
@@ -1223,6 +1295,84 @@ select {
   padding-top: 20px;
 }
 
+.OperationProfile .SettingsCard {
+  border-radius: 5px;
+  min-height: 150vh;
+  padding: 50px;
+  -webkit-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
+  box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
+}
+
+.OperationProfile .SettingsCard .SettingsCard-Header {
+  font-size: 25px;
+  color: #324ab2;
+}
+
+.OperationProfile .SettingsCard .SettingsCard-Content {
+  margin-top: 40px;
+}
+
+.OperationProfile .SettingsCard .SettingsCard-Content .AddMember .AddMember-Header {
+  font-size: 20px;
+}
+
+.OperationProfile .SettingsCard .SettingsCard-Content .AddMember .AddMember-Body {
+  font-weight: 500;
+}
+
+.OperationProfile .SettingsCard .SettingsCard-Content .SwitchState {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.OperationProfile .SettingsCard .SettingsCard-Content .SwitchState .SwitchState-Header {
+  font-size: 20px;
+}
+
+.OperationProfile .SettingsCard .SettingsCard-Content .SwitchState .SwitchState-Body {
+  font-weight: 500;
+  width: 90%;
+}
+
+.OperationProfile .SettingsCard .SettingsCard-Content .SwitchState #SwitchState-SwitchButton {
+  font-size: 1.5rem;
+  transition: background-position .15s ease-in-out !important;
+}
+
+.OperationProfile .SettingsCard .SettingsCard-Content .SwitchState #SwitchState-SwitchButton:checked {
+  background-color: #18202D;
+  border: none;
+}
+
+.OperationProfile .SettingsCard .SettingsCard-Content .SwitchState #SwitchState-SwitchButton:focus {
+  border: none;
+  box-shadow: 0 0 0 0.25rem rgba(25, 28, 32, 0.25);
+}
+
+.OperationProfile .SettingsCard .SettingsCard-Content .UpdateInfo {
+  margin-top: 50px;
+}
+
+.OperationProfile .SettingsCard .SettingsCard-Content .UpdateInfo .UpdateInfo-Header {
+  font-size: 20px;
+}
+
+.OperationProfile .SettingsCard .SettingsCard-Content .UpdateInfo .UpdateInfo-Body {
+  font-weight: 500;
+  width: 90%;
+}
+
+.OperationProfile .SettingsCard .SettingsCard-Content .DeleteOperation .DeleteOperation-Header {
+  font-size: 20px;
+}
+
+.OperationProfile .SettingsCard .SettingsCard-Content .DeleteOperation .DeleteOperation-Body {
+  font-weight: 500;
+  width: 90%;
+}
+
 .OperationProfile .Post {
   padding: 15px;
   margin: 10px;
@@ -1246,29 +1396,37 @@ select {
   margin-right: 12px;
 }
 
+.OperationProfile .Post .PostAuthContainer p {
+  margin: 5px 0px !important;
+}
+
 .OperationProfile .Post .PostAuthContainer p:nth-of-type(2) {
   font-weight: 400;
   font-size: 13px;
-  padding-left: 12px;
 }
 
-.OperationProfile .Post .PostAuthContainer .PostDottedIcon {
+.OperationProfile .Post .PostAuthContainer .PostDeleteIcon {
   margin-left: auto;
+  margin-right: 20px;
 }
 
-.OperationProfile .Post .PostAuthContainer .PostDottedIcon .DropDownToggle {
-  font-size: 18px;
-  background-color: transparent;
-  border: none;
-  color: black;
+.OperationProfile .Post .PostAuthContainer .PostDeleteIcon img {
+  width: 22px;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
 }
 
-.OperationProfile .Post .PostAuthContainer .PostDottedIcon .DropDownToggle::after {
-  display: none;
+.OperationProfile .Post .PostAuthContainer .PostDeleteIcon img:hover {
+  transform: translateY(-5px);
 }
 
 .OperationProfile .Post .Postauthor {
   margin: 5px;
+}
+
+.OperationProfile .Post .PostTitle {
+  font-size: 20px;
+  color: #18202D;
 }
 
 .OperationProfile .Post .PostContent {
@@ -1279,6 +1437,29 @@ select {
 .OperationProfile .Post hr {
   width: 100%;
   color: rgba(43, 42, 42, 0.514);
+}
+
+.OperationProfile .Post .PostInputContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.OperationProfile .Post .PostInputContainer .PostInput {
+  width: 95%;
+  height: 40px;
+  padding: 10px;
+  border-radius: 100px;
+  background-color: rgba(185, 185, 185, 0.297);
+}
+
+.OperationProfile .Post .PostInputContainer .PostInputIcon {
+  width: 16px;
+  position: absolute;
+  right: 50px;
+  bottom: 25%;
+  cursor: pointer;
 }
 
 .OperationProfile .Post .PostComments {
@@ -1320,6 +1501,32 @@ select {
 
 .dropdown {
   margin: 5px 0px;
+}
+
+.NewTargetButton,
+.NewTaskButton,
+.NewPostButton,
+.NewMemberButton,
+.UpdateInfoButton {
+  height: 60px;
+  width: 100%;
+  background-color: #18202D;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  margin: 30px 0;
+}
+
+.DeleteOperationButton {
+  height: 60px;
+  width: 100%;
+  background-color: #fb2323;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  margin: 30px 0;
 }
 
 /* end operation profile */
@@ -1407,10 +1614,14 @@ select {
   margin-right: 12px;
 }
 
+.TaskTitle p {
+  margin: 5px 0px !important;
+}
+
 .TaskTitle p:nth-of-type(2) {
   font-weight: 400;
   font-size: 13px;
-  padding-left: 12px;
+  color: #8a97a0;
 }
 
 .TaskContent {
@@ -1420,14 +1631,14 @@ select {
 }
 
 .BtnTask {
-  width: 100%;
+  width: 80%;
   cursor: pointer;
   color: white;
   border: none;
-  background-color: #324ab2;
+  background-color: #18202D;
   padding: 10px 30px;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
+  border-radius: 5px;
+  margin: 20px 0px;
 }
 
 .TaskAgent {
@@ -1435,6 +1646,25 @@ select {
   color: rgb(88, 88, 88);
   padding: 0px 10px;
   font-size: 13px;
+}
+
+.TaskDottedIcon {
+  margin-left: auto;
+}
+
+.TaskDottedIcon .DropDownToggle {
+  font-size: 18px;
+  background-color: transparent;
+  border: none;
+  color: black;
+}
+
+.TaskDottedIcon .DropDownToggle::after {
+  display: none;
+}
+
+.TaskDottedIcon .DropDownToggle:hover {
+  background-color: transparent;
 }
 
 .SettingsModal-Container {
@@ -1643,32 +1873,135 @@ select {
   display: flex;
   align-items: center;
   flex-direction: column;
+  justify-content: center;
+  margin-top: 20px;
+  height: 50vh;
+}
+
+.EditProfileButton {
+  height: 60px;
+  width: 35%;
+  background-color: #18202D;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  margin-left: auto;
+}
+
+.EditProfileData-Button {
+  height: 50px;
+  width: 35%;
+  background-color: #18202D;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
   margin-top: 20px;
 }
 
 .profileCardInfo {
+  width: 35%;
+  height: 220px;
+  position: relative;
   display: flex;
-  flex-wrap: wrap;
-  height: 400px;
-  width: 95%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 20px;
+  border-radius: 20px;
+  box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.531);
 }
 
-.profileCardInfo-imageContainer {
+.profileCardInfo-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.profileCardInfo-content p {
+  height: 10px;
+}
+
+#labelInputFile {
+  position: relative;
+}
+
+.profileCardInfo-image {
+  height: 130px;
+  width: 130px;
+  border-radius: 80px;
+}
+
+#labelInputFile .overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  background-color: #00000047;
+  opacity: 0;
+  transition: 0.2s ease-in-out;
+}
+
+#labelInputFile .overlay:hover {
+  opacity: 1;
+  cursor: pointer;
+}
+
+.ProfilePage-inputsContainer {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ProfilePage-inputsContainer .ProfilePage-inputsGroup {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-bottom: 30px;
+}
+
+.ProfilePage-inputsContainer .ProfilePage-inputsGroup input {
+  border: none;
+  border-bottom: 1px solid rgb(153 153 153);
+  border-radius: 0;
+}
+
+.ProfilePage-Modal {
+  display: flex !important;
+  align-items: center;
+  overflow-y: hidden;
+}
+
+.ProfilePage-Modal .modal-dialog {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.ProfilePage-Modal .modal-dialog .modal-content {
+  height: 50%;
+  border-radius: 20px;
+}
+
+/* .profileCardInfo-imageContainer {
   width: 30%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-}
+} */
 
-.profileCardInfo-image {
-  height: 150px;
-  width: 150px;
-  border-radius: 80px;
-}
 
-.profileCardInfo-fileInput {
+
+/* .profileCardInfo-fileInput {
   width: 100%;
 }
 
@@ -1692,9 +2025,45 @@ select {
 .profileCardInfo .profileCardInfo-inputsContainer .inputs-group input {
   width: 100%;
   border-radius: 4px;
-}
+} */
 
 /* end profile */
+
+/* profiles navigation bar */
+
+.ProfilesNavigationBar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.ProfilesNavigationBar .ProfilesNavigationBar-container {
+  display: flex;
+  width: 100%;
+  height: 50%;
+}
+
+.ProfilesNavigationBar .ProfilesNavigationBar-container button {
+  width: 25%;
+  padding: 15px;
+  border: none;
+  background-color: transparent;
+  font-size: 18px;
+  color: rgb(67, 67, 67);
+  border-bottom: 1px solid rgb(190, 190, 190);
+}
+
+.ProfilesNavigationBar .ProfilesNavigationBar-container button.active {
+  border-bottom: 3px solid #324ab2;
+}
+
+.ProfilesNavigationBar .ProfilesNavigationBar-container button img {
+  margin-right: 15px;
+}
+
+/* end profiles navigation bar */
 
 /* footer */
 
