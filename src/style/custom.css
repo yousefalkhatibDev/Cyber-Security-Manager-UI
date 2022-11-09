@@ -57,6 +57,10 @@ select:focus-visible {
   margin-bottom: 60px;
 }
 
+.ContentWrapper-SideBarClosed {
+  width: calc(100% - 80px);
+}
+
 .modal-header {
   border-bottom: none;
 }
@@ -119,11 +123,14 @@ select:focus-visible {
   background-color: #18202D;
 }
 
+.sideBar-container-Open .kdnwZJ {
+  width: 270px !important;
+}
 
-.kdnwZJ {
+/* .kdnwZJ {
   width: 250px !important;
   min-width: 250px !important;
-}
+} */
 
 .sideBar-logo {
   width: 90%;
@@ -1319,6 +1326,25 @@ select {
 .OperationProfile .TargetsSlide {
   height: auto;
   padding-top: 20px;
+}
+
+.OperationProfile .MembersSlide .MembersContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 100px;
+}
+
+.OperationProfile .MembersSlide .MembersContainer .profileCardInfoContainer {
+  width: 49%;
+  max-width: 600px;
+  display: flex;
+  justify-content: center;
+}
+
+.OperationProfile .MembersSlide .MembersContainer .profileCardInfo {
+  margin-bottom: 100px;
+  width: 75%;
 }
 
 .OperationProfile .SettingsCard {

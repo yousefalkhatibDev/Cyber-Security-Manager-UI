@@ -228,69 +228,6 @@ export default class Profile extends Component {
             </div>
           </div>
         </div>
-        {/* <div className="profilePage-container">
-          <div className="profileCardInfo">
-            <div className="profileCardInfo-imageContainer">
-              <img
-                src={this.state.UserInfo.u_image}
-                alt="user-card"
-                className="profileCardInfo-image"
-              />
-              <p>change profile image</p>
-              <input type="file" onChange={this.convertToBase64} id="inputFile" className="profileCardInfo-fileInput" />
-            </div>
-            <div className="profileCardInfo-inputsContainer">
-              <div className="inputs-group">
-                <label htmlFor="full-name">UserName</label>
-                <input
-                  type="text"
-                  name="full-name"
-                  defaultValue={this.state.UserInfo.u_name}
-                  className="profileCardInfo-input"
-                  onChange={this.UpdateUserName}
-                />
-              </div>
-              <div className="inputs-group">
-                <label htmlFor="email">Email</label>
-                <input
-                  type="text"
-                  name="email"
-                  defaultValue={this.state.UserInfo.u_email}
-                  className="profileCardInfo-input"
-                  onChange={this.UpdateUserEmail}
-                />
-              </div>
-              <div className="inputs-group">
-                <label htmlFor="username">User ID</label>
-                <input
-                  type="text"
-                  name="username"
-                  disabled
-                  defaultValue={this.state.UserInfo.u_id}
-                  className="profileCardInfo-input"
-                />
-              </div>
-              <div className="inputs-group">
-                <label htmlFor="email">Bio</label>
-                <input
-                  type="textarea"
-                  defaultValue={this.state.UserInfo.u_bio}
-                  className="profileCardInfo-input"
-                  onChange={this.UpdateUserBio}
-                />
-              </div>
-              <div style={{ display: "flex", width: "90%" }}>
-                <Button
-                  variant="success"
-                  style={{ borderRadius: "5px" }}
-                  onClick={this.UploadNewUserInfo}
-                >
-                  Save Changes
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div> */}
         <Modal show={this.state.modal} onHide={this.ModalShow} className="ProfilePage-Modal">
           <Modal.Header closeButton>
             <Modal.Title>Edit Profile</Modal.Title>

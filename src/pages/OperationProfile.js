@@ -63,6 +63,7 @@ class OperationProfile extends React.Component {
       PostsTab: true,
       TargetsTab: false,
       TasksTab: false,
+      MembersTab: false,
       SettingsTab: false,
       PostModal: false,
       TargetModal: false,
@@ -657,11 +658,11 @@ class OperationProfile extends React.Component {
     }));
   }
 
-  UpdateTargetType(value) {
+  UpdateTargetType(event) {
     this.setState((prevState) => ({
       NewTarget: {
         ...prevState.NewTarget,
-        type: value,
+        type: event.target.value,
       },
     }));
   }
@@ -843,6 +844,7 @@ class OperationProfile extends React.Component {
           PostsTab: true,
           TargetsTab: false,
           TasksTab: false,
+          MembersTab: false,
           SettingsTab: false
         });
         break;
@@ -852,6 +854,7 @@ class OperationProfile extends React.Component {
           PostsTab: false,
           TargetsTab: true,
           TasksTab: false,
+          MembersTab: false,
           SettingsTab: false
         });
         break;
@@ -861,17 +864,30 @@ class OperationProfile extends React.Component {
           PostsTab: false,
           TargetsTab: false,
           TasksTab: true,
+          MembersTab: false,
           SettingsTab: false
         });
         break;
+
+      case "Members":
+        this.setState({
+          PostsTab: false,
+          TargetsTab: false,
+          TasksTab: false,
+          MembersTab: true,
+          SettingsTab: false
+        })
+        break
 
       case "Settings":
         this.setState({
           PostsTab: false,
           TargetsTab: false,
           TasksTab: false,
+          MembersTab: false,
           SettingsTab: true
         })
+        break
 
       default:
         break;
@@ -1030,7 +1046,6 @@ class OperationProfile extends React.Component {
               <ProfilesNavigationBar
                 type="operationProfile"
                 SwitchSlider={this.SwitchSlider}
-                SwitchSettings={this.SettingsModal}
                 postsActive
               />
               <button className="NewPostButton" onClick={this.PostModal}>add new post</button>
@@ -1093,7 +1108,6 @@ class OperationProfile extends React.Component {
               <ProfilesNavigationBar
                 type="operationProfile"
                 SwitchSlider={this.SwitchSlider}
-                SwitchSettings={this.SettingsModal}
                 targetsActive
               />
               <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between" }}>
@@ -1163,7 +1177,6 @@ class OperationProfile extends React.Component {
               <ProfilesNavigationBar
                 type="operationProfile"
                 SwitchSlider={this.SwitchSlider}
-                SwitchSettings={this.SettingsModal}
                 tasksActive
               />
               <div
@@ -1202,13 +1215,47 @@ class OperationProfile extends React.Component {
           </div>
 
           <div
+            className="MembersSlide"
+            style={{ display: this.state.MembersTab ? null : "none" }}
+          >
+            <ProfilesNavigationBar
+              type="operationProfile"
+              SwitchSlider={this.SwitchSlider}
+              membersActive
+            />
+            <div className="MembersContainer">
+              {
+                this.state.members.map((member, i) => {
+                  return (
+                    <div className="profileCardInfoContainer" key={i}>
+                      <div className="profileCardInfo">
+                        <label htmlFor="inputFile" id="labelInputFile">
+                          <img
+                            src={member.u_image}
+                            alt="user-card"
+                            className="profileCardInfo-image"
+                          />
+                        </label>
+                        <div className="profileCardInfo-content">
+                          <p>{member.u_name}</p>
+                          <p>User ID: <div style={{ marginLeft: "5px", display: "inline-block" }}>{member.u_id}</div></p>
+                          <p>{member.u_email}</p>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })
+              }
+            </div>
+          </div>
+
+          <div
             className="SettingsSlide"
             style={{ display: this.state.SettingsTab ? null : "none" }}
           >
             <ProfilesNavigationBar
               type="operationProfile"
               SwitchSlider={this.SwitchSlider}
-              SwitchSettings={this.SettingsModal}
               settingsActive
             />
             <div className="SettingsCard">
@@ -1334,13 +1381,15 @@ class OperationProfile extends React.Component {
                 </Form.Group>
                 <Form.Group>
                   <Form.Label>target type</Form.Label>
-                  <Form.Select>
-                    <option onClick={() => this.UpdateTargetType("server")}>Server</option>
-                    <option onClick={() => this.UpdateTargetType("individual")}>Individual</option>
-                    <option onClick={() => this.UpdateTargetType("organization")}>Organization</option>
-                    <option onClick={() => this.UpdateTargetType("service")}>Service</option>
-                    <option onClick={() => this.UpdateTargetType("website")}>Website</option>
-                    <option onClick={() => this.UpdateTargetType("other")} ssss>Other</option>
+                  <Form.Select
+                    onChange={this.UpdateTargetType}
+                  >
+                    <option value="server">Server</option>
+                    <option value="individual">Individual</option>
+                    <option value="organization">Organization</option>
+                    <option value="service">Service</option>
+                    <option value="website">Website</option>
+                    <option value="other">Other</option>
                   </Form.Select>
                 </Form.Group>
                 <div className="dragAndDrop">
