@@ -386,13 +386,15 @@ class TargetProfile extends React.Component {
       });
   }
 
-  UpdateRelationRelatedTarget(value) {
+  UpdateRelationRelatedTarget(event) {
+    const nameAndId = event.target.value.split(" ")
     this.setState((prevState) => ({
       NewRelation: {
         ...prevState.NewRelation,
-        RelatedTarget: value,
+        RelatedTarget: nameAndId[0],
       },
     }));
+    this.UpdateRelationRelatedTargetName(nameAndId[1])
   }
 
   UpdateRelationRelatedTargetName(value) {
@@ -1072,21 +1074,17 @@ class TargetProfile extends React.Component {
                   />
                 </Form.Group>
               </Form>
+              <div className="ModalButtons">
+                <button
+                  className="OkButton"
+                  onClick={() => {
+                    this.UploadNote();
+                    this.NotesModal();
+                  }}
+                >Save Note</button>
+                <button className="CancelButton" onClick={this.NotesModal}>Cancel</button>
+              </div>
             </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={this.NotesModal}>
-                Close
-              </Button>
-              <Button
-                variant="primary"
-                onClick={() => {
-                  this.UploadNote();
-                  this.NotesModal();
-                }}
-              >
-                Save Note
-              </Button>
-            </Modal.Footer>
           </Modal>
 
           <Modal show={this.state.RelationsModal} onHide={this.RelationsModal}>
@@ -1108,7 +1106,7 @@ class TargetProfile extends React.Component {
                   />
                 </Form.Group>
 
-                <Dropdown>
+                {/* <Dropdown>
                   <Dropdown.Toggle variant="primary" id="dropdown-basic">
                     {this.state.NewRelation.RelatedTargetName}
                   </Dropdown.Toggle>
@@ -1128,13 +1126,30 @@ class TargetProfile extends React.Component {
                       );
                     })}
                   </Dropdown.Menu>
-                </Dropdown>
+                </Dropdown> */}
+                <Form.Group>
+                  <Form.Label>Related Type</Form.Label>
+                  <Form.Select
+                    onChange={this.UpdateRelationRelatedTarget}
+                  >
+                    {this.state.targets.map((target, i) => {
+                      return (
+                        <option
+                          key={i}
+                          value={`${target.t_id} ${target.t_name}`}
+                        >
+                          {target.t_name}
+                        </option>
+                      )
+                    })}
+                  </Form.Select>
+                </Form.Group>
 
                 <Form.Group
                   className="mb-3"
                   controlId="exampleForm.ControlTextarea1"
                 >
-                  <Form.Label>Description</Form.Label>
+                  <Form.Label style={{ marginTop: "1rem" }}>Description</Form.Label>
                   <Form.Control
                     as="textarea"
                     rows={3}
@@ -1142,73 +1157,18 @@ class TargetProfile extends React.Component {
                   />
                 </Form.Group>
               </Form>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={this.RelationsModal}>
-                Close
-              </Button>
-              <Button
-                variant="primary"
-                onClick={() => {
-                  this.UploadRelation();
-                  this.RelationsModal();
-                }}
-              >
-                Save Relation
-              </Button>
-            </Modal.Footer>
-          </Modal>
-
-          {/* <Modal
-            size="lg"
-            show={this.state.SettingsModal}
-            onHide={this.SettingsModal}
-            aria-labelledby="example-modal-sizes-title-lg"
-          >
-            <Modal.Header closeButton>
-              <Modal.Title id="example-modal-sizes-title-lg">
-                Settings
-              </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <div className="SettingsModal-Container">
-                <div>
-                  <h4>Update</h4>
-                  <p>
-                    You can update this target by clicking Update next to this
-                    text
-                  </p>
-                </div>
+              <div className="ModalButtons">
                 <button
-                  className="NewObject btn btn-primary"
-                  onClick={this.InfoModal}
-                >
-                  Update information
-                </button>
-              </div>
-              <div className="SettingsModal-Container">
-                <div>
-                  <h4>Delete</h4>
-                  <p>
-                    You can delete this target by clicking Delete next to this
-                    text
-                  </p>
-                </div>
-                <button
-                  className="NewObject btn btn-danger"
-                  onClick={this.DeleteModal}
-                >
-                  Delete Target
-                </button>
+                  className="OkButton"
+                  onClick={() => {
+                    this.UploadRelation();
+                    this.RelationsModal();
+                  }}
+                >Save Relation</button>
+                <button className="CancelButton" onClick={this.RelationsModal}>Cancel</button>
               </div>
             </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={this.SettingsModal}>
-                Close
-              </Button>
-            </Modal.Footer>
           </Modal>
-              */}
           <Modal show={this.state.InfoModal} onHide={this.InfoModal}>
             <Modal.Header closeButton>
               <Modal.Title>New Info</Modal.Title>
@@ -1232,7 +1192,8 @@ class TargetProfile extends React.Component {
                 >
                   <Form.Label>Target Description</Form.Label>
                   <Form.Control
-                    type="text"
+                    as="textarea"
+                    rows={3}
                     autoFocus
                     onChange={this.UpdateNewInfoDescription}
                   />
@@ -1249,21 +1210,17 @@ class TargetProfile extends React.Component {
                   />
                 </Form.Group>
               </Form>
+              <div className="ModalButtons">
+                <button
+                  className="OkButton"
+                  onClick={() => {
+                    this.UploadNewInfo();
+                    this.InfoModal();
+                  }}
+                >Save</button>
+                <button className="CancelButton" onClick={this.InfoModal}>Cancel</button>
+              </div>
             </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={this.InfoModal}>
-                Close
-              </Button>
-              <Button
-                variant="primary"
-                onClick={() => {
-                  this.UploadNewInfo();
-                  this.InfoModal();
-                }}
-              >
-                Save
-              </Button>
-            </Modal.Footer>
           </Modal>
 
           <Modal show={this.state.DeleteModal} onHide={this.DeleteModal}>
@@ -1274,21 +1231,17 @@ class TargetProfile extends React.Component {
               <Form>
                 <p>Are you sure you want to delete this Target?</p>
               </Form>
+              <div className="ModalButtons">
+                <button
+                  className="DeleteButton"
+                  onClick={() => {
+                    this.DeleteTarget();
+                    this.DeleteModal();
+                  }}
+                >Delete</button>
+                <button className="CancelButton" onClick={this.DeleteModal}>Cancel</button>
+              </div>
             </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={this.DeleteModal}>
-                Close
-              </Button>
-              <Button
-                variant="primary"
-                onClick={() => {
-                  this.DeleteTarget();
-                  this.DeleteModal();
-                }}
-              >
-                Delete
-              </Button>
-            </Modal.Footer>
           </Modal>
         </div>
       </div >

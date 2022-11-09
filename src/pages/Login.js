@@ -1,6 +1,8 @@
 import React from "react";
 import API from "../helper/API";
 import ReactLoading from "react-loading";
+import emailIcon from "../icons/email.svg"
+import lockIcon from "../icons/lock.svg"
 
 class Login extends React.Component {
   constructor(props) {
@@ -71,38 +73,38 @@ class Login extends React.Component {
         ) : (
           <form action="index.html" method="post">
             <h1>
-              <span
-                style={{
-                  color: "#324ab2",
-                  fontWeight: "bold",
-                  fontSize: "2.5rem",
-                }}
-              >
-                CYBER
-              </span>
-              <span style={{ fontSize: "2.5rem" }}>JO</span>
+              Sign In
             </h1>
             <p className="ErrorMessage">{this.state.error}</p>
             <div>
-              <input
-                id="user-name"
-                name="user-name"
-                placeholder="Email"
-                type="text"
-                onChange={this.UpdateEmail}
-              />
-              <input
-                id="password"
-                name="password"
-                placeholder="Password"
-                type="password"
-                onChange={this.UpdatePassword}
-              />
-              <br />
-              <div className="LoginButton" onClick={this.Login}>
-                Log in
+              <div className="inputLoginContainer">
+                <img src={emailIcon} />
+                <input
+                  id="user-name"
+                  name="user-name"
+                  placeholder="Email"
+                  type="text"
+                  onChange={this.UpdateEmail}
+                />
+              </div>
+              <div className="inputLoginContainer">
+                <img src={lockIcon} />
+                <input
+                  id="password"
+                  name="password"
+                  placeholder="Password"
+                  type="password"
+                  onChange={this.UpdatePassword}
+                />
               </div>
               <br />
+              <div className="LoginButton" onClick={this.Login}>
+                Sign In
+              </div>
+              <br />
+              <div className="LinkContainer">
+                <p>Don't have an account? <a href="#">Sign Up</a></p>
+              </div>
             </div>
           </form>
         )}
