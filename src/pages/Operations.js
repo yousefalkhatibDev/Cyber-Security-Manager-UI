@@ -342,15 +342,6 @@ class Operations extends React.Component {
                       onChange={this.UpdatePassword}
                     />
                   </Form.Group>
-                  {/* <Form.Label>Operation Image</Form.Label>
-                  <Form.Control
-                    type="file"
-                    autoFocus
-                    onChange={this.convertToBase64}
-                    id="inputFile"
-                    name="inputFile"
-                    accept="application/pdf, application/vnd.ms-excel, image/*"
-                  /> */}
                 </Form.Group>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "25px 0px" }}>
                   <h3>State</h3>
@@ -362,20 +353,6 @@ class Operations extends React.Component {
                     />
                   </Form>
                 </div>
-                {/* <Dropdown>
-                  <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                    {this.state.OperationState}
-                  </Dropdown.Toggle>
-                  
-                  <Dropdown.Menu>
-                    <Dropdown.Item onClick={() => this.UpdateState("active")}>
-                      Active
-                    </Dropdown.Item>
-                    <Dropdown.Item onClick={() => this.UpdateState("inactive")}>
-                      Inactive
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown> */}
                 <Form.Group
                   className="mb-3"
                   controlId="exampleForm.ControlTextarea1"
@@ -404,20 +381,6 @@ class Operations extends React.Component {
                 <button className="CancelButton" onClick={this.ModalShow}>Cancel</button>
               </div>
             </Modal.Body>
-            {/* <Modal.Footer>
-              <Button variant="secondary" onClick={this.ModalShow}>
-                Close
-              </Button>
-              <Button
-                variant="primary"
-                onClick={() => {
-                  this.UploadOperation();
-                  this.ModalShow();
-                }}
-              >
-                Save Operation
-              </Button>
-            </Modal.Footer> */}
           </Modal>
         </div>
       </>

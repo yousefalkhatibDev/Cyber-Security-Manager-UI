@@ -57,6 +57,10 @@ select:focus-visible {
   margin-bottom: 60px;
 }
 
+.modal-header {
+  border-bottom: none;
+}
+
 
 .sideBar-container {
   display: flex;
@@ -2099,6 +2103,11 @@ footer {
 
 .ModalButtons .OkButton {
   background-color: #18202D;
+  color: white;
+}
+
+.ModalButtons .DeleteButton {
+  background-color: #fb2323;
   color: white;
 }
 
