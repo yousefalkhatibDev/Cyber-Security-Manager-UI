@@ -25,12 +25,14 @@ class NavBar extends React.Component {
     this.state = {
       isLinksActive: false,
       isOpened: true,
+      allowClose: false,
       UserImage: "",
       UserName: ""
     };
+    this.sideBarRef = React.createRef()
     this.Logout = this.Logout.bind(this);
     this.GetUserInfo = this.GetUserInfo.bind(this);
-    // this.handleDrawerOpen = this.handleDrawerOpen.bind(this)
+    this.handleDrawerOpen = this.handleDrawerOpen.bind(this)
   }
 
   async GetUserInfo() {
@@ -81,32 +83,63 @@ class NavBar extends React.Component {
       });
   }
 
-  // handleDrawerOpen() {
-  //   if (this.sideBarRef.current.getBoundingClientRect().width === 270) {
-  //     this.setState({ isOpened: false })
-  //   } else {
-  //     this.setState({ isOpened: true })
-  //   }
-  // }
+  componentDidMount() {
+    if (window.innerWidth <= 920 && !this.state.allowClose === true) {
+      this.setState({ allowClose: true })
+    } else if (window.innerWidth > 920 && !this.state.allowClose === false) {
+      if (this.state.isOpened === false) {
+        this.setState({ allowClose: false, isOpened: true })
+      } else {
+        this.setState({ allowClose: false })
+      }
+    }
+    window.addEventListener("resize", () => {
+      if (window.innerWidth <= 920 && !this.state.allowClose === true) {
+        setTimeout(() => {
+          if (this.sideBarRef.current.getBoundingClientRect().width === 270) {
+            this.setState({ allowClose: true, isOpened: true })
+          } else if (this.sideBarRef.current.getBoundingClientRect().width === 80) {
+            console.log("not opened")
+            this.setState({ allowClose: true, isOpened: false })
+          }
+        }, 500)
+        // if (this.state.isOpened === true) {
+        //   this.setState({ allowClose: true, isOpened: false })
+        // }
+      } else if (window.innerWidth > 920 && !this.state.allowClose === false) {
+        if (this.state.isOpened === false) {
+          this.setState({ allowClose: false, isOpened: true })
+        } else {
+          this.setState({ allowClose: false })
+        }
+      }
+    })
+  }
+
+  handleDrawerOpen() {
+    if (this.sideBarRef.current.getBoundingClientRect().width === 270) {
+      this.setState({ isOpened: false })
+    } else {
+      this.setState({ isOpened: true })
+    }
+  }
 
   render() {
     return (
       <>
         <div
-          className="sideBar-container"
+          className={this.state.allowClose ? "sideBar-container" : "sideBar-container sideBar-container-Open"}
         >
           <CDBSidebar textColor="#202020" backgroundColor="rgb(255, 255, 255)" ref={this.sideBarRef}>
-            {/* <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large" onClick={this.handleDrawerOpen} style={{ color: "rgb(10, 10, 10)" }}></i>}>
-              <a
-                href="/dashboard"
-                className="text-decoration-none"
-                style={{ color: "inherit" }}
-              >
-                Sidebar
-              </a>
-            </CDBSidebarHeader> */}
-
-            <CDBSidebarFooter style={{ textAlign: "center" }}>
+            {
+              this.state.allowClose === true
+              &&
+              (
+                <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large" onClick={this.handleDrawerOpen} style={{ color: "rgb(10, 10, 10)" }}></i>}>
+                </CDBSidebarHeader>
+              )
+            }
+            <CDBSidebarFooter style={{ textAlign: "center" }} >
               {/* <div
                 className="sidebar-btn-wrapper"
                 style={{

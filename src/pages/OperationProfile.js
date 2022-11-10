@@ -14,6 +14,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FiSearch } from "react-icons/fi"
 import filterIcon from "../icons/Filter.svg"
+import { FileUploader } from "react-drag-drop-files";
 
 // components
 import TargetCard from "../components/TargetCard";
@@ -23,6 +24,9 @@ import API from "../helper/API";
 import Pagination from "../components/Pagination";
 import OperationCardDashboard from "../components/OperationCardDashboard";
 import ProfilesNavigationBar from "../components/ProfilesNavigationBar";
+import Operations from "./Operations";
+
+const fileTypes = ["PDF", "PNG", "GIF", "JPEG", "TIFF", "PSD", "EPS", "AI"];
 
 const withParams = (Component) => (props) => {
   const { id } = useParams();
@@ -58,6 +62,7 @@ class OperationProfile extends React.Component {
       PostsTab: true,
       TargetsTab: false,
       TasksTab: false,
+      MembersTab: false,
       SettingsTab: false,
       PostModal: false,
       TargetModal: false,
@@ -83,9 +88,9 @@ class OperationProfile extends React.Component {
         text: "",
       },
       NewTask: {
-        AgentName: "Assign To",
+        AgentName: "Ahmad Aalmuhidat",
         title: "",
-        agent: "",
+        agent: "c694568f-d",
         state: "To Do",
         description: "",
       },
@@ -415,14 +420,10 @@ class OperationProfile extends React.Component {
     window.localStorage.setItem("base64", base64);
   }
 
-  convertToBase64(event) {
-    //Read File
-    const selectedFile = document.getElementById("inputFile").files;
+  convertToBase64(file) {
 
     //Check File is not Empty
-    if (selectedFile.length > 0) {
-      // Select the very first file from list
-      const fileToLoad = selectedFile[0];
+    if (file) {
 
       // FileReader function for read the file.
       const fileReader = new FileReader();
@@ -431,12 +432,12 @@ class OperationProfile extends React.Component {
       // Onload of file read the file content
       fileReader.onload = async function (fileLoadedEvent) {
         let base64 = fileLoadedEvent.target.result;
-        let fileName = event.target.files[0].name;
+        let fileName = file.name;
         self.UpdateBase64(base64);
         self.UpdateFileName(fileName);
       };
       // // Convert data to base64
-      fileReader.readAsDataURL(fileToLoad);
+      fileReader.readAsDataURL(file);
     }
   }
 
@@ -557,21 +558,23 @@ class OperationProfile extends React.Component {
     }));
   }
 
-  UpdateTaskState(value) {
+  UpdateTaskState(event) {
     this.setState((prevState) => ({
       NewTask: {
         ...prevState.NewTask,
-        state: value,
+        state: event.target.value,
       },
     }));
   }
 
-  UpdateTaskMember(value, AgentName) {
+  UpdateTaskMember(event) {
+    const stringArray = event.target.value.split(' ')
+    const nameAndId = [stringArray[0], stringArray.splice(1).join(' ')]
     this.setState((prevState) => ({
       NewTask: {
         ...prevState.NewTask,
-        agent: value,
-        AgentName: AgentName,
+        agent: nameAndId[0],
+        AgentName: nameAndId[1],
       },
     }));
   }
@@ -654,11 +657,11 @@ class OperationProfile extends React.Component {
     }));
   }
 
-  UpdateTargetType(value) {
+  UpdateTargetType(event) {
     this.setState((prevState) => ({
       NewTarget: {
         ...prevState.NewTarget,
-        type: value,
+        type: event.target.value,
       },
     }));
   }
@@ -826,9 +829,7 @@ class OperationProfile extends React.Component {
       TaskModal: !this.state.TaskModal,
       NewTask: {
         ...prevState.NewTask,
-        AgentName: "Assign To",
         title: "",
-        agent: "",
         state: "To Do",
         description: "",
       },
@@ -842,6 +843,7 @@ class OperationProfile extends React.Component {
           PostsTab: true,
           TargetsTab: false,
           TasksTab: false,
+          MembersTab: false,
           SettingsTab: false
         });
         break;
@@ -851,6 +853,7 @@ class OperationProfile extends React.Component {
           PostsTab: false,
           TargetsTab: true,
           TasksTab: false,
+          MembersTab: false,
           SettingsTab: false
         });
         break;
@@ -860,17 +863,30 @@ class OperationProfile extends React.Component {
           PostsTab: false,
           TargetsTab: false,
           TasksTab: true,
+          MembersTab: false,
           SettingsTab: false
         });
         break;
-
+        
+      case "Members":
+        this.setState({
+          PostsTab: false,
+          TargetsTab: false,
+          TasksTab: false,
+          MembersTab: true,
+          SettingsTab: false
+        })
+        break
+        
       case "Settings":
         this.setState({
           PostsTab: false,
           TargetsTab: false,
           TasksTab: false,
+          MembersTab: false,
           SettingsTab: true
         })
+        break
 
       default:
         break;
@@ -983,6 +999,7 @@ class OperationProfile extends React.Component {
                 status={this.state.state}
                 CreateDate={this.state.CreateDate}
                 width={100}
+                noButton
               />
             )
           }
@@ -1028,7 +1045,6 @@ class OperationProfile extends React.Component {
               <ProfilesNavigationBar
                 type="operationProfile"
                 SwitchSlider={this.SwitchSlider}
-                SwitchSettings={this.SettingsModal}
                 postsActive
               />
               <button className="NewPostButton" onClick={this.PostModal}>add new post</button>
@@ -1091,7 +1107,6 @@ class OperationProfile extends React.Component {
               <ProfilesNavigationBar
                 type="operationProfile"
                 SwitchSlider={this.SwitchSlider}
-                SwitchSettings={this.SettingsModal}
                 targetsActive
               />
               <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between" }}>
@@ -1161,7 +1176,6 @@ class OperationProfile extends React.Component {
               <ProfilesNavigationBar
                 type="operationProfile"
                 SwitchSlider={this.SwitchSlider}
-                SwitchSettings={this.SettingsModal}
                 tasksActive
               />
               <div
@@ -1200,13 +1214,47 @@ class OperationProfile extends React.Component {
           </div>
 
           <div
+            className="MembersSlide"
+            style={{ display: this.state.MembersTab ? null : "none" }}
+          >
+            <ProfilesNavigationBar
+              type="operationProfile"
+              SwitchSlider={this.SwitchSlider}
+              membersActive
+            />
+            <div className="MembersContainer">
+              {
+                this.state.members.map((member, i) => {
+                  return (
+                    <div className="profileCardInfoContainer" key={i}>
+                      <div className="profileCardInfo">
+                        <label htmlFor="inputFile" id="labelInputFile">
+                          <img
+                            src={member.u_image}
+                            alt="user-card"
+                            className="profileCardInfo-image"
+                          />
+                        </label>
+                        <div className="profileCardInfo-content">
+                          <p>{member.u_name}</p>
+                          <p>User ID: <div style={{ marginLeft: "5px", display: "inline-block" }}>{member.u_id}</div></p>
+                          <p>{member.u_email}</p>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })
+              }
+            </div>
+          </div>
+
+          <div
             className="SettingsSlide"
             style={{ display: this.state.SettingsTab ? null : "none" }}
           >
             <ProfilesNavigationBar
               type="operationProfile"
               SwitchSlider={this.SwitchSlider}
-              SwitchSettings={this.SettingsModal}
               settingsActive
             />
             <div className="SettingsCard">
@@ -1269,7 +1317,7 @@ class OperationProfile extends React.Component {
                   className="mb-3"
                   controlId="exampleForm.ControlTextarea1"
                 >
-                  <Form.Label>Content</Form.Label>
+                  <Form.Label>Description</Form.Label>
                   <Form.Control
                     as="textarea"
                     rows={3}
@@ -1277,21 +1325,17 @@ class OperationProfile extends React.Component {
                   />
                 </Form.Group>
               </Form>
+              <div className="ModalButtons">
+                <button
+                  className="OkButton"
+                  onClick={() => {
+                    this.UploadPost();
+                    this.PostModal();
+                  }}
+                >Save Post</button>
+                <button className="CancelButton" onClick={this.PostModal}>Cancel</button>
+              </div>
             </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={this.PostModal}>
-                Close
-              </Button>
-              <Button
-                variant="primary"
-                onClick={() => {
-                  this.UploadPost();
-                  this.PostModal();
-                }}
-              >
-                Save Post
-              </Button>
-            </Modal.Footer>
           </Modal>
 
           <Modal show={this.state.TargetModal} onHide={this.TargetModal}>
@@ -1313,16 +1357,14 @@ class OperationProfile extends React.Component {
                 </Form.Group>
                 <Form.Group
                   className="mb-3"
-                  controlId="exampleForm.ControlInput1"
+                  controlId="exampleForm.ControlTextarea1"
                 >
-                  <Form.Label>Target Image</Form.Label>
+                  <Form.Label>Description</Form.Label>
                   <Form.Control
-                    type="file"
-                    autoFocus
-                    onChange={this.convertToBase64}
-                    id="inputFile"
-                    name="inputFile"
-                    accept="application/pdf, application/vnd.ms-excel, image/*"
+                    as="textarea"
+                    placeholder="about the target"
+                    rows={3}
+                    onChange={this.UpdateTargetDescription}
                   />
                 </Form.Group>
                 <Form.Group
@@ -1336,77 +1378,35 @@ class OperationProfile extends React.Component {
                     onChange={this.UpdateTargetLocation}
                   />
                 </Form.Group>
-                <Form.Group
-                  className="mb-3"
-                  controlId="exampleForm.ControlInput1"
-                >
-                  <Dropdown>
-                    <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                      {this.state.NewTarget.type}
-                    </Dropdown.Toggle>
-
-                    <Dropdown.Menu>
-                      <Dropdown.Item
-                        onClick={() => this.UpdateTargetType("server")}
-                      >
-                        Server
-                      </Dropdown.Item>
-                      <Dropdown.Item
-                        onClick={() => this.UpdateTargetType("individual")}
-                      >
-                        Individual
-                      </Dropdown.Item>
-                      <Dropdown.Item
-                        onClick={() => this.UpdateTargetType("organization")}
-                      >
-                        Organization
-                      </Dropdown.Item>
-                      <Dropdown.Item
-                        onClick={() => this.UpdateTargetType("service")}
-                      >
-                        Service
-                      </Dropdown.Item>
-                      <Dropdown.Item
-                        onClick={() => this.UpdateTargetType("website")}
-                      >
-                        Website
-                      </Dropdown.Item>
-                      <Dropdown.Item
-                        onClick={() => this.UpdateTargetType("other")}
-                      >
-                        Other
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
+                <Form.Group>
+                  <Form.Label>target type</Form.Label>
+                  <Form.Select
+                    onChange={this.UpdateTargetType}
+                  >
+                    <option value="server">Server</option>
+                    <option value="individual">Individual</option>
+                    <option value="organization">Organization</option>
+                    <option value="service">Service</option>
+                    <option value="website">Website</option>
+                    <option value="other">Other</option>
+                  </Form.Select>
                 </Form.Group>
-                <Form.Group
-                  className="mb-3"
-                  controlId="exampleForm.ControlTextarea1"
-                >
-                  <Form.Label>Description</Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    placeholder="about the target"
-                    rows={3}
-                    onChange={this.UpdateTargetDescription}
-                  />
-                </Form.Group>
+                <div className="dragAndDrop">
+                  <p>Target Image</p>
+                  <FileUploader handleChange={this.convertToBase64} name="file" types={fileTypes} />
+                </div>
               </Form>
+              <div className="ModalButtons">
+                <button
+                  className="OkButton"
+                  onClick={() => {
+                    this.UploadTarget();
+                    this.TargetModal();
+                  }}
+                >Save Target</button>
+                <button className="CancelButton" onClick={this.TargetModal}>Cancel</button>
+              </div>
             </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={this.TargetModal}>
-                Close
-              </Button>
-              <Button
-                variant="primary"
-                onClick={() => {
-                  this.UploadTarget();
-                  this.TargetModal();
-                }}
-              >
-                Save Target
-              </Button>
-            </Modal.Footer>
           </Modal>
 
           <Modal show={this.state.TaskModal} onHide={this.TaskModal}>
@@ -1427,58 +1427,6 @@ class OperationProfile extends React.Component {
                   />
                 </Form.Group>
                 <Form.Group
-                  className="mb-3 dropdownTask"
-                  controlId="exampleForm.ControlInput1"
-                >
-                  <Dropdown>
-                    <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                      {this.state.NewTask.AgentName}
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                      {this.state.members.map((member, i) => {
-                        return (
-                          <Dropdown.Item
-                            key={i}
-                            onClick={() =>
-                              this.UpdateTaskMember(member.u_id, member.u_name)
-                            }
-                          >
-                            {member.u_name}
-                          </Dropdown.Item>
-                        );
-                      })}
-                    </Dropdown.Menu>
-                  </Dropdown>
-                  <Dropdown>
-                    <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                      {this.state.NewTask.state}
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                      <Dropdown.Item
-                        onClick={() => {
-                          this.UpdateTaskState("to do");
-                        }}
-                      >
-                        To Do
-                      </Dropdown.Item>
-                      <Dropdown.Item
-                        onClick={() => {
-                          this.UpdateTaskState("in progress");
-                        }}
-                      >
-                        In Progress
-                      </Dropdown.Item>
-                      <Dropdown.Item
-                        onClick={() => {
-                          this.UpdateTaskState("done");
-                        }}
-                      >
-                        Done
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </Form.Group>
-                <Form.Group
                   className="mb-3"
                   controlId="exampleForm.ControlTextarea1"
                 >
@@ -1489,22 +1437,45 @@ class OperationProfile extends React.Component {
                     onChange={this.UpdateTaskDescription}
                   />
                 </Form.Group>
+                <Form.Group
+                  className="mb-3 dropdownTask"
+                  controlId="exampleForm.ControlInput1"
+                >
+                  <Form.Group>
+                    <Form.Label>target type</Form.Label>
+                    <Form.Select onChange={this.UpdateTaskMember}>
+                      {this.state.members.map((member, i) => {
+                        return (
+                          <option
+                            key={i}
+                            value={`${member.u_id} ${member.u_name}`}
+                          >
+                            {member.u_name}
+                          </option>
+                        );
+                      })}
+                    </Form.Select>
+                  </Form.Group>
+                  <Form.Group style={{ marginTop: "20px" }}>
+                    <Form.Select onChange={this.UpdateTaskState}>
+                      <option value="to do">To Do</option>
+                      <option value="in progress">In Progress</option>
+                      <option value="done">Done</option>
+                    </Form.Select>
+                  </Form.Group>
+                </Form.Group>
               </Form>
+              <div className="ModalButtons">
+                <button
+                  className="OkButton"
+                  onClick={() => {
+                    this.UploadTask();
+                    this.TaskModal();
+                  }}
+                >Save Task</button>
+                <button className="CancelButton" onClick={this.TaskModal}>Cancel</button>
+              </div>
             </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={this.TaskModal}>
-                Close
-              </Button>
-              <Button
-                variant="primary"
-                onClick={() => {
-                  this.UploadTask();
-                  this.TaskModal();
-                }}
-              >
-                Save Task
-              </Button>
-            </Modal.Footer>
           </Modal>
 
           <Modal show={this.state.MemberModal} onHide={this.MemberModal}>
@@ -1525,121 +1496,17 @@ class OperationProfile extends React.Component {
                   />
                 </Form.Group>
               </Form>
+              <div className="ModalButtons">
+                <button
+                  className="OkButton"
+                  onClick={() => {
+                    this.UploadMemeber();
+                    this.MemberModal();
+                  }}
+                >Add</button>
+                <button className="CancelButton" onClick={this.MemberModal}>Cancel</button>
+              </div>
             </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={this.MemberModal}>
-                Close
-              </Button>
-              <Button
-                variant="primary"
-                onClick={() => {
-                  this.UploadMemeber();
-                  this.MemberModal();
-                }}
-              >
-                Add Member
-              </Button>
-            </Modal.Footer>
-          </Modal>
-
-          <Modal show={this.state.TaskModal} onHide={this.TaskModal}>
-            <Modal.Header closeButton>
-              <Modal.Title>New Task</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <Form>
-                <Form.Group
-                  className="mb-3"
-                  controlId="exampleForm.ControlInput1"
-                >
-                  <Form.Label>Title</Form.Label>
-                  <Form.Control
-                    type="text"
-                    autoFocus
-                    onChange={this.UpdateTaskTitle}
-                  />
-                </Form.Group>
-                <Form.Group
-                  className="mb-3"
-                  controlId="exampleForm.ControlInput1"
-                >
-                  <Dropdown>
-                    <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                      {this.state.NewTask.AgentName}
-                    </Dropdown.Toggle>
-
-                    <Dropdown.Menu>
-                      {this.state.members.map((member, i) => {
-                        return (
-                          <Dropdown.Item
-                            key={i}
-                            onClick={() =>
-                              this.UpdateTaskMember(member.u_id, member.u_name)
-                            }
-                          >
-                            {member.u_name}
-                          </Dropdown.Item>
-                        );
-                      })}
-                    </Dropdown.Menu>
-                  </Dropdown>
-                  <Dropdown>
-                    <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                      {this.state.NewTask.state}
-                    </Dropdown.Toggle>
-
-                    <Dropdown.Menu>
-                      <Dropdown.Item
-                        onClick={() => {
-                          this.UpdateTaskState("to do");
-                        }}
-                      >
-                        To Do
-                      </Dropdown.Item>
-                      <Dropdown.Item
-                        onClick={() => {
-                          this.UpdateTaskState("in progress");
-                        }}
-                      >
-                        In Progress
-                      </Dropdown.Item>
-                      <Dropdown.Item
-                        onClick={() => {
-                          this.UpdateTaskState("done");
-                        }}
-                      >
-                        Done
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </Form.Group>
-                <Form.Group
-                  className="mb-3"
-                  controlId="exampleForm.ControlTextarea1"
-                >
-                  <Form.Label>Description</Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    rows={3}
-                    onChange={this.UpdateTaskDescription}
-                  />
-                </Form.Group>
-              </Form>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={this.TaskModal}>
-                Close
-              </Button>
-              <Button
-                variant="primary"
-                onClick={() => {
-                  this.UploadTask();
-                  this.TaskModal();
-                }}
-              >
-                Save Task
-              </Button>
-            </Modal.Footer>
           </Modal>
 
           <Modal show={this.state.DeleteModal} onHide={this.DeleteModal}>
@@ -1650,21 +1517,17 @@ class OperationProfile extends React.Component {
               <Form>
                 <p>Are you sure you want to delete this Comment</p>
               </Form>
+              <div className="ModalButtons">
+                <button
+                  className="DeleteButton"
+                  onClick={() => {
+                    this.DeleteOperation();
+                    this.DeleteModal();
+                  }}
+                >Delete</button>
+                <button className="CancelButton" onClick={this.DeleteModal}>Cancel</button>
+              </div>
             </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={this.DeleteModal}>
-                Close
-              </Button>
-              <Button
-                variant="primary"
-                onClick={() => {
-                  this.DeleteOperation();
-                  this.DeleteModal();
-                }}
-              >
-                Delete
-              </Button>
-            </Modal.Footer>
           </Modal>
 
           <Modal show={this.state.StateModal} onHide={this.StateModal}>
@@ -1701,7 +1564,7 @@ class OperationProfile extends React.Component {
 
           <Modal show={this.state.InfoModal} onHide={this.InfoModal}>
             <Modal.Header closeButton>
-              <Modal.Title>New Info</Modal.Title>
+              <Modal.Title>Update Information</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <Form>
@@ -1722,27 +1585,23 @@ class OperationProfile extends React.Component {
                 >
                   <Form.Label>Operation Description</Form.Label>
                   <Form.Control
-                    type="text"
-                    autoFocus
+                    as="textarea"
+                    rows={3}
                     onChange={this.UpdateNewInfoDescription}
                   />
                 </Form.Group>
               </Form>
+              <div className="ModalButtons">
+                <button
+                  className="OkButton"
+                  onClick={() => {
+                    this.UploadNewInfo();
+                    this.InfoModal();
+                  }}
+                >Save</button>
+                <button className="CancelButton" onClick={this.InfoModal}>Cancel</button>
+              </div>
             </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={this.InfoModal}>
-                Close
-              </Button>
-              <Button
-                variant="primary"
-                onClick={() => {
-                  this.UploadNewInfo();
-                  this.InfoModal();
-                }}
-              >
-                Save
-              </Button>
-            </Modal.Footer>
           </Modal>
         </div>
       </div >

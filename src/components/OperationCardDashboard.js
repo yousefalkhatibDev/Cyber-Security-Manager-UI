@@ -137,16 +137,22 @@ class OperationCardDashboard extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div className="OperationCardDashboardContainerButton">
-                    <button
-                        className="OperationCardDashboardContainerButton-button"
-                        onClick={() => {
-                            window.location = "/operation_profile/" + this.props.id;
-                        }}
-                    >
-                        Navigate to Operation
-                    </button>
-                </div>
+                {
+                    !this.props.noButton
+                    &&
+                    (
+                        <div className="OperationCardDashboardContainerButton">
+                            <button
+                                className="OperationCardDashboardContainerButton-button"
+                                onClick={() => {
+                                    window.location = "/operation_profile/" + this.props.id;
+                                }}
+                            >
+                                Navigate to Operation
+                            </button>
+                        </div>
+                    )
+                }
             </div>
         );
     }

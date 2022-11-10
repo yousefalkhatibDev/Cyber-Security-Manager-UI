@@ -1,4 +1,5 @@
 import React from "react";
+import Moment from "moment";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
@@ -68,23 +69,39 @@ class NoteCard extends React.Component {
         </button>
 
         <Modal show={this.state.DisplayNote} onHide={this.DisplayNote}>
-          <Modal.Header closeButton>
+          {/* <Modal.Header closeButton>
             <Modal.Title>
               {this.props.title} By: {this.props.author}
             </Modal.Title>
-          </Modal.Header>
+          </Modal.Header> */}
           <Modal.Body>
-            <p>{this.props.text}</p>
-            <p>type: {this.props.type}</p>
+            <div className="NoteModalContent">
+              <img src={this.props.UserImage} className="NoteModalContent-Img" />
+              <div className="NoteModalContent-AuthData">
+                <p className="NoteModalContent-AuthName">{this.props.author}</p>
+                <p className="NoteModalContent-CreateDate">{Moment(this.props.CreateDate).format("MMM Do YY")}</p>
+              </div>
+              <p className="NoteModalContent-Title">{this.props.title}</p>
+              <p className="NoteModalContent-Description">{this.props.text}</p>
+              {/* <p>type: {this.props.type}</p> */}
+            </div>
+
+            <div className="ModalButtons">
+              <button
+                className="OkButton"
+                onClick={this.DeleteModal}
+              >Delete</button>
+              <button className="CancelButton" onClick={this.DisplayNote}>Cancel</button>
+            </div>
           </Modal.Body>
-          <Modal.Footer>
+          {/* <Modal.Footer>
             <Button variant="danger" onClick={this.DeleteModal}>
               Delete
             </Button>
             <Button variant="secondary" onClick={this.DisplayNote}>
               Close
             </Button>
-          </Modal.Footer>
+          </Modal.Footer> */}
         </Modal>
 
         <Modal show={this.state.DeleteModal} onHide={this.DeleteModal}>

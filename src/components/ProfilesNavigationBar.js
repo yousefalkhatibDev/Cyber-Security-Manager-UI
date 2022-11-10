@@ -3,6 +3,7 @@ import postsIcon from "../icons/posts.svg"
 import tasksIcon from "../icons/tasks.svg"
 import targetIcon from "../icons/target.svg"
 import settingsIcon from "../icons/settings.svg"
+import profileIcon from "../icons/profile.svg"
 
 export default class ProfilesNavigationBar extends Component {
     render() {
@@ -17,6 +18,7 @@ export default class ProfilesNavigationBar extends Component {
                                 <button className={this.props.postsActive && "active"} onClick={() => this.props.SwitchSlider("Notes")}><img src={postsIcon} width="24" />Posts</button>
                                 <button className={this.props.targetsActive && "active"} onClick={() => this.props.SwitchSlider("Targets")}><img src={targetIcon} width="24" />Targets</button>
                                 <button className={this.props.tasksActive && "active"} onClick={() => this.props.SwitchSlider("Tasks")}><img src={tasksIcon} width="24" />Tasks</button>
+                                <button className={this.props.membersActive && "active"} onClick={() => this.props.SwitchSlider("Members")}><img src={profileIcon} width="24" />Members</button>
                                 <button className={this.props.settingsActive && "active"} onClick={() => this.props.SwitchSlider("Settings")}><img src={settingsIcon} width="24" />Settings</button>
                             </div>
 
