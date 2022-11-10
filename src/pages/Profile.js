@@ -199,11 +199,13 @@ export default class Profile extends Component {
     return (
       <div className="profilePage">
         <div className="pageHeader">
-          <div className="pageHeader-title" style={{ width: "95%" }}>
-            <img src={profileIcon} style={{ width: "35px" }} />
-            <div>
-              <h1>Profile Page</h1>
-              <p>Manage your account</p>
+          <div className="pageHeader-title pageHeader-title-withButton" style={{ width: "95%" }}>
+            <div className="pageHeader-title-withButton-Container">
+              <img src={profileIcon} style={{ width: "35px" }} />
+              <div>
+                <h1>Profile Page</h1>
+                <p>Manage your account</p>
+              </div>
             </div>
             <button className="EditProfileButton" onClick={this.ModalShow}>Edit Profile</button>
           </div>

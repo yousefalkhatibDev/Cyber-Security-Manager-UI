@@ -4,6 +4,8 @@ import tasksIcon from "../icons/tasks.svg"
 import targetIcon from "../icons/target.svg"
 import settingsIcon from "../icons/settings.svg"
 import profileIcon from "../icons/profile.svg"
+import relationsIcon from "../icons/relations.svg"
+import relatedByIcon from "../icons/relatedBy.svg"
 
 export default class ProfilesNavigationBar extends Component {
     render() {
@@ -27,8 +29,8 @@ export default class ProfilesNavigationBar extends Component {
                         (
                             <div className='ProfilesNavigationBar-container'>
                                 <button className={this.props.notesActive && "active"} onClick={() => this.props.SwitchSlider("Notes")}><img src={postsIcon} width="24" />Notes</button>
-                                <button className={this.props.relationsActive && "active"} onClick={() => this.props.SwitchSlider("Relations")}><img src={targetIcon} width="24" />Relations</button>
-                                <button className={this.props.relatedByActive && "active"} onClick={() => this.props.SwitchSlider("RelatedBy")}><img src={tasksIcon} width="24" />Related By</button>
+                                <button className={this.props.relationsActive && "active"} onClick={() => this.props.SwitchSlider("Relations")}><img src={relationsIcon} width="24" />Relations</button>
+                                <button className={this.props.relatedByActive && "active"} onClick={() => this.props.SwitchSlider("RelatedBy")}><img src={relatedByIcon} width="24" />Related By</button>
                                 <button className={this.props.settingsActive && "active"} onClick={() => this.props.SwitchSlider("Settings")}><img src={settingsIcon} width="24" />Settings</button>
                             </div>
                         )

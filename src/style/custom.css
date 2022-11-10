@@ -2347,10 +2347,6 @@ footer {
     height: 60%;
   }
 
-  .profileCardInfo {
-    height: 700px;
-  }
-
   .profileCardInfo-fileInput {
     width: auto;
   }
@@ -2595,6 +2591,14 @@ footer {
   .jRqwJi {
     width: 300px;
   }
+
+  .profileCardInfo {
+    width: 70%;
+  }
+
+  .ProfilePage-inputsContainer .ProfilePage-inputsGroup input {
+    width: 45%;
+  }
 }
 
 @media screen and (max-width: 430px) {
@@ -2621,6 +2625,10 @@ footer {
     display: block;
     font-size: 15px;
     margin: 5px 0px;
+  }
+
+  .SearchContainer .SearchInputContainer svg {
+    width: 20px;
   }
 }
 
