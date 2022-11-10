@@ -26,6 +26,7 @@ class NavBar extends React.Component {
       isLinksActive: false,
       isOpened: true,
       allowClose: false,
+      wasClosed: false,
       UserImage: "",
       UserName: ""
     };
@@ -95,22 +96,16 @@ class NavBar extends React.Component {
     }
     window.addEventListener("resize", () => {
       if (window.innerWidth <= 920 && !this.state.allowClose === true) {
-        setTimeout(() => {
-          if (this.sideBarRef.current.getBoundingClientRect().width === 270) {
-            this.setState({ allowClose: true, isOpened: true })
-          } else if (this.sideBarRef.current.getBoundingClientRect().width === 80) {
-            console.log("not opened")
-            this.setState({ allowClose: true, isOpened: false })
-          }
-        }, 500)
-        // if (this.state.isOpened === true) {
-        //   this.setState({ allowClose: true, isOpened: false })
-        // }
+        if (!this.state.wasClosed) {
+          this.setState({ allowClose: true, isOpened: true })
+        } else {
+          this.setState({ allowClose: true, isOpened: false })
+        }
       } else if (window.innerWidth > 920 && !this.state.allowClose === false) {
         if (this.state.isOpened === false) {
-          this.setState({ allowClose: false, isOpened: true })
+          this.setState({ allowClose: false, isOpened: true, wasClosed: true })
         } else {
-          this.setState({ allowClose: false })
+          this.setState({ allowClose: false, wasClosed: false })
         }
       }
     })

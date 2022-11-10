@@ -5,9 +5,12 @@ class ContentWrapper extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            isSideBarClosed: false
+            isSideBarClosed: false,
+            isMobile: false
         }
     }
+
+
 
     componentDidMount() {
         if (window.innerWidth <= 920 && !this.state.isSideBarClosed) {

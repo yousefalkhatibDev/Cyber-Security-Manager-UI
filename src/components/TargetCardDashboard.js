@@ -73,20 +73,21 @@ class TargetCardDashboard extends React.Component {
                         </p>
                     </div>
                 </div>
+                <hr className="DashboardHr" />
                 <div className="TargetCardDashboardContainerStatus">
                     <div className="TargetCardDashboardContainerStatus-container">
                         <div>
-                            Notes Count
+                            Notes Count :
                             <p>{this.state.NotesCount}</p>
                         </div>
                         <span className="separator"></span>
                         <div>
-                            Type
+                            Type :
                             <p>{this.props.type}</p>
                         </div>
                         <span className="separator"></span>
                         <div>
-                            Last Update
+                            Last Update :
                             <p>{Moment(this.props.UpdateDate).format("MMM Do YY")}</p>
                         </div>
                     </div>

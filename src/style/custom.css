@@ -52,13 +52,13 @@ select:focus-visible {
 
 .ContentWrapper {
   min-height: 100vh;
-  width: calc(100% - 250px);
+  width: calc(100% - 270px);
   margin-left: auto;
   margin-bottom: 60px;
 }
 
 .ContentWrapper-SideBarClosed {
-  width: calc(100% - 80px);
+  width: calc(100% - 60px);
 }
 
 .modal-header {
@@ -123,14 +123,14 @@ select:focus-visible {
   background-color: #18202D;
 }
 
+.kdnwZJ.toggled {
+  width: 60px !important;
+  min-width: 60px !important;
+}
+
 .sideBar-container-Open .kdnwZJ {
   width: 270px !important;
 }
-
-/* .kdnwZJ {
-  width: 250px !important;
-  min-width: 250px !important;
-} */
 
 .sideBar-logo {
   width: 90%;
@@ -197,6 +197,10 @@ select:focus-visible {
   margin-left: 20px;
 }
 
+.pageHeader .pageHeader-title-withButton .pageHeader-title-withButton-Container {
+  display: flex;
+}
+
 .pageHeader .pageHeader-title h1 {
   font-size: 35px;
 }
@@ -243,6 +247,11 @@ select:focus-visible {
 
 .user-name p {
   margin-left: 2% !important;
+}
+
+.user-card-nameDiv {
+  color: black;
+  width: 150px;
 }
 
 .nav-menu {
@@ -347,6 +356,7 @@ select:focus-visible {
 .recentPosts-container .recentPostsCard-container {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .recentPosts-container .recentPostsCard-container .postCard {
@@ -414,6 +424,7 @@ select:focus-visible {
 .recentTargets-container .recentTargetsCard-container {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .recentTargets-container .recentTargetsCard-container .targetCard {
@@ -470,6 +481,12 @@ select:focus-visible {
   font-weight: 600;
   border: none;
   border-radius: 5px;
+}
+
+.DashboardHr {
+  display: none;
+  margin-top: -10px;
+  width: 100%;
 }
 
 /* end-dashboard */
@@ -704,6 +721,7 @@ select {
 
 .OperationCard-container .OperationDescription .OperationDescription-description {
   padding-top: 45px;
+  width: 130%;
 }
 
 .OperationCardContainerStatus {
@@ -749,6 +767,7 @@ select {
 
 .OperationCardDashboard-container {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .OperationCardDashboard-container img {
@@ -924,6 +943,7 @@ select {
 
 .TargetCardDashboard-container {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .TargetCardDashboard-container img {
@@ -2243,6 +2263,10 @@ footer {
   .TargetDescription {
     font-size: 15px;
   }
+
+  .dashboard-buttonsSection button div {
+    width: 90%;
+  }
 }
 
 @media (max-width: 755px) {
@@ -2341,13 +2365,56 @@ footer {
     font-size: 14px;
   }
 
+  .pageHeader .pageHeader-icon {
+    font-size: 55px;
+  }
+
+  .pageHeader .pageHeader-title {
+    margin-left: 10px;
+  }
+
+  .pageHeader .pageHeader-title h1 {
+    font-size: 25px;
+  }
+
+  .pageHeader .pageHeader-title p {
+    font-size: 12px;
+  }
+
+  .pageHeader .pageHeader-title-withButton {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pageHeader .pageHeader-title-withButton button {
+    margin-left: initial;
+    width: 100%;
+    margin-top: 20px;
+  }
+
   .OperationCardContainer {
     width: 100% !important;
     margin-left: initial;
+    padding: 15px !important;
   }
 
-  .userOperations-recent h4 {
-    margin-left: initial;
+  .OperationCard-container .OperationDescription .OperationDescription-description {
+    font-size: 13px;
+  }
+
+  .OperationCardDashboard-container img {
+    width: 100%;
+  }
+
+  .OperationCardDashboardContainerStatus .OperationCardDashboardContainerStatus-container {
+    align-items: start;
+    flex-direction: column;
+    background-color: transparent;
+  }
+
+  .OperationCardDashboardContainerStatus .OperationCardDashboardContainerStatus-container div {
+    flex-direction: row;
+    gap: 20px;
   }
 
   .OperationCard-name {
@@ -2399,9 +2466,33 @@ footer {
     width: 90%;
   }
 
+  .DashboardHr {
+    display: inline-block;
+  }
+
   .TargetCardContainer {
     width: 100% !important;
     margin-left: initial;
+    padding: 15px !important;
+  }
+
+  .TargetCardDashboard-container img {
+    width: 100%;
+  }
+
+  .TargetCardDashboardContainerStatus .TargetCardDashboardContainerStatus-container {
+    background-color: transparent;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .TargetCardDashboardContainerStatus .TargetCardDashboardContainerStatus-container div {
+    flex-direction: row;
+    gap: 20px;
+  }
+
+  .TargetCardDashboardContainerButton .TargetCardDashboardContainerButton-button {
+    width: 90%;
   }
 
   .userTargets-recent h4 {
@@ -2449,28 +2540,64 @@ footer {
   .TargetProfile .TargetProfileInfo ul {
     padding-left: 1rem;
   }
-}
 
-@media screen and (max-width: 430px) {
-  .pageHeader .pageHeader-icon {
-    font-size: 55px;
+  .dashboard {
+    margin: 10px 15px;
   }
 
-  .pageHeader .pageHeader-title {
-    margin-left: 10px;
+  .dashboard-buttonsSection {
+    flex-direction: column;
+    align-items: center;
   }
 
-  .pageHeader .pageHeader-title h1 {
-    font-size: 25px;
+  .dashboard-buttonsSection button {
+    width: 90%;
+    margin: 20px;
   }
 
-  .pageHeader .pageHeader-title p {
-    font-size: 12px;
+  .dashboard-buttonsSection button div {
+    width: 80%;
+  }
+
+  .recentPosts-container .recentPostsCard-container .postCard {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .recentTargets-container .recentTargetsCard-container .targetCard {
+    width: 100%;
+    margin-bottom: 20%;
+  }
+
+  .user-card {
+    margin-bottom: 30px;
+    padding: 0px;
+  }
+
+  .user-name {
+    display: inline-block;
+  }
+
+  .user-card-nameDiv {
+    display: none;
   }
 
   .user-name p {
     display: none;
   }
+
+  .recentPosts-container,
+  .recentTargets-container {
+    margin-left: 0px;
+  }
+
+  .cudUqG,
+  .jRqwJi {
+    width: 300px;
+  }
+}
+
+@media screen and (max-width: 430px) {
 
   .OperationProfile .OptionsContainer li a {
     display: flex;

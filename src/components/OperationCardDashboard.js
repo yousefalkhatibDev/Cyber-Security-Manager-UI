@@ -117,22 +117,22 @@ class OperationCardDashboard extends React.Component {
                                 </p>
                             )
                     }
-
                 </div>
+                <hr className="DashboardHr" />
                 <div className="OperationCardDashboardContainerStatus">
                     <div className="OperationCardDashboardContainerStatus-container">
                         <div>
-                            Members Count
+                            Members Count :
                             <p>{this.state.MembersCount}</p>
                         </div>
                         <span className="separator"></span>
                         <div>
-                            Targets Count
+                            Targets Count :
                             <p>{this.state.TargetsCount}</p>
                         </div>
                         <span className="separator"></span>
                         <div>
-                            Posts Count
+                            Posts Count :
                             <p>{this.state.PostsCount}</p>
                         </div>
                     </div>
