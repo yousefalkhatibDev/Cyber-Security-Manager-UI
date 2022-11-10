@@ -28,7 +28,6 @@ import Operations from "./Operations";
 
 const fileTypes = ["PDF", "PNG", "GIF", "JPEG", "TIFF", "PSD", "EPS", "AI"];
 
-
 const withParams = (Component) => (props) => {
   const { id } = useParams();
   return <Component {...props} id={id} />;
@@ -868,7 +867,7 @@ class OperationProfile extends React.Component {
           SettingsTab: false
         });
         break;
-
+        
       case "Members":
         this.setState({
           PostsTab: false,
@@ -878,7 +877,7 @@ class OperationProfile extends React.Component {
           SettingsTab: false
         })
         break
-
+        
       case "Settings":
         this.setState({
           PostsTab: false,
