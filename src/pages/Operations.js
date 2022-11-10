@@ -236,11 +236,13 @@ class Operations extends React.Component {
     return (
       <>
         <div className="pageHeader">
-          <div className="pageHeader-title" style={{ width: "95%" }}>
-            <img src={operationIcon} style={{ width: "35px" }} />
-            <div>
-              <h1>Operations</h1>
-              <p>Check out new operations and plans!</p>
+          <div className="pageHeader-title pageHeader-title-withButton" style={{ width: "95%" }}>
+            <div className="pageHeader-title-withButton-Container">
+              <img src={operationIcon} style={{ width: "35px" }} />
+              <div>
+                <h1>Operations</h1>
+                <p>Check out new operations and plans!</p>
+              </div>
             </div>
             <button className="NewOperationButton" onClick={this.ModalShow}>Add New Operation</button>
           </div>
