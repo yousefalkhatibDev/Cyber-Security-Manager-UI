@@ -816,7 +816,7 @@ class TargetProfile extends React.Component {
                 notesActive
               />
               <button className="NewNoteButton" onClick={this.NotesModal}>add new note</button>
-              <div style={{ display: "flex" }}>
+              <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between" }}>
                 {currentNotesToDisplay.map((note, i) => {
                   return (
                     <NoteCard
