@@ -275,7 +275,6 @@ export default class Profile extends Component {
               </div>
               <button className="EditProfileData-Button" onClick={this.UploadNewUserInfo}>Edit</button>
             </div>
-
           </Modal.Body>
         </Modal>
       </div>
