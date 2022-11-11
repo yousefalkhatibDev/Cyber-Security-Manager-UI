@@ -1643,6 +1643,10 @@ select {
   transition: 0.2s ease-in-out;
 }
 
+.OperationProfile .Comment .CommentAuthContainer .CommentDeleteIcon img:hover {
+  transform: translateY(-5px);
+}
+
 
 .OperationProfile .Post .CommentAuthContainer .CommentDottedIcon .DropDownToggle::after {
   display: none;
@@ -2507,6 +2511,10 @@ footer {
     width: 75%;
   }
 
+  .OperationProfile .SettingsCard {
+    padding: 25px;
+  }
+
   .DashboardHr {
     display: inline-block;
   }
@@ -2661,6 +2669,30 @@ footer {
     font-size: 15px;
     margin: 5px 0px;
   }
+
+  .OperationProfile .Post .PostAuthContainer p,
+  .OperationProfile .Comment .Commentauthor {
+    font-size: 12px;
+  }
+
+  .OperationProfile .Post .PostAuthContainer .PostDeleteIcon img,
+  .OperationProfile .Comment .CommentAuthContainer .CommentDeleteIcon img {
+    width: 13px;
+  }
+
+  .OperationProfile .Comment .CommentAuthImage {
+    width: 30px;
+  }
+
+  .OperationProfile .Comment .CommentAuthContainer .CommentDeleteIcon,
+  .OperationProfile .Post .PostAuthContainer .PostDeleteIcon {
+    margin-right: 10px;
+  }
+
+  .OperationProfile .Post .PostInputContainer .PostInputIcon {
+    right: 25px;
+  }
+
 
   .TargetProfile .OptionsContainer li a {
     display: flex;

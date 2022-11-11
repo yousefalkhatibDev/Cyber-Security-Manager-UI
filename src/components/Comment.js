@@ -3,9 +3,8 @@ import API from "../helper/API";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-import Dropdown from "react-bootstrap/Dropdown";
+import deleteIcon from "../icons/delete.svg"
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import { MdDelete } from "react-icons/md";
 
 class Comment extends React.Component {
   constructor(props) {
@@ -46,13 +45,16 @@ class Comment extends React.Component {
               className="CommentAuthImage"
               src={this.props.UserImage}
             />
-            <p className="Commentauthor">{this.props.user}</p>
-            <p className="Commentauthor">
-              {this.props.createDate.split("T")[0]}
-            </p>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+              <p className="Commentauthor">{this.props.user}</p>
+              <p className="Commentauthor">
+                {this.props.createDate.split("T")[0]}
+              </p>
+            </div>
             {this.props.BelongToUser ? (
-              <div className="CommentDottedIcon">
-                <Dropdown>
+              <div className="CommentDeleteIcon">
+                <img src={deleteIcon} onClick={this.DeleteModal} />
+                {/* <Dropdown>
                   <Dropdown.Toggle
                     id="dropdown-basic"
                     className="DropDownToggle"
@@ -65,7 +67,7 @@ class Comment extends React.Component {
                       Delete <MdDelete style={{ marginLeft: "60px" }} />
                     </Dropdown.Item>
                   </Dropdown.Menu>
-                </Dropdown>
+                </Dropdown> */}
               </div>
             ) : null}
           </div>
@@ -80,21 +82,17 @@ class Comment extends React.Component {
             <Form>
               <p>Are you sure you want to delete this Comment</p>
             </Form>
+            <div className="ModalButtons">
+              <button
+                className="DeleteButton"
+                onClick={() => {
+                  this.DeleteComment();
+                  this.DeleteModal();
+                }}
+              >Delete</button>
+              <button className="CancelButton" onClick={this.DeleteModal}>Cancel</button>
+            </div>
           </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.DeleteModal}>
-              Close
-            </Button>
-            <Button
-              variant="danger"
-              onClick={() => {
-                this.DeleteComment();
-                this.DeleteModal();
-              }}
-            >
-              Delete
-            </Button>
-          </Modal.Footer>
         </Modal>
       </>
     );

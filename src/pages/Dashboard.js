@@ -244,7 +244,6 @@ class Dashboard extends React.Component {
         <div className='pageHeader' style={{ justifyContent: "space-between" }}>
           <div className='pageHeader-title'>
             <img src={dashboardIcon} />
-            {/* <MdDashboard color="black" className='pageHeader-icon' textDecoration="none" /> */}
             <div>
               <h1>Dashboard</h1>
               <p>Check out your status and progress!</p>
