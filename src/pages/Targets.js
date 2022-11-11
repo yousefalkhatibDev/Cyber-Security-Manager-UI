@@ -4,7 +4,8 @@ import API from "../helper/API";
 import Pagination from "../components/Pagination";
 import Dropdown from "react-bootstrap/Dropdown";
 import filterIcon from "../icons/Filter.svg"
-import { FiTarget, FiSearch } from "react-icons/fi";
+import targetIcon from "../icons/target.svg"
+import { FiSearch } from "react-icons/fi";
 
 class Targets extends React.Component {
   constructor(props) {
@@ -94,11 +95,7 @@ class Targets extends React.Component {
       <>
         <div className="pageHeader">
           <div className="pageHeader-title">
-            <FiTarget
-              color="black"
-              className="pageHeader-icon"
-              textDecoration="none"
-            />
+            <img src={targetIcon} />
             <div>
               <h1>Targets</h1>
               <p>See who people are targeting!</p>
