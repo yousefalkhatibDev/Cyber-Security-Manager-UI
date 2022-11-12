@@ -1515,7 +1515,7 @@ class OperationProfile extends React.Component {
             </Modal.Header>
             <Modal.Body>
               <Form>
-                <p>Are you sure you want to delete this Comment</p>
+                <p>Are you sure you want to delete this Operation?</p>
               </Form>
               <div className="ModalButtons">
                 <button

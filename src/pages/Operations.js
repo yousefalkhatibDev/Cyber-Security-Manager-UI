@@ -62,7 +62,6 @@ class Operations extends React.Component {
   }
 
   convertToBase64(file) {
-
     //Check File is not Empty
     if (file) {
       // Select the very first file from list
@@ -170,8 +169,8 @@ class Operations extends React.Component {
     const data = { Token: token, search: this.state.search };
 
     await API.post("/get_operations", data)
-      .then((respone) => {
-        const res = respone.data;
+      .then((response) => {
+        const res = response.data;
 
         if (res.ErrorMessage) {
           window.alert(res.ErrorMessage);
@@ -236,11 +235,13 @@ class Operations extends React.Component {
     return (
       <>
         <div className="pageHeader">
-          <div className="pageHeader-title" style={{ width: "95%" }}>
-            <img src={operationIcon} style={{ width: "35px" }} />
-            <div>
-              <h1>Operations</h1>
-              <p>Check out new operations and plans!</p>
+          <div className="pageHeader-title pageHeader-title-withButton" style={{ width: "95%" }}>
+            <div className="pageHeader-title-withButton-Container">
+              <img src={operationIcon} style={{ width: "35px" }} />
+              <div>
+                <h1>Operations</h1>
+                <p>Check out new operations and plans!</p>
+              </div>
             </div>
             <button className="NewOperationButton" onClick={this.ModalShow}>Add New Operation</button>
           </div>

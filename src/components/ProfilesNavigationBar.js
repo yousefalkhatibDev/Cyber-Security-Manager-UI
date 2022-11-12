@@ -4,6 +4,18 @@ import tasksIcon from "../icons/tasks.svg"
 import targetIcon from "../icons/target.svg"
 import settingsIcon from "../icons/settings.svg"
 import profileIcon from "../icons/profile.svg"
+import relationsIcon from "../icons/relations.svg"
+import relatedByIcon from "../icons/relatedBy.svg"
+import notesIcon from "../icons/notes.svg"
+
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
+
+const renderTooltip = (text, props) => (
+    <Tooltip id="button-tooltip" {...props}>
+        {text}
+    </Tooltip>
+);
 
 export default class ProfilesNavigationBar extends Component {
     render() {
@@ -14,22 +26,103 @@ export default class ProfilesNavigationBar extends Component {
                     this.props.type === "operationProfile"
                         ?
                         (
-                            <div className='ProfilesNavigationBar-container'>
-                                <button className={this.props.postsActive && "active"} onClick={() => this.props.SwitchSlider("Notes")}><img src={postsIcon} width="24" />Posts</button>
-                                <button className={this.props.targetsActive && "active"} onClick={() => this.props.SwitchSlider("Targets")}><img src={targetIcon} width="24" />Targets</button>
-                                <button className={this.props.tasksActive && "active"} onClick={() => this.props.SwitchSlider("Tasks")}><img src={tasksIcon} width="24" />Tasks</button>
-                                <button className={this.props.membersActive && "active"} onClick={() => this.props.SwitchSlider("Members")}><img src={profileIcon} width="24" />Members</button>
-                                <button className={this.props.settingsActive && "active"} onClick={() => this.props.SwitchSlider("Settings")}><img src={settingsIcon} width="24" />Settings</button>
+                            <div className='ProfilesNavigationBar-container ProfilesNavigationBar-containerOperation'>
+                                <button className={this.props.postsActive && "active"} onClick={() => this.props.SwitchSlider("Notes")}>
+                                    <OverlayTrigger
+                                        placement="top"
+                                        delay={{ show: 200, hide: 200 }}
+                                        overlay={(props) => renderTooltip("see posts", props)}
+                                    >
+                                        <img src={postsIcon} width="24" />
+                                    </OverlayTrigger>
+                                    Posts
+                                </button>
+                                <button className={this.props.targetsActive && "active"} onClick={() => this.props.SwitchSlider("Targets")}>
+                                    <OverlayTrigger
+                                        placement="top"
+                                        delay={{ show: 200, hide: 200 }}
+                                        overlay={(props) => renderTooltip("see targets", props)}
+                                    >
+                                        <img src={targetIcon} width="24" />
+                                    </OverlayTrigger>
+                                    Targets
+                                </button>
+                                <button className={this.props.tasksActive && "active"} onClick={() => this.props.SwitchSlider("Tasks")}>
+                                    <OverlayTrigger
+                                        placement="top"
+                                        delay={{ show: 200, hide: 200 }}
+                                        overlay={(props) => renderTooltip("see tasks", props)}
+                                    >
+                                        <img src={tasksIcon} width="24" />
+                                    </OverlayTrigger>
+                                    Tasks
+                                </button>
+                                <button className={this.props.membersActive && "active"} onClick={() => this.props.SwitchSlider("Members")}>
+                                    <OverlayTrigger
+                                        placement="top"
+                                        delay={{ show: 200, hide: 200 }}
+                                        overlay={(props) => renderTooltip("see members", props)}
+                                    >
+                                        <img src={profileIcon} width="24" />
+                                    </OverlayTrigger>
+                                    Members
+                                </button>
+                                <button className={this.props.settingsActive && "active"} onClick={() => this.props.SwitchSlider("Settings")}>
+                                    <OverlayTrigger
+                                        placement="top"
+                                        delay={{ show: 200, hide: 200 }}
+                                        overlay={(props) => renderTooltip("operation settings", props)}
+                                    >
+                                        <img src={settingsIcon} width="24" />
+                                    </OverlayTrigger>
+                                    Settings
+                                </button>
                             </div>
 
                         )
                         :
                         (
                             <div className='ProfilesNavigationBar-container'>
-                                <button className={this.props.notesActive && "active"} onClick={() => this.props.SwitchSlider("Notes")}><img src={postsIcon} width="24" />Notes</button>
-                                <button className={this.props.relationsActive && "active"} onClick={() => this.props.SwitchSlider("Relations")}><img src={targetIcon} width="24" />Relations</button>
-                                <button className={this.props.relatedByActive && "active"} onClick={() => this.props.SwitchSlider("RelatedBy")}><img src={tasksIcon} width="24" />Related By</button>
-                                <button className={this.props.settingsActive && "active"} onClick={() => this.props.SwitchSlider("Settings")}><img src={settingsIcon} width="24" />Settings</button>
+                                <button className={this.props.notesActive && "active"} onClick={() => this.props.SwitchSlider("Notes")}>
+                                    <OverlayTrigger
+                                        placement="top"
+                                        delay={{ show: 200, hide: 200 }}
+                                        overlay={(props) => renderTooltip("see notes", props)}
+                                    >
+                                        <img src={notesIcon} width="24" />
+                                    </OverlayTrigger>
+                                    Notes
+                                </button>
+                                <button className={this.props.relationsActive && "active"} onClick={() => this.props.SwitchSlider("Relations")}>
+                                    <OverlayTrigger
+                                        placement="top"
+                                        delay={{ show: 200, hide: 200 }}
+                                        overlay={(props) => renderTooltip("see relations", props)}
+                                    >
+                                        <img src={relationsIcon} width="24" />
+                                    </OverlayTrigger>
+                                    Relations
+                                </button>
+                                <button className={this.props.relatedByActive && "active"} onClick={() => this.props.SwitchSlider("RelatedBy")}>
+                                    <OverlayTrigger
+                                        placement="top"
+                                        delay={{ show: 200, hide: 200 }}
+                                        overlay={(props) => renderTooltip("related by", props)}
+                                    >
+                                        <img src={relatedByIcon} width="24" />
+                                    </OverlayTrigger>
+                                    Related By
+                                </button>
+                                <button className={this.props.settingsActive && "active"} onClick={() => this.props.SwitchSlider("Settings")}>
+                                    <OverlayTrigger
+                                        placement="top"
+                                        delay={{ show: 200, hide: 200 }}
+                                        overlay={(props) => renderTooltip("target settings", props)}
+                                    >
+                                        <img src={settingsIcon} width="24" />
+                                    </OverlayTrigger>
+                                    Settings
+                                </button>
                             </div>
                         )
                 }

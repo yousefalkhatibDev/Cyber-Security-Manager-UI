@@ -10,7 +10,9 @@ import operationIcon from "../icons/operation.svg"
 import targetIcon from "../icons/target.svg"
 import logoutIcon from "../icons/Logout.svg"
 import profileIcon from "../icons/profile.svg"
+import Carousel from 'react-grid-carousel'
 // import Summary from "../components/Summary";
+
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -24,7 +26,8 @@ class Dashboard extends React.Component {
       TargetsCount: 0,
       OperationsCount: 0,
       UserImage: "",
-      UserName: ""
+      UserName: "",
+      isMobile: false
     };
 
     this.GetOperations = this.GetOperations.bind(this);
@@ -190,7 +193,7 @@ class Dashboard extends React.Component {
     window.location.href = `/target_profile/${id}`;
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     this.GetOperations();
     this.GetTargets();
     this.GetRecentPosts();
@@ -198,6 +201,16 @@ class Dashboard extends React.Component {
     this.GetOperationsCount();
     this.GetTargetsCount();
     this.GetUserInfo()
+    if (window.innerWidth <= 600 && !this.state.isMobile) {
+      this.setState({ isMobile: true })
+    }
+    window.addEventListener("resize", () => {
+      if (window.innerWidth <= 600 && !this.state.isMobile) {
+        this.setState({ isMobile: true })
+      } else if (window.innerWidth > 600 && this.state.isMobile) {
+        this.setState({ isMobile: false })
+      }
+    })
   }
 
   async GetUserInfo() {
@@ -231,7 +244,6 @@ class Dashboard extends React.Component {
         <div className='pageHeader' style={{ justifyContent: "space-between" }}>
           <div className='pageHeader-title'>
             <img src={dashboardIcon} />
-            {/* <MdDashboard color="black" className='pageHeader-icon' textDecoration="none" /> */}
             <div>
               <h1>Dashboard</h1>
               <p>Check out your status and progress!</p>
@@ -252,7 +264,7 @@ class Dashboard extends React.Component {
                       className="user-img-top-bar"
                     />
                   </Dropdown.Toggle>
-                  <div style={{ color: "black", width: "150px" }}>{this.state.UserName}</div>
+                  <div className="user-card-nameDiv">{this.state.UserName}</div>
                   <Dropdown.Menu>
                     <Dropdown.Item href="/profile">
                       <Link to="/profile" style={{ textDecoration: "none" }}>
@@ -303,7 +315,7 @@ class Dashboard extends React.Component {
                   description={this.state.operations[0].o_description}
                   status={this.state.operations[0].o_state}
                   CreateDate={this.state.operations[0].o_create_date}
-                  width={95}
+                  width={100}
                 />
               )}
             </div>
@@ -319,7 +331,7 @@ class Dashboard extends React.Component {
                   operation={this.state.targets[0].o_name}
                   CreateDate={this.state.targets[0].t_create_date}
                   UpdateDate={this.state.targets[0].t_update_date}
-                  width={95}
+                  width={100}
                 />
               )}
             </div>
@@ -328,30 +340,69 @@ class Dashboard extends React.Component {
             <h4 style={{ color: "rgb(30, 30, 100)", display: "inline-block", margin: "25px 0px" }}>Recent Posts</h4>
             <h4 style={{ color: "rgb(30, 30, 100)", display: "inline-block", margin: "25px 0px", position: "absolute", right: 10 }}>See All</h4>
             <div className="recentPostsCard-container">
-              {this.state.recentPosts.slice(0, 2).map((el) => {
-                return (
-                  <div className="postCard" key={el.p_id}>
-                    <div className="postCard-content">
-                      <img
-                        alt=""
-                        src={el.u_image}
-                      />
-                      <div className="postCard-text">
-                        <h5>{el.u_name}</h5>
-                        <p>{el.p_text}</p>
-                      </div>
-                    </div>
-                    <div className="postCard-buttonContainer">
-                      <button
-                        className="postCard-button"
-                        onClick={() => this.GoToPostOperation(el.p_operation)}
-                      >
-                        Navigate to Operation
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
+              {
+                this.state.isMobile
+                  &&
+                  this.state.recentPosts.length
+                  ?
+                  (
+                    <Carousel cols={2} rows={1} gap={10} >
+                      {this.state.recentPosts.slice(0, 2).map((el, i) => {
+                        return (
+                          <Carousel.Item key={i}>
+                            <div className="postCard" key={el.p_id}>
+                              <div className="postCard-content">
+                                <img
+                                  alt=""
+                                  src={el.u_image}
+                                />
+                                <div className="postCard-text">
+                                  <h5>{el.u_name}</h5>
+                                  <p>{el.p_text}</p>
+                                </div>
+                              </div>
+                              <div className="postCard-buttonContainer">
+                                <button
+                                  className="postCard-button"
+                                  onClick={() => this.GoToPostOperation(el.p_operation)}
+                                >
+                                  Navigate to Operation
+                                </button>
+                              </div>
+                            </div>
+                          </Carousel.Item>
+                        );
+                      })}
+                    </Carousel>
+                  )
+                  :
+                  (
+                    this.state.recentPosts.slice(0, 2).map((el) => {
+                      return (
+                        <div className="postCard" key={el.p_id}>
+                          <div className="postCard-content">
+                            <img
+                              alt=""
+                              src={el.u_image}
+                            />
+                            <div className="postCard-text">
+                              <h5>{el.u_name}</h5>
+                              <p>{el.p_text}</p>
+                            </div>
+                          </div>
+                          <div className="postCard-buttonContainer">
+                            <button
+                              className="postCard-button"
+                              onClick={() => this.GoToPostOperation(el.p_operation)}
+                            >
+                              Navigate to Operation
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })
+                  )
+              }
             </div>
           </div>
 
@@ -359,30 +410,69 @@ class Dashboard extends React.Component {
             <h4 style={{ color: "rgb(30, 30, 100)", display: "inline-block", margin: "55px 0px 25px 0px" }}>Recent Targets</h4>
             <h4 style={{ color: "rgb(30, 30, 100)", display: "inline-block", margin: "55px 0px 25px 0px", position: "absolute", right: 10 }}>See All</h4>
             <div className="recentTargetsCard-container">
-              {this.state.recentTargets.slice(0, 2).map((el) => {
-                return (
-                  <div className="targetCard" key={el.p_id}>
-                    <div className="targetCard-content">
-                      <img
-                        alt=""
-                        src={el.t_image}
-                      />
-                      <div className="targetCard-text">
-                        <h5>{el.t_name}</h5>
-                        <p>{el.t_description}</p>
+              {this.state.isMobile
+                ?
+                (
+                  <Carousel cols={2} rows={1} gap={10}>
+                    {
+                      this.state.recentTargets.slice(0, 2).map((el) => {
+                        return (
+                          <Carousel.Item>
+                            <div className="targetCard" key={el.p_id}>
+                              <div className="targetCard-content">
+                                <img
+                                  alt=""
+                                  src={el.t_image}
+                                />
+                                <div className="targetCard-text">
+                                  <h5>{el.t_name}</h5>
+                                  <p>{el.t_description}</p>
+                                </div>
+                              </div>
+                              <div className="targetCard-buttonContainer">
+                                <button
+                                  className="targetCard-button"
+                                  onClick={() => this.GoToTarget(el.t_id)}
+                                >
+                                  Navigate to Target
+                                </button>
+                              </div>
+                            </div>
+                          </Carousel.Item>
+                        );
+                      })
+                    }
+                  </Carousel>
+                )
+                :
+                (
+                  this.state.recentTargets.slice(0, 2).map((el) => {
+                    return (
+                      <div className="targetCard" key={el.p_id}>
+                        <div className="targetCard-content">
+                          <img
+                            alt=""
+                            src={el.t_image}
+                          />
+                          <div className="targetCard-text">
+                            <h5>{el.t_name}</h5>
+                            <p>{el.t_description}</p>
+                          </div>
+                        </div>
+                        <div className="targetCard-buttonContainer">
+                          <button
+                            className="targetCard-button"
+                            onClick={() => this.GoToTarget(el.t_id)}
+                          >
+                            Navigate to Target
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                    <div className="targetCard-buttonContainer">
-                      <button
-                        className="targetCard-button"
-                        onClick={() => this.GoToTarget(el.t_id)}
-                      >
-                        Navigate to Target
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
+                    );
+                  })
+                )
+              }
+
             </div>
           </div>
         </div>

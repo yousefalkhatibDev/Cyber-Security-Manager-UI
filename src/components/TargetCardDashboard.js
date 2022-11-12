@@ -1,6 +1,7 @@
 import React from "react";
 import Moment from "moment";
 import API from "../helper/API";
+import targetDefault from "../imgs/target.jpg"
 
 class TargetCardDashboard extends React.Component {
     constructor(props) {
@@ -19,10 +20,14 @@ class TargetCardDashboard extends React.Component {
         await API.post("/get_target_image", data).then(async (respone) => {
             const res = respone.data;
             if (res.ErrorMessage) window.alert(res.ErrorMessage);
-            if (res.data === false) {
+            if (
+                res.data === false ||
+                res.data.t_image === "" ||
+                res.data.t_image === null
+            ) {
                 this.setState({
                     image:
-                        "https://img.freepik.com/premium-vector/anonymous-hacker-concept-with-flat-design_23-2147895788.jpg?w=740",
+                        targetDefault
                 });
             } else {
                 this.setState({ image: res.data.t_image });
@@ -73,20 +78,21 @@ class TargetCardDashboard extends React.Component {
                         </p>
                     </div>
                 </div>
+                <hr className="DashboardHr" />
                 <div className="TargetCardDashboardContainerStatus">
                     <div className="TargetCardDashboardContainerStatus-container">
                         <div>
-                            Notes Count
+                            Notes Count :
                             <p>{this.state.NotesCount}</p>
                         </div>
                         <span className="separator"></span>
                         <div>
-                            Type
+                            Type :
                             <p>{this.props.type}</p>
                         </div>
                         <span className="separator"></span>
                         <div>
-                            Last Update
+                            Last Update :
                             <p>{Moment(this.props.UpdateDate).format("MMM Do YY")}</p>
                         </div>
                     </div>

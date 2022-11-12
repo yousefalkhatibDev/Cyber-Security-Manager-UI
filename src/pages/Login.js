@@ -103,7 +103,7 @@ class Login extends React.Component {
               </div>
               <br />
               <div className="LinkContainer">
-                <p>Don't have an account? <a href="#">Sign Up</a></p>
+                <p>Don't have an account? <a href="/register">Sign Up</a></p>
               </div>
             </div>
           </form>

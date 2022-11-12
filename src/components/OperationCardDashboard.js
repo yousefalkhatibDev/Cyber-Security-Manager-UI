@@ -1,6 +1,7 @@
 import React from "react";
 import Moment from "moment";
 import API from "../helper/API";
+import operationDefault from "../imgs/operation.jpg"
 
 class OperationCardDashboard extends React.Component {
     constructor(props) {
@@ -29,7 +30,7 @@ class OperationCardDashboard extends React.Component {
             ) {
                 this.setState({
                     image:
-                        "https://img.freepik.com/free-vector/neon-cyber-security-concept-with-padlock-circuit_23-2148536303.jpg?w=900&t=st=1660930843~exp=1660931443~hmac=efcef9e6d44df72e8f8d1f679f29b28823bd0313b2a61eefecbda97b8622878d",
+                        operationDefault
                 });
             } else {
                 this.setState({ image: res.data.o_image });
@@ -117,22 +118,22 @@ class OperationCardDashboard extends React.Component {
                                 </p>
                             )
                     }
-
                 </div>
+                <hr className="DashboardHr" />
                 <div className="OperationCardDashboardContainerStatus">
                     <div className="OperationCardDashboardContainerStatus-container">
                         <div>
-                            Members Count
+                            Members Count :
                             <p>{this.state.MembersCount}</p>
                         </div>
                         <span className="separator"></span>
                         <div>
-                            Targets Count
+                            Targets Count :
                             <p>{this.state.TargetsCount}</p>
                         </div>
                         <span className="separator"></span>
                         <div>
-                            Posts Count
+                            Posts Count :
                             <p>{this.state.PostsCount}</p>
                         </div>
                     </div>

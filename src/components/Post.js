@@ -4,7 +4,6 @@ import API from "../helper/API";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-import Dropdown from "react-bootstrap/Dropdown";
 import deleteIcon from "../icons/delete.svg"
 import sendIcon from "../icons/send.svg"
 
@@ -198,21 +197,17 @@ class Post extends React.Component {
             <Form>
               <p>Are you sure you want to delete this post</p>
             </Form>
+            <div className="ModalButtons">
+              <button
+                className="DeleteButton"
+                onClick={() => {
+                  this.DeletePost();
+                  this.DeleteModal();
+                }}
+              >Delete</button>
+              <button className="CancelButton" onClick={this.DeleteModal}>Cancel</button>
+            </div>
           </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.DeleteModal}>
-              Close
-            </Button>
-            <Button
-              variant="danger"
-              onClick={() => {
-                this.DeletePost();
-                this.DeleteModal();
-              }}
-            >
-              Delete
-            </Button>
-          </Modal.Footer>
         </Modal>
       </>
     );
