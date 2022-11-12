@@ -19,6 +19,7 @@ import OperationProfile from "./pages/OperationProfile";
 import Operations from "./pages/Operations";
 import Targets from "./pages/Targets";
 import Login from "./pages/Login";
+import Register from "./pages/Register"
 import PrivateNavBar from "./Router/PrivateNavBar";
 import Profile from "./pages/Profile";
 
@@ -44,6 +45,7 @@ function App() {
             }
           />
           <Route exact path="/login" element={<Login />} />
+          <Route exact path="/register" element={<Register />} />
           <Route
             exact
             path="/profile"

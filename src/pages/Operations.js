@@ -62,7 +62,6 @@ class Operations extends React.Component {
   }
 
   convertToBase64(file) {
-
     //Check File is not Empty
     if (file) {
       // Select the very first file from list
