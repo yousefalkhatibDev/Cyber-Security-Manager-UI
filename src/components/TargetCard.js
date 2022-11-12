@@ -1,6 +1,7 @@
 import React from "react";
 import Moment from "moment";
 import API from "../helper/API";
+import targetDefault from "../imgs/target.jpg"
 
 class TargetCard extends React.Component {
   constructor(props) {
@@ -19,10 +20,15 @@ class TargetCard extends React.Component {
     await API.post("/get_target_image", data).then(async (respone) => {
       const res = respone.data;
       if (res.ErrorMessage) window.alert(res.ErrorMessage);
-      if (res.data === false) {
+      console.log(res)
+      if (
+        res.data === false ||
+        res.data.t_image === "" ||
+        res.data.t_image === null
+      ) {
         this.setState({
           image:
-            "https://img.freepik.com/premium-vector/anonymous-hacker-concept-with-flat-design_23-2147895788.jpg?w=740",
+            targetDefault
         });
       } else {
         this.setState({ image: res.data.t_image });

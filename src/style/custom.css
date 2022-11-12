@@ -1037,7 +1037,6 @@ select {
 .TargetProfile .TargetProfileInfo {
   width: 100%;
   background-color: #000000;
-  background-image: url("../imgs/background.png");
   background-position: right;
   background-repeat: no-repeat;
   background-size: cover;
@@ -1286,7 +1285,6 @@ select {
 .OperationProfile .OperationProfileInfo {
   width: 100%;
   background-color: #000000;
-  background-image: url("../imgs/background.png");
   background-position: right;
   background-repeat: no-repeat;
   background-size: cover;
