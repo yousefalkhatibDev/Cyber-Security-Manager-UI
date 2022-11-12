@@ -14,17 +14,23 @@ class TaskCard extends React.Component {
     this.state = {
       ChangeStatusModal: false,
       DeleteModal: false,
+      TaskModal: false,
       status: ""
     };
     this.ChangeStatusTask = this.ChangeStatusTask.bind(this)
     this.HandleChangeStatusTask = this.HandleChangeStatusTask.bind(this)
     this.DeleteTask = this.DeleteTask.bind(this);
     this.DeleteModal = this.DeleteModal.bind(this);
+    this.TaskModal = this.TaskModal.bind(this);
     this.UpdateTaskStatus = this.UpdateTaskStatus.bind(this);
   }
 
   DeleteModal() {
     this.setState({ DeleteModal: !this.state.DeleteModal });
+  }
+
+  TaskModal() {
+    this.setState({ TaskModal: !this.state.TaskModal });
   }
 
   async UpdateTaskStatus() {
@@ -107,6 +113,10 @@ class TaskCard extends React.Component {
           Display
         </button> */}
 
+        <button className="BtnTask" onClick={this.TaskModal}>
+          Display
+        </button>
+
         <Modal show={this.state.ChangeStatusModal} onHide={this.ChangeStatusTask}>
           <Modal.Header closeButton>
             <Modal.Title>Change Task Status</Modal.Title>
@@ -168,22 +178,39 @@ class TaskCard extends React.Component {
             <Form>
               <p>Are you sure you want to delete this Task</p>
             </Form>
+            <div className="ModalButtons">
+              <button
+                className="DeleteButton"
+                onClick={() => {
+                  this.DeleteTask();
+                  this.DeleteModal();
+                }}
+              >Delete</button>
+              <button className="CancelButton" onClick={this.DeleteModal}>Cancel</button>
+            </div>
           </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.DeleteModal}>
-              Close
-            </Button>
-            <Button
-              variant="primary"
-              onClick={() => {
-                this.DeleteTask();
-                this.DeleteModal();
-                this.DisplayTask();
-              }}
-            >
-              Delete
-            </Button>
-          </Modal.Footer>
+        </Modal>
+
+        <Modal show={this.state.TaskModal} onHide={this.TaskModal}>
+          <Modal.Body>
+            <div className="TaskModalContent">
+              <img src={this.props.UserImage} className="TaskModalContent-Img" />
+              <div className="TaskModalContent-AuthData">
+                <p className="TaskModalContent-AuthName">{this.props.author}</p>
+                <p className="TaskModalContent-CreateDate">{Moment(this.props.CreateDate).format("MMM Do YY")}</p>
+              </div>
+              <p className="TaskModalContent-Title">{this.props.title}</p>
+              <p className="TaskModalContent-Description">{this.props.text}</p>
+            </div>
+
+            <div className="ModalButtons">
+              <button
+                className="OkButton"
+                onClick={this.DeleteModal}
+              >Delete</button>
+              <button className="CancelButton" onClick={this.TaskModal}>Cancel</button>
+            </div>
+          </Modal.Body>
         </Modal>
       </div>
     );

@@ -169,8 +169,8 @@ class Operations extends React.Component {
     const data = { Token: token, search: this.state.search };
 
     await API.post("/get_operations", data)
-      .then((respone) => {
-        const res = respone.data;
+      .then((response) => {
+        const res = response.data;
 
         if (res.ErrorMessage) {
           window.alert(res.ErrorMessage);

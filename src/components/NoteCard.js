@@ -69,11 +69,6 @@ class NoteCard extends React.Component {
         </button>
 
         <Modal show={this.state.DisplayNote} onHide={this.DisplayNote}>
-          {/* <Modal.Header closeButton>
-            <Modal.Title>
-              {this.props.title} By: {this.props.author}
-            </Modal.Title>
-          </Modal.Header> */}
           <Modal.Body>
             <div className="NoteModalContent">
               <img src={this.props.UserImage} className="NoteModalContent-Img" />
@@ -83,7 +78,6 @@ class NoteCard extends React.Component {
               </div>
               <p className="NoteModalContent-Title">{this.props.title}</p>
               <p className="NoteModalContent-Description">{this.props.text}</p>
-              {/* <p>type: {this.props.type}</p> */}
             </div>
 
             <div className="ModalButtons">
@@ -94,14 +88,6 @@ class NoteCard extends React.Component {
               <button className="CancelButton" onClick={this.DisplayNote}>Cancel</button>
             </div>
           </Modal.Body>
-          {/* <Modal.Footer>
-            <Button variant="danger" onClick={this.DeleteModal}>
-              Delete
-            </Button>
-            <Button variant="secondary" onClick={this.DisplayNote}>
-              Close
-            </Button>
-          </Modal.Footer> */}
         </Modal>
 
         <Modal show={this.state.DeleteModal} onHide={this.DeleteModal}>
