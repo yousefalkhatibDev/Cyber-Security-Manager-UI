@@ -109,14 +109,6 @@ class TargetCard extends React.Component {
             </button>
           </div>
         </div>
-        {/* <button
-          className="TargetCardContainerButton"
-          onClick={() => {
-            window.location = "/target_profile/" + this.props.id;
-          }}
-        >
-          Navigate to Target
-        </button> */}
       </div>
     );
   }
