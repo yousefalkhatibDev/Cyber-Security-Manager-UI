@@ -318,6 +318,15 @@ class Dashboard extends React.Component {
                   width={100}
                 />
               )}
+              {/* <OperationCardDashboard
+                key={1}
+                id={"363e395d-2"}
+                name={"test for pagination"}
+                description={"tesing"}
+                status={"inactive"}
+                CreateDate={"2022-10-06T21:00:00.000Z"}
+                width={100}
+              /> */}
             </div>
             <div className="userTargets-recent">
               <h4 style={{ color: "rgb(30, 30, 100)", margin: "30px 0px 30px 20px" }}>Last accessed target</h4>
@@ -334,6 +343,17 @@ class Dashboard extends React.Component {
                   width={100}
                 />
               )}
+              {/* <TargetCardDashboard
+                key={2}
+                id={"49eb193e-e"}
+                name={"dasda"}
+                description={"asdwadsd"}
+                type={"server"}
+                operation={"test for pagination"}
+                CreateDate={"2022-08-29T21:00:00.000Z"}
+                UpdateDate={"2022-08-29T21:00:00.000Z"}
+                width={100}
+              /> */}
             </div>
           </div>
           <div className="recentPosts-container">

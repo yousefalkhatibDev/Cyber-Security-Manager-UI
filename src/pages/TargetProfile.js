@@ -1047,6 +1047,7 @@ class TargetProfile extends React.Component {
                   <Form.Label>Title</Form.Label>
                   <Form.Control
                     type="text"
+                    placeholder="Enter Note Title here..."
                     autoFocus
                     onChange={this.UpdateNoteTitle}
                   />
@@ -1058,6 +1059,7 @@ class TargetProfile extends React.Component {
                   <Form.Label>Type</Form.Label>
                   <Form.Control
                     type="text"
+                    placeholder="Enter Note Type here..."
                     autoFocus
                     onChange={this.UpdateNoteType}
                   />
@@ -1069,6 +1071,7 @@ class TargetProfile extends React.Component {
                   <Form.Label>Content</Form.Label>
                   <Form.Control
                     as="textarea"
+                    placeholder="Enter Note Content here..."
                     rows={3}
                     onChange={this.UpdateNoteText}
                   />
@@ -1100,33 +1103,11 @@ class TargetProfile extends React.Component {
                   <Form.Label>Relation Type</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="e.g. Alpha, Bravo"
+                    placeholder="Enter Relation Type here..."
                     autoFocus
                     onChange={this.UpdateRelationType}
                   />
                 </Form.Group>
-
-                {/* <Dropdown>
-                  <Dropdown.Toggle variant="primary" id="dropdown-basic">
-                    {this.state.NewRelation.RelatedTargetName}
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu>
-                    {this.state.targets.map((target, i) => {
-                      return (
-                        <Dropdown.Item
-                          key={i}
-                          onClick={() => {
-                            this.UpdateRelationRelatedTarget(target.t_id);
-                            this.UpdateRelationRelatedTargetName(target.t_name);
-                          }}
-                        >
-                          {target.t_name}
-                        </Dropdown.Item>
-                      );
-                    })}
-                  </Dropdown.Menu>
-                </Dropdown> */}
                 <Form.Group>
                   <Form.Label>Related Type</Form.Label>
                   <Form.Select
@@ -1152,6 +1133,7 @@ class TargetProfile extends React.Component {
                   <Form.Label style={{ marginTop: "1rem" }}>Description</Form.Label>
                   <Form.Control
                     as="textarea"
+                    placeholder="Enter Relation Description here..."
                     rows={3}
                     onChange={this.UpdateRelationDescription}
                   />
@@ -1182,6 +1164,7 @@ class TargetProfile extends React.Component {
                   <Form.Label>Target Name</Form.Label>
                   <Form.Control
                     type="text"
+                    placeholder="Enter Target Name here..."
                     autoFocus
                     onChange={this.UpdateNewInfoName}
                   />
@@ -1193,6 +1176,7 @@ class TargetProfile extends React.Component {
                   <Form.Label>Target Description</Form.Label>
                   <Form.Control
                     as="textarea"
+                    placeholder="Enter Target Description here..."
                     rows={3}
                     autoFocus
                     onChange={this.UpdateNewInfoDescription}
@@ -1205,6 +1189,7 @@ class TargetProfile extends React.Component {
                   <Form.Label>Target Location</Form.Label>
                   <Form.Control
                     type="text"
+                    placeholder="Enter Target Location here..."
                     autoFocus
                     onChange={this.UpdateNewInfoLocation}
                   />

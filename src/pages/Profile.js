@@ -240,8 +240,8 @@ export default class Profile extends Component {
                 <input
                   type="text"
                   name="first-name"
-                  placeholder="first name"
-                  defaultValue={this.state.UserInfo.u_name}
+                  placeholder="First name"
+                  defaultValue={this.state.UserInfo.u_name && this.state.UserInfo.u_name.split(" ")[0]}
                   pattern="[A-Za-z]"
                   className="profileCardInfo-input"
                   onChange={(e) => this.UpdateUserName(e, "first")}
@@ -249,8 +249,8 @@ export default class Profile extends Component {
                 <input
                   type="text"
                   name="last-name"
-                  placeholder="last name"
-                  defaultValue={this.state.UserInfo.u_name}
+                  placeholder="Last name"
+                  defaultValue={this.state.UserInfo.u_name && this.state.UserInfo.u_name.split(" ")[1]}
                   pattern="[A-Za-z]"
                   className="profileCardInfo-input"
                   onChange={(e) => this.UpdateUserName(e, "last")}
@@ -260,7 +260,7 @@ export default class Profile extends Component {
                 <input
                   type="text"
                   name="email"
-                  placeholder="email"
+                  placeholder="Email"
                   defaultValue={this.state.UserInfo.u_email}
                   className="profileCardInfo-input"
                   onChange={this.UpdateUserEmail}
