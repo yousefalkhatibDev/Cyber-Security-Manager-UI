@@ -1,5 +1,4 @@
 import React from "react";
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -237,7 +236,7 @@ class Operations extends React.Component {
         <div className="pageHeader">
           <div className="pageHeader-title pageHeader-title-withButton" style={{ width: "95%" }}>
             <div className="pageHeader-title-withButton-Container">
-              <img src={operationIcon} style={{ width: "35px" }} />
+              <img src={operationIcon} style={{ width: "35px" }} alt="" />
               <div>
                 <h1>Operations</h1>
                 <p>Check out new operations and plans!</p>
@@ -264,7 +263,7 @@ class Operations extends React.Component {
                   id="dropdown-basic"
                   style={{ border: "none", backgroundColor: "transparent" }}
                 >
-                  <img src={filterIcon} width={22} />
+                  <img src={filterIcon} width={22} alt="" />
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
                   <Dropdown.Item key="all" onClick={() => this.UpdateFilter("all")}>

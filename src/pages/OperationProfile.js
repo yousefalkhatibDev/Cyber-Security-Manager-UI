@@ -4,14 +4,6 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useParams } from "react-router-dom";
-import Moment from "moment";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faGear,
-  faBullseye,
-  faAddressCard,
-  faListCheck,
-} from "@fortawesome/free-solid-svg-icons";
 import { FiSearch } from "react-icons/fi"
 import filterIcon from "../icons/Filter.svg"
 import { FileUploader } from "react-drag-drop-files";
@@ -1024,7 +1016,7 @@ class OperationProfile extends React.Component {
                       id="dropdown-basic"
                       style={{ border: "none", backgroundColor: "transparent" }}
                     >
-                      <img src={filterIcon} width={22} />
+                      <img src={filterIcon} width={22} alt="" />
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                       <Dropdown.Item key="all" onClick={() => this.UpdateFilterPosts("all")}>
@@ -1086,7 +1078,7 @@ class OperationProfile extends React.Component {
                       id="dropdown-basic"
                       style={{ border: "none", backgroundColor: "transparent" }}
                     >
-                      <img src={filterIcon} width={22} />
+                      <img src={filterIcon} width={22} alt="" />
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                       <Dropdown.Item key="all" onClick={() => this.UpdateFilterTargets("all")}>
@@ -1155,7 +1147,7 @@ class OperationProfile extends React.Component {
                       id="dropdown-basic"
                       style={{ border: "none", backgroundColor: "transparent" }}
                     >
-                      <img src={filterIcon} width={22} />
+                      <img src={filterIcon} width={22} alt="" />
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                       <Dropdown.Item key="all" onClick={() => this.UpdateFilterTasks("all")}>
@@ -1233,6 +1225,7 @@ class OperationProfile extends React.Component {
                             src={member.u_image}
                             alt="user-card"
                             className="profileCardInfo-image"
+                            alt="" 
                           />
                         </label>
                         <div className="profileCardInfo-content">

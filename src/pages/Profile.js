@@ -201,7 +201,7 @@ export default class Profile extends Component {
         <div className="pageHeader">
           <div className="pageHeader-title pageHeader-title-withButton" style={{ width: "95%" }}>
             <div className="pageHeader-title-withButton-Container">
-              <img src={profileIcon} style={{ width: "35px" }} />
+              <img src={profileIcon} style={{ width: "35px" }} alt="" />
               <div>
                 <h1>Profile Page</h1>
                 <p>Manage your account</p>
@@ -217,9 +217,10 @@ export default class Profile extends Component {
                 src={this.state.UserInfo.u_image}
                 alt="user-card"
                 className="profileCardInfo-image"
+                alt="" 
               />
               <div className="overlay">
-                <img src={cameraIcon} width={18} />
+                <img src={cameraIcon} width={18} alt="" />
               </div>
             </label>
             <input type="file" style={{ display: "none" }} onChange={this.convertToBase64} id="inputFile" className="profileCardInfo-fileInput" />

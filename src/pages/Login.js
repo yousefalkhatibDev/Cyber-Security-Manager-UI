@@ -85,10 +85,11 @@ class Login extends React.Component {
                   placeholder="Email"
                   type="text"
                   onChange={this.UpdateEmail}
+                  alt="" 
                 />
               </div>
               <div className="inputLoginContainer">
-                <img src={lockIcon} />
+                <img src={lockIcon} alt="" />
                 <input
                   id="password"
                   name="password"
