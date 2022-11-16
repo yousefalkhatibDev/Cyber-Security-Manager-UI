@@ -1,10 +1,8 @@
 import React from "react";
 import API from "../helper/API";
-import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import deleteIcon from "../icons/delete.svg"
-import { BiDotsVerticalRounded } from "react-icons/bi";
 
 class Comment extends React.Component {
   constructor(props) {
@@ -53,7 +51,7 @@ class Comment extends React.Component {
             </div>
             {this.props.BelongToUser ? (
               <div className="CommentDeleteIcon">
-                <img src={deleteIcon} onClick={this.DeleteModal} />
+                <img src={deleteIcon} onClick={this.DeleteModal} alt=''/>
                 {/* <Dropdown>
                   <Dropdown.Toggle
                     id="dropdown-basic"
