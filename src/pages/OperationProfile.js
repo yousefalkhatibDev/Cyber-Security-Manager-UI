@@ -16,7 +16,6 @@ import API from "../helper/API";
 import Pagination from "../components/Pagination";
 import OperationCardDashboard from "../components/OperationCardDashboard";
 import ProfilesNavigationBar from "../components/ProfilesNavigationBar";
-import Operations from "./Operations";
 
 const fileTypes = ["PDF", "PNG", "GIF", "JPEG", "TIFF", "PSD", "EPS", "AI"];
 
@@ -1225,7 +1224,6 @@ class OperationProfile extends React.Component {
                             src={member.u_image}
                             alt="user-card"
                             className="profileCardInfo-image"
-                            alt="" 
                           />
                         </label>
                         <div className="profileCardInfo-content">

@@ -129,14 +129,13 @@ class Login extends React.Component {
                         <p className="ErrorMessage">{this.state.error}</p>
                         <div>
                             <div className="inputLoginContainer">
-                                <img src={profileIcon} />
+                                <img src={profileIcon} alt="" />
                                 <input
                                     id="userName"
                                     name="userName"
                                     placeholder="Username"
                                     type="text"
                                     onChange={this.UpdateUsername}
-                                    alt="" 
                                 />
                             </div>
                             <div className="inputLoginContainer">

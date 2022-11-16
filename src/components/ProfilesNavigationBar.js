@@ -89,7 +89,7 @@ export default class ProfilesNavigationBar extends Component {
                                         delay={{ show: 200, hide: 200 }}
                                         overlay={(props) => renderTooltip("see notes", props)}
                                     >
-                                        <img src={notesIcon} width="24" />
+                                        <img src={notesIcon} width="24" alt="" />
                                     </OverlayTrigger>
                                     Notes
                                 </button>
@@ -99,7 +99,7 @@ export default class ProfilesNavigationBar extends Component {
                                         delay={{ show: 200, hide: 200 }}
                                         overlay={(props) => renderTooltip("see relations", props)}
                                     >
-                                        <img src={relationsIcon} width="24" />
+                                        <img src={relationsIcon} width="24" alt="" />
                                     </OverlayTrigger>
                                     Relations
                                 </button>

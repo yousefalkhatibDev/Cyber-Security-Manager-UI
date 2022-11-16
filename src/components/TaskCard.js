@@ -78,7 +78,7 @@ class TaskCard extends React.Component {
     return (
       <div className="TaskCardContainer">
         <p className="TaskTitle">
-          <img alt="" className="PostAuthImage" src={this.props.UserImage} alt="" />
+          <img alt="" className="PostAuthImage" src={this.props.UserImage} />
           <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
             <p>{this.props.agent}</p>
             <p> {Moment(this.props.CreateDate).format("MMM Do YY")}</p>

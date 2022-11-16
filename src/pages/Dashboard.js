@@ -262,7 +262,6 @@ class Dashboard extends React.Component {
                       src={this.state.UserImage}
                       alt="user-card"
                       className="user-img-top-bar"
-                      alt="" 
                     />
                   </Dropdown.Toggle>
                   <div className="user-card-nameDiv">{this.state.UserName}</div>

@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import API from "../helper/API";
 import profileIcon from "../icons/profile.svg";
@@ -52,7 +50,6 @@ export default class Profile extends Component {
       // Onload of file read the file content
       fileReader.onload = async function (fileLoadedEvent) {
         let base64 = fileLoadedEvent.target.result;
-        let fileName = event.target.files[0].name;
         self.UpdateUserImage(base64);
         document.getElementById("inputFile").value = null;
       };
@@ -217,7 +214,6 @@ export default class Profile extends Component {
                 src={this.state.UserInfo.u_image}
                 alt="user-card"
                 className="profileCardInfo-image"
-                alt="" 
               />
               <div className="overlay">
                 <img src={cameraIcon} width={18} alt="" />

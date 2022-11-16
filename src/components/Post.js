@@ -118,7 +118,7 @@ class Post extends React.Component {
               <p className="Postauthor">{this.props.createDate.split("T")[0]}</p>
             </div>
             <div className="PostDeleteIcon">
-              <img src={deleteIcon} onClick={this.DeleteModal} />
+              <img src={deleteIcon} onClick={this.DeleteModal} alt="" />
             </div>
           </div>
 
@@ -128,7 +128,7 @@ class Post extends React.Component {
           </p>
           <div className="PostInputContainer">
             <input type="text" className="PostInput" onChange={this.UpdateComment} placeholder="reply" />
-            <img src={sendIcon} className="PostInputIcon" onClick={this.UploadComment} />
+            <img src={sendIcon} className="PostInputIcon" onClick={this.UploadComment} alt="" />
           </div>
           <div
             style={{
