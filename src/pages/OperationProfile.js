@@ -867,7 +867,7 @@ class OperationProfile extends React.Component {
           SettingsTab: false
         });
         break;
-        
+
       case "Members":
         this.setState({
           PostsTab: false,
@@ -877,7 +877,7 @@ class OperationProfile extends React.Component {
           SettingsTab: false
         })
         break
-        
+
       case "Settings":
         this.setState({
           PostsTab: false,
@@ -1309,6 +1309,7 @@ class OperationProfile extends React.Component {
                   <Form.Label>Title</Form.Label>
                   <Form.Control
                     type="text"
+                    placeholder="Enter Post Title here..."
                     autoFocus
                     onChange={this.UpdatePostTitle}
                   />
@@ -1320,6 +1321,7 @@ class OperationProfile extends React.Component {
                   <Form.Label>Description</Form.Label>
                   <Form.Control
                     as="textarea"
+                    placeholder="Enter Post Description here..."
                     rows={3}
                     onChange={this.UpdatePostText}
                   />
@@ -1351,6 +1353,7 @@ class OperationProfile extends React.Component {
                   <Form.Label>Name</Form.Label>
                   <Form.Control
                     type="text"
+                    placeholder="Enter Target Name here..."
                     autoFocus
                     onChange={this.UpdateTargetName}
                   />
@@ -1362,7 +1365,7 @@ class OperationProfile extends React.Component {
                   <Form.Label>Description</Form.Label>
                   <Form.Control
                     as="textarea"
-                    placeholder="about the target"
+                    placeholder="About the Target..."
                     rows={3}
                     onChange={this.UpdateTargetDescription}
                   />
@@ -1374,6 +1377,7 @@ class OperationProfile extends React.Component {
                   <Form.Label>Location</Form.Label>
                   <Form.Control
                     type="text"
+                    placeholder="Enter Target Location here..."
                     autoFocus
                     onChange={this.UpdateTargetLocation}
                   />
@@ -1422,6 +1426,7 @@ class OperationProfile extends React.Component {
                   <Form.Label>Title</Form.Label>
                   <Form.Control
                     type="text"
+                    placeholder="Enter Task Title here..."
                     autoFocus
                     onChange={this.UpdateTaskTitle}
                   />
@@ -1433,6 +1438,7 @@ class OperationProfile extends React.Component {
                   <Form.Label>Description</Form.Label>
                   <Form.Control
                     as="textarea"
+                    placeholder="Enter Task Description here..."
                     rows={3}
                     onChange={this.UpdateTaskDescription}
                   />
@@ -1442,18 +1448,19 @@ class OperationProfile extends React.Component {
                   controlId="exampleForm.ControlInput1"
                 >
                   <Form.Group>
-                    <Form.Label>target type</Form.Label>
+                    <Form.Label>Assign To</Form.Label>
                     <Form.Select onChange={this.UpdateTaskMember}>
-                      {this.state.members.map((member, i) => {
-                        return (
-                          <option
-                            key={i}
-                            value={`${member.u_id} ${member.u_name}`}
-                          >
-                            {member.u_name}
-                          </option>
-                        );
-                      })}
+                      {
+                        this.state.members.map((member, i) => {
+                          return (
+                            <option
+                              key={i}
+                              value={`${member.u_id} ${member.u_name}`}
+                            >
+                              {member.u_name}
+                            </option>
+                          );
+                        })}
                     </Form.Select>
                   </Form.Group>
                   <Form.Group style={{ marginTop: "20px" }}>
@@ -1491,6 +1498,7 @@ class OperationProfile extends React.Component {
                   <Form.Label>User ID</Form.Label>
                   <Form.Control
                     type="text"
+                    placeholder="Example: c694568f-d"
                     autoFocus
                     onChange={this.UpdateMemberID}
                   />
@@ -1575,6 +1583,7 @@ class OperationProfile extends React.Component {
                   <Form.Label>Operation Name</Form.Label>
                   <Form.Control
                     type="text"
+                    placeholder="Enter Operation Name here..."
                     autoFocus
                     onChange={this.UpdateNewInfoName}
                   />
@@ -1586,6 +1595,7 @@ class OperationProfile extends React.Component {
                   <Form.Label>Operation Description</Form.Label>
                   <Form.Control
                     as="textarea"
+                    placeholder="Enter Operation Description here..."
                     rows={3}
                     onChange={this.UpdateNewInfoDescription}
                   />

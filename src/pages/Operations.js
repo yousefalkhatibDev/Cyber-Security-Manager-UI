@@ -323,7 +323,7 @@ class Operations extends React.Component {
                   <Form.Label>Operation Name</Form.Label>
                   <Form.Control
                     type="email"
-                    placeholder="e.g. Alpha, Bravo"
+                    placeholder="Enter Operation Name Here..."
                     autoFocus
                     onChange={this.UpdateName}
                   />
@@ -339,6 +339,7 @@ class Operations extends React.Component {
                     <Form.Label>Operation Password</Form.Label>
                     <Form.Control
                       type="password"
+                      placeholder="Enter Password Here..."
                       autoFocus
                       onChange={this.UpdatePassword}
                     />
