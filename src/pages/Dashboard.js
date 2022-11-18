@@ -32,7 +32,6 @@ class Dashboard extends React.Component {
 
     this.GetOperations = this.GetOperations.bind(this);
     this.GetRecentPosts = this.GetRecentPosts.bind(this);
-    this.GetPosts = this.GetPosts.bind(this);
     this.GetTargets = this.GetTargets.bind(this);
     this.GetRecentTargets = this.GetRecentTargets.bind(this);
     this.GetTargetsCount = this.GetTargetsCount.bind(this);
@@ -89,33 +88,12 @@ class Dashboard extends React.Component {
     await API.post("/get_last_accessed_operation", data)
       .then((respone) => {
         const res = respone.data;
-
         if (res.ErrorMessage) {
           window.alert(res.ErrorMessage);
         }
 
         if (res.data) {
           this.setState({ operations: res.data });
-        }
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
-  }
-
-  async GetPosts(id) {
-    const data = { OperationID: id };
-
-    await API.post("/get_posts", data)
-      .then((respone) => {
-        const res = respone.data;
-
-        if (res.ErrorMessage) {
-          window.alert(res.ErrorMessage);
-        }
-
-        if (res.data) {
-          this.setState({ recentPosts: res });
         }
       })
       .catch(function (error) {
@@ -130,7 +108,7 @@ class Dashboard extends React.Component {
     await API.post("/get_last_accessed_target", data)
       .then((respone) => {
         const res = respone.data;
-
+        console.log(res)
         if (res.ErrorMessage) {
           window.alert(res.ErrorMessage);
         }
@@ -152,10 +130,6 @@ class Dashboard extends React.Component {
       .then((respone) => {
         const res = respone.data;
 
-        if (res.ErrorMessage) {
-          window.alert(res.ErrorMessage);
-        }
-
         if (res.data) {
           this.setState({ recentTargets: res.data });
         }
@@ -166,23 +140,24 @@ class Dashboard extends React.Component {
   }
 
   async GetRecentPosts() {
-    const token = window.sessionStorage.getItem("token");
-    const data = { Token: token };
+    // const token = window.sessionStorage.getItem("token");
+    // const data = { Token: token };
 
-    await API.post("/get_recent_posts", data)
-      .then((respone) => {
-        const res = respone.data;
-        if (res.ErrorMessage) {
-          window.alert(res.ErrorMessage);
-        }
+    // await API.post("/get_recent_posts", data)
+    //   .then((respone) => {
+    //     const res = respone.data;
+    //     if (res.ErrorMessage) {
+    //       window.alert(res.ErrorMessage);
+    //     }
 
-        if (res.data) {
-          this.setState({ recentPosts: res.data });
-        }
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
+    //     if (res.data) {
+    //       this.setState({ recentPosts: res.data });
+    //     }
+    //   })
+    //   .catch(function (error) {
+    //     console.error(error);
+    //   });
+    return;
   }
 
   GoToPostOperation(id) {

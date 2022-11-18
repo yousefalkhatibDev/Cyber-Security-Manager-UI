@@ -3,20 +3,21 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Dropdown from "react-bootstrap/Dropdown";
-// import { IoIosArrowForward } from "react-icons/io";
 import OperationCard from "../components/OperationCard";
 import API from "../helper/API";
 import Pagination from "../components/Pagination";
 import { FiSearch } from "react-icons/fi"
 import filterIcon from "../icons/Filter.svg"
 import operationIcon from "../icons/operation.svg"
+import emptyBoxIcon from "../icons/empty-box.svg"
+import { FileUploader } from "react-drag-drop-files";
+
 // return (
 //   <div className="App">
 //     <img src={base64State} alt="i" />
 //     <a href={base64State} target={base64State}>read pdf</a>
 //   </div>
 // );
-import { FileUploader } from "react-drag-drop-files";
 
 const fileTypes = ["PDF", "PNG", "GIF", "JPEG", "TIFF", "PSD", "EPS", "AI"];
 
@@ -160,8 +161,6 @@ class Operations extends React.Component {
         OperationState: "inactive",
       });
     }
-    // if()
-    // 
   }
 
   async GetOperations() {
@@ -290,6 +289,16 @@ class Operations extends React.Component {
           </div>
           <h2 style={{ color: "rgb(60, 60, 60)" }}>{this.state.operations.length} Operations</h2>
           <hr style={{ marginBottom: "40px" }} />
+          {
+            !this.state.operations.length
+            &&
+            (
+              <div className="NoDataHeader-Container">
+                <h1 className="NoDataHeader-Content">You don't seem to be a member in any Operation!</h1>
+                <img src={emptyBoxIcon} />
+              </div>
+            )
+          }
           <div className="OperationsContainer">
             {currentOperationsToDisplay.map((operation, i) => {
               return (
