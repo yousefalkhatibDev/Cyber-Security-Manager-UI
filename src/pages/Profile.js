@@ -219,7 +219,7 @@ export default class Profile extends Component {
                 className="profileCardInfo-image"
               />
               <div className="overlay">
-                <img src={cameraIcon} width={18} />
+                <img src={cameraIcon} width={18}/>
               </div>
             </label>
             <input type="file" style={{ display: "none" }} onChange={this.convertToBase64} id="inputFile" className="profileCardInfo-fileInput" />

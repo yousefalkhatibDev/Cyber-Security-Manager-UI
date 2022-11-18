@@ -2,6 +2,7 @@ import React from "react";
 import Moment from "moment";
 import API from "../helper/API";
 import operationDefault from "../imgs/operation.jpg"
+import noLastAccessBackground from "../imgs/no-last-access-background.svg"
 
 class OperationCardDashboard extends React.Component {
     constructor(props) {
@@ -70,7 +71,9 @@ class OperationCardDashboard extends React.Component {
     }
 
     componentDidMount() {
-        this.GetImage();
+        if (!this.props.noLastAccess) {
+            this.GetImage();
+        }
         this.GetPostsCount();
         this.GetMembersCount();
         this.GetTargetsCount();
@@ -84,26 +87,43 @@ class OperationCardDashboard extends React.Component {
                 style={{ width: `${this.props.width}%`, padding: "25px" }}
             >
                 <div className="OperationCardDashboard-container">
-                    <img src={this.state.image} alt="vector" />
+                    {
+                        this.props.noLastAccess
+                            ?
+                            (
+                                <img src={noLastAccessBackground} alt="vector" style={{ objectFit: "contain", backgroundColor: "rgb(230, 230, 230)" }} />
+                            )
+                            :
+                            (
+                                <img src={this.state.image} alt="vector" />
+                            )
+                    }
 
-                    <div className="OperationDescription">
-                        <p className="OperationDescription-title">
-                            {/* {this.props.description.length < 77
+                    {
+                        !this.props.noLastAccess
+                        &&
+                        (
+                            <div className="OperationDescription">
+                                <p className="OperationDescription-title">
+                                    {/* {this.props.description.length < 77
                                 ? this.props.description
                                 : this.props.description.substring(0, 76) + "..."} */}
-                            {this.props.name}
-                        </p>
-                        <p className="OperationDescription-date">
-                            {Moment(this.props.CreateDate).format("MMM Do YY")}
-                        </p>
-                        <p className="OperationDescription-description">
-                            {this.props.description.length < 77
-                                ? this.props.description
-                                : this.props.description.substring(0, 76) + "..."}
-                        </p>
-                    </div>
+                                    {this.props.name}
+                                </p>
+                                <p className="OperationDescription-date">
+                                    {Moment(this.props.CreateDate).format("MMM Do YY")}
+                                </p>
+                                <p className="OperationDescription-description">
+                                    {this.props.description.length < 77
+                                        ? this.props.description
+                                        : this.props.description.substring(0, 76) + "..."}
+                                </p>
+                            </div>
+                        )
+                    }
+
                     {
-                        this.props.status === "inactive" ?
+                        this.props.status === "inactive" && !this.props.noLastAccess ?
                             (
                                 <p style={{ paddingRight: "20px", color: "red" }}>
 
@@ -111,12 +131,21 @@ class OperationCardDashboard extends React.Component {
                                 </p>
                             )
                             :
-                            (
-                                <p style={{ paddingRight: "20px", color: "green" }}>
+                            !this.props.noLastAccess
+                                ?
 
-                                    {this.props.status}
-                                </p>
-                            )
+                                (
+                                    <p style={{ paddingRight: "20px", color: "green" }}>
+
+                                        {this.props.status}
+                                    </p>
+                                )
+                                :
+                                (
+                                    <p id="UnknownLabel">
+                                        Unknown
+                                    </p>
+                                )
                     }
                 </div>
                 <hr className="DashboardHr" />
@@ -139,7 +168,7 @@ class OperationCardDashboard extends React.Component {
                     </div>
                 </div>
                 {
-                    !this.props.noButton
+                    !this.props.noButton && !this.props.noLastAccess
                     &&
                     (
                         <div className="OperationCardDashboardContainerButton">
@@ -148,13 +177,14 @@ class OperationCardDashboard extends React.Component {
                                 onClick={() => {
                                     window.location = "/operation_profile/" + this.props.id;
                                 }}
+
                             >
                                 Navigate to Operation
                             </button>
                         </div>
                     )
                 }
-            </div>
+            </div >
         );
     }
 }

@@ -233,6 +233,7 @@ select:focus-visible {
   height: 45px;
   border-radius: 50%;
   margin-left: 10px;
+  object-fit: cover;
   float: left;
 }
 
@@ -768,6 +769,7 @@ select {
 .OperationCardDashboard-container {
   display: flex;
   flex-wrap: wrap;
+  position: relative;
 }
 
 .OperationCardDashboard-container img {
@@ -839,6 +841,13 @@ select {
   font-weight: 600;
   border: none;
   border-radius: 5px;
+}
+
+.OperationCardDashboard-container #UnknownLabel {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  color: gray;
 }
 
 /* end operation card dashboard */
@@ -1180,6 +1189,8 @@ select {
 
 .NoteTitle img {
   width: 90px;
+  height: 90px;
+  object-fit: cover;
   border-radius: 100px;
   border: none;
   margin-right: 12px;
@@ -1462,8 +1473,10 @@ select {
 
 .OperationProfile .Post .PostAuthImage {
   width: 40px;
+  height: 40px;
   border-radius: 100px;
   border-right: none;
+  object-fit: cover;
   margin-right: 12px;
 }
 
@@ -1619,8 +1632,10 @@ select {
 
 .OperationProfile .Comment .CommentAuthImage {
   width: 40px;
+  height: 40px;
   border-radius: 100px;
   border-right: none;
+  object-fit: cover;
   margin-right: 12px;
 }
 
@@ -1694,6 +1709,8 @@ select {
 
 .TaskTitle img {
   width: 40px;
+  height: 40px;
+  object-fit: cover;
   border-radius: 100px;
   border-right: none;
   margin-right: 12px;
@@ -2095,6 +2112,7 @@ select {
   height: 130px;
   width: 130px;
   border-radius: 80px;
+  object-fit: cover;
 }
 
 #labelInputFile .overlay {
@@ -2526,6 +2544,11 @@ footer {
     gap: 20px;
   }
 
+  .OperationCardDashboard-container #UnknownLabel {
+    top: 200px;
+    right: 25px;
+  }
+
   .OperationCard-name {
     font-size: 20px;
   }
@@ -2694,6 +2717,10 @@ footer {
   .recentTargets-container .recentTargetsCard-container .targetCard {
     width: 100%;
     margin-bottom: 20%;
+  }
+
+  .DashboardHr {
+    display: none;
   }
 
   .user-card {

@@ -10,8 +10,10 @@ import operationIcon from "../icons/operation.svg"
 import targetIcon from "../icons/target.svg"
 import logoutIcon from "../icons/Logout.svg"
 import profileIcon from "../icons/profile.svg"
+import sadFaceIcon from "../icons/sad-face.svg"
 import Carousel from 'react-grid-carousel'
 // import Summary from "../components/Summary";
+import noLastAccessBackground from "../imgs/no-last-access-background.svg"
 
 
 class Dashboard extends React.Component {
@@ -108,7 +110,6 @@ class Dashboard extends React.Component {
     await API.post("/get_last_accessed_target", data)
       .then((respone) => {
         const res = respone.data;
-        console.log(res)
         if (res.ErrorMessage) {
           window.alert(res.ErrorMessage);
         }
@@ -282,59 +283,91 @@ class Dashboard extends React.Component {
           <div className="userRecentAccess-Container">
             <div className="userOperations-recent">
               <h4 style={{ color: "rgb(30, 30, 100)", margin: "25px 0px 25px 20px" }}>Last accessed operation</h4>
-              {this.state.operations.length && (
-                <OperationCardDashboard
-                  key={1}
-                  id={this.state.operations[0].o_id}
-                  name={this.state.operations[0].o_name}
-                  description={this.state.operations[0].o_description}
-                  status={this.state.operations[0].o_state}
-                  CreateDate={this.state.operations[0].o_create_date}
-                  width={100}
-                />
-              )}
-              {/* <OperationCardDashboard
-                key={1}
-                id={"363e395d-2"}
-                name={"test for pagination"}
-                description={"tesing"}
-                status={"inactive"}
-                CreateDate={"2022-10-06T21:00:00.000Z"}
-                width={100}
-              /> */}
+              {
+                this.state.operations.length
+                  ?
+                  (
+                    (
+                      <OperationCardDashboard
+                        key={1}
+                        id={this.state.operations[0].o_id}
+                        name={this.state.operations[0].o_name}
+                        description={this.state.operations[0].o_description}
+                        status={this.state.operations[0].o_state}
+                        CreateDate={this.state.operations[0].o_create_date}
+                        width={100}
+                      />
+                    )
+                  )
+                  :
+                  (
+                    <OperationCardDashboard
+                      width={100}
+                      noLastAccess
+                    />
+                  )
+              }
+
+
             </div>
             <div className="userTargets-recent">
               <h4 style={{ color: "rgb(30, 30, 100)", margin: "30px 0px 30px 20px" }}>Last accessed target</h4>
-              {this.state.targets.length && (
-                <TargetCardDashboard
-                  key={2}
-                  id={this.state.targets[0].t_id}
-                  name={this.state.targets[0].t_name}
-                  description={this.state.targets[0].t_description}
-                  type={this.state.targets[0].t_type}
-                  operation={this.state.targets[0].o_name}
-                  CreateDate={this.state.targets[0].t_create_date}
-                  UpdateDate={this.state.targets[0].t_update_date}
-                  width={100}
-                />
-              )}
-              {/* <TargetCardDashboard
-                key={2}
-                id={"49eb193e-e"}
-                name={"dasda"}
-                description={"asdwadsd"}
-                type={"server"}
-                operation={"test for pagination"}
-                CreateDate={"2022-08-29T21:00:00.000Z"}
-                UpdateDate={"2022-08-29T21:00:00.000Z"}
-                width={100}
-              /> */}
+              {this.state.targets.length ?
+                (
+                  <TargetCardDashboard
+                    key={2}
+                    id={this.state.targets[0].t_id}
+                    name={this.state.targets[0].t_name}
+                    description={this.state.targets[0].t_description}
+                    type={this.state.targets[0].t_type}
+                    operation={this.state.targets[0].o_name}
+                    CreateDate={this.state.targets[0].t_create_date}
+                    UpdateDate={this.state.targets[0].t_update_date}
+                    width={100}
+                  />
+                )
+                :
+                (
+                  <TargetCardDashboard
+                    key={2}
+                    width={100}
+                    noLastAccess
+                  />
+                )
+              }
             </div>
           </div>
           <div className="recentPosts-container">
             <h4 style={{ color: "rgb(30, 30, 100)", display: "inline-block", margin: "25px 0px" }}>Recent Posts</h4>
-            <h4 style={{ color: "rgb(30, 30, 100)", display: "inline-block", margin: "25px 0px", position: "absolute", right: 10 }}>See All</h4>
+            {
+              this.state.recentPosts.length > 0
+              &&
+              (
+                <h4 style={{ color: "rgb(30, 30, 100)", display: "inline-block", margin: "25px 0px", position: "absolute", right: 10 }}>
+                  See All
+                </h4>
+              )
+            }
             <div className="recentPostsCard-container">
+              {
+                !this.state.recentTargets.length
+                &&
+                (
+                  <div className="postCard">
+                    <div className="postCard-content" style={{ width: "100%" }}>
+                      <img
+                        alt=""
+                        src={sadFaceIcon}
+                        style={{ width: "50%", height: "100%" }}
+                      />
+                      <div className="postCard-text" style={{ textAlign: "center" }}>
+                        <h5>You don't seem to have any posts for today!</h5>
+                        <p>try again later</p>
+                      </div>
+                    </div>
+                  </div>
+                )
+              }
               {
                 this.state.isMobile
                   &&
@@ -403,8 +436,35 @@ class Dashboard extends React.Component {
 
           <div className="recentTargets-container">
             <h4 style={{ color: "rgb(30, 30, 100)", display: "inline-block", margin: "55px 0px 25px 0px" }}>Recent Targets</h4>
-            <h4 style={{ color: "rgb(30, 30, 100)", display: "inline-block", margin: "55px 0px 25px 0px", position: "absolute", right: 10 }}>See All</h4>
+            {
+              this.state.recentTargets.length > 0
+              &&
+              (
+                <h4 style={{ color: "rgb(30, 30, 100)", display: "inline-block", margin: "55px 0px", position: "absolute", right: 10 }}>
+                  See All
+                </h4>
+              )
+            }
             <div className="recentTargetsCard-container">
+              {
+                !this.state.recentTargets.length
+                &&
+                (
+                  <div className="targetCard">
+                    <div className="targetCard-content" style={{ width: "100%" }}>
+                      <img
+                        alt=""
+                        src={sadFaceIcon}
+                        style={{ width: "50%", height: "100%" }}
+                      />
+                      <div className="targetCard-text" style={{ textAlign: "center" }}>
+                        <h5>There are no targets for today!</h5>
+                        <p>try again later</p>
+                      </div>
+                    </div>
+                  </div>
+                )
+              }
               {this.state.isMobile
                 ?
                 (
