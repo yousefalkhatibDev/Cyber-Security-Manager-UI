@@ -350,7 +350,7 @@ select:focus-visible {
 
 .recentPosts-container {
   margin-left: 20px;
-  width: 95%;
+  width: 100%;
   position: relative;
 }
 
@@ -418,7 +418,7 @@ select:focus-visible {
 
 .recentTargets-container {
   margin-left: 20px;
-  width: 95%;
+  width: 100%;
   position: relative;
 }
 
@@ -1225,6 +1225,8 @@ select {
 
 .NoteModalContent .NoteModalContent-Img {
   width: 150px;
+  height: 150px;
+  object-fit: cover;
   border-radius: 100px;
   margin-top: 20px;
 }
@@ -1777,6 +1779,8 @@ select {
 
 .TaskModalContent .TaskModalContent-Img {
   width: 150px;
+  height: 150px;
+  object-fit: cover;
   border-radius: 100px;
   margin-top: 20px;
 }
@@ -2719,9 +2723,6 @@ footer {
     margin-bottom: 20%;
   }
 
-  .DashboardHr {
-    display: none;
-  }
 
   .user-card {
     margin-bottom: 30px;

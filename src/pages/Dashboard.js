@@ -369,7 +369,7 @@ class Dashboard extends React.Component {
                 )
               }
               {
-                this.state.isMobile
+                this.state.isMobile && this.state.recentPosts.length > 1
                   &&
                   this.state.recentPosts.length
                   ?
@@ -465,7 +465,7 @@ class Dashboard extends React.Component {
                   </div>
                 )
               }
-              {this.state.isMobile
+              {this.state.isMobile && this.state.recentTargets.length > 1
                 ?
                 (
                   <Carousel cols={2} rows={1} gap={10}>

@@ -35,6 +35,7 @@ class TargetProfile extends React.Component {
       id: "",
       image: "",
       name: "",
+      location: "",
       NotesCount: 0,
       type: "",
       NotesFilter: "",
@@ -156,13 +157,44 @@ class TargetProfile extends React.Component {
   }
 
   async UploadNewInfo() {
+    if (
+      this.state.NewInfo.location === "" && !this.state.location.length
+      ||
+      this.state.NewInfo.description === "" && !this.state.description.length
+      ||
+      this.state.NewInfo.name === "" && !this.state.name.length
+    ) {
+      return;
+    }
+
+    let TargetName;
+    let TargetDescription;
+    let TargetLocation;
+
+    if (this.state.NewInfo.name === "" && this.state.name.length) {
+      TargetName = this.state.name
+    } else {
+      TargetName = this.state.NewInfo.name
+    }
+
+    if (this.state.NewInfo.description === "" && this.state.description.length) {
+      TargetDescription = this.state.description
+    } else {
+      TargetDescription = this.state.NewInfo.description
+    }
+
+    if (this.state.NewInfo.location === "" && this.state.location.length) {
+      TargetLocation = this.state.location
+    } else {
+      TargetLocation = this.state.NewInfo.location
+    }
+
     const data = {
       TargetID: this.props.id,
-      TargetName: this.state.NewInfo.name,
-      TargetDescription: this.state.NewInfo.description,
-      TargetLocation: this.state.NewInfo.location,
+      TargetName,
+      TargetDescription,
+      TargetLocation,
     };
-
     await API.post("/update_target_info", data)
       .then((respone) => {
         const res = respone.data;
@@ -559,6 +591,7 @@ class TargetProfile extends React.Component {
           window.alert(res.ErrorMessage);
         }
         if (res.data) {
+          console.log(res.data)
           this.setState({
             id: res.data[0].t_id,
             name: res.data[0].t_name,
@@ -567,6 +600,7 @@ class TargetProfile extends React.Component {
             description: res.data[0].t_description,
             operation: res.data[0].t_operation,
             CreateDate: res.data[0].t_create_date,
+            location: res.data[0].t_location,
             UpdateDate: res.data[0].t_update_date,
           });
         }
@@ -1165,6 +1199,7 @@ class TargetProfile extends React.Component {
                   <Form.Control
                     type="text"
                     placeholder="Enter Target Name here..."
+                    defaultValue={this.state.name}
                     autoFocus
                     onChange={this.UpdateNewInfoName}
                   />
@@ -1177,6 +1212,7 @@ class TargetProfile extends React.Component {
                   <Form.Control
                     as="textarea"
                     placeholder="Enter Target Description here..."
+                    defaultValue={this.state.description}
                     rows={3}
                     autoFocus
                     onChange={this.UpdateNewInfoDescription}
@@ -1190,6 +1226,7 @@ class TargetProfile extends React.Component {
                   <Form.Control
                     type="text"
                     placeholder="Enter Target Location here..."
+                    defaultValue={this.state.location}
                     autoFocus
                     onChange={this.UpdateNewInfoLocation}
                   />

@@ -100,7 +100,7 @@ class TargetCardDashboard extends React.Component {
                         )
                     }
                 </div>
-                <hr className="DashboardHr" />
+                <hr className="DashboardHr" style={{ display: this.props.noLastAccess ? "none" : null }} />
                 <div className="TargetCardDashboardContainerStatus">
                     <div className="TargetCardDashboardContainerStatus-container">
                         <div>

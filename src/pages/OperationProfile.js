@@ -1584,6 +1584,7 @@ class OperationProfile extends React.Component {
                   <Form.Control
                     type="text"
                     placeholder="Enter Operation Name here..."
+                    defaultValue={this.state.name}
                     autoFocus
                     onChange={this.UpdateNewInfoName}
                   />
@@ -1596,6 +1597,7 @@ class OperationProfile extends React.Component {
                   <Form.Control
                     as="textarea"
                     placeholder="Enter Operation Description here..."
+                    defaultValue={this.state.description}
                     rows={3}
                     onChange={this.UpdateNewInfoDescription}
                   />

@@ -148,7 +148,7 @@ class OperationCardDashboard extends React.Component {
                                 )
                     }
                 </div>
-                <hr className="DashboardHr" />
+                <hr className="DashboardHr" style={{ display: this.props.noLastAccess ? "none" : null }} />
                 <div className="OperationCardDashboardContainerStatus">
                     <div className="OperationCardDashboardContainerStatus-container">
                         <div>
