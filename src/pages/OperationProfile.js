@@ -195,10 +195,33 @@ class OperationProfile extends React.Component {
   }
 
   async UploadNewInfo() {
+    let OperationName;
+    let OperationDescription;
+
+    if (this.state.NewInfo.name === "" && this.state.name.length) {
+      OperationName = this.state.name
+    } else {
+      OperationName = this.state.NewInfo.name
+    }
+
+    if (this.state.NewInfo.description === "" && this.state.description.length) {
+      OperationDescription = this.state.description
+    } else {
+      OperationDescription = this.state.NewInfo.description
+    }
+
+    if (
+      this.state.NewInfo.description === "" && !this.state.description.length
+      ||
+      this.state.NewInfo.name === "" && !this.state.name.length
+    ) {
+      return;
+    }
+
     const data = {
       OperationID: this.props.id,
-      OperationName: this.state.NewInfo.name,
-      OperationDescription: this.state.NewInfo.description,
+      OperationName,
+      OperationDescription,
     };
 
     await API.post("/update_operation_info", data)

@@ -129,7 +129,7 @@ class Operations extends React.Component {
       OperationName: "",
       OperationPassword: "",
       OperationDescription: "",
-      OperationState: "State",
+      OperationState: "inactive",
     });
   }
 
