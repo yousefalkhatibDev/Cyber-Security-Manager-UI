@@ -12,6 +12,7 @@ import logoutIcon from "../icons/Logout.svg"
 import profileIcon from "../icons/profile.svg"
 import sadFaceIcon from "../icons/sad-face.svg"
 import Carousel from 'react-grid-carousel'
+import emptyBoxIcon from "../icons/empty-box.svg"
 // import Summary from "../components/Summary";
 import noLastAccessBackground from "../imgs/no-last-access-background.svg"
 
@@ -350,21 +351,12 @@ class Dashboard extends React.Component {
             }
             <div className="recentPostsCard-container">
               {
-                !this.state.recentTargets.length
+                !this.state.recentPosts.length
                 &&
                 (
-                  <div className="postCard">
-                    <div className="postCard-content" style={{ width: "100%" }}>
-                      <img
-                        alt=""
-                        src={sadFaceIcon}
-                        style={{ width: "50%", height: "100%" }}
-                      />
-                      <div className="postCard-text" style={{ textAlign: "center" }}>
-                        <h5>You don't seem to have any posts for today!</h5>
-                        <p>try again later</p>
-                      </div>
-                    </div>
+                  <div className="NoDataHeader-Container">
+                    <h1 className="NoDataHeader-Content">There are no posts to show!</h1>
+                    <img src={emptyBoxIcon} />
                   </div>
                 )
               }
@@ -450,18 +442,9 @@ class Dashboard extends React.Component {
                 !this.state.recentTargets.length
                 &&
                 (
-                  <div className="targetCard">
-                    <div className="targetCard-content" style={{ width: "100%" }}>
-                      <img
-                        alt=""
-                        src={sadFaceIcon}
-                        style={{ width: "50%", height: "100%" }}
-                      />
-                      <div className="targetCard-text" style={{ textAlign: "center" }}>
-                        <h5>There are no targets for today!</h5>
-                        <p>try again later</p>
-                      </div>
-                    </div>
+                  <div className="NoDataHeader-Container">
+                    <h1 className="NoDataHeader-Content">You don't seem to have any targets!</h1>
+                    <img src={emptyBoxIcon} />
                   </div>
                 )
               }

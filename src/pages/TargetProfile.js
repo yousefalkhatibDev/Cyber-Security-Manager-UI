@@ -14,6 +14,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FiSearch } from "react-icons/fi"
 import filterIcon from "../icons/Filter.svg"
+import emptyBoxIcon from "../icons/empty-box.svg"
 
 // components
 import NoteCard from "../components/NoteCard";
@@ -734,58 +735,6 @@ class TargetProfile extends React.Component {
     );
     return (
       <div className="TargetProfile">
-        {/* <ul className="OptionsContainer">
-            <li style={{ width: "23%" }}>
-              <a
-                href={() => null}
-                onClick={() => {
-                  this.SettingsModal();
-                }}
-              >
-                Settings{" "}
-                <FontAwesomeIcon icon={faGear} style={{ marginLeft: "5px" }} />
-              </a>{" "}
-            </li>
-            <li style={{ width: "23%" }}>
-              <a
-                href={() => null}
-                onClick={() => {
-                  this.switchSlider("Notes");
-                }}
-              >
-                Notes{" "}
-                <FontAwesomeIcon
-                  icon={faNoteSticky}
-                  style={{ marginLeft: "5px" }}
-                />
-              </a>
-            </li>
-            <li style={{ width: "27%" }}>
-              <a
-                href={() => null}
-                onClick={() => {
-                  this.switchSlider("Relations");
-                }}
-              >
-                Relations{" "}
-                <FontAwesomeIcon
-                  icon={faPeopleArrows}
-                  style={{ marginLeft: "5px" }}
-                />
-              </a>
-            </li>
-            <li style={{ width: "27%" }}>
-              <a
-                href={() => null}
-                onClick={() => {
-                  this.switchSlider("RelatedBy");
-                }}
-              >
-                Related By{" "}
-                <FontAwesomeIcon icon={faPerson} style={{ marginLeft: "5px" }} />
-              </a>
-            </li>
-          </ul> */}
         <div className="TargetProfileContent">
           <div className="TargetProfileCardContainer">
             {
@@ -850,6 +799,16 @@ class TargetProfile extends React.Component {
                 notesActive
               />
               <button className="NewNoteButton" onClick={this.NotesModal}>add new note</button>
+              {
+                !this.state.notes.length
+                &&
+                (
+                  <div className="NoDataHeader-Container">
+                    <h1 className="NoDataHeader-Content">There are no notes in this target try adding one!</h1>
+                    <img src={emptyBoxIcon} />
+                  </div>
+                )
+              }
               <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between" }}>
                 {currentNotesToDisplay.map((note, i) => {
                   return (
@@ -923,6 +882,16 @@ class TargetProfile extends React.Component {
                 relationsActive
               />
               <button className="NewRelationButton" onClick={this.RelationsModal}>add new relation</button>
+              {
+                !this.state.relations.length
+                &&
+                (
+                  <div className="NoDataHeader-Container">
+                    <h1 className="NoDataHeader-Content">This target doesn't have a relation with any of the other targets!</h1>
+                    <img src={emptyBoxIcon} />
+                  </div>
+                )
+              }
               <div style={{ display: "flex", flexWrap: "wrap" }}>
                 {currentRelationsToDisplay.map((relation, i) => {
                   return (
@@ -953,28 +922,6 @@ class TargetProfile extends React.Component {
               className="RelatedBySlide"
               style={{ display: this.state.RelatedByTab ? null : "none" }}
             >
-              {/* <div className="SearchContainer">
-                <div>
-                  <button disabled>Search</button>
-                  <input
-                    placeholder="Search by title or description"
-                    type="text"
-                    className="Search"
-                    onChange={this.UpdateSearchRelatedByTargets}
-                  />
-                </div>
-                <div style={{ marginLeft: "20px" }}>
-                  <button disabled>Sort by</button>
-                  <select
-                    className="Sort"
-                    onChange={this.UpdateFilterRelatedByTargets}
-                  >
-                    <option value="all">All</option>
-                    <option value="name">Name</option>
-                    <option value="date">Date</option>
-                  </select>
-                </div>
-              </div> */}
               <div className="SearchContainer" style={{ margin: "0px", marginTop: "40px" }}>
                 <div className="SearchInputContainer">
                   <input
@@ -1015,6 +962,16 @@ class TargetProfile extends React.Component {
                 SwitchSlider={this.SwitchSlider}
                 relatedByActive
               />
+              {
+                !this.state.RelatedBY.length
+                &&
+                (
+                  <div className="NoDataHeader-Container">
+                    <h1 className="NoDataHeader-Content">This target is not related with any of the other targets!</h1>
+                    <img src={emptyBoxIcon} />
+                  </div>
+                )
+              }
               <div style={{ display: "flex", flexWrap: "wrap" }}>
                 {currentRelatedByToDisplay.map((relation, i) => {
                   return (
