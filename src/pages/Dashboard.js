@@ -2,7 +2,7 @@ import React from "react";
 import OperationCardDashboard from "../components/OperationCardDashboard";
 import TargetCardDashboard from "../components/TargetCardDashboard";
 import API from "../helper/API";
-import ProgressBar from 'react-bootstrap/ProgressBar';
+// import ProgressBar from 'react-bootstrap/ProgressBar';
 import Dropdown from "react-bootstrap/Dropdown";
 import { Link } from "react-router-dom";
 import dashboardIcon from "../icons/dashboard-fill.svg"
@@ -220,7 +220,7 @@ class Dashboard extends React.Component {
       <>
         <div className='pageHeader' style={{ justifyContent: "space-between" }}>
           <div className='pageHeader-title'>
-            <img src={dashboardIcon} />
+            <img src={dashboardIcon} alt="" />
             <div>
               <h1>Dashboard</h1>
               <p>Check out your status and progress!</p>
@@ -248,12 +248,12 @@ class Dashboard extends React.Component {
                         <span style={{ marginRight: "25px", color: "black" }}>
                           My Profile
                         </span>{" "}
-                        <img src={profileIcon} style={{ width: "15px" }} />
+                        <img src={profileIcon} style={{ width: "15px" }} alt="" />
                       </Link>
                     </Dropdown.Item>
                     <Dropdown.Item onClick={this.Logout}>
                       <span style={{ marginRight: "50px" }}>Logout</span>{" "}
-                      <img src={logoutIcon} style={{ width: "15px" }} />
+                      <img src={logoutIcon} style={{ width: "15px" }} alt="" />
                     </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
@@ -265,7 +265,7 @@ class Dashboard extends React.Component {
         <div className="dashboard-buttonsSection">
           <button>
             <div>
-              <img src={operationIcon} style={{ width: "32px" }} />
+              <img src={operationIcon} style={{ width: "32px" }} alt="" />
               Operations
               <span className="separator"></span>
               {this.state.operations.length}
@@ -273,7 +273,7 @@ class Dashboard extends React.Component {
           </button>
           <button>
             <div>
-              <img src={targetIcon} style={{ width: "32px" }} />
+              <img src={targetIcon} style={{ width: "32px" }} alt="" />
               Targets
               <span className="separator"></span>
               {this.state.targets.length}

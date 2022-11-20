@@ -96,7 +96,7 @@ class Targets extends React.Component {
       <>
         <div className="pageHeader">
           <div className="pageHeader-title">
-            <img src={targetIcon} />
+            <img src={targetIcon} alt="" />
             <div>
               <h1>Targets</h1>
               <p>See who people are targeting!</p>
@@ -122,7 +122,7 @@ class Targets extends React.Component {
                   id="dropdown-basic"
                   style={{ border: "none", backgroundColor: "transparent" }}
                 >
-                  <img src={filterIcon} width={22} />
+                  <img src={filterIcon} width={22} alt="" />
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
                   <Dropdown.Item key="all" onClick={() => this.UpdateFilter("all")}>

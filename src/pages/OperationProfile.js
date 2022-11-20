@@ -4,14 +4,6 @@ import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useParams } from "react-router-dom";
-import Moment from "moment";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faGear,
-  faBullseye,
-  faAddressCard,
-  faListCheck,
-} from "@fortawesome/free-solid-svg-icons";
 import { FiSearch } from "react-icons/fi"
 import filterIcon from "../icons/Filter.svg"
 import emptyBoxIcon from "../icons/empty-box.svg"
@@ -25,7 +17,6 @@ import API from "../helper/API";
 import Pagination from "../components/Pagination";
 import OperationCardDashboard from "../components/OperationCardDashboard";
 import ProfilesNavigationBar from "../components/ProfilesNavigationBar";
-import Operations from "./Operations";
 
 const fileTypes = ["PDF", "PNG", "GIF", "JPEG", "TIFF", "PSD", "EPS", "AI"];
 
@@ -1048,7 +1039,7 @@ class OperationProfile extends React.Component {
                       id="dropdown-basic"
                       style={{ border: "none", backgroundColor: "transparent" }}
                     >
-                      <img src={filterIcon} width={22} />
+                      <img src={filterIcon} width={22} alt="" />
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                       <Dropdown.Item key="all" onClick={() => this.UpdateFilterPosts("all")}>
@@ -1120,7 +1111,7 @@ class OperationProfile extends React.Component {
                       id="dropdown-basic"
                       style={{ border: "none", backgroundColor: "transparent" }}
                     >
-                      <img src={filterIcon} width={22} />
+                      <img src={filterIcon} width={22} alt="" />
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                       <Dropdown.Item key="all" onClick={() => this.UpdateFilterTargets("all")}>
@@ -1199,7 +1190,7 @@ class OperationProfile extends React.Component {
                       id="dropdown-basic"
                       style={{ border: "none", backgroundColor: "transparent" }}
                     >
-                      <img src={filterIcon} width={22} />
+                      <img src={filterIcon} width={22} alt="" />
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                       <Dropdown.Item key="all" onClick={() => this.UpdateFilterTasks("all")}>

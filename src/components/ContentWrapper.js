@@ -1,4 +1,3 @@
-import { toHaveFocus } from "@testing-library/jest-dom/dist/matchers";
 import React, { Component } from "react";
 
 class ContentWrapper extends Component {

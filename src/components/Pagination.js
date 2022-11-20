@@ -20,7 +20,7 @@ export default class Pagination extends Component {
             if (this.props.type && this.props.type === "targets") {
               return (
                 <a
-                  href="#"
+                  href={() => null}
                   key={i}
                   className="active"
                   onClick={() => this.props.setCurrentPage(page, "targets")}
@@ -31,7 +31,7 @@ export default class Pagination extends Component {
             } else if (this.props.type && this.props.type === "tasks") {
               return (
                 <a
-                  href="#"
+                  href={() => null}
                   key={i}
                   className="active"
                   onClick={() => this.props.setCurrentPage(page, "tasks")}
@@ -42,7 +42,7 @@ export default class Pagination extends Component {
             } else if (this.props.type && this.props.type === "notes") {
               return (
                 <a
-                  href="#"
+                  href={() => null}
                   key={i}
                   className="active"
                   onClick={() => this.props.setCurrentPage(page, "notes")}
@@ -53,7 +53,7 @@ export default class Pagination extends Component {
             } else if (this.props.type && this.props.type === "relations") {
               return (
                 <a
-                  href="#"
+                  href={() => null}
                   key={i}
                   className="active"
                   onClick={() => this.props.setCurrentPage(page, "relations")}
@@ -64,7 +64,7 @@ export default class Pagination extends Component {
             } else if (this.props.type && this.props.type === "relatedBy") {
               return (
                 <a
-                  href="#"
+                  href={() => null}
                   key={i}
                   className="active"
                   onClick={() => this.props.setCurrentPage(page, "relatedBy")}
@@ -75,7 +75,7 @@ export default class Pagination extends Component {
             } else {
               return (
                 <a
-                  href="#"
+                  href={() => null}
                   key={i}
                   className="active"
                   onClick={() => this.props.setCurrentPage(page)}
@@ -88,7 +88,7 @@ export default class Pagination extends Component {
             if (this.props.type && this.props.type === "targets") {
               return (
                 <a
-                  href="#"
+                  href={() => null}
                   key={i}
                   onClick={() => this.props.setCurrentPage(page, "targets")}
                 >
@@ -98,7 +98,7 @@ export default class Pagination extends Component {
             } else if (this.props.type && this.props.type === "tasks") {
               return (
                 <a
-                  href="#"
+                  href={() => null}
                   key={i}
                   onClick={() => this.props.setCurrentPage(page, "tasks")}
                 >
@@ -108,7 +108,7 @@ export default class Pagination extends Component {
             } else if (this.props.type && this.props.type === "notes") {
               return (
                 <a
-                  href="#"
+                  href={() => null}
                   key={i}
                   onClick={() => this.props.setCurrentPage(page, "notes")}
                 >
@@ -118,7 +118,7 @@ export default class Pagination extends Component {
             } else if (this.props.type && this.props.type === "relations") {
               return (
                 <a
-                  href="#"
+                  href={() => null}
                   key={i}
                   onClick={() => this.props.setCurrentPage(page, "relations")}
                 >
@@ -128,7 +128,7 @@ export default class Pagination extends Component {
             } else if (this.props.type && this.props.type === "relatedBy") {
               return (
                 <a
-                  href="#"
+                  href={() => null}
                   key={i}
                   onClick={() => this.props.setCurrentPage(page, "relatedBy")}
                 >
@@ -138,7 +138,7 @@ export default class Pagination extends Component {
             } else {
               return (
                 <a
-                  href="#"
+                  href={() => null}
                   key={i}
                   onClick={() => this.props.setCurrentPage(page)}
                 >
@@ -148,8 +148,8 @@ export default class Pagination extends Component {
             }
           }
         })}
-        <a href="#">...</a>
-        <a href="#">»</a>
+        <a href={() => null}>...</a>
+        <a href={() => null}>»</a>
       </div>
     ) : (
       <></>

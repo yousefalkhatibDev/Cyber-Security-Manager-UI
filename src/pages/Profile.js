@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import API from "../helper/API";
 import profileIcon from "../icons/profile.svg";
@@ -52,7 +50,6 @@ export default class Profile extends Component {
       // Onload of file read the file content
       fileReader.onload = async function (fileLoadedEvent) {
         let base64 = fileLoadedEvent.target.result;
-        let fileName = event.target.files[0].name;
         self.UpdateUserImage(base64);
         document.getElementById("inputFile").value = null;
       };
@@ -201,7 +198,7 @@ export default class Profile extends Component {
         <div className="pageHeader">
           <div className="pageHeader-title pageHeader-title-withButton" style={{ width: "95%" }}>
             <div className="pageHeader-title-withButton-Container">
-              <img src={profileIcon} style={{ width: "35px" }} />
+              <img src={profileIcon} style={{ width: "35px" }} alt="" />
               <div>
                 <h1>Profile Page</h1>
                 <p>Manage your account</p>
@@ -219,7 +216,7 @@ export default class Profile extends Component {
                 className="profileCardInfo-image"
               />
               <div className="overlay">
-                <img src={cameraIcon} width={18}/>
+                <img src={cameraIcon} width={18} alt="" />
               </div>
             </label>
             <input type="file" style={{ display: "none" }} onChange={this.convertToBase64} id="inputFile" className="profileCardInfo-fileInput" />

@@ -1,23 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import dashboardIcon from "../icons/dashboard-fill.svg"
 import operationIcon from "../icons/operation.svg"
 import targetIcon from "../icons/target.svg"
 import logoutIcon from "../icons/Logout.svg"
 import profileIcon from "../icons/profile.svg"
-import Dropdown from 'react-bootstrap/Dropdown';
 import {
   CDBSidebar,
-  CDBSidebarContent,
   CDBSidebarFooter,
   CDBSidebarHeader,
-  CDBSidebarMenu,
-  CDBSidebarMenuItem
 } from "cdbreact";
 import { NavLink } from "react-router-dom";
 
 import API from "../helper/API";
-import { ConstructionOutlined } from "@mui/icons-material";
 
 class NavBar extends React.Component {
   constructor(props) {
@@ -143,7 +137,7 @@ class NavBar extends React.Component {
               >
                 Sidebar Footer
               </div> */}
-              <img className="sideBar-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Black_colour.jpg/1200px-Black_colour.jpg" />
+              <img className="sideBar-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Black_colour.jpg/1200px-Black_colour.jpg" alt=""/>
               <div className={this.state.isOpened ? "sideBar-footer" : "sideBar-footer sideBar-footer-closed"}>
                 <NavLink
                   to="/dashboard"
@@ -151,7 +145,7 @@ class NavBar extends React.Component {
                     isActive ? "sideBar-active" : undefined
                   }
                 >
-                  <img src={dashboardIcon} style={{ width: "22px" }} />
+                  <img src={dashboardIcon} style={{ width: "22px" }} alt=""/>
                   <span>Dashboard</span>
                 </NavLink>
                 <NavLink
@@ -160,7 +154,7 @@ class NavBar extends React.Component {
                     isActive ? "sideBar-active" : undefined
                   }
                 >
-                  <img src={operationIcon} style={{ width: "22px" }} />
+                  <img src={operationIcon} style={{ width: "22px" }} alt=""/>
                   <span>Operations</span>
                 </NavLink>
                 <NavLink
@@ -169,7 +163,7 @@ class NavBar extends React.Component {
                     isActive ? "sideBar-active" : undefined
                   }
                 >
-                  <img src={targetIcon} style={{ width: "22px" }} />
+                  <img src={targetIcon} style={{ width: "22px" }} alt=""/>
                   <span>Targets</span>
                 </NavLink>
                 <NavLink
@@ -178,11 +172,11 @@ class NavBar extends React.Component {
                     isActive ? "sideBar-active" : undefined
                   }
                 >
-                  <img src={profileIcon} style={{ width: "22px" }} />
+                  <img src={profileIcon} style={{ width: "22px" }} alt=""/>
                   <span>profile</span>
                 </NavLink>
                 <NavLink onClick={this.Logout} >
-                  <img src={logoutIcon} style={{ width: "22px" }} />
+                  <img src={logoutIcon} style={{ width: "22px" }} alt=""/>
                   <span>logout</span>
                 </NavLink>
               </div>

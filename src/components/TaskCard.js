@@ -1,5 +1,4 @@
 import React from "react";
-import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import API from "../helper/API";
@@ -194,7 +193,7 @@ class TaskCard extends React.Component {
         <Modal show={this.state.TaskModal} onHide={this.TaskModal}>
           <Modal.Body>
             <div className="TaskModalContent">
-              <img src={this.props.UserImage} className="TaskModalContent-Img" />
+              <img src={this.props.UserImage} className="TaskModalContent-Img" alt="" />
               <div className="TaskModalContent-AuthData">
                 <p className="TaskModalContent-AuthName">{this.props.author}</p>
                 <p className="TaskModalContent-CreateDate">{Moment(this.props.CreateDate).format("MMM Do YY")}</p>

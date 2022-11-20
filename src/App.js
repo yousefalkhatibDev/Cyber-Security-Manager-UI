@@ -9,7 +9,6 @@ import "./style/App.css"
 // components
 import NavBar from "./components/NavBar";
 import PrivateRoute from "./Router/PrivateRoute";
-import Footer from "./components/Footer";
 import ContentWrapper from "./components/ContentWrapper";
 
 // screens

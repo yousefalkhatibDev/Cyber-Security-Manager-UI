@@ -129,7 +129,7 @@ class Login extends React.Component {
                         <p className="ErrorMessage">{this.state.error}</p>
                         <div>
                             <div className="inputLoginContainer">
-                                <img src={profileIcon} />
+                                <img src={profileIcon} alt="" />
                                 <input
                                     id="userName"
                                     name="userName"
@@ -139,7 +139,7 @@ class Login extends React.Component {
                                 />
                             </div>
                             <div className="inputLoginContainer">
-                                <img src={emailIcon} />
+                                <img src={emailIcon} alt="" />
                                 <input
                                     id="email"
                                     name="email"
@@ -149,7 +149,7 @@ class Login extends React.Component {
                                 />
                             </div>
                             <div className="inputLoginContainer">
-                                <img src={lockIcon} />
+                                <img src={lockIcon} alt="" />
                                 <input
                                     id="password"
                                     name="password"
@@ -159,7 +159,7 @@ class Login extends React.Component {
                                 />
                             </div>
                             <div className="inputLoginContainer">
-                                <img src={lockIcon} id="textarea" />
+                                <img src={lockIcon} id="textarea" alt="" />
                                 <textarea
                                     id="bio"
                                     name="bio"

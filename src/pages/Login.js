@@ -78,7 +78,7 @@ class Login extends React.Component {
             <p className="ErrorMessage">{this.state.error}</p>
             <div>
               <div className="inputLoginContainer">
-                <img src={emailIcon} />
+                <img src={emailIcon} alt="" />
                 <input
                   id="user-name"
                   name="user-name"
@@ -88,7 +88,7 @@ class Login extends React.Component {
                 />
               </div>
               <div className="inputLoginContainer">
-                <img src={lockIcon} />
+                <img src={lockIcon} alt="" />
                 <input
                   id="password"
                   name="password"

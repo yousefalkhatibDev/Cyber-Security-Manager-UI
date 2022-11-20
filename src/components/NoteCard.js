@@ -49,7 +49,7 @@ class NoteCard extends React.Component {
     return (
       <div className="NoteCardContainer">
         <p className="NoteTitle">
-          <img alt="" className="PostAuthImage" src={this.props.UserImage} />
+          <img className="PostAuthImage" src={this.props.UserImage} alt="" />
           <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
             <p>{this.props.author}</p>
             <p>{this.props.CreateDate.split("T")[0]}</p>
@@ -71,7 +71,7 @@ class NoteCard extends React.Component {
         <Modal show={this.state.DisplayNote} onHide={this.DisplayNote}>
           <Modal.Body>
             <div className="NoteModalContent">
-              <img src={this.props.UserImage} className="NoteModalContent-Img" />
+              <img src={this.props.UserImage} className="NoteModalContent-Img" alt="" />
               <div className="NoteModalContent-AuthData">
                 <p className="NoteModalContent-AuthName">{this.props.author}</p>
                 <p className="NoteModalContent-CreateDate">{Moment(this.props.CreateDate).format("MMM Do YY")}</p>
