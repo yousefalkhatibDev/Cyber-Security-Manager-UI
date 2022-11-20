@@ -795,7 +795,7 @@ class TargetProfile extends React.Component {
                 (
                   <div className="NoDataHeader-Container">
                     <h1 className="NoDataHeader-Content">There are no notes in this target try adding one!</h1>
-                    <img src={emptyBoxIcon} />
+                    <img src={emptyBoxIcon} alt=""/>
                   </div>
                 )
               }
@@ -878,7 +878,7 @@ class TargetProfile extends React.Component {
                 (
                   <div className="NoDataHeader-Container">
                     <h1 className="NoDataHeader-Content">This target doesn't have a relation with any of the other targets!</h1>
-                    <img src={emptyBoxIcon} />
+                    <img src={emptyBoxIcon} alt=""/>
                   </div>
                 )
               }
@@ -958,7 +958,7 @@ class TargetProfile extends React.Component {
                 (
                   <div className="NoDataHeader-Container">
                     <h1 className="NoDataHeader-Content">This target is not related with any of the other targets!</h1>
-                    <img src={emptyBoxIcon} />
+                    <img src={emptyBoxIcon} alt=""/>
                   </div>
                 )
               }

@@ -10,11 +10,9 @@ import operationIcon from "../icons/operation.svg"
 import targetIcon from "../icons/target.svg"
 import logoutIcon from "../icons/Logout.svg"
 import profileIcon from "../icons/profile.svg"
-import sadFaceIcon from "../icons/sad-face.svg"
 import Carousel from 'react-grid-carousel'
 import emptyBoxIcon from "../icons/empty-box.svg"
-// import Summary from "../components/Summary";
-import noLastAccessBackground from "../imgs/no-last-access-background.svg"
+// import Summary from "../components/Summary";"
 
 
 class Dashboard extends React.Component {
@@ -356,7 +354,7 @@ class Dashboard extends React.Component {
                 (
                   <div className="NoDataHeader-Container">
                     <h1 className="NoDataHeader-Content">There are no posts to show!</h1>
-                    <img src={emptyBoxIcon} />
+                    <img src={emptyBoxIcon} alt=""/>
                   </div>
                 )
               }
@@ -444,7 +442,7 @@ class Dashboard extends React.Component {
                 (
                   <div className="NoDataHeader-Container">
                     <h1 className="NoDataHeader-Content">You don't seem to have any targets!</h1>
-                    <img src={emptyBoxIcon} />
+                    <img src={emptyBoxIcon} alt=""/>
                   </div>
                 )
               }
