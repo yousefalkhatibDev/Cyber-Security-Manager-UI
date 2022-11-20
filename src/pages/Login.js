@@ -1,6 +1,5 @@
 import React from "react";
 import API from "../helper/API";
-import ReactLoading from "react-loading";
 import emailIcon from "../icons/email.svg"
 import lockIcon from "../icons/lock.svg"
 
@@ -11,7 +10,6 @@ class Login extends React.Component {
       email: "",
       password: "",
       error: "",
-      loading: false,
     };
 
     this.Login = this.Login.bind(this);
@@ -22,12 +20,14 @@ class Login extends React.Component {
   UpdateEmail(event) {
     this.setState({
       email: event.target.value,
+      error: ""
     });
   }
 
   UpdatePassword(event) {
     this.setState({
       password: event.target.value,
+      error: ""
     });
   }
 
@@ -37,8 +37,6 @@ class Login extends React.Component {
       Password: this.state.password,
     };
 
-    this.setState({ loading: true });
-
     await API.post("/login", data)
       .then((respone) => {
         const res = respone.data;
@@ -47,8 +45,9 @@ class Login extends React.Component {
           window.alert(res.ErrorMessage);
         }
 
+        console.log(res.data)
+
         if (res.data) {
-          this.setState({ loading: false });
           window.sessionStorage.setItem("token", res.data);
           window.location = "/";
         } else {
@@ -63,14 +62,6 @@ class Login extends React.Component {
   render() {
     return (
       <div className="Login">
-        {this.state.loading === true ? (
-          <ReactLoading
-            type={"bars"}
-            color={"#324ab2"}
-            height={100}
-            width={100}
-          />
-        ) : (
           <form action="index.html" method="post">
             <h1>
               Sign In
@@ -107,7 +98,6 @@ class Login extends React.Component {
               </div>
             </div>
           </form>
-        )}
       </div>
     );
   }
