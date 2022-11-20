@@ -76,6 +76,9 @@ class Post extends React.Component {
   }
 
   async UploadComment() {
+    if (this.state.NewComment.comment === "") {
+      return;
+    }
     const data = {
       CommnetPost: this.props.id,
       CommnetText: this.state.NewComment.comment,
@@ -87,21 +90,16 @@ class Post extends React.Component {
         const res = respone.data;
         if (res.ErrorMessage) window.alert(res.ErrorMessage);
         if (res.data) this.GetComments();
+        this.setState({
+          NewComment: {
+            comment: ""
+          }
+        })
       })
       .catch(function (error) {
         console.error(error);
       });
   }
-
-  // CommentModal() {
-  //   this.setState((prevState) => ({
-  //     CommentModal: !this.state.CommentModal,
-  //     NewComment: {
-  //       ...prevState.NewComment,
-  //       comment: "",
-  //     },
-  //   }));
-  // }
 
   componentDidMount() {
     this.GetComments();
@@ -127,8 +125,8 @@ class Post extends React.Component {
             {this.props.text}
           </p>
           <div className="PostInputContainer">
-            <input type="text" className="PostInput" onChange={this.UpdateComment} placeholder="reply" />
-            <img src={sendIcon} className="PostInputIcon" onClick={this.UploadComment} alt="" />
+            <input type="text" className="PostInput" onChange={this.UpdateComment} placeholder="reply" value={this.state.NewComment.comment} />
+            <img src={sendIcon} className="PostInputIcon" onClick={this.UploadComment} alt=""/>
           </div>
           <div
             style={{

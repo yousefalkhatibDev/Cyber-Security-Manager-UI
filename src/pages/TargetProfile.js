@@ -5,6 +5,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import { useParams } from "react-router-dom";
 import { FiSearch } from "react-icons/fi"
 import filterIcon from "../icons/Filter.svg"
+import emptyBoxIcon from "../icons/empty-box.svg"
 
 // components
 import NoteCard from "../components/NoteCard";
@@ -25,6 +26,7 @@ class TargetProfile extends React.Component {
       id: "",
       image: "",
       name: "",
+      location: "",
       NotesCount: 0,
       type: "",
       NotesFilter: "",
@@ -146,13 +148,44 @@ class TargetProfile extends React.Component {
   }
 
   async UploadNewInfo() {
+    if (
+      this.state.NewInfo.location === "" && !this.state.location.length
+      ||
+      this.state.NewInfo.description === "" && !this.state.description.length
+      ||
+      this.state.NewInfo.name === "" && !this.state.name.length
+    ) {
+      return;
+    }
+
+    let TargetName;
+    let TargetDescription;
+    let TargetLocation;
+
+    if (this.state.NewInfo.name === "" && this.state.name.length) {
+      TargetName = this.state.name
+    } else {
+      TargetName = this.state.NewInfo.name
+    }
+
+    if (this.state.NewInfo.description === "" && this.state.description.length) {
+      TargetDescription = this.state.description
+    } else {
+      TargetDescription = this.state.NewInfo.description
+    }
+
+    if (this.state.NewInfo.location === "" && this.state.location.length) {
+      TargetLocation = this.state.location
+    } else {
+      TargetLocation = this.state.NewInfo.location
+    }
+
     const data = {
       TargetID: this.props.id,
-      TargetName: this.state.NewInfo.name,
-      TargetDescription: this.state.NewInfo.description,
-      TargetLocation: this.state.NewInfo.location,
+      TargetName,
+      TargetDescription,
+      TargetLocation,
     };
-
     await API.post("/update_target_info", data)
       .then((respone) => {
         const res = respone.data;
@@ -549,6 +582,7 @@ class TargetProfile extends React.Component {
           window.alert(res.ErrorMessage);
         }
         if (res.data) {
+          console.log(res.data)
           this.setState({
             id: res.data[0].t_id,
             name: res.data[0].t_name,
@@ -557,6 +591,7 @@ class TargetProfile extends React.Component {
             description: res.data[0].t_description,
             operation: res.data[0].t_operation,
             CreateDate: res.data[0].t_create_date,
+            location: res.data[0].t_location,
             UpdateDate: res.data[0].t_update_date,
           });
         }
@@ -690,58 +725,6 @@ class TargetProfile extends React.Component {
     );
     return (
       <div className="TargetProfile">
-        {/* <ul className="OptionsContainer">
-            <li style={{ width: "23%" }}>
-              <a
-                href={() => null}
-                onClick={() => {
-                  this.SettingsModal();
-                }}
-              >
-                Settings{" "}
-                <FontAwesomeIcon icon={faGear} style={{ marginLeft: "5px" }} />
-              </a>{" "}
-            </li>
-            <li style={{ width: "23%" }}>
-              <a
-                href={() => null}
-                onClick={() => {
-                  this.switchSlider("Notes");
-                }}
-              >
-                Notes{" "}
-                <FontAwesomeIcon
-                  icon={faNoteSticky}
-                  style={{ marginLeft: "5px" }}
-                />
-              </a>
-            </li>
-            <li style={{ width: "27%" }}>
-              <a
-                href={() => null}
-                onClick={() => {
-                  this.switchSlider("Relations");
-                }}
-              >
-                Relations{" "}
-                <FontAwesomeIcon
-                  icon={faPeopleArrows}
-                  style={{ marginLeft: "5px" }}
-                />
-              </a>
-            </li>
-            <li style={{ width: "27%" }}>
-              <a
-                href={() => null}
-                onClick={() => {
-                  this.switchSlider("RelatedBy");
-                }}
-              >
-                Related By{" "}
-                <FontAwesomeIcon icon={faPerson} style={{ marginLeft: "5px" }} />
-              </a>
-            </li>
-          </ul> */}
         <div className="TargetProfileContent">
           <div className="TargetProfileCardContainer">
             {
@@ -806,6 +789,16 @@ class TargetProfile extends React.Component {
                 notesActive
               />
               <button className="NewNoteButton" onClick={this.NotesModal}>add new note</button>
+              {
+                !this.state.notes.length
+                &&
+                (
+                  <div className="NoDataHeader-Container">
+                    <h1 className="NoDataHeader-Content">There are no notes in this target try adding one!</h1>
+                    <img src={emptyBoxIcon} />
+                  </div>
+                )
+              }
               <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between" }}>
                 {currentNotesToDisplay.map((note, i) => {
                   return (
@@ -879,6 +872,16 @@ class TargetProfile extends React.Component {
                 relationsActive
               />
               <button className="NewRelationButton" onClick={this.RelationsModal}>add new relation</button>
+              {
+                !this.state.relations.length
+                &&
+                (
+                  <div className="NoDataHeader-Container">
+                    <h1 className="NoDataHeader-Content">This target doesn't have a relation with any of the other targets!</h1>
+                    <img src={emptyBoxIcon} />
+                  </div>
+                )
+              }
               <div style={{ display: "flex", flexWrap: "wrap" }}>
                 {currentRelationsToDisplay.map((relation, i) => {
                   return (
@@ -909,28 +912,6 @@ class TargetProfile extends React.Component {
               className="RelatedBySlide"
               style={{ display: this.state.RelatedByTab ? null : "none" }}
             >
-              {/* <div className="SearchContainer">
-                <div>
-                  <button disabled>Search</button>
-                  <input
-                    placeholder="Search by title or description"
-                    type="text"
-                    className="Search"
-                    onChange={this.UpdateSearchRelatedByTargets}
-                  />
-                </div>
-                <div style={{ marginLeft: "20px" }}>
-                  <button disabled>Sort by</button>
-                  <select
-                    className="Sort"
-                    onChange={this.UpdateFilterRelatedByTargets}
-                  >
-                    <option value="all">All</option>
-                    <option value="name">Name</option>
-                    <option value="date">Date</option>
-                  </select>
-                </div>
-              </div> */}
               <div className="SearchContainer" style={{ margin: "0px", marginTop: "40px" }}>
                 <div className="SearchInputContainer">
                   <input
@@ -971,6 +952,16 @@ class TargetProfile extends React.Component {
                 SwitchSlider={this.SwitchSlider}
                 relatedByActive
               />
+              {
+                !this.state.RelatedBY.length
+                &&
+                (
+                  <div className="NoDataHeader-Container">
+                    <h1 className="NoDataHeader-Content">This target is not related with any of the other targets!</h1>
+                    <img src={emptyBoxIcon} />
+                  </div>
+                )
+              }
               <div style={{ display: "flex", flexWrap: "wrap" }}>
                 {currentRelatedByToDisplay.map((relation, i) => {
                   return (
@@ -1155,6 +1146,7 @@ class TargetProfile extends React.Component {
                   <Form.Control
                     type="text"
                     placeholder="Enter Target Name here..."
+                    defaultValue={this.state.name}
                     autoFocus
                     onChange={this.UpdateNewInfoName}
                   />
@@ -1167,6 +1159,7 @@ class TargetProfile extends React.Component {
                   <Form.Control
                     as="textarea"
                     placeholder="Enter Target Description here..."
+                    defaultValue={this.state.description}
                     rows={3}
                     autoFocus
                     onChange={this.UpdateNewInfoDescription}
@@ -1180,6 +1173,7 @@ class TargetProfile extends React.Component {
                   <Form.Control
                     type="text"
                     placeholder="Enter Target Location here..."
+                    defaultValue={this.state.location}
                     autoFocus
                     onChange={this.UpdateNewInfoLocation}
                   />

@@ -2,6 +2,7 @@ import React from "react";
 import Moment from "moment";
 import API from "../helper/API";
 import targetDefault from "../imgs/target.jpg"
+import noLastAccessBackground from "../imgs/no-last-access-background.svg"
 
 class TargetCardDashboard extends React.Component {
     constructor(props) {
@@ -52,7 +53,11 @@ class TargetCardDashboard extends React.Component {
 
     componentDidMount() {
         this.GetNotesCount();
-        this.GetImage();
+        setTimeout(() => {
+            if (!this.props.noLastAccess) {
+                this.GetImage();
+            }
+        }, 800)
     }
 
     render() {
@@ -62,23 +67,40 @@ class TargetCardDashboard extends React.Component {
                 style={{ width: `${this.props.width}%` }}
             >
                 <div className="TargetCardDashboard-container">
-                    <img src={this.state.image} alt="vector" />
-                    <div className="TargetDescription">
+                    {
+                        this.props.noLastAccess
+                            ?
+                            (
+                                <img src={noLastAccessBackground} alt="vector" style={{ objectFit: "contain", backgroundColor: "rgb(230, 230, 230)" }} />
+                            )
+                            :
+                            (
+                                <img src={this.state.image} alt="vector" />
+                            )
+                    }
 
-                        <p className="TargetDescription-title">
-                            {this.props.name}
-                        </p>
-                        <p className="TargetDescription-date">
-                            {Moment(this.props.CreateDate).format("MMM Do YY")}
-                        </p>
-                        <p className="TargetDescription-description">
-                            {this.props.description.length < 77
-                                ? this.props.description
-                                : this.props.description.substring(0, 76) + "..."}
-                        </p>
-                    </div>
+                    {
+                        !this.props.noLastAccess
+                        &&
+                        (
+                            <div className="TargetDescription">
+
+                                <p className="TargetDescription-title">
+                                    {this.props.name}
+                                </p>
+                                <p className="TargetDescription-date">
+                                    {Moment(this.props.CreateDate).format("MMM Do YY")}
+                                </p>
+                                <p className="TargetDescription-description">
+                                    {this.props.description.length < 77
+                                        ? this.props.description
+                                        : this.props.description.substring(0, 76) + "..."}
+                                </p>
+                            </div>
+                        )
+                    }
                 </div>
-                <hr className="DashboardHr" />
+                <hr className="DashboardHr" style={{ display: this.props.noLastAccess ? "none" : null }} />
                 <div className="TargetCardDashboardContainerStatus">
                     <div className="TargetCardDashboardContainerStatus-container">
                         <div>
@@ -88,7 +110,7 @@ class TargetCardDashboard extends React.Component {
                         <span className="separator"></span>
                         <div>
                             Type :
-                            <p>{this.props.type}</p>
+                            <p>{this.props.noLastAccess ? "Unknown" : this.props.type}</p>
                         </div>
                         <span className="separator"></span>
                         <div>
@@ -98,7 +120,7 @@ class TargetCardDashboard extends React.Component {
                     </div>
                 </div>
                 {
-                    !this.props.noButton
+                    !this.props.noButton && !this.props.noLastAccess
                     &&
                     (
                         <div className="TargetCardDashboardContainerButton">

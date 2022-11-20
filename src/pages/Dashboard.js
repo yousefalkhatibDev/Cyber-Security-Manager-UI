@@ -10,8 +10,11 @@ import operationIcon from "../icons/operation.svg"
 import targetIcon from "../icons/target.svg"
 import logoutIcon from "../icons/Logout.svg"
 import profileIcon from "../icons/profile.svg"
+import sadFaceIcon from "../icons/sad-face.svg"
 import Carousel from 'react-grid-carousel'
+import emptyBoxIcon from "../icons/empty-box.svg"
 // import Summary from "../components/Summary";
+import noLastAccessBackground from "../imgs/no-last-access-background.svg"
 
 
 class Dashboard extends React.Component {
@@ -32,7 +35,6 @@ class Dashboard extends React.Component {
 
     this.GetOperations = this.GetOperations.bind(this);
     this.GetRecentPosts = this.GetRecentPosts.bind(this);
-    this.GetPosts = this.GetPosts.bind(this);
     this.GetTargets = this.GetTargets.bind(this);
     this.GetRecentTargets = this.GetRecentTargets.bind(this);
     this.GetTargetsCount = this.GetTargetsCount.bind(this);
@@ -89,33 +91,12 @@ class Dashboard extends React.Component {
     await API.post("/get_last_accessed_operation", data)
       .then((respone) => {
         const res = respone.data;
-
         if (res.ErrorMessage) {
           window.alert(res.ErrorMessage);
         }
 
         if (res.data) {
           this.setState({ operations: res.data });
-        }
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
-  }
-
-  async GetPosts(id) {
-    const data = { OperationID: id };
-
-    await API.post("/get_posts", data)
-      .then((respone) => {
-        const res = respone.data;
-
-        if (res.ErrorMessage) {
-          window.alert(res.ErrorMessage);
-        }
-
-        if (res.data) {
-          this.setState({ recentPosts: res });
         }
       })
       .catch(function (error) {
@@ -130,7 +111,6 @@ class Dashboard extends React.Component {
     await API.post("/get_last_accessed_target", data)
       .then((respone) => {
         const res = respone.data;
-
         if (res.ErrorMessage) {
           window.alert(res.ErrorMessage);
         }
@@ -152,10 +132,6 @@ class Dashboard extends React.Component {
       .then((respone) => {
         const res = respone.data;
 
-        if (res.ErrorMessage) {
-          window.alert(res.ErrorMessage);
-        }
-
         if (res.data) {
           this.setState({ recentTargets: res.data });
         }
@@ -166,23 +142,24 @@ class Dashboard extends React.Component {
   }
 
   async GetRecentPosts() {
-    const token = window.sessionStorage.getItem("token");
-    const data = { Token: token };
+    // const token = window.sessionStorage.getItem("token");
+    // const data = { Token: token };
 
-    await API.post("/get_recent_posts", data)
-      .then((respone) => {
-        const res = respone.data;
-        if (res.ErrorMessage) {
-          window.alert(res.ErrorMessage);
-        }
+    // await API.post("/get_recent_posts", data)
+    //   .then((respone) => {
+    //     const res = respone.data;
+    //     if (res.ErrorMessage) {
+    //       window.alert(res.ErrorMessage);
+    //     }
 
-        if (res.data) {
-          this.setState({ recentPosts: res.data });
-        }
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
+    //     if (res.data) {
+    //       this.setState({ recentPosts: res.data });
+    //     }
+    //   })
+    //   .catch(function (error) {
+    //     console.error(error);
+    //   });
+    return;
   }
 
   GoToPostOperation(id) {
@@ -307,61 +284,84 @@ class Dashboard extends React.Component {
           <div className="userRecentAccess-Container">
             <div className="userOperations-recent">
               <h4 style={{ color: "rgb(30, 30, 100)", margin: "25px 0px 25px 20px" }}>Last accessed operation</h4>
-              {this.state.operations.length && (
-                <OperationCardDashboard
-                  key={1}
-                  id={this.state.operations[0].o_id}
-                  name={this.state.operations[0].o_name}
-                  description={this.state.operations[0].o_description}
-                  status={this.state.operations[0].o_state}
-                  CreateDate={this.state.operations[0].o_create_date}
-                  width={100}
-                />
-              )}
-              {/* <OperationCardDashboard
-                key={1}
-                id={"363e395d-2"}
-                name={"test for pagination"}
-                description={"tesing"}
-                status={"inactive"}
-                CreateDate={"2022-10-06T21:00:00.000Z"}
-                width={100}
-              /> */}
+              {
+                this.state.operations.length
+                  ?
+                  (
+                    (
+                      <OperationCardDashboard
+                        key={1}
+                        id={this.state.operations[0].o_id}
+                        name={this.state.operations[0].o_name}
+                        description={this.state.operations[0].o_description}
+                        status={this.state.operations[0].o_state}
+                        CreateDate={this.state.operations[0].o_create_date}
+                        width={100}
+                      />
+                    )
+                  )
+                  :
+                  (
+                    <OperationCardDashboard
+                      width={100}
+                      noLastAccess
+                    />
+                  )
+              }
+
+
             </div>
             <div className="userTargets-recent">
               <h4 style={{ color: "rgb(30, 30, 100)", margin: "30px 0px 30px 20px" }}>Last accessed target</h4>
-              {this.state.targets.length && (
-                <TargetCardDashboard
-                  key={2}
-                  id={this.state.targets[0].t_id}
-                  name={this.state.targets[0].t_name}
-                  description={this.state.targets[0].t_description}
-                  type={this.state.targets[0].t_type}
-                  operation={this.state.targets[0].o_name}
-                  CreateDate={this.state.targets[0].t_create_date}
-                  UpdateDate={this.state.targets[0].t_update_date}
-                  width={100}
-                />
-              )}
-              {/* <TargetCardDashboard
-                key={2}
-                id={"49eb193e-e"}
-                name={"dasda"}
-                description={"asdwadsd"}
-                type={"server"}
-                operation={"test for pagination"}
-                CreateDate={"2022-08-29T21:00:00.000Z"}
-                UpdateDate={"2022-08-29T21:00:00.000Z"}
-                width={100}
-              /> */}
+              {this.state.targets.length ?
+                (
+                  <TargetCardDashboard
+                    key={2}
+                    id={this.state.targets[0].t_id}
+                    name={this.state.targets[0].t_name}
+                    description={this.state.targets[0].t_description}
+                    type={this.state.targets[0].t_type}
+                    operation={this.state.targets[0].o_name}
+                    CreateDate={this.state.targets[0].t_create_date}
+                    UpdateDate={this.state.targets[0].t_update_date}
+                    width={100}
+                  />
+                )
+                :
+                (
+                  <TargetCardDashboard
+                    key={2}
+                    width={100}
+                    noLastAccess
+                  />
+                )
+              }
             </div>
           </div>
           <div className="recentPosts-container">
             <h4 style={{ color: "rgb(30, 30, 100)", display: "inline-block", margin: "25px 0px" }}>Recent Posts</h4>
-            <h4 style={{ color: "rgb(30, 30, 100)", display: "inline-block", margin: "25px 0px", position: "absolute", right: 10 }}>See All</h4>
+            {
+              this.state.recentPosts.length > 0
+              &&
+              (
+                <h4 style={{ color: "rgb(30, 30, 100)", display: "inline-block", margin: "25px 0px", position: "absolute", right: 10 }}>
+                  See All
+                </h4>
+              )
+            }
             <div className="recentPostsCard-container">
               {
-                this.state.isMobile
+                !this.state.recentPosts.length
+                &&
+                (
+                  <div className="NoDataHeader-Container">
+                    <h1 className="NoDataHeader-Content">There are no posts to show!</h1>
+                    <img src={emptyBoxIcon} />
+                  </div>
+                )
+              }
+              {
+                this.state.isMobile && this.state.recentPosts.length > 1
                   &&
                   this.state.recentPosts.length
                   ?
@@ -428,9 +428,27 @@ class Dashboard extends React.Component {
 
           <div className="recentTargets-container">
             <h4 style={{ color: "rgb(30, 30, 100)", display: "inline-block", margin: "55px 0px 25px 0px" }}>Recent Targets</h4>
-            <h4 style={{ color: "rgb(30, 30, 100)", display: "inline-block", margin: "55px 0px 25px 0px", position: "absolute", right: 10 }}>See All</h4>
+            {
+              this.state.recentTargets.length > 0
+              &&
+              (
+                <h4 style={{ color: "rgb(30, 30, 100)", display: "inline-block", margin: "55px 0px", position: "absolute", right: 10 }}>
+                  See All
+                </h4>
+              )
+            }
             <div className="recentTargetsCard-container">
-              {this.state.isMobile
+              {
+                !this.state.recentTargets.length
+                &&
+                (
+                  <div className="NoDataHeader-Container">
+                    <h1 className="NoDataHeader-Content">You don't seem to have any targets!</h1>
+                    <img src={emptyBoxIcon} />
+                  </div>
+                )
+              }
+              {this.state.isMobile && this.state.recentTargets.length > 1
                 ?
                 (
                   <Carousel cols={2} rows={1} gap={10}>

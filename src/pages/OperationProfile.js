@@ -6,6 +6,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import { useParams } from "react-router-dom";
 import { FiSearch } from "react-icons/fi"
 import filterIcon from "../icons/Filter.svg"
+import emptyBoxIcon from "../icons/empty-box.svg"
 import { FileUploader } from "react-drag-drop-files";
 
 // components
@@ -186,10 +187,33 @@ class OperationProfile extends React.Component {
   }
 
   async UploadNewInfo() {
+    let OperationName;
+    let OperationDescription;
+
+    if (this.state.NewInfo.name === "" && this.state.name.length) {
+      OperationName = this.state.name
+    } else {
+      OperationName = this.state.NewInfo.name
+    }
+
+    if (this.state.NewInfo.description === "" && this.state.description.length) {
+      OperationDescription = this.state.description
+    } else {
+      OperationDescription = this.state.NewInfo.description
+    }
+
+    if (
+      this.state.NewInfo.description === "" && !this.state.description.length
+      ||
+      this.state.NewInfo.name === "" && !this.state.name.length
+    ) {
+      return;
+    }
+
     const data = {
       OperationID: this.props.id,
-      OperationName: this.state.NewInfo.name,
-      OperationDescription: this.state.NewInfo.description,
+      OperationName,
+      OperationDescription,
     };
 
     await API.post("/update_operation_info", data)
@@ -1039,6 +1063,16 @@ class OperationProfile extends React.Component {
                 postsActive
               />
               <button className="NewPostButton" onClick={this.PostModal}>add new post</button>
+              {
+                !this.state.posts.length
+                &&
+                (
+                  <div className="NoDataHeader-Container">
+                    <h1 className="NoDataHeader-Content">This Operation doesn't have any posts try adding one!</h1>
+                    <img src={emptyBoxIcon} />
+                  </div>
+                )
+              }
               {this.state.posts.map((post, i) => {
                 return (
                   <Post
@@ -1102,6 +1136,16 @@ class OperationProfile extends React.Component {
               />
               <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between" }}>
                 <button className="NewTargetButton" onClick={this.TargetModal}>add new target</button>
+                {
+                  !this.state.targets.length
+                  &&
+                  (
+                    <div className="NoDataHeader-Container">
+                      <h1 className="NoDataHeader-Content">There are no targets in this operation!</h1>
+                      <img src={emptyBoxIcon} />
+                    </div>
+                  )
+                }
                 {currentTargetsToDisplay.map((target, i) => {
                   return (
                     <TargetCard
@@ -1177,6 +1221,16 @@ class OperationProfile extends React.Component {
                 }}
               >
                 <button className="NewTaskButton" onClick={this.TaskModal}>add new task</button>
+                {
+                  !this.state.tasks.length
+                  &&
+                  (
+                    <div className="NoDataHeader-Container">
+                      <h1 className="NoDataHeader-Content">There are no tasks in this operation try adding one!</h1>
+                      <img src={emptyBoxIcon} />
+                    </div>
+                  )
+                }
                 {currentTasksToDisplay.map((task, i) => {
                   return (
                     <TaskCard
@@ -1575,6 +1629,7 @@ class OperationProfile extends React.Component {
                   <Form.Control
                     type="text"
                     placeholder="Enter Operation Name here..."
+                    defaultValue={this.state.name}
                     autoFocus
                     onChange={this.UpdateNewInfoName}
                   />
@@ -1587,6 +1642,7 @@ class OperationProfile extends React.Component {
                   <Form.Control
                     as="textarea"
                     placeholder="Enter Operation Description here..."
+                    defaultValue={this.state.description}
                     rows={3}
                     onChange={this.UpdateNewInfoDescription}
                   />

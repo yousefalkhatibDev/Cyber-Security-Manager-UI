@@ -98,22 +98,18 @@ class NoteCard extends React.Component {
             <Form>
               <p>Are you sure you want to delete this Note</p>
             </Form>
+            <div className="ModalButtons">
+              <button
+                className="DeleteButton"
+                onClick={() => {
+                  this.DeleteNote();
+                  this.DeleteModal();
+                  this.DisplayNote();
+                }}
+              >Delete</button>
+              <button className="CancelButton" onClick={this.DeleteModal}>Cancel</button>
+            </div>
           </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={this.DeleteModal}>
-              Close
-            </Button>
-            <Button
-              variant="primary"
-              onClick={() => {
-                this.DeleteNote();
-                this.DeleteModal();
-                this.DisplayNote();
-              }}
-            >
-              Delete
-            </Button>
-          </Modal.Footer>
         </Modal>
       </div>
     );

@@ -233,6 +233,7 @@ select:focus-visible {
   height: 45px;
   border-radius: 50%;
   margin-left: 10px;
+  object-fit: cover;
   float: left;
 }
 
@@ -349,7 +350,7 @@ select:focus-visible {
 
 .recentPosts-container {
   margin-left: 20px;
-  width: 95%;
+  width: 100%;
   position: relative;
 }
 
@@ -417,7 +418,7 @@ select:focus-visible {
 
 .recentTargets-container {
   margin-left: 20px;
-  width: 95%;
+  width: 100%;
   position: relative;
 }
 
@@ -768,6 +769,7 @@ select {
 .OperationCardDashboard-container {
   display: flex;
   flex-wrap: wrap;
+  position: relative;
 }
 
 .OperationCardDashboard-container img {
@@ -839,6 +841,13 @@ select {
   font-weight: 600;
   border: none;
   border-radius: 5px;
+}
+
+.OperationCardDashboard-container #UnknownLabel {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  color: gray;
 }
 
 /* end operation card dashboard */
@@ -1180,6 +1189,8 @@ select {
 
 .NoteTitle img {
   width: 90px;
+  height: 90px;
+  object-fit: cover;
   border-radius: 100px;
   border: none;
   margin-right: 12px;
@@ -1214,6 +1225,8 @@ select {
 
 .NoteModalContent .NoteModalContent-Img {
   width: 150px;
+  height: 150px;
+  object-fit: cover;
   border-radius: 100px;
   margin-top: 20px;
 }
@@ -1462,8 +1475,10 @@ select {
 
 .OperationProfile .Post .PostAuthImage {
   width: 40px;
+  height: 40px;
   border-radius: 100px;
   border-right: none;
+  object-fit: cover;
   margin-right: 12px;
 }
 
@@ -1619,8 +1634,10 @@ select {
 
 .OperationProfile .Comment .CommentAuthImage {
   width: 40px;
+  height: 40px;
   border-radius: 100px;
   border-right: none;
+  object-fit: cover;
   margin-right: 12px;
 }
 
@@ -1694,6 +1711,8 @@ select {
 
 .TaskTitle img {
   width: 40px;
+  height: 40px;
+  object-fit: cover;
   border-radius: 100px;
   border-right: none;
   margin-right: 12px;
@@ -1760,6 +1779,8 @@ select {
 
 .TaskModalContent .TaskModalContent-Img {
   width: 150px;
+  height: 150px;
+  object-fit: cover;
   border-radius: 100px;
   margin-top: 20px;
 }
@@ -2095,6 +2116,7 @@ select {
   height: 130px;
   width: 130px;
   border-radius: 80px;
+  object-fit: cover;
 }
 
 #labelInputFile .overlay {
@@ -2305,6 +2327,26 @@ footer {
 
 /* end modal buttons */
 
+.NoDataHeader-Container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.NoDataHeader-Content {
+  width: 70%;
+  font-size: 30px;
+  line-height: 2em;
+  margin-bottom: 20px;
+}
+
+.NoDataHeader-Container img {
+  width: 100px;
+}
+
 @media screen and (max-width: 1115px) {
   .OperationCard-name {
     font-size: 2.5vw;
@@ -2344,6 +2386,10 @@ footer {
 
   .dashboard-buttonsSection button div {
     width: 90%;
+  }
+
+  .NoDataHeader-Content {
+    width: 100%;
   }
 }
 
@@ -2502,6 +2548,11 @@ footer {
     gap: 20px;
   }
 
+  .OperationCardDashboard-container #UnknownLabel {
+    top: 200px;
+    right: 25px;
+  }
+
   .OperationCard-name {
     font-size: 20px;
   }
@@ -2640,6 +2691,14 @@ footer {
     margin: 10px 15px;
   }
 
+  .NoDataHeader-Content {
+    font-size: 22px;
+  }
+
+  .NoDataHeader-Container img {
+    width: 80px;
+  }
+
   .dashboard-buttonsSection {
     flex-direction: column;
     align-items: center;
@@ -2663,6 +2722,7 @@ footer {
     width: 100%;
     margin-bottom: 20%;
   }
+
 
   .user-card {
     margin-bottom: 30px;
@@ -2752,6 +2812,14 @@ footer {
     display: block;
     font-size: 15px;
     margin: 5px 0px;
+  }
+
+  .NoDataHeader-Content {
+    font-size: 20px;
+  }
+
+  .NoDataHeader-Container img {
+    width: 60px;
   }
 
   .SearchContainer .SearchInputContainer svg {

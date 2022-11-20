@@ -6,6 +6,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import filterIcon from "../icons/Filter.svg"
 import targetIcon from "../icons/target.svg"
 import { FiSearch } from "react-icons/fi";
+import emptyBoxIcon from "../icons/empty-box.svg"
 
 class Targets extends React.Component {
   constructor(props) {
@@ -141,6 +142,16 @@ class Targets extends React.Component {
           </div>
           <h2 style={{ color: "rgb(60, 60, 60)" }}>{this.state.targets.length} Targets</h2>
           <hr style={{ marginBottom: "40px" }} />
+          {
+            !this.state.targets.length
+            &&
+            (
+              <div className="NoDataHeader-Container">
+                <h1 className="NoDataHeader-Content">There are no targets for now!</h1>
+                <img src={emptyBoxIcon} />
+              </div>
+            )
+          }
           <div className="TargetsContainer">
             {currentTargetsToDisplay.map((target, i) => {
               return (
