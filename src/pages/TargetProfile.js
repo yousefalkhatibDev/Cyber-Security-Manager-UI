@@ -149,11 +149,11 @@ class TargetProfile extends React.Component {
 
   async UploadNewInfo() {
     if (
-      this.state.NewInfo.location === "" && !this.state.location.length
+      ((this.state.NewInfo.location === "") && !this.state.location.length)
       ||
-      this.state.NewInfo.description === "" && !this.state.description.length
+      ((this.state.NewInfo.description === "") && !this.state.description.length)
       ||
-      this.state.NewInfo.name === "" && !this.state.name.length
+      ((this.state.NewInfo.name === "") && !this.state.name.length)
     ) {
       return;
     }

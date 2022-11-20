@@ -294,7 +294,7 @@ class Operations extends React.Component {
             (
               <div className="NoDataHeader-Container">
                 <h1 className="NoDataHeader-Content">You don't seem to be a member in any Operation!</h1>
-                <img src={emptyBoxIcon} />
+                <img src={emptyBoxIcon} alt=""/>
               </div>
             )
           }

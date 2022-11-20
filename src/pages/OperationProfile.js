@@ -190,22 +190,22 @@ class OperationProfile extends React.Component {
     let OperationName;
     let OperationDescription;
 
-    if (this.state.NewInfo.name === "" && this.state.name.length) {
+    if ((this.state.NewInfo.name === "") && this.state.name.length) {
       OperationName = this.state.name
     } else {
       OperationName = this.state.NewInfo.name
     }
 
-    if (this.state.NewInfo.description === "" && this.state.description.length) {
+    if ((this.state.NewInfo.description === "") && this.state.description.length) {
       OperationDescription = this.state.description
     } else {
       OperationDescription = this.state.NewInfo.description
     }
 
     if (
-      this.state.NewInfo.description === "" && !this.state.description.length
+      ((this.state.NewInfo.description === "") && !this.state.description.length)
       ||
-      this.state.NewInfo.name === "" && !this.state.name.length
+      ((this.state.NewInfo.name === "") && !this.state.name.length)
     ) {
       return;
     }
@@ -1069,7 +1069,7 @@ class OperationProfile extends React.Component {
                 (
                   <div className="NoDataHeader-Container">
                     <h1 className="NoDataHeader-Content">This Operation doesn't have any posts try adding one!</h1>
-                    <img src={emptyBoxIcon} />
+                    <img src={emptyBoxIcon} alt=""/>
                   </div>
                 )
               }
@@ -1142,7 +1142,7 @@ class OperationProfile extends React.Component {
                   (
                     <div className="NoDataHeader-Container">
                       <h1 className="NoDataHeader-Content">There are no targets in this operation!</h1>
-                      <img src={emptyBoxIcon} />
+                      <img src={emptyBoxIcon} alt=""/>
                     </div>
                   )
                 }
@@ -1190,7 +1190,7 @@ class OperationProfile extends React.Component {
                       id="dropdown-basic"
                       style={{ border: "none", backgroundColor: "transparent" }}
                     >
-                      <img src={filterIcon} width={22} alt="" />
+                      <img src={filterIcon} width={22} alt=""/>
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                       <Dropdown.Item key="all" onClick={() => this.UpdateFilterTasks("all")}>
@@ -1227,7 +1227,7 @@ class OperationProfile extends React.Component {
                   (
                     <div className="NoDataHeader-Container">
                       <h1 className="NoDataHeader-Content">There are no tasks in this operation try adding one!</h1>
-                      <img src={emptyBoxIcon} />
+                      <img src={emptyBoxIcon} alt=""/>
                     </div>
                   )
                 }

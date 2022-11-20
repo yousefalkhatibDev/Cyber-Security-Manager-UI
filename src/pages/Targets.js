@@ -148,7 +148,7 @@ class Targets extends React.Component {
             (
               <div className="NoDataHeader-Container">
                 <h1 className="NoDataHeader-Content">There are no targets for now!</h1>
-                <img src={emptyBoxIcon} />
+                <img src={emptyBoxIcon} alt=""/>
               </div>
             )
           }
