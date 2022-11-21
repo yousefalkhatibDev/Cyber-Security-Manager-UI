@@ -753,7 +753,6 @@ class OperationProfile extends React.Component {
     await API.post("/get_posts", data)
       .then((respone) => {
         const res = respone.data;
-        console.log(res.data)
         if (res.ErrorMessage) window.alert(res.ErrorMessage);
         if (res.data) this.setState({ posts: res.data });
       })
