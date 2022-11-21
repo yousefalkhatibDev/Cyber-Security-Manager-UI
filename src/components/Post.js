@@ -115,9 +115,11 @@ class Post extends React.Component {
               <p className="Postauthor">{this.props.author}</p>
               <p className="Postauthor">{this.props.createDate.split("T")[0]}</p>
             </div>
-            <div className="PostDeleteIcon">
-              <img src={deleteIcon} onClick={this.DeleteModal} alt="" />
-            </div>
+            {this.props.BelongToUser ? (
+              <div className="PostDeleteIcon">
+                <img src={deleteIcon} onClick={this.DeleteModal} alt="" />
+              </div>
+            ) : null}
           </div>
 
           <p className="PostTitle">{this.props.title}</p>

@@ -81,14 +81,7 @@ export default class Profile extends Component {
       });
   }
 
-  UploadNewUserInfo() {
-    const fullName = this.state.UserNewInfo.firstName.replace(/\s/g, '') + " " + this.state.UserNewInfo.lastName.replace(/\s/g, '');
-    this.setState((prevState) => ({
-      UserNewInfo: {
-        ...prevState.UserNewInfo,
-        name: fullName,
-      },
-    }), async function () {
+  async UploadNewUserInfo() {
       const data = {
         Token: window.sessionStorage.getItem("token"),
         UserEmail: this.state.UserNewInfo.email,
@@ -106,6 +99,7 @@ export default class Profile extends Component {
 
           if (res.data) {
             this.GetUserInfo();
+            this.ModalShow()
             this.setState((prevState) => ({
               UserNewInfo: {
                 ...prevState.UserNewInfo,
@@ -119,25 +113,15 @@ export default class Profile extends Component {
         .catch(function (error) {
           console.error(error);
         });
-    })
   }
 
-  UpdateUserName(event, type) {
-    if (type === "first") {
+  UpdateUserName(event) {
       this.setState((prevState) => ({
         UserNewInfo: {
           ...prevState.UserNewInfo,
-          firstName: event.target.value,
+          name: event.target.value,
         },
       }));
-    } else {
-      this.setState((prevState) => ({
-        UserNewInfo: {
-          ...prevState.UserNewInfo,
-          lastName: event.target.value,
-        },
-      }));
-    }
   }
 
   UpdateUserEmail(event) {
@@ -238,19 +222,10 @@ export default class Profile extends Component {
                   type="text"
                   name="first-name"
                   placeholder="First name"
-                  defaultValue={this.state.UserInfo.u_name && this.state.UserInfo.u_name.split(" ")[0]}
+                  defaultValue={this.state.UserInfo.u_name}
                   pattern="[A-Za-z]"
                   className="profileCardInfo-input"
-                  onChange={(e) => this.UpdateUserName(e, "first")}
-                />
-                <input
-                  type="text"
-                  name="last-name"
-                  placeholder="Last name"
-                  defaultValue={this.state.UserInfo.u_name && this.state.UserInfo.u_name.split(" ")[1]}
-                  pattern="[A-Za-z]"
-                  className="profileCardInfo-input"
-                  onChange={(e) => this.UpdateUserName(e, "last")}
+                  onChange={this.UpdateUserName}
                 />
               </div>
               <div className="ProfilePage-inputsGroup">

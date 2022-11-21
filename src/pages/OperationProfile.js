@@ -753,14 +753,9 @@ class OperationProfile extends React.Component {
     await API.post("/get_posts", data)
       .then((respone) => {
         const res = respone.data;
-
-        if (res.ErrorMessage) {
-          window.alert(res.ErrorMessage);
-        }
-
-        if (res.data) {
-          this.setState({ posts: res.data });
-        }
+        console.log(res.data)
+        if (res.ErrorMessage) window.alert(res.ErrorMessage);
+        if (res.data) this.setState({ posts: res.data });
       })
       .catch(function (error) {
         console.error(error);
@@ -1085,6 +1080,7 @@ class OperationProfile extends React.Component {
                     UserImage={post.u_image}
                     GetPosts={this.GetPosts}
                     GetPostsCount={this.GetPostsCount}
+                    BelongToUser={post.BelongToUser}
                   />
                 );
               })}

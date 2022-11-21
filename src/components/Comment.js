@@ -52,20 +52,6 @@ class Comment extends React.Component {
             {this.props.BelongToUser ? (
               <div className="CommentDeleteIcon">
                 <img src={deleteIcon} onClick={this.DeleteModal} alt=''/>
-                {/* <Dropdown>
-                  <Dropdown.Toggle
-                    id="dropdown-basic"
-                    className="DropDownToggle"
-                  >
-                    <BiDotsVerticalRounded />
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu>
-                    <Dropdown.Item onClick={this.DeleteModal}>
-                      Delete <MdDelete style={{ marginLeft: "60px" }} />
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown> */}
               </div>
             ) : null}
           </div>
