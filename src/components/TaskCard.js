@@ -196,6 +196,7 @@ class TaskCard extends React.Component {
               <img src={this.props.UserImage} className="TaskModalContent-Img" alt="" />
               <div className="TaskModalContent-AuthData">
                 <p className="TaskModalContent-AuthName">{this.props.author}</p>
+                <p className="TaskModalContent-Title">{this.props.state}</p>
                 <p className="TaskModalContent-CreateDate">{Moment(this.props.CreateDate).format("MMM Do YY")}</p>
               </div>
               <p className="TaskModalContent-Title">{this.props.title}</p>
