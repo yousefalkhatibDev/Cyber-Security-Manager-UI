@@ -1027,7 +1027,7 @@ class TargetProfile extends React.Component {
                     onChange={this.UpdateNoteTitle}
                   />
                 </Form.Group>
-                <Form.Group
+                {/* <Form.Group
                   className="mb-3"
                   controlId="exampleForm.ControlInput1"
                 >
@@ -1038,6 +1038,22 @@ class TargetProfile extends React.Component {
                     autoFocus
                     onChange={this.UpdateNoteType}
                   />
+                </Form.Group> */}
+                <Form.Group>
+                  <Form.Label>Type</Form.Label>
+                  <Form.Select
+                    onChange={this.UpdateNoteType}
+                  >
+                    <option key={"vulnerability"} value={"vulnerability"} >
+                      vulnerability
+                    </option>
+                    <option key={"info"} value={"info"} >
+                      info
+                    </option>
+                    <option key={"gain access"} value={"gain access"} >
+                      gain access
+                    </option>
+                  </Form.Select>
                 </Form.Group>
                 <Form.Group
                   className="mb-3"
@@ -1088,16 +1104,20 @@ class TargetProfile extends React.Component {
                   <Form.Select
                     onChange={this.UpdateRelationRelatedTarget}
                   >
-                    {this.state.targets.map((target, i) => {
-                      return (
-                        <option
-                          key={i}
-                          value={target.t_id}
-                        >
-                          {target.t_name}
-                        </option>
-                      )
-                    })}
+                    {this.state.targets
+                      .filter((target) => {
+                        return target.t_id !== this.state.id
+                      })
+                      .map((target, i) => {
+                        return (
+                          <option
+                            key={i}
+                            value={target.t_id}
+                          >
+                            {target.t_name}
+                          </option>
+                        )
+                      })}
                   </Form.Select>
                 </Form.Group>
 

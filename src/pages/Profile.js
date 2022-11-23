@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Modal from "react-bootstrap/Modal";
 import API from "../helper/API";
+import Form from "react-bootstrap/Form";
 import profileIcon from "../icons/profile.svg";
 import cameraIcon from "../icons/Camera.svg";
 
@@ -8,6 +9,7 @@ export default class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      deleteModal: false,
       UserInfo: {},
       UserNewInfo: {
         name: "",
@@ -19,12 +21,14 @@ export default class Profile extends Component {
       },
     };
     this.ModalShow = this.ModalShow.bind(this);
+    this.DeleteModal = this.DeleteModal.bind(this)
     this.GetUserInfo = this.GetUserInfo.bind(this);
     this.UpdateUserName = this.UpdateUserName.bind(this);
     this.UpdateUserEmail = this.UpdateUserEmail.bind(this);
     this.UpdateUserBio = this.UpdateUserBio.bind(this);
     this.UploadNewUserInfo = this.UploadNewUserInfo.bind(this);
     this.UpdateUserImage = this.UpdateUserImage.bind(this);
+    this.DeleteUser = this.DeleteUser.bind(this)
     this.convertToBase64 = this.convertToBase64.bind(this);
   }
 
@@ -33,6 +37,12 @@ export default class Profile extends Component {
       modal: !this.state.modal
     });
   };
+
+  DeleteModal() {
+    this.setState({
+      deleteModal: !this.state.deleteModal
+    });
+  }
 
   convertToBase64(event) {
     //Read File
@@ -172,6 +182,31 @@ export default class Profile extends Component {
       });
   }
 
+  async DeleteUser() {
+    const data = {
+      u_id: this.state.UserInfo.u_id
+    }
+
+    await API.post("/remove_user", data)
+      .then((respone) => {
+        const res = respone.data;
+
+        console.log(res)
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
+        if (res.data) {
+          window.sessionStorage.removeItem("token")
+          window.location = "/login"
+        }
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  }
+
   componentDidMount() {
     this.GetUserInfo();
   }
@@ -247,7 +282,34 @@ export default class Profile extends Component {
                   onChange={this.UpdateUserBio}
                 />
               </div>
-              <button className="EditProfileData-Button" onClick={this.UploadNewUserInfo}>Edit</button>
+              <div className="ModalButtons" style={{ width: "95%" }}>
+                <button
+                  className="OkButton"
+                  onClick={this.UploadNewUserInfo}
+                >Edit</button>
+                <button className="DeleteButton" onClick={this.DeleteModal}>Delete Profile</button>
+              </div>
+            </div>
+          </Modal.Body>
+        </Modal>
+
+        <Modal show={this.state.deleteModal} onHide={this.DeleteModal} className="ProfilePage-Modal">
+          <Modal.Header closeButton>
+            <Modal.Title>Delete Profile</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <p>Are you sure you want to delete your profile?</p>
+            </Form>
+            <div className="ModalButtons">
+              <button
+                className="DeleteButton"
+                onClick={() => {
+                  this.DeleteModal();
+                  this.DeleteUser();
+                }}
+              >Delete</button>
+              <button className="CancelButton" onClick={this.DeleteModal}>Cancel</button>
             </div>
           </Modal.Body>
         </Modal>

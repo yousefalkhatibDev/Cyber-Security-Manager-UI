@@ -195,10 +195,11 @@ class TaskCard extends React.Component {
             <div className="TaskModalContent">
               <img src={this.props.UserImage} className="TaskModalContent-Img" alt="" />
               <div className="TaskModalContent-AuthData">
-                <p className="TaskModalContent-AuthName">{this.props.author}</p>
-                <p className="TaskModalContent-Title">{this.props.state}</p>
+                <p className="TaskModalContent-AuthName">{this.props.agent}</p>
                 <p className="TaskModalContent-CreateDate">{Moment(this.props.CreateDate).format("MMM Do YY")}</p>
+                <p className="TaskModalContent-Description" style={{ fontWeight: 600 }}>{this.props.state}</p>
               </div>
+              <hr style={{ width: "100%", color: "rgba(43, 42, 42, 0.514)" }} />
               <p className="TaskModalContent-Title">{this.props.title}</p>
               <p className="TaskModalContent-Description">{this.props.text}</p>
             </div>
