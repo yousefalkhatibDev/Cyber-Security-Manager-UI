@@ -82,46 +82,46 @@ export default class Profile extends Component {
   }
 
   async UploadNewUserInfo() {
-      const data = {
-        Token: window.sessionStorage.getItem("token"),
-        UserEmail: this.state.UserNewInfo.email,
-        UserName: this.state.UserNewInfo.name,
-        UserBio: this.state.UserNewInfo.bio,
-      };
+    const data = {
+      Token: window.sessionStorage.getItem("token"),
+      UserEmail: this.state.UserNewInfo.email,
+      UserName: this.state.UserNewInfo.name,
+      UserBio: this.state.UserNewInfo.bio,
+    };
 
-      await API.post("/update_user_info", data)
-        .then((respone) => {
-          const res = respone.data;
+    await API.post("/update_user_info", data)
+      .then((respone) => {
+        const res = respone.data;
 
-          if (res.ErrorMessage) {
-            window.alert(res.ErrorMessage);
-          }
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
 
-          if (res.data) {
-            this.GetUserInfo();
-            this.ModalShow()
-            this.setState((prevState) => ({
-              UserNewInfo: {
-                ...prevState.UserNewInfo,
-                name: this.state.UserInfo.u_name,
-                email: this.state.UserInfo.u_email,
-                bio: this.state.UserInfo.u_bio,
-              },
-            }));
-          }
-        })
-        .catch(function (error) {
-          console.error(error);
-        });
+        if (res.data) {
+          this.GetUserInfo();
+          this.ModalShow()
+          this.setState((prevState) => ({
+            UserNewInfo: {
+              ...prevState.UserNewInfo,
+              name: this.state.UserInfo.u_name,
+              email: this.state.UserInfo.u_email,
+              bio: this.state.UserInfo.u_bio,
+            },
+          }));
+        }
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
   }
 
   UpdateUserName(event) {
-      this.setState((prevState) => ({
-        UserNewInfo: {
-          ...prevState.UserNewInfo,
-          name: event.target.value,
-        },
-      }));
+    this.setState((prevState) => ({
+      UserNewInfo: {
+        ...prevState.UserNewInfo,
+        name: event.target.value,
+      },
+    }));
   }
 
   UpdateUserEmail(event) {
@@ -237,6 +237,8 @@ export default class Profile extends Component {
                   className="profileCardInfo-input"
                   onChange={this.UpdateUserEmail}
                 />
+              </div>
+              <div className="ProfilePage-inputsGroup">
                 <input
                   type="textarea"
                   defaultValue={this.state.UserInfo.u_bio}
