@@ -578,7 +578,6 @@ class TargetProfile extends React.Component {
           window.alert(res.ErrorMessage);
         }
         if (res.data) {
-          console.log(res.data)
           this.setState({
             id: res.data[0].t_id,
             name: res.data[0].t_name,
@@ -671,8 +670,7 @@ class TargetProfile extends React.Component {
     });
   }
 
-  setCurrentPage(page, type) {
-    console.log(type);
+  setCurrentPage(page, type) { 
     if (type === "notes") {
       this.setState({ currentPageNotes: page });
     } else if (type === "relations") {
@@ -682,8 +680,8 @@ class TargetProfile extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.GetTargetInfo();
+  async componentDidMount() {
+    await this.GetTargetInfo();
     this.GetTargets();
     this.GetNotes();
     this.GetNotesCount();
@@ -1086,7 +1084,7 @@ class TargetProfile extends React.Component {
                   />
                 </Form.Group>
                 <Form.Group>
-                  <Form.Label>Related Type</Form.Label>
+                  <Form.Label>Related Target</Form.Label>
                   <Form.Select
                     onChange={this.UpdateRelationRelatedTarget}
                   >
