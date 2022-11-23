@@ -82,8 +82,7 @@ class TargetProfile extends React.Component {
     this.UpdateNoteTitle = this.UpdateNoteTitle.bind(this);
     this.UpdateNoteText = this.UpdateNoteText.bind(this);
     this.UpdateNoteType = this.UpdateNoteType.bind(this);
-    this.UpdateRelationRelatedTarget =
-      this.UpdateRelationRelatedTarget.bind(this);
+    this.UpdateRelationRelatedTarget = this.UpdateRelationRelatedTarget.bind(this);
     this.UpdateRelationType = this.UpdateRelationType.bind(this);
     this.UpdateRelationDescription = this.UpdateRelationDescription.bind(this);
     this.UploadNote = this.UploadNote.bind(this);
@@ -91,19 +90,16 @@ class TargetProfile extends React.Component {
     this.GetRelations = this.GetRelations.bind(this);
     this.GetRelatedByTargets = this.GetRelatedByTargets.bind(this);
     this.GetTargets = this.GetTargets.bind(this);
-    this.UpdateRelationRelatedTargetName =
-      this.UpdateRelationRelatedTargetName.bind(this);
+    this.UpdateRelationRelatedTargetName = this.UpdateRelationRelatedTargetName.bind(this);
     this.SettingsModal = this.SettingsModal.bind(this);
     this.GetImage = this.GetImage.bind(this);
     this.GetNotesCount = this.GetNotesCount.bind(this);
     this.UpdateSearchNotes = this.UpdateSearchNotes.bind(this);
     this.UpdateSearchRelations = this.UpdateSearchRelations.bind(this);
-    this.UpdateSearchRelatedByTargets =
-      this.UpdateSearchRelatedByTargets.bind(this);
+    this.UpdateSearchRelatedByTargets = this.UpdateSearchRelatedByTargets.bind(this);
     this.UpdateFilterNotes = this.UpdateFilterNotes.bind(this);
     this.UpdateFilterRelations = this.UpdateFilterRelations.bind(this);
-    this.UpdateFilterRelatedByTargets =
-      this.UpdateFilterRelatedByTargets.bind(this);
+    this.UpdateFilterRelatedByTargets = this.UpdateFilterRelatedByTargets.bind(this);
     this.InfoModal = this.InfoModal.bind(this);
 
     this.UploadNewInfo = this.UploadNewInfo.bind(this);
@@ -392,9 +388,9 @@ class TargetProfile extends React.Component {
 
   async GetTargets() {
     const id = window.sessionStorage.getItem("token");
-    const data = { Token: id };
+    const data = { Token: id, OperationID: this.state.operation };
 
-    await API.post("/get_targets_by_user", data)
+    await API.post("/get_targets", data)
       .then((respone) => {
         const res = respone.data;
         if (res.ErrorMessage) {
@@ -582,7 +578,6 @@ class TargetProfile extends React.Component {
           window.alert(res.ErrorMessage);
         }
         if (res.data) {
-          console.log(res.data)
           this.setState({
             id: res.data[0].t_id,
             name: res.data[0].t_name,
@@ -675,8 +670,7 @@ class TargetProfile extends React.Component {
     });
   }
 
-  setCurrentPage(page, type) {
-    console.log(type);
+  setCurrentPage(page, type) { 
     if (type === "notes") {
       this.setState({ currentPageNotes: page });
     } else if (type === "relations") {
@@ -686,8 +680,8 @@ class TargetProfile extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.GetTargetInfo();
+  async componentDidMount() {
+    await this.GetTargetInfo();
     this.GetTargets();
     this.GetNotes();
     this.GetNotesCount();
@@ -1090,7 +1084,7 @@ class TargetProfile extends React.Component {
                   />
                 </Form.Group>
                 <Form.Group>
-                  <Form.Label>Related Type</Form.Label>
+                  <Form.Label>Related Target</Form.Label>
                   <Form.Select
                     onChange={this.UpdateRelationRelatedTarget}
                   >
@@ -1098,7 +1092,7 @@ class TargetProfile extends React.Component {
                       return (
                         <option
                           key={i}
-                          value={`${target.t_id} ${target.t_name}`}
+                          value={target.t_id}
                         >
                           {target.t_name}
                         </option>
