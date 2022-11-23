@@ -203,11 +203,7 @@ class TaskCard extends React.Component {
             </div>
 
             <div className="ModalButtons">
-              <button
-                className="OkButton"
-                onClick={this.DeleteModal}
-              >Delete</button>
-              <button className="CancelButton" onClick={this.TaskModal}>Cancel</button>
+              <button className="CancelButton CloseButtonTask" onClick={this.TaskModal}>Close</button>
             </div>
           </Modal.Body>
         </Modal>

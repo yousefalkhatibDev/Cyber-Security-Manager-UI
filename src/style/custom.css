@@ -2319,11 +2319,15 @@ footer {
 }
 
 .ModalButtons .CancelButton {
-  background-color: rgb(246, 246, 246);
+  background-color: rgb(240, 240, 240);
   color: black;
   -webkit-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
   box-shadow: -2px 5px 10px -4px rgba(0, 0, 0, 0.2);
+}
+
+.ModalButtons .CloseButtonTask {
+  width: 100%;
 }
 
 /* end modal buttons */
