@@ -1376,6 +1376,28 @@ select {
 .OperationProfile .MembersSlide .MembersContainer .profileCardInfo {
   margin-bottom: 100px;
   width: 95%;
+  position: relative;
+}
+
+.OperationProfile .MembersSlide .MembersContainer .profileCardInfo .MemberDottedIcon {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.OperationProfile .MembersSlide .MembersContainer .profileCardInfo .MemberDottedIcon .DropDownToggle {
+  font-size: 18px;
+  background-color: transparent;
+  border: none;
+  color: black;
+}
+
+.OperationProfile .MembersSlide .MembersContainer .profileCardInfo .MemberDottedIcon .DropDownToggle::after {
+  display: none;
+}
+
+.OperationProfile .MembersSlide .MembersContainer .profileCardInfo .MemberDottedIcon .DropDownToggle:hover {
+  background-color: transparent;
 }
 
 .OperationProfile .SettingsCard {
@@ -2611,7 +2633,7 @@ footer {
   }
 
   .OperationProfile .MembersSlide .MembersContainer .profileCardInfo {
-    width: 75%;
+    width: 95%;
   }
 
   .OperationProfile .SettingsCard {

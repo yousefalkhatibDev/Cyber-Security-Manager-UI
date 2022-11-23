@@ -8,6 +8,7 @@ import { FiSearch } from "react-icons/fi"
 import filterIcon from "../icons/Filter.svg"
 import emptyBoxIcon from "../icons/empty-box.svg"
 import { FileUploader } from "react-drag-drop-files";
+import { BiDotsVerticalRounded } from "react-icons/bi";
 
 // components
 import TargetCard from "../components/TargetCard";
@@ -17,6 +18,7 @@ import API from "../helper/API";
 import Pagination from "../components/Pagination";
 import OperationCardDashboard from "../components/OperationCardDashboard";
 import ProfilesNavigationBar from "../components/ProfilesNavigationBar";
+import axios from "axios";
 
 const fileTypes = ["PDF", "PNG", "GIF", "JPEG", "TIFF", "PSD", "EPS", "AI"];
 
@@ -51,6 +53,7 @@ class OperationProfile extends React.Component {
       targets: [],
       tasks: [],
       members: [],
+      memberToDeleteId: "",
       PostsTab: true,
       TargetsTab: false,
       TasksTab: false,
@@ -60,6 +63,7 @@ class OperationProfile extends React.Component {
       TargetModal: false,
       TaskModal: false,
       MemberModal: false,
+      DeleteMemberModal: false,
       SettingsModal: false,
       DeleteModal: false,
       StateModal: false,
@@ -103,6 +107,8 @@ class OperationProfile extends React.Component {
     this.PostModal = this.PostModal.bind(this);
     this.TargetModal = this.TargetModal.bind(this);
     this.TaskModal = this.TaskModal.bind(this);
+    this.DeleteMemberModal = this.DeleteMemberModal.bind(this)
+
     // this.SettingsModal = this.SettingsModal.bind(this);
     this.MemberModal = this.MemberModal.bind(this);
     this.DeleteModal = this.DeleteModal.bind(this);
@@ -122,6 +128,7 @@ class OperationProfile extends React.Component {
 
     // Deleteing
     this.DeleteOperation = this.DeleteOperation.bind(this);
+    this.DeleteMember = this.DeleteMember.bind(this)
 
     // Uploading
     this.UploadTarget = this.UploadTarget.bind(this);
@@ -663,6 +670,36 @@ class OperationProfile extends React.Component {
       });
   }
 
+  async DeleteMember() {
+    console.log(this.state.memberToDeleteId)
+    const data = {
+      MemberID: this.state.memberToDeleteId
+    }
+    await API.post("/remove_member", data)
+      .then((response) => {
+        const res = response.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
+        if (res.data) {
+          this.GetMembers()
+        }
+
+      })
+      .catch(function (error) {
+        console.error(error);
+      })
+  }
+
+  DeleteMemberModal(id) {
+    this.setState({
+      memberToDeleteId: this.state.memberToDeleteId.length ? "" : id,
+      DeleteMemberModal: !this.state.DeleteMemberModal
+    })
+  }
+
   UpdateTargetName(event) {
     this.setState((prevState) => ({
       NewTarget: {
@@ -1063,7 +1100,7 @@ class OperationProfile extends React.Component {
                 (
                   <div className="NoDataHeader-Container">
                     <h1 className="NoDataHeader-Content">This Operation doesn't have any posts try adding one!</h1>
-                    <img src={emptyBoxIcon} alt=""/>
+                    <img src={emptyBoxIcon} alt="" />
                   </div>
                 )
               }
@@ -1137,7 +1174,7 @@ class OperationProfile extends React.Component {
                   (
                     <div className="NoDataHeader-Container">
                       <h1 className="NoDataHeader-Content">There are no targets in this operation!</h1>
-                      <img src={emptyBoxIcon} alt=""/>
+                      <img src={emptyBoxIcon} alt="" />
                     </div>
                   )
                 }
@@ -1185,7 +1222,7 @@ class OperationProfile extends React.Component {
                       id="dropdown-basic"
                       style={{ border: "none", backgroundColor: "transparent" }}
                     >
-                      <img src={filterIcon} width={22} alt=""/>
+                      <img src={filterIcon} width={22} alt="" />
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                       <Dropdown.Item key="all" onClick={() => this.UpdateFilterTasks("all")}>
@@ -1222,7 +1259,7 @@ class OperationProfile extends React.Component {
                   (
                     <div className="NoDataHeader-Container">
                       <h1 className="NoDataHeader-Content">There are no tasks in this operation try adding one!</h1>
-                      <img src={emptyBoxIcon} alt=""/>
+                      <img src={emptyBoxIcon} alt="" />
                     </div>
                   )
                 }
@@ -1275,6 +1312,18 @@ class OperationProfile extends React.Component {
                             className="profileCardInfo-image"
                           />
                         </label>
+                        <div className="MemberDottedIcon">
+                          <Dropdown>
+                            <Dropdown.Toggle id="dropdown-basic" className="DropDownToggle">
+                              <BiDotsVerticalRounded />
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                              <Dropdown.Item onClick={() => this.DeleteMemberModal(member.m_id)}>
+                                Delete Member
+                              </Dropdown.Item>
+                            </Dropdown.Menu>
+                          </Dropdown>
+                        </div>
                         <div className="profileCardInfo-content">
                           <p>{member.u_name}</p>
                           <p>User ID: <div style={{ marginLeft: "5px", display: "inline-block" }}>{member.u_id}</div></p>
@@ -1652,6 +1701,27 @@ class OperationProfile extends React.Component {
                   }}
                 >Save</button>
                 <button className="CancelButton" onClick={this.InfoModal}>Cancel</button>
+              </div>
+            </Modal.Body>
+          </Modal>
+
+          <Modal show={this.state.DeleteMemberModal} onHide={this.DeleteMemberModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>Delete Member</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form>
+                <p>Are you sure you want to delete this Member?</p>
+              </Form>
+              <div className="ModalButtons">
+                <button
+                  className="DeleteButton"
+                  onClick={() => {
+                    this.DeleteMember();
+                    this.DeleteMemberModal();
+                  }}
+                >Delete</button>
+                <button className="CancelButton" onClick={this.DeleteMemberModal}>Cancel</button>
               </div>
             </Modal.Body>
           </Modal>
