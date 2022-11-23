@@ -338,15 +338,6 @@ class Dashboard extends React.Component {
           </div>
           <div className="recentPosts-container">
             <h4 style={{ color: "rgb(30, 30, 100)", display: "inline-block", margin: "25px 0px" }}>Recent Posts</h4>
-            {
-              this.state.recentPosts.length > 0
-              &&
-              (
-                <h4 style={{ color: "rgb(30, 30, 100)", display: "inline-block", margin: "25px 0px", position: "absolute", right: 10 }}>
-                  See All
-                </h4>
-              )
-            }
             <div className="recentPostsCard-container">
               {
                 !this.state.recentPosts.length
@@ -354,7 +345,7 @@ class Dashboard extends React.Component {
                 (
                   <div className="NoDataHeader-Container">
                     <h1 className="NoDataHeader-Content">There are no posts to show!</h1>
-                    <img src={emptyBoxIcon} alt=""/>
+                    <img src={emptyBoxIcon} alt="" />
                   </div>
                 )
               }
@@ -426,15 +417,6 @@ class Dashboard extends React.Component {
 
           <div className="recentTargets-container">
             <h4 style={{ color: "rgb(30, 30, 100)", display: "inline-block", margin: "55px 0px 25px 0px" }}>Recent Targets</h4>
-            {
-              this.state.recentTargets.length > 0
-              &&
-              (
-                <h4 style={{ color: "rgb(30, 30, 100)", display: "inline-block", margin: "55px 0px", position: "absolute", right: 10 }}>
-                  See All
-                </h4>
-              )
-            }
             <div className="recentTargetsCard-container">
               {
                 !this.state.recentTargets.length
@@ -442,7 +424,7 @@ class Dashboard extends React.Component {
                 (
                   <div className="NoDataHeader-Container">
                     <h1 className="NoDataHeader-Content">You don't seem to have any targets!</h1>
-                    <img src={emptyBoxIcon} alt=""/>
+                    <img src={emptyBoxIcon} alt="" />
                   </div>
                 )
               }
