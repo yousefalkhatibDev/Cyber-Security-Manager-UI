@@ -1092,7 +1092,7 @@ class TargetProfile extends React.Component {
                       return (
                         <option
                           key={i}
-                          value={`${target.t_id} ${target.t_name}`}
+                          value={target.t_id}
                         >
                           {target.t_name}
                         </option>
