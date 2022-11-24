@@ -74,7 +74,9 @@ class NoteCard extends React.Component {
               <div className="NoteModalContent-AuthData">
                 <p className="NoteModalContent-AuthName">{this.props.author}</p>
                 <p className="NoteModalContent-CreateDate">{Moment(this.props.CreateDate).format("MMM Do YY")}</p>
+                <p className="NoteModalContent-Description">{this.props.type}</p>
               </div>
+              <hr style={{ width: "100%", color: "rgba(43, 42, 42, 0.514)" }} />
               <p className="NoteModalContent-Title">{this.props.title}</p>
               <p className="NoteModalContent-Description">{this.props.text}</p>
             </div>

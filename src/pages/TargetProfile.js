@@ -277,6 +277,33 @@ class TargetProfile extends React.Component {
       });
       await this.setState({ notes: filteredArray });
     }
+
+    if (value === "info type") {
+      await this.GetNotes();
+      await this.setState({ NotesFilter: value });
+      let filteredArray = this.state.notes.filter((note, i) => {
+        return note.n_type === "info"
+      });
+      await this.setState({ notes: filteredArray });
+    }
+
+    if (value === "vulnerability type") {
+      await this.GetNotes();
+      await this.setState({ NotesFilter: value });
+      let filteredArray = this.state.notes.filter((note, i) => {
+        return note.n_type === "vulnerability"
+      });
+      await this.setState({ notes: filteredArray });
+    }
+
+    if (value === "gain access type") {
+      await this.GetNotes();
+      await this.setState({ NotesFilter: value });
+      let filteredArray = this.state.notes.filter((note, i) => {
+        return note.n_type === "gain access"
+      });
+      await this.setState({ notes: filteredArray });
+    }
   }
 
   async UpdateFilterRelations(value) {
@@ -533,7 +560,7 @@ class TargetProfile extends React.Component {
       Token: window.sessionStorage.getItem("token"),
       NoteOperation: this.state.operation,
       NoteTarget: this.props.id,
-      NoteType: this.state.NewNote.type,
+      NoteType: !this.state.NewNote.type.length ? "vulnerability" : this.state.NewNote.type,
       NoteTitle: this.state.NewNote.title,
       NoteText: this.state.NewNote.text,
     };
@@ -807,6 +834,15 @@ class TargetProfile extends React.Component {
                       <Dropdown.Item key="date" onClick={() => this.UpdateFilterNotes("date")}>
                         <span style={{ marginRight: "50px" }}>By Date</span>
                       </Dropdown.Item>
+                      <Dropdown.Item key="info type" onClick={() => this.UpdateFilterNotes("info type")}>
+                        <span style={{ marginRight: "50px" }}>Type: info</span>
+                      </Dropdown.Item>
+                      <Dropdown.Item key="vulnerability type" onClick={() => this.UpdateFilterNotes("vulnerability type")}>
+                        <span style={{ marginRight: "50px" }}>Type: vulnerability</span>
+                      </Dropdown.Item>
+                      <Dropdown.Item key="gain access type" onClick={() => this.UpdateFilterNotes("gain access type")}>
+                        <span style={{ marginRight: "50px" }}>Type: gain access</span>
+                      </Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
                 </div>
@@ -1065,7 +1101,7 @@ class TargetProfile extends React.Component {
                     onChange={this.UpdateNoteTitle}
                   />
                 </Form.Group>
-                <Form.Group>
+                <Form.Group className="mb-3">
                   <Form.Label>Type</Form.Label>
                   <Form.Select
                     onChange={this.UpdateNoteType}
