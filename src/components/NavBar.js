@@ -130,7 +130,13 @@ class NavBar extends React.Component {
               )
             }
             <CDBSidebarFooter style={{ textAlign: "center" }} >
-              <img className="sideBar-logo" src={reconLogo} alt="" style={{ objectFit: this.state.isOpened ? "contain" : "cover", height: this.state.isOpened ? "100px" : "70px" }} />
+              <img className="sideBar-logo" src={reconLogo} alt=""
+                style={{
+                  objectFit: this.state.isOpened ? "contain" : "cover",
+                  height: this.state.isOpened ? "100px" : "50px",
+                  marginTop: this.state.allowClose ? "10px" : "70px"
+                }}
+              />
               <div className={this.state.isOpened ? "sideBar-footer" : "sideBar-footer sideBar-footer-closed"}>
                 <NavLink
                   to="/dashboard"
