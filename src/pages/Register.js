@@ -4,7 +4,7 @@ import ReactLoading from "react-loading";
 import emailIcon from "../icons/email.svg"
 import lockIcon from "../icons/lock.svg"
 import profileIcon from "../icons/profile.svg"
-import reconLogo from "../imgs/recon-logo.png"
+import reconLogo from "../imgs/recon-logo-text.png"
 import { FileUploader } from "react-drag-drop-files";
 
 const fileTypes = ["PDF", "PNG", "GIF", "JPEG", "TIFF", "PSD", "EPS", "AI"];

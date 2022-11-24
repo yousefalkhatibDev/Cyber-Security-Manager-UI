@@ -2,7 +2,7 @@ import React from "react";
 import API from "../helper/API";
 import emailIcon from "../icons/email.svg"
 import lockIcon from "../icons/lock.svg"
-import reconLogo from "../imgs/recon-logo.png"
+import reconLogo from "../imgs/recon-logo-text.png"
 
 class Login extends React.Component {
   constructor(props) {
