@@ -1875,12 +1875,23 @@ select {
   text-align: center;
 }
 
-.Login h1 {
+/* .Login h1 {
   font-weight: 500;
   color: #384047;
   line-height: 1.5em;
   margin-bottom: 0.2em;
   margin-top: 0.2em;
+} */
+
+.logoContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logoContainer img {
+  width: 190px;
+  height: 140px;
 }
 
 .Login a {

@@ -4,6 +4,7 @@ import ReactLoading from "react-loading";
 import emailIcon from "../icons/email.svg"
 import lockIcon from "../icons/lock.svg"
 import profileIcon from "../icons/profile.svg"
+import reconLogo from "../imgs/recon-logo.png"
 import { FileUploader } from "react-drag-drop-files";
 
 const fileTypes = ["PDF", "PNG", "GIF", "JPEG", "TIFF", "PSD", "EPS", "AI"];
@@ -123,9 +124,9 @@ class Login extends React.Component {
                     />
                 ) : (
                     <form action="index.html" method="post">
-                        <h1>
-                            Sign Up
-                        </h1>
+                        <div className="logoContainer">
+                            <img src={reconLogo} />
+                        </div>
                         <p className="ErrorMessage">{this.state.error}</p>
                         <div>
                             <div className="inputLoginContainer">
