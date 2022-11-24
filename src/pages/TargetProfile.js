@@ -49,6 +49,7 @@ class TargetProfile extends React.Component {
       SettingsTab: 0,
       NotesModal: false,
       RelationsModal: false,
+      DeleteRelationModal: false,
       SettingsModal: false,
       currentPageNotes: 1,
       notesToDisplayNumber: 4,
@@ -56,6 +57,7 @@ class TargetProfile extends React.Component {
       relationsToDisplayNumber: 4,
       currentPageRelatedBy: 1,
       relatedByToDisplayNumber: 4,
+      relationToDeleteID: "",
       NewNote: {
         title: "",
         text: "",
@@ -109,6 +111,9 @@ class TargetProfile extends React.Component {
 
     this.DeleteTarget = this.DeleteTarget.bind(this);
     this.DeleteModal = this.DeleteModal.bind(this);
+    this.DeleteRelationModal = this.DeleteRelationModal.bind(this)
+    this.DeleteRelation = this.DeleteRelation.bind(this)
+
 
     this.setCurrentPage = this.setCurrentPage.bind(this);
     this.SetLastAccessedTarget = this.SetLastAccessedTarget.bind(this);
@@ -447,7 +452,7 @@ class TargetProfile extends React.Component {
     const data = {
       RelationType: this.state.NewRelation.type,
       Token: window.sessionStorage.getItem("token"),
-      RelationRelatedTarget: this.state.NewRelation.RelatedTarget,
+      RelationRelatedTarget: !this.state.NewRelation.RelatedTarget.length ? this.state.targets[0].t_id : this.state.NewRelation.RelatedTarget,
       RelationDescription: this.state.NewRelation.description,
       RelationTarget: this.props.id,
     };
@@ -465,6 +470,35 @@ class TargetProfile extends React.Component {
       .catch(function (error) {
         console.error(error);
       });
+  }
+
+  async DeleteRelation() {
+    const data = {
+      r_id: this.state.relationToDeleteID
+    }
+
+    await API.post("/remove_relation", data)
+      .then((respone) => {
+        const res = respone.data;
+
+        if (res.ErrorMessage) {
+          window.alert(res.ErrorMessage);
+        }
+
+        if (res.data) {
+          this.GetRelations();
+        }
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  }
+
+  DeleteRelationModal(id) {
+    this.setState({
+      relationToDeleteID: id,
+      DeleteRelationModal: !this.state.DeleteRelationModal
+    })
   }
 
   UpdateNoteTitle(event) {
@@ -883,12 +917,14 @@ class TargetProfile extends React.Component {
                       key={i}
                       id={relation.t_id}
                       name={relation.t_name}
-                      description={relation.t_description}
-                      type={relation.t_type}
+                      description={relation.r_description}
+                      type={relation.r_type}
                       relation={relation.r_type}
                       CreateDate={relation.t_create_date}
                       UpdateDate={relation.t_update_date}
+                      DeleteRelationModal={() => this.DeleteRelationModal(relation.r_id)}
                       width={100}
+                      relationTarget
                     />
                   );
                 })}
@@ -963,12 +999,14 @@ class TargetProfile extends React.Component {
                       key={i}
                       id={relation.t_id}
                       name={relation.t_name}
-                      description={relation.t_description}
-                      type={relation.t_type}
+                      description={relation.r_description}
+                      type={relation.r_type}
                       relation={relation.r_type}
                       CreateDate={relation.t_create_date}
                       UpdateDate={relation.t_update_date}
                       width={100}
+                      relationTarget
+                      noDotted
                     />
                   );
                 })}
@@ -1027,18 +1065,6 @@ class TargetProfile extends React.Component {
                     onChange={this.UpdateNoteTitle}
                   />
                 </Form.Group>
-                {/* <Form.Group
-                  className="mb-3"
-                  controlId="exampleForm.ControlInput1"
-                >
-                  <Form.Label>Type</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter Note Type here..."
-                    autoFocus
-                    onChange={this.UpdateNoteType}
-                  />
-                </Form.Group> */}
                 <Form.Group>
                   <Form.Label>Type</Form.Label>
                   <Form.Select
@@ -1223,6 +1249,27 @@ class TargetProfile extends React.Component {
                   }}
                 >Delete</button>
                 <button className="CancelButton" onClick={this.DeleteModal}>Cancel</button>
+              </div>
+            </Modal.Body>
+          </Modal>
+
+          <Modal show={this.state.DeleteRelationModal} onHide={this.DeleteRelationModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>Delete Relation</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form>
+                <p>Are you sure you want to delete this Relation?</p>
+              </Form>
+              <div className="ModalButtons">
+                <button
+                  className="DeleteButton"
+                  onClick={() => {
+                    this.DeleteRelationModal();
+                    this.DeleteRelation();
+                  }}
+                >Delete</button>
+                <button className="CancelButton" onClick={this.DeleteRelationModal}>Cancel</button>
               </div>
             </Modal.Body>
           </Modal>

@@ -306,8 +306,6 @@ class Dashboard extends React.Component {
                     />
                   )
               }
-
-
             </div>
             <div className="userTargets-recent">
               <h4 style={{ color: "rgb(30, 30, 100)", margin: "30px 0px 30px 20px" }}>Last accessed target</h4>
@@ -336,7 +334,7 @@ class Dashboard extends React.Component {
               }
             </div>
           </div>
-          <div className="recentPosts-container">
+          {/* <div className="recentPosts-container">
             <h4 style={{ color: "rgb(30, 30, 100)", display: "inline-block", margin: "25px 0px" }}>Recent Posts</h4>
             <div className="recentPostsCard-container">
               {
@@ -413,7 +411,7 @@ class Dashboard extends React.Component {
                   )
               }
             </div>
-          </div>
+          </div> */}
 
           <div className="recentTargets-container">
             <h4 style={{ color: "rgb(30, 30, 100)", display: "inline-block", margin: "55px 0px 25px 0px" }}>Recent Targets</h4>

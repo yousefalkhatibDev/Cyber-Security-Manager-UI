@@ -1,15 +1,17 @@
 import React from "react";
 import Moment from "moment";
 import API from "../helper/API";
+import Dropdown from "react-bootstrap/Dropdown";
 import targetDefault from "../imgs/target.jpg"
 import noLastAccessBackground from "../imgs/no-last-access-background.svg"
+import { BiDotsVerticalRounded } from "react-icons/bi";
 
 class TargetCardDashboard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             NotesCount: 0,
-            image: "",
+            image: ""
         };
 
         this.GetNotesCount = this.GetNotesCount.bind(this);
@@ -84,7 +86,6 @@ class TargetCardDashboard extends React.Component {
                         &&
                         (
                             <div className="TargetDescription">
-
                                 <p className="TargetDescription-title">
                                     {this.props.name}
                                 </p>
@@ -92,10 +93,29 @@ class TargetCardDashboard extends React.Component {
                                     {Moment(this.props.CreateDate).format("MMM Do YY")}
                                 </p>
                                 <p className="TargetDescription-description">
+                                    <p style={{ fontWeight: "500" }}>{this.props.relationTarget && "Relation description :"}</p>
                                     {this.props.description.length < 77
                                         ? this.props.description
                                         : this.props.description.substring(0, 76) + "..."}
                                 </p>
+                            </div>
+                        )
+                    }
+                    {
+                        this.props.relationTarget && !this.props.noDotted
+                        &&
+                        (
+                            <div className="TaskDottedIcon">
+                                <Dropdown>
+                                    <Dropdown.Toggle id="dropdown-basic" className="DropDownToggle">
+                                        <BiDotsVerticalRounded />
+                                    </Dropdown.Toggle>
+                                    <Dropdown.Menu>
+                                        <Dropdown.Item onClick={this.props.DeleteRelationModal}>
+                                            Delete Relation
+                                        </Dropdown.Item>
+                                    </Dropdown.Menu>
+                                </Dropdown>
                             </div>
                         )
                     }
@@ -109,7 +129,7 @@ class TargetCardDashboard extends React.Component {
                         </div>
                         <span className="separator"></span>
                         <div>
-                            Type :
+                            {this.props.relationTarget ? "Relation type :" : "Type :"}
                             <p>{this.props.noLastAccess ? "Unknown" : this.props.type}</p>
                         </div>
                         <span className="separator"></span>

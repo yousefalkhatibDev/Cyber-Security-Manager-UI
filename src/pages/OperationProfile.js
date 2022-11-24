@@ -18,7 +18,6 @@ import API from "../helper/API";
 import Pagination from "../components/Pagination";
 import OperationCardDashboard from "../components/OperationCardDashboard";
 import ProfilesNavigationBar from "../components/ProfilesNavigationBar";
-import axios from "axios";
 
 const fileTypes = ["PDF", "PNG", "GIF", "JPEG", "TIFF", "PSD", "EPS", "AI"];
 
